@@ -1,0 +1,34 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="text-center">
+    <h2>Kendo UI Grid</h2>
+    @(Html.Kendo().Grid<DongAERP.Models.MarketDetail>()
+                .Name("grid")
+                .Columns(columns =>
+                {
+                    columns.Bound(c => c.MarKetDetailID).Width(100);
+                    columns.Bound(c => c.MarKetDetailName).Width(300);
+                    columns.Bound(c => c.CreateDate).ClientTemplate("#= CreateDate ? kendo.toString(kendo.parseDate(CreateDate, 'yyyyMMddHHmmss'), 'dd/MM/yyyy'): '' #");
+                    columns.Bound(c => c.CreateUserID).Width(200);
+                    columns.Bound(c => c.MarKetID).Width(200);
+                    columns.Bound(c => c.MarKetAsianID).Width(200);
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action("Select", "Home"))
+                )
+
+                .Pageable() // Enable paging
+                .Sortable() // Enable sorting
+    )
+</div>

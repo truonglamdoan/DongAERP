@@ -1,0 +1,358 @@
+﻿@using DongA.Entities;
+@using Kendo.Mvc.UI;
+@using DongA.Core;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SB Admin 2 - Dashboard</title>
+    <!-- Custom fonts for this template-->
+    <link href="~/Assets/Admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    @*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*@
+
+    <link href="~/Content/css.css" rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link href="~/Assets/Admin/css/sb-admin-2.min.css" rel="stylesheet">
+
+    @*<link href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/kendo/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/kendo/js/jquery.min.js"></script>
+    <script src="~/Scripts/kendo/js/jszip.min.js"></script>
+    <script src="~/Scripts/kendo/js/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/js/kendo.aspnetmvc.min.js"></script>
+
+    <script src="~/Scripts/js.cookie.min.js"></script>
+
+</head>
+
+@{
+    if (DongAEnvironment.UserID == null)
+    {
+        Response.Redirect("~/Admin/Login/Index");
+    }
+}
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        @*@RenderPage("_LeftMenu.cshtml")*@
+        @{
+            Html.RenderAction("LeftMenu", "Home");
+        }
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    @if (!HttpContext.Current.Request.Url.LocalPath.Equals("/Admin"))
+                    {
+                        @*<div style=" margin-right: 3%;width: 20%;">
+                            @(Html.Kendo().DropDownList()
+                                .Name("typeOfSale")
+                                .HtmlAttributes(new { style = "width:100%" })
+                                .OptionLabel("Chọn loại doanh số...")
+                                .DataTextField("PartnerName")
+                                .DataValueField("PartnerID")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("TypeOfSale", "Home");
+                                    });
+                                })
+                            )
+                        </div>*@
+                        <div style=" margin-right: 3%;width: 20%;">
+                            @(Html.Kendo().DropDownList()
+                                                    .Name("categoriesLayout")
+                                                    .HtmlAttributes(new { style = "width:100%" })
+                                                    .OptionLabel("Chọn hình thức b/c...")
+                                                    .DataTextField("PartnerName")
+                                                    .DataValueField("PartnerID")
+                                                    .DataSource(source =>
+                                                    {
+                                                        source.Read(read =>
+                                                        {
+                                                            read.Action("Categories", "Home");
+                                                        });
+                                                    })
+                            //.Enable(false)
+                            //.AutoBind(false)
+                            //.CascadeFrom("typeOfSale")
+                            )
+                        </div>
+                        <div style=" margin-right: 3%; ;width: 15%;">
+                            @(Html.Kendo().DropDownList()
+                                            .Name("categoryDetailtLayout")
+                                            .HtmlAttributes(new { style = "width:100%" })
+                                            .OptionLabel("Chọn loại...")
+                                            .DataTextField("PartnerName")
+                                            .DataValueField("PartnerID")
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("CategoryDetailt", "Home");
+                                              })
+                                              .ServerFiltering(true);
+                                          })
+                                          .Enable(false)
+                                          .AutoBind(false)
+                                          .CascadeFrom("categoriesLayout")
+                            )
+                        </div>
+                        <div style=" margin-right: 3%;width: 15%;">
+                            @(Html.Kendo().DropDownList()
+                                            .Name("reportLayout")
+                                            .HtmlAttributes(new { style = "width:100%" })
+                                            .OptionLabel("Chọn báo cáo...")
+                                            .DataTextField("PartnerName")
+                                            .DataValueField("PartnerID")
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("DetailtReport", "Home")
+                                                      .Data("filterDetailt");
+                                                })
+                                                .ServerFiltering(true);
+                                            })
+                                            .Enable(false)
+                                            .AutoBind(false)
+                                            .CascadeFrom("categoryDetailtLayout")
+                            )
+                        </div>
+                        <div style=" cursor: pointer; ">
+                            @(Html.Kendo().Button()
+                                        .Name("textButton")
+                                        .Content("Xem báo cáo")
+                                        .HtmlAttributes(new { type = "button", @class = "btn-k-primary" })
+                                        .Events(ev => ev.Click("onClickReportLayout"))
+                            )
+                        </div>
+                    }
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img style=" margin-right: 20%; " class="img-profile rounded-circle" src="">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@DongAEnvironment.Fullname</span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Admin/Login/Logout" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    @RenderBody()
+                    <!-- Page Heading -->
+
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng xuất</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát tài khoản</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy bỏ</button>
+                    <a class="btn btn-primary" href="/Admin/Login/Logout">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    @*<script src="~/Assets/Admin/vendor/jquery/jquery.min.js"></script>*@
+    <script src="~/Assets/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/Assets/Admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/Assets/Admin/js/sb-admin-2.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="~/Assets/Admin/vendor/chart.js/Chart.min.js"></script>
+    <!-- Page level custom scripts -->
+    @*<script src="~/Assets/Admin/js/demo/chart-area-demo.js"></script>
+        <script src="~/Assets/Admin/js/demo/chart-pie-demo.js"></script>*@
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var reportTypeID = null;
+
+    $(document).ready(function () {
+
+        let value = localStorage.valueReport;
+        let valueReportType = localStorage.reportTypeLS;
+
+        let categoriesLayout = $("#categoriesLayout").data("kendoDropDownList");
+        let reportLayout = $("#reportLayout").data("kendoDropDownList");
+        let categoryDetailtLayout = $("#categoryDetailtLayout").data("kendoDropDownList");
+        //let reportType = $("#reportType").data("kendoDropDownList");
+
+        if (value != undefined && categoriesLayout != undefined) {
+
+            listData = value.split('_');
+            categoriesLayout.value(listData[0]);
+            categoryDetailtLayout.value(listData[1]);
+            reportLayout.value(listData[2]);
+        }
+    });
+
+    function onClickReportLayout(e) {
+
+        let typeOfSale = $("#typeOfSale").data("kendoDropDownList").value();
+
+        let categoriesLayout = $("#categoriesLayout").data("kendoDropDownList").value();
+        let reportLayout = $("#reportLayout").data("kendoDropDownList").value();
+        let categoryDetailtLayout = $("#categoryDetailtLayout").data("kendoDropDownList").value();
+        let reportTypeID = "2";
+
+        if (!isNullOrEmpty(categoriesLayout) && !isNullOrEmpty(reportLayout) && !isNullOrEmpty(categoryDetailtLayout)) {
+
+            // Hình thức báo cáo
+            let categoryText = null;
+
+            switch (categoriesLayout) {
+                case 'item1':
+                    categoryText = 'ReportForTotalPayment';
+                    break;
+                case 'item2':
+                    categoryText = 'Report';
+                    break;
+                case 'item3':
+                    categoryText = 'ReportForMakets';
+                    break;
+                default:
+                    categoryText = 'ReportTotalMoneyType';
+            }
+
+            // Loại báo cáo
+            let reportText = null;
+            switch (reportLayout) {
+                case 'item1':
+                    reportText = 'ReportDay';
+                    break;
+                case 'item2':
+                    reportText = 'ReportMonth';
+                    break;
+                case 'item3':
+                    reportText = 'ReportYear';
+                    break;
+                case 'item4':
+                    reportText = 'ReportGradationCompare';
+                    break;
+                default:
+                    reportText = 'ReportCompareForMonth';
+            }
+
+            //localStorage.removeItem('valueReport');
+            // Lưu giá trị vào biến local storage
+            let valueLocalStorage = kendo.format("{0}_{1}_{2}", categoriesLayout, categoryDetailtLayout, reportLayout);
+            localStorage.valueReport = valueLocalStorage;
+
+            // Lưu giá trị của loại báo cáo
+            localStorage.removeItem('reportTypeLS');
+            let reportTypeLS = reportTypeID;
+            localStorage.reportTypeLS = reportTypeLS;
+            window.location = kendo.format("/Admin/{0}/{1}", categoryText, reportText);
+
+        }
+    }
+
+    // Data cho comboBox
+    function filterDetailt() {
+
+        return {
+            reportID: $("#categoryDetailtLayout").val()
+        };
+    }
+</script>
+
+<style>
+    .btn-k-primary {
+        color: #fff;
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+</style>
