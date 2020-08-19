@@ -1654,8 +1654,7 @@ namespace DongAERP.Areas.Admin.Controllers
             designer.Process();
             return ExportReport("ReportDetailMarketForGradation", designer);
         }
-
-
+        
         /// <summary>
         /// Tạo mẫu cho Excel cho so sánh theo tháng
         /// </summary>
