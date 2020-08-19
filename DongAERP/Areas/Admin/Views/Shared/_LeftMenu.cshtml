@@ -1,0 +1,548 @@
+﻿@using DongA.Entities;
+@using Kendo.Mvc.UI;
+
+@{
+    List<Partner> listPartner = ViewBag.listPartners;
+    string a = string.Empty;
+    int count = 1;
+}
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style=" background-color: #0041ff; background-image: none;">
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">E-STATISTIC</div>
+    </a>
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="/Admin">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    @*<div class="sidebar-heading">
+        LOẠI ĐỐI TÁC
+    </div>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Charts -->
+    @{
+        for (int i = 0; i < listPartner.Count(); i++)
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="">
+                    <input type="checkbox" class="k-checkbox" value="">
+                    <span style=" margin-left: 15px; ">@listPartner[i].PartnerName</span>
+                </a>
+            </li>
+        }
+    }
+    <hr class="sidebar-divider">*@
+    <div class="sidebar-heading">
+        HÌNH THỨC BÁO CÁO
+    </div>
+    <li class="nav-item">
+        <a class="nav-link">
+            <span>Doanh số</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">
+            <input type="radio" name="engine" id="sumSale" class="k-radio" value="1">
+            <label for="sumSale" style=" cursor: pointer; font-size: .85rem;"  onclick="onOpen('sumSale');">Doanh số tổng hợp</label>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">
+            <input type="radio" name="engine" id="detailSales" class="k-radio" value="2">
+            <label for="detailSales" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('detailSales');">Doanh số chi tiết</label>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link">
+            <span>Hồ sơ</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">
+            <input type="radio" name="engine" id="sumLedger" class="k-radio">
+            <label for="sumLedger" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('sumLedger');">Hồ sơ tổng hợp</label>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">
+            <input type="radio" name="engine" id="detailLedger" class="k-radio">
+            <label for="detailLedger" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('detailLedger');">Hồ sơ chi tiết</label>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+@*Popup cho Doanh số tổng hợp*@
+@(Html.Kendo().Window()
+    .Name("dialog")
+    .Title("Doanh số tổng hợp")
+    .Content(@<text>
+        <div class="armchair">
+           
+            <h4>Hình thức báo cáo:</h4>
+            @(Html.Kendo().DropDownList()
+                  .Name("categories")
+                  .HtmlAttributes(new { style = "width:100%" })
+                  .OptionLabel("Chọn hình thức báo cáo...")
+                  .DataTextField("PartnerName")
+                  .DataValueField("PartnerID")
+                  .DataSource(source => {
+                       source.Read(read => {
+                           read.Action("Categories", "Home");
+                       });
+                  })
+            )
+
+        </div>
+
+        <h4 style="margin-top: 2em;">Báo cáo:</h4>
+        @(Html.Kendo().DropDownList()
+                .Name("categoryDetailtMenu")
+                .HtmlAttributes(new { style = "width:100%" })
+                .OptionLabel("Chọn loại...")
+                .DataTextField("PartnerName")
+                .DataValueField("PartnerID")
+              .DataSource(source => {
+                  source.Read(read =>
+                  {
+                      read.Action("CategoryDetailt", "Home");
+                  })
+                  .ServerFiltering(true);
+              })
+              .Enable(false)
+              .AutoBind(false)
+              .CascadeFrom("categories")
+        )
+
+        <h4 style="margin-top: 2em;">Loại báo cáo:</h4>
+        @(Html.Kendo().DropDownList()
+                .Name("report")
+                .HtmlAttributes(new { style = "width:100%; margin-bottom: 5%;" })
+                .OptionLabel("Chọn báo cáo...")
+                .DataTextField("PartnerName")
+                .DataValueField("PartnerID")
+                .DataSource(source => {
+                    source.Read(read =>
+                    {
+                        read.Action("DetailtReport", "Home")
+                          .Data("filterDetailtMenu");
+                    })
+                    .ServerFiltering(true);
+                })
+                .Enable(false)
+                .AutoBind(false)
+                .CascadeFrom("categoryDetailtMenu")
+        )
+        <div style=" margin-top: 5%; float: right; ">
+            
+            @(Html.Kendo().Button()
+            .Name("textButton")
+            .Content("Xem báo cáo")
+            .HtmlAttributes( new {type = "button"} )
+            .Events(ev => ev.Click("onClickReport"))
+            )
+        </div>
+
+        <div style=" display: inline; margin-right: 10%; ">
+            @(Html.Kendo().RadioButton().Name("TotalReport").Checked(true).Value(2).HtmlAttributes(new { @name = "report" }).Label("Tổng hợp"))
+        </div>
+        <div style=" display: inline; margin-right: 10%; ">
+            @(Html.Kendo().RadioButton().Name("DABReport").Value(0).HtmlAttributes(new { @name = "report" }).Label("DAB"))
+        </div>
+        <div style=" display: inline; margin-right: 10%; ">
+            @(Html.Kendo().RadioButton().Name("DAMReport").Value(1).HtmlAttributes(new { @name = "report" }).Label("DAMTC"))
+        </div>
+
+    </text>)
+    .Draggable()
+    .Resizable()
+    .Width(600)
+    .Visible(false)
+    .Modal(true)
+)
+
+@*Popup cho Doanh số chi tiết*@
+@(Html.Kendo().Window()
+    .Name("dialogDetailt")
+    .Title("Doanh số chi tiết")
+    .Content(@<text>
+        <div class="armchair">
+           
+            <h4>Hình thức báo cáo:</h4>
+            @(Html.Kendo().DropDownList()
+                  .Name("categoriesDetailt")
+                  .HtmlAttributes(new { style = "width:100%" })
+                  .OptionLabel("Chọn hình thức báo cáo...")
+                  .DataTextField("PartnerName")
+                  .DataValueField("PartnerID")
+                  .DataSource(source => {
+                       source.Read(read => {
+                           read.Action("CategoriesDetailt", "Home");
+                       });
+                  })
+            )
+
+        </div>
+
+        <h4 style="margin-top: 2em;">Loại hình:</h4>
+        @(Html.Kendo().DropDownList()
+                .Name("categoryMenuDetailt")
+                .HtmlAttributes(new { style = "width:100%" })
+                .OptionLabel("Chọn loại...")
+                .DataTextField("PartnerName")
+                .DataValueField("PartnerID")
+              .DataSource(source => {
+                  source.Read(read =>
+                  {
+                      read.Action("CategoryMenuDetailt", "Home");
+                  })
+                  .ServerFiltering(true);
+              })
+              .Enable(false)
+              .AutoBind(false)
+              .CascadeFrom("categoriesDetailt")
+              .Events(events => events
+                .Select("onSelectCategoryMenu")
+              )
+        )
+
+        <h4 class="reportDetailtText"  style="margin-top: 2em; display: none">Loại báo cáo:</h4>
+        @(Html.Kendo().DropDownList()
+                .Name("reportDetailt")
+                .HtmlAttributes(new { style = "width:100%; margin-bottom: 5%; display: none;" })
+                .OptionLabel("Chọn báo cáo...")
+                .DataTextField("PartnerName")
+                .DataValueField("PartnerID")
+                .DataSource(source => {
+                    source.Read(read =>
+                    {
+                        read.Action("CompareDetailtReport", "Home")
+                          .Data("filterMenuDetailt");
+                    })
+                    .ServerFiltering(true);
+                })
+                .Enable(false)
+                .AutoBind(false)
+                .CascadeFrom("categoryMenuDetailt")
+        )
+        <div style=" margin-top: 5%; float: right; ">
+            
+            @(Html.Kendo().Button()
+            .Name("textButton")
+            .Content("Xem báo cáo")
+            .HtmlAttributes( new {type = "button"} )
+            .Events(ev => ev.Click("onClickReportDeatailt"))
+            )
+        </div>
+
+        <div style=" display: inline; margin-right: 10%; ">
+            @(Html.Kendo().RadioButton().Name("TotalDetailtReport").Checked(true).Value(2).HtmlAttributes(new { @name = "report" }).Label("Tổng hợp"))
+        </div>
+        <div style=" display: inline; margin-right: 10%; ">
+            @(Html.Kendo().RadioButton().Name("DABDetailtReport").Value(0).HtmlAttributes(new { @name = "report" }).Label("DAB"))
+        </div>
+        <div style=" display: inline; margin-right: 10%; ">
+            @(Html.Kendo().RadioButton().Name("DAMTCDetailtReport").Value(1).HtmlAttributes(new { @name = "report" }).Label("DAMTC"))
+        </div>
+
+    </text>)
+    .Draggable()
+    .Resizable()
+    .Width(600)
+    .Visible(false)
+    .Modal(true)
+)
+
+<style>
+    #treeview .k-sprite {
+        
+    }
+
+    #treeview .k-top.k-bot {
+        color: white;
+    }
+    #treeview .k-top {
+        color: white;
+    }
+    #treeview .k-bot {
+        color: white;
+    }
+    #treeview .k-mid {
+        color: white;
+    }
+</style>
+
+<script type="text/javascript">
+    let count = 1;
+    var reportTypeID;
+    $('#sidebarToggle').click(function () {
+
+        // Trường hợp có class không
+        if ($('#page-top').hasClass('sidebar-toggled')) {
+            count = 0;
+        }
+
+        if (count == 1) {
+            $('#treeview').css('display', 'none');
+            document.documentElement.scrollTop = 0;
+        } else {
+            $('#treeview').css('display', 'block');
+            count = 1;
+        }
+
+    })
+
+    // Mở poppup theo doanh số tổng hợp
+    function onOpen(e) {
+        //debugger;
+        var dialog = null;
+        // Trường hợp click Doanh số tổng hợp
+        if (e == 'sumSale') {
+            dialog = $("#dialog").data("kendoWindow");
+            dialog.title('Doanh số tổng hợp');
+        }
+
+        // Trường hợp click vào doanh số chi tiết
+        if (e == 'detailSales') {
+            dialog = $("#dialogDetailt").data("kendoWindow");
+            dialog.title('Doanh số chi tiết');
+        }
+
+        switch (e) {
+            case 'sumSale':
+                // Mở popup
+                dialog.open();
+                dialog.center();
+
+                // Set color background
+                $('#dialog').parent().find('.k-window-titlebar,.k-window-actions').css({ 'backgroundColor': '#0041ff', color: 'white' });
+
+                break;
+            case 'detailSales':
+                // Mở popup
+                dialog.open();
+                dialog.center();
+
+                // ẩn nút loại báo cáo
+                let dropdownlist = $("#reportDetailt").data("kendoDropDownList");
+                dropdownlist.wrapper.hide();
+                $('#report').css('display', 'none');
+                break;
+            case 'sumLedger':
+                dialog.title('Hồ sơ tổng hợp');
+                break;
+            default:
+                //dialog.title('Hồ sơ chi tiết');
+        }
+    }
+
+    // Data cho comboBox cho báo cáo tổng hợp
+    function filterDetailtMenu() {
+
+        return {
+            reportID: $("#categoryDetailtMenu").val()
+        };
+    }
+
+    // Data cho comboBox cho báo cáo chi tiết
+    function filterMenuDetailt() {
+
+        return {
+            reportID: $("#categoryMenuDetailt").val()
+        };
+    }
+
+    function onClickReport(e) {
+
+        let categories = $("#categories").data("kendoDropDownList").value();
+        let report = $("#report").data("kendoDropDownList").value();
+        let categoryDetailt = $("#categoryDetailtMenu").data("kendoDropDownList").value();
+        // Loại báo cáo
+        // 1: Tổng hợp, 2: Theo DAB, 3:Theo DAMTC
+        reportTypeID = $('input[name="report"]:checked').val();
+
+        if (!isNullOrEmpty(categories) && !isNullOrEmpty(report) && !isNullOrEmpty(categoryDetailt)) {
+
+            // Hình thức báo cáo
+            let categoryText = null;
+            switch (categories) {
+                case 'item1':
+                    categoryText = 'ReportForTotalPayment';
+                    break;
+                case 'item2':
+                    categoryText = 'Report';
+                    break;
+                case 'item3':
+                    categoryText = 'ReportForMakets';
+                    break;
+                default:
+                    categoryText = 'ReportTotalMoneyType';
+            }
+
+            // Loại báo cáo
+            let reportText = null;
+            switch (report) {
+                case 'item1':
+                    reportText = 'ReportDay';
+                    break;
+                case 'item2':
+                    reportText = 'ReportMonth';
+                    break;
+                case 'item3':
+                    reportText = 'ReportYear';
+                    break;
+                case 'item4':
+                    reportText = 'ReportGradationCompare';
+                    break;
+                default:
+                    reportText = 'ReportCompareForMonth';
+            }
+
+            localStorage.removeItem('valueReport');
+            // Lưu giá trị vào biến local storage
+            let valueLocalStorage = kendo.format("{0}_{1}_{2}", categories, categoryDetailt, report);
+            localStorage.valueReport = valueLocalStorage;
+
+            // Lưu giá trị của loại báo cáo
+
+            localStorage.removeItem('reportTypeLS');
+            let reportTypeLS = reportTypeID;
+            localStorage.reportTypeLS = reportTypeLS;
+
+            //Tạo dữ liệu cho bảng tạm của Thị trường
+            //debugger;
+            //$.getJSON('/Admin/Home/CreateDataMarket', function (result) {
+            //    var toto = result.SomeValue;
+            //    alert(toto);
+            //});
+
+            window.location = kendo.format("/Admin/{0}/{1}", categoryText, reportText);
+        }
+    }
+
+    function onClickReportDeatailt(e) {
+        debugger;
+        let categoriesDetailt = $("#categoriesDetailt").data("kendoDropDownList").value();
+        let categoryMenuDetailt = $("#categoryMenuDetailt").data("kendoDropDownList").value();
+        let reportDetailt = $("#reportDetailt").data("kendoDropDownList").value();
+        // Loại báo cáo
+        // 1: Tổng hợp, 2: Theo DAB, 3:Theo DAMTC
+        reportTypeID = $('input[name="report"]:checked').val();
+
+        // Loại báo cáo
+        let categoriesDetailtText = null;
+        // Báo cáo chi tiết theo tất cả
+        categoriesDetailtText = 'ReportDetailtForTotal';
+        // Báo cáo chi tiết theo từng thị trường
+        if (categoriesDetailt == 'item1') {
+
+            categoriesDetailtText = 'ReportDetailtByMarket';
+        }
+
+        // Hình thức báo cáo
+        let categoryMenuDetailtText = null;
+
+        switch (categoryMenuDetailt) {
+            case 'item1':
+                categoryMenuDetailtText = 'MarketForTotal';
+                break;
+            case 'item2':
+                categoryMenuDetailtText = 'MarketForOne';
+                break;
+            case 'item3':
+                categoryMenuDetailtText = '';
+                break;
+            default:
+                categoryMenuDetailtText = '';
+        }
+
+        // Xóa local Storage
+        localStorage.removeItem('valueReport');
+
+        // Trường hợp không chọn báo cáo so sánh
+        if (isNullOrEmpty(reportDetailt)) {
+            
+            // Lưu giá trị vào biến local storage
+            let valueLocalStorage = kendo.format("{0}_{1}", categoriesDetailtText, categoryMenuDetailt);
+            localStorage.valueReport = valueLocalStorage;
+
+
+            // Lưu giá trị của loại báo cáo
+            localStorage.removeItem('reportTypeLS');
+            let reportTypeLS = reportTypeID;
+            localStorage.reportTypeLS = reportTypeLS;
+
+            window.location = kendo.format("/Admin/{0}/{1}?reportTypeID={2}", categoriesDetailtText, categoryMenuDetailtText, reportTypeID);
+        } else {
+            
+            // Loại báo cáo
+            let reportDetailtText = null;
+            switch (reportDetailt) {
+                case 'item1':
+                    reportDetailtText = 'ReportDetailtGradationCompare';
+                    break;
+                case 'item2':
+                    reportDetailtText = 'ReportDetailtGradationCompareForOne';
+                    break;
+                case 'item3':
+                    reportDetailtText = 'ReportDetailtCompareMonthForAll';
+                    break;
+                case 'item4':
+                    reportDetailtText = 'ReportDetailtCompareMonthForOne';
+                    break;
+                default:
+                    reportDetailtText = '';
+            }
+
+            // Lưu giá trị vào biến local storage
+            let valueLocalStorage = kendo.format("{0}_{1}_{2}", categoriesDetailtText, categoryMenuDetailt, reportDetailt);
+            localStorage.valueReport = valueLocalStorage;
+
+
+            // Lưu giá trị của loại báo cáo
+            localStorage.removeItem('reportTypeLS');
+            let reportTypeLS = reportTypeID;
+            localStorage.reportTypeLS = reportTypeLS;
+
+            window.location = kendo.format("/Admin/{0}/{1}", categoriesDetailtText, reportDetailtText);
+        }
+
+    }
+
+    // check null or empty
+    function isNullOrEmpty(s) {
+        return (s == null || s === "");
+    }
+
+    // Select cho việc chọn báo cáo chi tiết cho loại So sánh
+    function onSelectCategoryMenu(e) {
+        //debugger;
+        if (e.dataItem.PartnerID == 'item3') {
+            // ẩn nút loại báo cáo
+            let dropdownlist = $("#reportDetailt").data("kendoDropDownList");
+            $('.reportDetailtText').css('display', '');
+            dropdownlist.wrapper.show();
+        } else {
+            // ẩn nút loại báo cáo
+            let dropdownlist = $("#reportDetailt").data("kendoDropDownList");
+            $('.reportDetailtText').css('display', 'none');
+            dropdownlist.wrapper.hide();
+        }
+    }
+</script>
