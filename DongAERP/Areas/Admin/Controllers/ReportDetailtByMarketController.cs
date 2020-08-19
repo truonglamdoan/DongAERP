@@ -1813,7 +1813,6 @@ namespace DongAERP.Areas.Admin.Controllers
             // Danh sach của data gradation gồm key và value
             int toYear = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
-            toMonth = 6;
 
             List<ReportDetailtSTMarket> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID);
 
@@ -1977,7 +1976,6 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             int toYear = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
-            toMonth = 6;
 
             List<ReportDetailtSTMarket> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID);
 
@@ -2127,7 +2125,6 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             int year = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
-            toMonth = 6;
 
             List<ReportDetailtSTMarket> listDataCompareMonth = new ReportBL().ColumnChartStackCompareMonthForAllPercent(year, toMonth, reportTypeID);
 
@@ -2289,7 +2286,6 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             int year = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
-            toMonth = 6;
 
             List<ReportDetailtSTMarket> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForAll(year, toMonth, reportTypeID);
 
@@ -2443,9 +2439,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int toYear = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(toYear, toMonth, reportTypeID, marketID);
 
@@ -2704,8 +2697,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int toYear = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(toYear, toMonth, reportTypeID, marketID);
 
@@ -2938,8 +2929,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int toYear = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(toYear, toMonth, reportTypeID, marketID);
 
@@ -3154,8 +3143,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int year = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(year, toMonth, reportTypeID, marketID);
 
@@ -3284,8 +3271,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int year = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(year, toMonth, reportTypeID, marketID);
 
@@ -3393,8 +3378,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int year = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(year, toMonth, reportTypeID, marketID);
 
@@ -3503,8 +3486,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int year = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(year, toMonth, reportTypeID, marketID);
 
@@ -3612,8 +3593,6 @@ namespace DongAERP.Areas.Admin.Controllers
             int year = DateTime.Now.Year;
             int toMonth = DateTime.Now.Month;
             string marketID = "001";
-            // Test
-            toMonth = 6;
 
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(year, toMonth, reportTypeID, marketID);
 

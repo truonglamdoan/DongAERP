@@ -166,13 +166,25 @@ namespace DongAERP.Areas.Admin.Controllers
             list.Add(new Partner()
             {
                 PartnerID = "item1",
-                PartnerName = "Thị trường"
+                PartnerName = "Thị trường - Loại hình"
             });
 
             list.Add(new Partner()
             {
                 PartnerID = "item2",
-                PartnerName = "Đối tác"
+                PartnerName = "Thị trường - Loại tiền"
+            });
+
+            list.Add(new Partner()
+            {
+                PartnerID = "item3",
+                PartnerName = "Đối tác - Loại hình"
+            });
+
+            list.Add(new Partner()
+            {
+                PartnerID = "item3",
+                PartnerName = "Đối tác - Loại tiền"
             });
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -181,25 +193,40 @@ namespace DongAERP.Areas.Admin.Controllers
         /// Loại hình cho doanh số chi tiết
         /// </summary>
         /// <returns></returns>
-        public JsonResult CategoryMenuDetailt()
+        public JsonResult CategoryMenuDetailt(string categoriesDetailt)
         {
             List<Partner> list = new List<Partner>();
+            string text = string.Empty;
+            switch(categoriesDetailt)
+            {
+                case "item1":
+                    text = "Loại hình";
+                    break;
+
+                case "item2":
+                    text = "Loại tiền";
+                    break;
+                default:
+
+                    break;
+            }
+
             list.Add(new Partner()
             {
                 PartnerID = "item1",
-                PartnerName = "Chi trả - Tất cả"
+                PartnerName = string.Format("{0} - Tất cả", text)
             });
 
             list.Add(new Partner()
             {
                 PartnerID = "item2",
-                PartnerName = "Chi trả - Từng thị trường"
+                PartnerName = string.Format("{0} - Từng thị trường", text)
             });
 
             list.Add(new Partner()
             {
                 PartnerID = "item3",
-                PartnerName = "Chi trả - So Sánh"
+                PartnerName = string.Format("{0} - So Sánh", text)
             });
 
             return Json(list, JsonRequestBehavior.AllowGet);

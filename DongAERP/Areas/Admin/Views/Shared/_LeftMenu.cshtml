@@ -210,7 +210,7 @@
               .DataSource(source => {
                   source.Read(read =>
                   {
-                      read.Action("CategoryMenuDetailt", "Home");
+                      read.Action("CategoryMenuDetailt", "Home").Data("onDataCategoryMenuInit");
                   })
                   .ServerFiltering(true);
               })
@@ -544,5 +544,12 @@
             $('.reportDetailtText').css('display', 'none');
             dropdownlist.wrapper.hide();
         }
+
+    }
+
+    function onDataCategoryMenuInit() {
+        return {
+            categoriesDetailt: $('#categoriesDetailt').val()
+        };
     }
 </script>

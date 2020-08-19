@@ -172,6 +172,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtByMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtExcelForMarketController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportDetailtMarketByMoneyTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelCompareController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalMoneyTypeController.cs" />
@@ -193,6 +194,7 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Scripts\ReportDetailtByMarket.js" />
     <Content Include="Areas\Admin\Scripts\DateReport.js" />
+    <Content Include="Areas\Admin\Scripts\ReportDetailtMarketByMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportForMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalPayment.js" />
@@ -2567,6 +2569,7 @@
     <Content Include="Content\Report\ReportDetailMarketGarationForOne.xlsx" />
     <Content Include="Content\Report\ReportDetailMarketForCompare.xlsx" />
     <Content Include="Content\Report\ReportDetailMarketCompareForOne.xlsx" />
+    <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForTotal.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
