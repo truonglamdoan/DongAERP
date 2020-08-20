@@ -89,10 +89,10 @@ var Report = new function () {
                     grid.dataSource.transport.options.read.url = urlGrid + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
                     grid.dataSource.read();
 
-                    urlGrid = "/Admin/ReportDetailtMarketByMoneyType/SearchMarketForTotalConvert?fromDay=";
-                    grid = $("#gridReportDetailtByTotalConvert").data("kendoGrid");
-                    grid.dataSource.transport.options.read.url = urlGrid + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-                    grid.dataSource.read();
+                    let urlGridConvert = "/Admin/ReportDetailtMarketByMoneyType/SearchMarketForTotalConvert?fromDay=";
+                    let gridConvert = $("#gridReportDetailtByTotalConvert").data("kendoGrid");
+                    gridConvert.dataSource.transport.options.read.url = urlGridConvert + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                    gridConvert.dataSource.read();
 
                 } else {
                     $("<div></div>").kendoAlert({
@@ -176,6 +176,12 @@ var Report = new function () {
                     let grid = $("#gridReportDetailtByOneMarket").data("kendoGrid");
                     grid.dataSource.transport.options.read.url = urlGrid + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
                     grid.dataSource.read();
+
+                    //Quy USD
+                    let urlGridConvert = "/Admin/ReportDetailtMarketByMoneyType/SearchMarketForOneConvert?fromDay=";
+                    let gridConvert = $("#gridReportDetailtByOneMarketConvert").data("kendoGrid");
+                    gridConvert.dataSource.transport.options.read.url = urlGridConvert + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                    gridConvert.dataSource.read();
 
                 } else {
                     $("<div></div>").kendoAlert({

@@ -1,0 +1,223 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string NameUrl = ViewBag.NameURL;
+}
+<script src="~/Areas/Admin/Scripts/ReportDetailtMarketByMoneyType.js"></script>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo ngày</h1>
+
+<h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
+<hr class="sidebar-divider">
+<div style=" display: inline; margin-right: 10%; ">
+    @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
+</div>
+<div style=" display: inline; margin-right: 10%; ">
+    @(Html.Kendo().RadioButton().Name("DABReportBody").Value(0).HtmlAttributes(new { @name = "reportDate" }).Label("DAB"))
+</div>
+<div style=" display: inline; margin-right: 10%; ">
+    @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
+</div>
+<div style=" display: inline; margin-right: 10%; ">
+
+    <ul style="">
+        <span style="float: left;margin-right: 12px;margin-top: 5px;">Thị trường: </span>
+        <span>
+
+            @(Html.Kendo().DropDownList()
+                                                  .Name("categoriesDetaitMarket")
+                                                  .HtmlAttributes(new { style = "width: 24%;float: left;" })
+                                                  .OptionLabel("Chọn Thị trường...")
+                                                  .DataTextField("MarketName")
+                                                  .DataValueField("MarketCode")
+                                                  .DataSource(source =>
+                                                  {
+                                                      source.Read(read =>
+                                                      {
+                                                          read.Action("ListMarketForPartner", "ReportDetailtByMarket");
+                                                      });
+                                                  })
+            )
+        </span>
+    </ul>
+</div>
+<hr class="sidebar-divider">
+<div style=" display: flex; ">
+
+    <ul style="width: 30%;position: absolute;display: block;">
+        <span style="float: left;margin-right: 30px;margin-top: 5px;">Từ ngày: </span>
+        <span>
+            @(Html.Kendo().DatePicker()
+                                                                                          .Name("FromDay")
+                                                                                          .Format("dd/MM/yyyy")
+                                                                                          .Value(DateTime.Now)
+                                                                                          .HtmlAttributes(new { style = "width: 70%;float: left;", title = "datepicker" })
+            )
+        </span>
+    </ul>
+    <ul style=" margin-left: 35%; ">
+        <span style="margin-left: 0%;margin-right: 30px;display: inline;">Đến ngày: </span>
+        <span style=" display: inline-flex; ">
+            @(Html.Kendo().DatePicker()
+                                                                                          .Name("ToDay")
+                                                                                          .Format("dd/MM/yyyy")
+                                                                                          .Value(DateTime.Now)
+                                                                                          .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+            )
+        </span>
+    </ul>
+    @*<ul style="display: inline; " class="search-item">*@
+    <ul class="search-item" style=" width: 27%;margin-top: 5px; ">
+        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-MarketOne" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
+        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-MarketOne" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
+    </ul>
+</div>
+<hr class="sidebar-divider" style=" margin-top: 0px; margin-bottom: 15px; ">
+<div class="row">
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh sách loại tiền chi trả (USD)</h6>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Grid<DongA.Entities.ReportDetailtForTotalMoneyType>()
+                        .Name("gridReportDetailtByOneMarket")
+                        .HtmlAttributes(new { style = " overflow: auto; " })
+                        .Columns(columns =>
+                        {
+                            //columns.Bound(p => p.STT).Title("STT");
+                            columns.Bound(p => p.PartnerName).Title("Đối tác").Width(200).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                            columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                            columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                            columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                            columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                            columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                            columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                            //columns.Bound(p => p.TongDS).Title("Tổng doanh số").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                            columns.Bound(p => p.MarketName).Hidden()
+                                .ClientGroupHeaderTemplate("#= value #")
+                            //.ClientFooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>")
+                            ;
+                        })
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            //.Aggregates(aggregates =>
+                            //{
+                            //    aggregates.Add(p => p.Type).Count().Min().Max();
+                            //    aggregates.Add(p => p.PartnerName).Count();
+                            //})
+                            .Group(groups => groups.Add(p => p.MarketName))
+                            .Read(read => read.Action("MarketForOne", "ReportDetailtMarketByMoneyType")
+                            .Data("onDataReportTypeID")
+                            )
+                        )
+                        .Sortable() // Enable sorting
+                                    //.Events(events => events
+                                    //    .DataBound("onDataBound")
+                                    //)
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh sách loại tiền chi trả (Quy USD)</h6>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Grid<DongA.Entities.ReportDetailtForTotalMoneyType>()
+                                .Name("gridReportDetailtByOneMarketConvert")
+                                .HtmlAttributes(new { style = " overflow: auto; " })
+                                .Columns(columns =>
+                                {
+                                    //columns.Bound(p => p.STT).Title("STT");
+                                    columns.Bound(p => p.PartnerName).Title("Đối tác").Width(200).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                                    columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                    columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                    columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                    columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                    columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                    columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                    columns.Bound(p => p.TongDS).Title("Tổng doanh số").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    columns.Bound(p => p.MarketName).Hidden()
+                                        .ClientGroupHeaderTemplate("#= value #")
+                                    //.ClientFooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>")
+                                    ;
+                                })
+                                .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    //.Aggregates(aggregates =>
+                                    //{
+                                    //    aggregates.Add(p => p.Type).Count().Min().Max();
+                                    //    aggregates.Add(p => p.PartnerName).Count();
+                                    //})
+                                    .Group(groups => groups.Add(p => p.MarketName))
+                                    .Read(read => read.Action("MarketForOneConvert", "ReportDetailtMarketByMoneyType")
+                                    .Data("onDataReportTypeID")
+                                    )
+                                )
+                                .Sortable() // Enable sorting
+                                            //.Events(events => events
+                                            //    .DataBound("onDataBoundConvert")
+                                            //)
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onDataBound(arg) {
+
+        let lastRow = $('#gridReportDetailtByOneMarket tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        $('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
+
+    }
+
+    function onDataBoundConvert(arg) {
+
+        let lastRow = $('#gridReportDetailtByOneMarketConvert tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        $('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
+
+    }
+
+    function onDataReportTypeID(arg) {
+
+        let value = localStorage.reportTypeLS;
+        if (value != undefined) {
+
+            reportTypeID = value;
+
+            // Change giá trị cho group radio
+            switch (value) {
+                case '0':
+                    $('#DABReportBody_0').prop('checked', true);
+                    break;
+                case '1':
+                    $('#DAMReportBody_1').prop('checked', true);
+                    break;
+                default:
+                    $('#TotalReportBody_2').prop('checked', true);
+            }
+        }
+
+        return {
+            reportTypeID: reportTypeID
+        };
+    }
+
+    // Change radio
+    $("input[name='reportDate']").change(function () {
+
+        localStorage.removeItem('reportTypeLS');
+        let reportTypeLS = $('input[name="reportDate"]:checked').val();
+        localStorage.reportTypeLS = reportTypeLS;
+        // Do something interesting here
+    });
+
+</script>

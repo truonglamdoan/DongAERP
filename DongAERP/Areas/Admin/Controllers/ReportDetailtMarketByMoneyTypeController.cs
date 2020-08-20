@@ -178,5 +178,143 @@ namespace DongAERP.Areas.Admin.Controllers
 
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// Bảng hiển thị thông tin các giao dịch qua các ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult MarketForOne([DataSourceRequest]DataSourceRequest request, string reportTypeID)
+        {
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().ListReportDetailtMarketForOne(reportTypeID);
+            int count = 1;
+            foreach (ReportDetailtForTotalMoneyType item in listData)
+            {
+                item.STT = (count++).ToString();
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
+
+            //ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
+            //{
+            //    PartnerName = "Tổng",
+            //    VND = listData.Sum(x => x.VND),
+            //    USD = listData.Sum(x => x.USD),
+            //    EUR = listData.Sum(x => x.EUR),
+            //    CAD = listData.Sum(x => x.CAD),
+            //    AUD = listData.Sum(x => x.AUD),
+            //    GBP = listData.Sum(x => x.GBP),
+            //    TongDS = listData.Sum(x => x.TongDS)
+            //};
+
+            //listData.Add(dataItem);
+
+            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Search report day theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public ActionResult SearchMarketForOne([DataSourceRequest]DataSourceRequest request, DateTime fromDay, DateTime toDay, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMarketForOne(fromDay, toDay, reportTypeID, marketID);
+            int count = 1;
+            foreach (ReportDetailtForTotalMoneyType item in listData)
+            {
+                item.STT = (count++).ToString();
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
+
+            //ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
+            //{
+            //    PartnerName = "Tổng",
+            //    VND = listData.Sum(x => x.VND),
+            //    USD = listData.Sum(x => x.USD),
+            //    EUR = listData.Sum(x => x.EUR),
+            //    CAD = listData.Sum(x => x.CAD),
+            //    AUD = listData.Sum(x => x.AUD),
+            //    GBP = listData.Sum(x => x.GBP),
+            //    TongDS = listData.Sum(x => x.TongDS)
+            //};
+            
+            //listData.Add(dataItem);
+
+            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Bảng hiển thị thông tin các giao dịch qua các ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult MarketForOneConvert([DataSourceRequest]DataSourceRequest request, string reportTypeID)
+        {
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().ListReportDetailtMarketForOneConvert(reportTypeID);
+            int count = 1;
+            foreach (ReportDetailtForTotalMoneyType item in listData)
+            {
+                item.STT = (count++).ToString();
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
+
+            //ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
+            //{
+            //    PartnerName = "Tổng",
+            //    VND = listData.Sum(x => x.VND),
+            //    USD = listData.Sum(x => x.USD),
+            //    EUR = listData.Sum(x => x.EUR),
+            //    CAD = listData.Sum(x => x.CAD),
+            //    AUD = listData.Sum(x => x.AUD),
+            //    GBP = listData.Sum(x => x.GBP),
+            //    TongDS = listData.Sum(x => x.TongDS)
+            //};
+
+            //listData.Add(dataItem);
+
+            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Search report day theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public ActionResult SearchMarketForOneConvert([DataSourceRequest]DataSourceRequest request, DateTime fromDay, DateTime toDay, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMarketForOneConvert(fromDay, toDay, reportTypeID, marketID);
+            int count = 1;
+            foreach (ReportDetailtForTotalMoneyType item in listData)
+            {
+                item.STT = (count++).ToString();
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
+
+            //ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
+            //{
+            //    PartnerName = "Tổng",
+            //    VND = listData.Sum(x => x.VND),
+            //    USD = listData.Sum(x => x.USD),
+            //    EUR = listData.Sum(x => x.EUR),
+            //    CAD = listData.Sum(x => x.CAD),
+            //    AUD = listData.Sum(x => x.AUD),
+            //    GBP = listData.Sum(x => x.GBP),
+            //    TongDS = listData.Sum(x => x.TongDS)
+            //};
+
+            //listData.Add(dataItem);
+
+            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
     }
 }
