@@ -77,23 +77,26 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh sách chi trả theo đối tác (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh sách loại tiền chi trả (Nguyên lí)</h6>
             </div>
             <div class="card-body">
-                @(Html.Kendo().Grid<DongA.Entities.ReportDetailtSTMarket>()
+                @(Html.Kendo().Grid<DongA.Entities.ReportDetailtForTotalMoneyType>()
                                                                 .Name("gridReportDetailtByTotal")
                                                                 .HtmlAttributes(new { style = " overflow: auto; " })
                                                                 .Columns(columns =>
                                                                 {
                                                                     columns.Bound(c => c.MarketName).Title("Thị trường").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                                                                    columns.Bound(c => c.DSChiQuay).Title("Danh sách chi quầy").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.DSChiNha).Title("Danh sách chi nhà").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.DSCK).Title("Danh sách chuyển khoản").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                                                    columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                    columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                    columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                    columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                    columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                    columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                    //columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                                                                 })
                                                                 .DataSource(dataSource => dataSource
                                                                     .Ajax()
-                                                                    .Read(read => read.Action("MarketForTotal", "ReportDetailtByMarket")
+                                                                    .Read(read => read.Action("MarketForTotal", "ReportDetailtMarketByMoneyType")
                                                                     .Data("onDataReportTypeID")
                                                                     )
                                                                 //.Read(read => read.Action("SearchReportDay", "Report").Data("DayReport.GetAdditionalData()"))
@@ -108,10 +111,56 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh sách loại tiền chi trả (Quy USD)</h6>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Grid<DongA.Entities.ReportDetailtForTotalMoneyType>()
+                                                                        .Name("gridReportDetailtByTotalConvert")
+                                                                        .HtmlAttributes(new { style = " overflow: auto; " })
+                                                                        .Columns(columns =>
+                                                                        {
+                                                                            columns.Bound(c => c.MarketName).Title("Thị trường").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                                                                            columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                            columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                            columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                            columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                            columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                            columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                                                            columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                                                        })
+                                                                        .DataSource(dataSource => dataSource
+                                                                            .Ajax()
+                                                                            .Read(read => read.Action("MarketForTotal", "ReportDetailtMarketByMoneyType")
+                                                                            .Data("onDataReportTypeID")
+                                                                            )
+                                                                        //.Read(read => read.Action("SearchReportDay", "Report").Data("DayReport.GetAdditionalData()"))
+                                                                        )
+                                                                        .Sortable() // Enable sorting
+                                                                        .Events(events => events
+                                                                            .DataBound("onDataBoundConvert")
+                                                                        )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     function onDataBound(arg) {
 
         let lastRow = $('#gridReportDetailtByTotal tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        $('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
+
+    }
+
+    function onDataBoundConvert(arg) {
+
+        let lastRow = $('#gridReportDetailtByTotalConvert tbody tr');
         $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
         $('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
 

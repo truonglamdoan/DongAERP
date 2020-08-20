@@ -95,8 +95,8 @@ namespace DongAERP.Areas.Admin.Controllers
                                 //SessionHelper.SetSession(new UserSession() { UserName = model.UserName });
                                 FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-                                // Chạy insert bảng dữ liệu cho doanh số chi tiết
-                                List<ReportDetailtServiceType> listData = new ReportBL().InsertTableMarket();
+                                //// Chạy insert bảng dữ liệu cho doanh số chi tiết
+                                //List<ReportDetailtServiceType> listData = new ReportBL().InsertTableMarket();
 
                                 return RedirectToAction("Index", "Home");
                             }

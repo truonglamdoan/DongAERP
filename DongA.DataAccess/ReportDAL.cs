@@ -1476,5 +1476,102 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
                 throw DongAException.FromCommand(command, ex);
             }
         }
+
+        #region Báo cáo chi tiết thị trường theo loại tiền chi trả
+        
+        /// <summary>
+        /// List Report detailt theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAll(string reportType)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "DataReportDetailtMTForAll", reportType);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "SearchDataReportDetailtMTForAll", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "marketID", marketID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAllConvert(string reportType)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "DataReportDetailtMTForAllConvert", reportType);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "SearchDataReportDetailtMTForAllConvert", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "marketID", marketID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        #endregion
     }
 }

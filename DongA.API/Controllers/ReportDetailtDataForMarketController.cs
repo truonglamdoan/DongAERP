@@ -197,5 +197,344 @@ namespace DongA.API.Controllers
                 throw new DongAException(DongALayer.Business, ex.Message, ex);
             }
         }
+
+        #region Báo cáo chi tiết thị trường theo loại tiền chi trả
+        /// <summary>
+        /// Get doanh số chi trả  theo thị trường cho loại tiền chi trả
+        /// </summary>
+        /// <param name="reportTypeID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> DataReportDetailtMTForAll(int reportTypeID)
+        {
+            try
+            {
+                DateTime now = DateTime.Now;
+                string marketID = "0";
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForAll(now, now, reportTypeID.ToString(), marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        ///  Get doanh số chi trả  theo thị trường cho loại tiền chi trả
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForAll(fromDate, toDate, reportTypeID, marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Get doanh số chi trả  theo thị trường cho loại tiền chi trả Quy USD
+        /// </summary>
+        /// <param name="reportTypeID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> DataReportDetailtMTForAllConvert(int reportTypeID)
+        {
+            try
+            {
+                DateTime now = DateTime.Now;
+                string marketID = "0";
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForAllConvert(now, now, reportTypeID.ToString(), marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        ///  Get doanh số chi trả  theo thị trường cho loại tiền chi trả Quy USD
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForAllConvert(fromDate, toDate, reportTypeID, marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Get doanh số chi trả  theo thị trường cho loại tiền chi trả
+        /// </summary>
+        /// <param name="reportTypeID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> DataReportDetailtMTForOne(int reportTypeID)
+        {
+            try
+            {
+                DateTime now = DateTime.Now;
+                string marketID = "0";
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForOne(now, now, reportTypeID.ToString(), marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        ///  Get doanh số chi trả  theo thị trường cho loại tiền chi trả
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForOne(fromDate, toDate, reportTypeID, marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Get doanh số chi trả  theo thị trường cho loại tiền chi trả Quy USD
+        /// </summary>
+        /// <param name="reportTypeID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> DataReportDetailtMTForOneConvert(int reportTypeID)
+        {
+            try
+            {
+                DateTime now = DateTime.Now;
+                string marketID = "0";
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForOneConvert(now, now, reportTypeID.ToString(), marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        ///  Get doanh số chi trả  theo thị trường cho loại tiền chi trả Quy USD
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForOneConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> listReport = new ReportBL().SearchDataReportDetailtMTForOneConvert(fromDate, toDate, reportTypeID, marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAll(int toYear, int typeID, string reportTypeID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTGradationForAll(toYear, typeID, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int toYear, int typeID, string reportTypeID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTGradationForAllConvert(toYear, typeID, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForOne(int toYear, int typeID, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTGradationForOne(toYear, typeID, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForOneConvert(int toYear, int typeID, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTGradationForOneConvert(toYear, typeID, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của tất cả thị trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAll(int toYear, int toMonth, string reportTypeID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTCompareMonthForAll(toYear, toMonth, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report detailt của tất cả thị trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của từng thị trường theo tháng và đối tác
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForOne(int toYear, int toMonth, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTCompareMonthForOne(toYear, toMonth, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của từng thị trường theo tháng và đối tác
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForOneConvert(int toYear, int toMonth, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTCompareMonthForOneConvert(toYear, toMonth, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+        #endregion
     }
 }

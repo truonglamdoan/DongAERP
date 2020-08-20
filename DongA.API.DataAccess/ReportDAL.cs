@@ -2228,5 +2228,452 @@ where created_date ='05-MAR-20' AND PARTNER_CODE = 20100 and VND_CNV_AMOUNT = 20
                 throw DongAException.FromCommand(command, ex);
             }
         }
+
+        #region Báo cáo chi tiết thị trường theo loại tiền chi trả
+        /// <summary>
+        /// List Report detailt cho thị trường theo loại tiền chi trả
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.SEARCH_REPORT_FOR_MARKET"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, marketID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt cho thị trường theo loại tiền chi trả Quy USD
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.SEARCH_REPORT_FOR_MARKET_CON"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, marketID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt cho thị trường theo loại tiền chi trả
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.SEARCH_REPORT_FOR_ONE_MARKET"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Varchar2, ParameterDirection.Input, marketID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt cho thị trường theo loại tiền chi trả Quy USD
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTForOneConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.SEARCH_R_FOR_ONE_MARKET_CON"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Varchar2, ParameterDirection.Input, marketID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAll(int ToYear, int typeID, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.REPORT_GRADATION_FOR_ALL"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int ToYear, int typeID, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.REPORT_GRADATION_FOR_ALL_CON"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForOne(int ToYear, int typeID, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.REPORT_GRADATION_FOR_ONE"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, marketID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForOneConvert(int ToYear, int typeID, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.REPORT_GRADATION_FOR_ONE_CON"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, marketID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của tất cả thị trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAll(int ToYear, int ToMonth, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.COMPARE_FOR_MONTH_ALL"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, ToMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của tất cả thị trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAllConvert(int ToYear, int ToMonth, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.COMPARE_FOR_MONTH_ALL_CON"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, ToMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của từng trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForOne(int toYear, int toMonth, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.COMPARE_FOR_MONTH_ONE"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, toMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, toYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, marketID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của từng trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForOneConvert(int toYear, int toMonth, string reportTypeID, string marketID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_MT_PARTNER.COMPARE_FOR_MONTH_ONE_CON"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, toMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, toYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, marketID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+        #endregion
     }
 }

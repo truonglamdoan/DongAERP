@@ -1783,5 +1783,95 @@ namespace DongA.Bussiness
                 throw new DongAException(DongALayer.Business, ex.Message, ex);
             }
         }
+
+
+        #region Báo cáo chi tiết thị trường theo loại tiền chi trả
+
+        /// <summary>
+        /// List Report detailt theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAll(string reportType)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMarketForAll(reportType);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMarketForAll(fromDate, toDate, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAllConvert(string reportType)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMarketForAllConvert(reportType);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMarketForAllConvert(fromDate, toDate, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        #endregion
     }
 }
