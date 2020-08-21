@@ -1486,7 +1486,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAll(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForAll(string reportType)
         {
             DbCommand command = null;
             try
@@ -1509,7 +1509,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try
@@ -1532,7 +1532,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAllConvert(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForAllConvert(string reportType)
         {
             DbCommand command = null;
             try
@@ -1555,7 +1555,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try
@@ -1578,7 +1578,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForOne(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForOne(string reportType)
         {
             DbCommand command = null;
             try
@@ -1601,7 +1601,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try
@@ -1624,7 +1624,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForOneConvert(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForOneConvert(string reportType)
         {
             DbCommand command = null;
             try
@@ -1647,7 +1647,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForOneConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOneConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try
@@ -1655,6 +1655,50 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
                 var result = new List<ReportDetailtForTotalMoneyType>();
                 result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "SearchDataReportDetailtMTForOneConvert", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "marketID", marketID);
 
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllConvert(int toYear, int typeID, string reportTypeID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "SearchDataReportDetailtMTGradationForAllConvert", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForOneConvert(int toYear, int typeID, string reportTypeID, string marketID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "SearchDataReportDetailtMTGradationForOneConvert", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID, "marketID", marketID);
                 return result;
             }
             catch (Exception ex)

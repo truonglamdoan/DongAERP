@@ -195,6 +195,7 @@
     <Content Include="Areas\Admin\Scripts\ReportDetailtByMarket.js" />
     <Content Include="Areas\Admin\Scripts\DateReport.js" />
     <Content Include="Areas\Admin\Scripts\ReportDetailtMarketByMoneyType.js" />
+    <Content Include="Areas\Admin\Scripts\ReportDetailtMoneyTypeByMarket.js" />
     <Content Include="Areas\Admin\Scripts\ReportForMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalPayment.js" />
@@ -2570,6 +2571,9 @@
     <Content Include="Content\Report\ReportDetailMarketForCompare.xlsx" />
     <Content Include="Content\Report\ReportDetailMarketCompareForOne.xlsx" />
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForTotal.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\ReportDetailtGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\ReportDetailtGradationCompareForOne.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
