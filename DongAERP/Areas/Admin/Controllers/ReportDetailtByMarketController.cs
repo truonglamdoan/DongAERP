@@ -849,7 +849,7 @@ namespace DongAERP.Areas.Admin.Controllers
             int gradationID = 1;
             // Giá trị ban đầu
             string marketID = "001";
-            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradationID, reportTypeID, marketID);
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOnePercent(year, gradationID, reportTypeID, marketID);
             List<ReportDetailtServiceType> listDataGradationClone = new List<ReportDetailtServiceType>(listDataGradation);
 
             foreach (ReportDetailtServiceType item in listDataGradationClone)

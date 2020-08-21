@@ -1794,12 +1794,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAll(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForAll(string reportType)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMarketForAll(reportType);
+                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMTForAll(reportType);
                 return result;
             }
             catch (Exception ex)
@@ -1815,12 +1815,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForAll(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMarketForAll(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForAll(fromDate, toDate, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1836,12 +1836,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForAllConvert(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForAllConvert(string reportType)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMarketForAllConvert(reportType);
+                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMTForAllConvert(reportType);
                 return result;
             }
             catch (Exception ex)
@@ -1857,12 +1857,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForAllConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMarketForAllConvert(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForAllConvert(fromDate, toDate, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1878,12 +1878,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForOne(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForOne(string reportType)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMarketForOne(reportType);
+                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMTForOne(reportType);
                 return result;
             }
             catch (Exception ex)
@@ -1899,12 +1899,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMarketForOne(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForOne(fromDate, toDate, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1920,12 +1920,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMarketForOneConvert(string reportType)
+        public List<ReportDetailtForTotalMoneyType> ListReportDetailtMTForOneConvert(string reportType)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMarketForOneConvert(reportType);
+                List<ReportDetailtForTotalMoneyType> result = dal.ListReportDetailtMTForOneConvert(reportType);
                 return result;
             }
             catch (Exception ex)
@@ -1941,13 +1941,145 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMarketForOneConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOneConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMarketForOneConvert(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForOneConvert(fromDate, toDate, reportTypeID, marketID);
                 return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllConvert(int ToYear, int typeID, string reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForAllConvert(ToYear, typeID, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllPercent(int ToYear, int typeID, string reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForAllConvert(ToYear, typeID, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>();
+
+                foreach (ReportDetailtForTotalMoneyType item in result)
+                {
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                    ReportDetailtForTotalMoneyType itemDetailtPercent = new ReportDetailtForTotalMoneyType();
+
+                    itemDetailtPercent = new ReportDetailtForTotalMoneyType()
+                    {
+                        MarketCode = item.MarketCode,
+                        MarketName = item.MarketName,
+                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        Year = item.Year
+                    };
+
+                    resultConvert.Add(itemDetailtPercent);
+                }
+                return resultConvert;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForOneConvert(int toYear, int typeID, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForOneConvert(toYear, typeID, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForOnePercent(int ToYear, int typeID, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForOneConvert(ToYear, typeID, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>();
+
+                foreach (ReportDetailtForTotalMoneyType item in result)
+                {
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                    ReportDetailtForTotalMoneyType itemDetailtPercent = new ReportDetailtForTotalMoneyType();
+
+                    itemDetailtPercent = new ReportDetailtForTotalMoneyType()
+                    {
+                        MarketCode = item.MarketCode,
+                        MarketName = item.MarketName,
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName,
+                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        Year = item.Year
+                    };
+
+
+                    resultConvert.Add(itemDetailtPercent);
+                }
+                return resultConvert;
             }
             catch (Exception ex)
             {
