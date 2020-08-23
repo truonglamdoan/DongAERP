@@ -466,20 +466,20 @@ var Report = new function () {
 
             grid.dataSource.read();
 
-            //// grid doanh số
-            //urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForOneCompare?month=";
-            //grid = $("#gridCompareMonthForOneCompare").data("kendoGrid");
+            // grid doanh số
+            urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForOneCompare?month=";
+            grid = $("#gridCompareMonthForOneCompare").data("kendoGrid");
 
-            //grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            //grid.dataSource.read();
+            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            grid.dataSource.read();
 
-            //// Biểu đồ cột doanh số theo phần trăm
-            //let chart = $("#chartColumnChartCompareMonthStackForOne").data("kendoChart");
-            //let urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnChartCompareMonthStackForOne?month=";
-            //chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            //chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", marketName);
-            ////chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            //chart.dataSource.read();
+            // Biểu đồ cột doanh số theo phần trăm
+            let chart = $("#chartColumnChartCompareMonthStackForOne").data("kendoChart");
+            let urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnChartCompareMonthStackForOne?month=";
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", marketName);
+            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
 
             //// Biểu đồ cột doanh số
             //chart = $("#chartColumnsChartCompareMonthForOne").data("kendoChart");
