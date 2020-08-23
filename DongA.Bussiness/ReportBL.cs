@@ -2087,6 +2087,92 @@ namespace DongA.Bussiness
             }
         }
 
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ColumnChartStackDetailtMTCompareMonthForAllPercent(int toYear, int toMonth, string reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>();
+
+                foreach(ReportDetailtForTotalMoneyType item in result)
+                {
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                    ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
+                    {
+                        Month = item.Month,
+                        Year = item.Year,
+                        MarketCode = item.MarketCode,
+                        MarketName = item.MarketName,
+                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven)
+                    };
+
+                    resultConvert.Add(dataItem);
+                }
+                
+                return resultConvert;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForOneConvert(int toYear, int toMonth, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForOneConvert(toYear, toMonth, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
         #endregion
     }
 }

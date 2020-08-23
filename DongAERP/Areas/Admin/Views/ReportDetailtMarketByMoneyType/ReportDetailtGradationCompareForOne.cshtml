@@ -246,6 +246,11 @@
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
+
+                        columns.Bound(Model.Columns[15].ColumnName)
+                            .Hidden()
+                            .ClientGroupHeaderTemplate("#= value #");
+
                         columns.Bound(Model.Columns[0].ColumnName)
                             .Title("Đối tác")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
@@ -261,7 +266,7 @@
                                 info.Bound(Model.Columns[4].ColumnName).Title("CAD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 info.Bound(Model.Columns[5].ColumnName).Title("AUD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 info.Bound(Model.Columns[6].ColumnName).Title("GBP").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[7].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                //info.Bound(Model.Columns[7].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                             })
                         );
                         columns.Group(group => group
@@ -275,19 +280,28 @@
                                 info.Bound(Model.Columns[11].ColumnName).Title("CAD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 info.Bound(Model.Columns[12].ColumnName).Title("AUD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 info.Bound(Model.Columns[13].ColumnName).Title("GBP").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[14].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                //info.Bound(Model.Columns[14].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                             })
 
                         );
+                        ;
                     })
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
+                        //.Group(groups => groups.Add(Model.Columns[15].ColumnName, typeof(string), System.ComponentModel.ListSortDirection.Descending))
+
                         .Read(read => read.Action("ReportDetailtGradationCompareForOneConvert", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                    //.Sort(x=>x.Add(Model.Columns[0].ColumnName).Ascending())
+                    .Group(group =>
+
+                        group.Add(Model.Columns[15].ColumnName, typeof(string))
                     )
-                    .Events(events => events
-                        .DataBound("onDataBoundGradationCompare")
                     )
+                //.Groupable()
+                //.Events(events => events
+                //    .DataBound("onDataBoundGradationCompare")
+                //)
                 )
             </div>
         </div>
@@ -304,6 +318,10 @@
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
+                        columns.Bound("MarketName")
+                            .Hidden()
+                            .ClientGroupHeaderTemplate("#= value #");
+
                         columns.Bound(Model.Columns[0].ColumnName).Title("Đối tác")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" });
@@ -327,22 +345,20 @@
                     .DataSource(dataSource => dataSource
                         .Ajax()
                         .Read(read => read.Action("ReportDetailtGradationCompareForOneConvertCompare", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+
+                        .Group(group =>
+
+                            group.Add("MarketName", typeof(string))
+                        )
                     )
-                    .Events(events => events
-                        .DataBound("onDataBoundGradationCompareForOne")
-                    )
+                //.Events(events => events
+                //    .DataBound("onDataBoundGradationCompareForOne")
+                //)
                 )
             </div>
         </div>
     </div>
 </div>
-
-
-<style>
-    tr.k-grouping-row {
-        display: none;
-    }
-</style>
 
 <script type="text/javascript">
 
