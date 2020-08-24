@@ -2159,12 +2159,66 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForOneConvert(int toYear, int toMonth, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForOneConvert(int year, int month, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForOneConvert(toYear, toMonth, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForOneConvert(year, month, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>(result);
+
+                List<string> listTemp = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in resultConvert)
+                {
+                    // Cùng kì
+                    ReportDetailtForTotalMoneyType dataItemLastYear = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
+                    ReportDetailtForTotalMoneyType dataItemYear = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
+                    ReportDetailtForTotalMoneyType dataItemLastMonth = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
+
+                    if (!listTemp.Contains(item.PartnerCode))
+                    {
+                        // Trường hợp năm không có đối tác
+                        if (dataItemLastYear == null)
+                        {
+                            dataItemLastYear = new ReportDetailtForTotalMoneyType();
+                            dataItemLastYear.MarketCode = item.MarketCode;
+                            dataItemLastYear.MarketName = item.MarketName;
+                            dataItemLastYear.PartnerName = item.PartnerName;
+                            dataItemLastYear.Year = (year - 1).ToString();
+                            dataItemLastYear.Month = month.ToString();
+                            result.Add(dataItemLastYear);
+                        }
+
+                        // Trường hợp năm hiện tại không có đối tác
+                        if (dataItemYear == null)
+                        {
+                            dataItemYear = new ReportDetailtForTotalMoneyType();
+                            dataItemYear.MarketCode = item.MarketCode;
+                            dataItemYear.MarketName = item.MarketName;
+                            dataItemYear.PartnerName = item.PartnerName;
+                            dataItemYear.Year = year.ToString();
+                            dataItemYear.Month = month.ToString();
+                            result.Add(dataItemYear);
+                        }
+
+                        // Trường hợp tháng trước không có
+                        if (dataItemLastMonth == null)
+                        {
+                            dataItemLastMonth = new ReportDetailtForTotalMoneyType();
+                            dataItemLastMonth.MarketCode = item.MarketCode;
+                            dataItemLastMonth.MarketName = item.MarketName;
+                            dataItemLastMonth.PartnerName = item.PartnerName;
+                            dataItemLastMonth.Year = year.ToString();
+                            dataItemLastMonth.Month = (month - 1).ToString();
+                            result.Add(dataItemLastMonth);
+                        }
+
+                        // Add partnerCode để kiểm tra
+                        listTemp.Add(item.PartnerCode);
+                    }
+                }
+                
                 return result;
             }
             catch (Exception ex)
@@ -2180,15 +2234,71 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForOneConvertPercent(int toYear, int toMonth, string reportTypeID, string marketID)
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForOneConvertPercent(int year, int month, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForOneConvert(toYear, toMonth, reportTypeID, marketID);
-                List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForOneConvert(year, month, reportTypeID, marketID);
+                List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>(result);
+                List<ReportDetailtForTotalMoneyType> resultConvertPercent = new List<ReportDetailtForTotalMoneyType>();
 
-                foreach(ReportDetailtForTotalMoneyType item in result)
+                List<string> listTemp = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in resultConvert)
+                {
+                    // Cùng kì
+                    ReportDetailtForTotalMoneyType dataItemLastYear = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
+                    ReportDetailtForTotalMoneyType dataItemYear = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
+                    ReportDetailtForTotalMoneyType dataItemLastMonth = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
+
+                    if (!listTemp.Contains(item.PartnerCode))
+                    {
+                        // Trường hợp năm không có đối tác
+                        if (dataItemLastYear == null)
+                        {
+                            dataItemLastYear = new ReportDetailtForTotalMoneyType();
+                            dataItemLastYear.MarketCode = item.MarketCode;
+                            dataItemLastYear.MarketName = item.MarketName;
+                            dataItemLastYear.PartnerCode = item.PartnerCode;
+                            dataItemLastYear.PartnerName = item.PartnerName;
+                            dataItemLastYear.Year = (year - 1).ToString();
+                            dataItemLastYear.Month = month.ToString();
+                            result.Add(dataItemLastYear);
+                        }
+
+                        // Trường hợp năm hiện tại không có đối tác
+                        if (dataItemYear == null)
+                        {
+                            dataItemYear = new ReportDetailtForTotalMoneyType();
+                            dataItemYear.MarketCode = item.MarketCode;
+                            dataItemYear.MarketName = item.MarketName;
+                            dataItemYear.PartnerCode = item.PartnerCode;
+                            dataItemYear.PartnerName = item.PartnerName;
+                            dataItemYear.Year = year.ToString();
+                            dataItemYear.Month = month.ToString();
+                            result.Add(dataItemYear);
+                        }
+
+                        // Trường hợp tháng trước không có
+                        if (dataItemLastMonth == null)
+                        {
+                            dataItemLastMonth = new ReportDetailtForTotalMoneyType();
+                            dataItemLastMonth.MarketCode = item.MarketCode;
+                            dataItemLastMonth.MarketName = item.MarketName;
+                            dataItemLastMonth.PartnerCode = item.PartnerCode;
+                            dataItemLastMonth.PartnerName = item.PartnerName;
+                            dataItemLastMonth.Year = year.ToString();
+                            dataItemLastMonth.Month = (month - 1).ToString();
+                            result.Add(dataItemLastMonth);
+                        }
+
+                        // Add partnerCode để kiểm tra
+                        listTemp.Add(item.PartnerCode);
+                    }
+                }
+
+                foreach (ReportDetailtForTotalMoneyType item in result)
                 {
                     item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
 
@@ -2215,10 +2325,10 @@ namespace DongA.Bussiness
                         Year = item.Year
                     };
 
-                    resultConvert.Add(dataItem);
+                    resultConvertPercent.Add(dataItem);
                 }
                 
-                return resultConvert;
+                return resultConvertPercent.OrderBy(x=>x.Year).ThenBy(x=>x.Month).ToList();
             }
             catch (Exception ex)
             {

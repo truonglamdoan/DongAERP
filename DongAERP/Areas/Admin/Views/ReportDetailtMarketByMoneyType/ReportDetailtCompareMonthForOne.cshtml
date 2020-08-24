@@ -105,53 +105,56 @@
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
-                    @*@(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
-                                                        .Name("chartColumnsChartCompareMonthForOne")
-                                                        .Title("Doanh số đối tác trong thị trường Châu Âu")
-                                                        .Legend(legend => legend
-                                                            .Position(ChartLegendPosition.Top)
-                                                        )
-                                                        .SeriesDefaults(seriesDefaults => seriesDefaults
-                                                            .Column()
-                                                        )
-                                                        .ChartArea(chartArea =>
-                                                        {
-                                                            chartArea.Height(550);
-                                                        })
-                                                        .DataSource(ds => ds
-                                                            .Read(read => read.Action("ColumnsChartCompareMonthForOne", "ReportDetailtByMarket").Data("onDataReportTypeID"))
-                                                            .Group(group => group.Add(model => model.NameGradationCompare))
-                                                            )
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartColumnsChartCompareMonthForOne")
+                        .Title("Doanh số đối tác trong thị trường Châu Âu")
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                            .Column()
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(550);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("ColumnsChartCompareMonthForOne", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            )
 
-                                                        .Series(series =>
-                                                        {
-                                                            series.Column(model => model.amount).Name("#= group.value #");
-                                                                //.CategoryField("NameType");
+                        .Series(series =>
+                        {
+                            series.Column(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
 
-                                                            })
-                                                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
-                                                        .CategoryAxis(axis => axis
-                                                            .Categories(categories => categories.NameType)
-                                                            .MajorGridLines(lines => lines.Visible(false))
-                                                        //.MajorGridLines(lines => lines.Visible(true))
-                                                        )
-                                                        .CategoryAxis(axis => axis
-                                                            .Categories(monthLastYear, lastMonth, month)
-                                                            .MajorGridLines(lines => lines.Visible(true).Color("black"))
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        //.MajorGridLines(lines => lines.Visible(true))
+                            .Labels(labels => labels.Rotation(-90))
 
-                                                        //.Line(line => line.Visible(false))
-                                                        )
-                                                        .ValueAxis(axis => axis
-                                                            .Numeric()
-                                                            .Labels(labels => labels.Format("{0:N2}"))
-                                                            .Line(line => line.Visible(false))
-                                                        )
-                                                        .Tooltip(tooltip => tooltip
-                                                            .Visible(true)
-                                                            .Format("{0:N2}")
-                                                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
-                                                        )
-                    )*@
+                        )
+                        .CategoryAxis(axis => axis
+                            .Categories(monthLastYear, lastMonth, month)
+                            .MajorGridLines(lines => lines.Visible(true).Color("black"))
+
+                        //.Line(line => line.Visible(false))
+
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
                 </div>
             </div>
         </div>
@@ -168,15 +171,18 @@
                     .Title("Doanh số đối tác trong thị trường Châu Âu")
                     .Legend(legend => legend
                         .Position(ChartLegendPosition.Top)
+                    //.Orientation(ChartLegendOrientation.Horizontal)
                     )
                     .PlotArea(plotArea => plotArea.Background("white"))
                     .SeriesDefaults(seriesDefaults => seriesDefaults
-                        .Column()
-                        .Stack(true)
+                        //.Column()
+                        //.Stack(ChartStackType.Stack100)
+
+                        .Bar().Stack(true)
                     )
                     .ChartArea(chartArea =>
                     {
-                        chartArea.Height(550);
+                        chartArea.Height(700);
                     })
                     .DataSource(ds => ds
                         .Read(read => read.Action("ColumnChartCompareMonthStackForOne", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
@@ -184,13 +190,18 @@
                         {
                             group.Add(model => model.Serie);
                         })
-                        //.Sort(sort => sort.Add(model => model.Segmento))
+                        .Sort(sort =>
+                        {
+                            sort.Add(model => model.Year).Ascending();
+                            sort.Add(model => model.Month).Ascending();
 
-                        )
+                        })
+
+                    )
 
                     .Series(series =>
                     {
-                        series.Column(model => model.Valor1)
+                        series.Bar(model => model.Valor1)
                                 .Name("#= group.value #");
                     })
                     .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
@@ -198,7 +209,7 @@
                         .Categories(categories => categories.Segmento)
                         .MajorGridLines(lines => lines.Visible(false))
                         .Line(line => line.Visible(false))
-                        .Labels(labels => labels.Rotation(-15))
+                    //.Labels(labels => labels.Rotation(-90))
                     )
                     .CategoryAxis(axis => axis
                         .Categories(monthLastYear, lastMonth, month)
@@ -218,6 +229,9 @@
                         .Visible(true)
                         .Format("{0:N2}")
                         .Template("#= series.name#: #= kendo.format('{0:N2}', value) #")
+                    )
+                    .Events(events => events
+                        .DataBound("onDataBoundChartPercentCompareMonthForOne")
                     )
                 )
             </div>
@@ -466,4 +480,18 @@
         localStorage.reportTypeLS = reportTypeLS;
         // Do something interesting here
     });
+
+    // In đậm cho Grid
+    function onDataBoundChartPercentCompareMonthForOne(e) {
+
+        //debugger;
+        //var axis = e.sender.options.categoryAxis;
+        ////axis[0].categories = axis[0].categories.sort();
+        //axis[0].categories = axis[0].categories.sort(function (a, b) {
+        //    if (typeof a !== typeof b) {
+        //        return (typeof a === 'string' ? -1 : 1);
+        //    }
+        //    return a - b;
+        //});
+    }
 </script>

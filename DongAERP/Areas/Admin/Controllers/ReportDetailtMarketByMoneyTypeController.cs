@@ -3410,6 +3410,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Serie = "VND",
                     Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
                     Valor1 = item.VND,
+                    Month = item.Month,
+                    Year = item.Year,
                     //Tooltip = tooltip
                 };
                 count++;
@@ -3419,6 +3421,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Serie = "USD",
                     Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
                     Valor1 = item.USD,
+                    Month = item.Month,
+                    Year = item.Year,
                     //Tooltip = tooltip
                 };
                 count++;
@@ -3428,6 +3432,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Serie = "EUR",
                     Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
                     Valor1 = item.EUR,
+                    Month = item.Month,
+                    Year = item.Year,
                     //Tooltip = tooltip
                 };
                 count++;
@@ -3437,6 +3443,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Serie = "CAD",
                     Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
                     Valor1 = item.CAD,
+                    Month = item.Month,
+                    Year = item.Year,
                     //Tooltip = tooltip
                 };
                 count++;
@@ -3446,6 +3454,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Serie = "AUD",
                     Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
                     Valor1 = item.AUD,
+                    Month = item.Month,
+                    Year = item.Year,
                     //Tooltip = tooltip
                 };
                 count++;
@@ -3455,6 +3465,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Serie = "GBP",
                     Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
                     Valor1 = item.GBP,
+                    Month = item.Month,
+                    Year = item.Year,
                     //Tooltip = tooltip
                 };
                 count++;
@@ -3621,5 +3633,188 @@ namespace DongAERP.Areas.Admin.Controllers
 
             return Json(arrayGradation);
         }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult ColumnsChartCompareMonthForOne(string reportTypeID)
+        {
+            int year = DateTime.Now.Year;
+            int toMonth = DateTime.Now.Month;
+            string marketID = "001";
+
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(year, toMonth, reportTypeID, marketID);
+
+            // Số record của mảng
+            int countArray = 6;
+            GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+            int count = 0;
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "VND",
+                    amount = item.VND,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "USD",
+                    amount = item.USD,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "EUR",
+                    amount = item.EUR,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "CAD",
+                    amount = item.CAD,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "AUD",
+                    amount = item.AUD,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "GBP",
+                    amount = item.GBP,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                year = year - 1;
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartCompareMonthForOne([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(year, month, reportTypeID, marketID);
+
+            // Số record của mảng
+            int countArray = 6;
+            GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+            int count = 0;
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "VND",
+                    amount = item.VND,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "USD",
+                    amount = item.USD,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "EUR",
+                    amount = item.EUR,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "CAD",
+                    amount = item.CAD,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "AUD",
+                    amount = item.AUD,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = "GBP",
+                    amount = item.GBP,
+                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                };
+
+                count++;
+
+                year = year - 1;
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
     }
 }

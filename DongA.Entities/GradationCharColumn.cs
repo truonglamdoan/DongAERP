@@ -12,5 +12,8 @@ namespace DongA.Entities
         public string Segmento { set; get; }
         public double Valor1 { set; get; }
         public double Tooltip { set; get; }
+
+        public string Month { set; get; }
+        public string Year { set; get; }
     }
 }

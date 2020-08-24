@@ -481,13 +481,13 @@ var Report = new function () {
             chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
             chart.dataSource.read();
 
-            //// Biểu đồ cột doanh số
-            //chart = $("#chartColumnsChartCompareMonthForOne").data("kendoChart");
-            //urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOne?month=";
-            //chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            //chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", marketName);
-            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            //chart.dataSource.read();
+            // Biểu đồ cột doanh số
+            chart = $("#chartColumnsChartCompareMonthForOne").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOne?month=";
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", marketName);
+            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
 
             //// Biểu đồ tròn tỉ trọng của tháng hiện tại
             //chart = $("#chartCompareMonthPercentYear").data("kendoChart");
