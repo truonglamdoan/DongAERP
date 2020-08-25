@@ -89,7 +89,7 @@
     </div>
 </ul>
 @*Popup cho Doanh số tổng hợp*@
-@(Html.Kendo().Window()
+@*@(Html.Kendo().Window()
     .Name("dialog")
     .Title("Doanh số tổng hợp")
     .Content(@<text>
@@ -229,17 +229,6 @@
                 )
             </ul>
         </div>
-        
-        @*<div style=" margin-top: 5%; float: right; ">
-            
-            @(Html.Kendo().Button()
-            .Name("textButton")
-            .Content("Xem báo cáo")
-            .HtmlAttributes( new {type = "button"} )
-            .Events(ev => ev.Click("onClickReport"))
-            )
-        </div>*@
-
 
     </text>)
     .Draggable()
@@ -247,10 +236,10 @@
     .Width(1000)
     .Visible(false)
     .Modal(true)
-)
+)*@
 
 @*Popup cho Doanh số chi tiết*@
-@(Html.Kendo().Window()
+@*@(Html.Kendo().Window()
     .Name("dialogDetailt")
     .Title("Doanh số chi tiết")
     .Content(@<text>
@@ -339,7 +328,7 @@
     .Width(600)
     .Visible(false)
     .Modal(true)
-)
+)*@
 
 <style>
     #treeview .k-sprite {

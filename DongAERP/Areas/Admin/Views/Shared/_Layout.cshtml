@@ -95,7 +95,7 @@
                                 )
 
                             </div>
-                            <div class="armchair" style="width: 17%;position: absolute;margin-left: 17%;">
+                            <div class="armchair" style="width: 22%;position: absolute;margin-left: 17%;">
                                 <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Hình thức báo cáo:</h4>
                                 @(Html.Kendo().DropDownList()
                                 .Name("categories_Level1")
@@ -117,7 +117,7 @@
                                 )
                             </div>
 
-                            <div class="armchair" style=" width: 20%; position: absolute; margin-left: 37%; ">
+                            <div class="armchair" style="width: 15%;position: absolute;margin-left: 42%;">
                                 <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Loại hình:</h4>
                                 @(Html.Kendo().DropDownList()
                                 .Name("categories_Level2")
@@ -192,7 +192,7 @@
                                     </ul>
                                 </div>
                                 <div>
-                                    <ul style="float: right;margin-right: 20%;position: absolute;margin-left: 50%;width: 60%;">
+                                    <ul style="float: right;margin-right: 15%;position: absolute;margin-left: 57%;width: 65%;">
                                         @(Html.Kendo().DropDownList()
                                                       .Name("categoriesDetaitMarket")
                                                       .HtmlAttributes(new { style = "width: 24%;float: left;" })
@@ -208,7 +208,7 @@
                                                       })
                                         )
                                     </ul>
-                                    <ul style=" float: right; margin-right: 20%; ">
+                                    <ul style=" float: right; margin-right: 9%; ">
                                         @(Html.Kendo().Button()
                                                     .Name("textButton")
                                                     .Content("Xem báo cáo")
@@ -432,23 +432,26 @@
     }
 
     function onSelectTimeReport(e) {
+        // Loại báo cáo
         let level0 = $("#categories_Level0").data("kendoDropDownList").value();
+        // Loại hình
         let level2 = $("#categories_Level2").data("kendoDropDownList").value();
 
         if (e.item) {
             let dataItem = this.dataItem(e.item);
 
             // Báo cáo tổng hợp
-            if (level0 == 'level0_item1') {
+            if (level0 == 'level0_item1' && level2 == 'item1') {
                 debugger;
                 // Chọn báo cáo chi tiết
-                if (level2 == 'item1') {
+                let date = new Date();
+                let timeNow = kendo.toString(date, "dd/MM/yyyy");
 
+                if (dataItem.PartnerID == 'item1') {
+                    $(".k-datepicker").remove();
                     $('.timeReport .startTimeName').text("Từ ngày: ");
                     $('.timeReport .endTimeName').text("Đến ngày: ");
 
-                    let date = new Date();
-                    let timeNow = kendo.toString(date, "dd/MM/yyyy");
                     $('.timeStart').append(' <input id="FromDay" value=' + timeNow + 'style="width: 70%;float: left;" title = "datepicker"/>');
                     $("#FromDay").kendoDatePicker({
 
@@ -460,16 +463,122 @@
 
                         format: "dd/MM/yyyy",
                     });
+                } else if (dataItem.PartnerID == 'item2') {
+                    timeNow = kendo.toString(date, "MM/yyyy");
+                    // Xóa kendo datePicker
+                    $(".k-datepicker").remove();
+                    $('.timeReport .startTimeName').text("Từ Tháng: ");
+                    $('.timeReport .endTimeName').text("Đến Tháng: ");
 
+                    $('.timeStart').append(' <input id="FromMonth" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                    $("#FromMonth").kendoDatePicker({
+                        // defines the start view
+                        start: "year",
 
+                        // defines when the calendar should return date
+                        depth: "year",
+                        format: "MM/yyyy",
+                    });
 
-                    @*@(Html.Kendo().DatePicker()
-                        .Name("ToDay")
-                        .Format("dd/MM/yyyy")
-                        .Value(DateTime.Now)
-                        .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
-                    ) *@
+                    $('.timeEnd').append(' <input id="ToMonth" value=' + timeNow + 'style="width: 100%;" title = "monthpicker"/>');
+                    $("#ToMonth").kendoDatePicker({
+                        // defines the start view
+                        start: "year",
+
+                        // defines when the calendar should return date
+                        depth: "year",
+                        format: "MM/yyyy",
+                    });
+                } else {
+                    timeNow = kendo.toString(date, "yyyy");
+                    // Xóa kendo datePicker
+                    $(".k-datepicker").remove();
+                    $('.timeReport .startTimeName').text("Từ năm: ");
+                    $('.timeReport .endTimeName').text("Đến năm: ");
+
+                    $('.timeStart').append(' <input id="FromYear" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                    $("#FromYear").kendoDatePicker({
+                        // defines the start view
+                        start: "decade",
+
+                        // defines when the calendar should return date
+                        depth: "decade",
+                        format: "yyyy",
+                    });
+
+                    $('.timeEnd').append(' <input id="ToYear" value=' + timeNow + 'style="width: 100%;" title = "monthpicker"/>');
+                    $("#ToYear").kendoDatePicker({
+                        // defines the start view
+                        start: "decade",
+
+                        // defines when the calendar should return date
+                        depth: "decade",
+                        format: "yyyy",
+                    });
                 }
+            }
+
+            // Trường hợp chọn giai đoạn
+            // Báo cáo tổng hợp
+            if (level0 == 'level0_item1' && level2 == 'item2') {
+
+                let date = new Date();
+                let timeNow = kendo.toString(date, "yyyy");
+
+                if (dataItem.PartnerID == 'item1') {
+                    // xóa năm
+                    $(".k-datepicker").remove();
+                    // Xóa comboBox
+                    $(".k-combobox-clearable").remove();
+
+                    $('.timeReport .startTimeName').text("Giai đoạn: ");
+                    $('.timeReport .endTimeName').text("Năm: ");
+
+                    $('.timeStart').append(' <input id="gradation" placeholder="Chọn giai đoạn..." style="width: 50%;float: left;"/>');
+                    $("#gradation").kendoComboBox({
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        dataSource: [
+                            { text: "3 tháng đầu năm", value: "1" },
+                            { text: "6 tháng đầu năm", value: "2" },
+                            { text: "9 tháng", value: "3" },
+                            { text: "12 tháng", value: "4" }
+                        ],
+                        filter: "contains",
+                        suggest: true,
+                        index: 0
+                    });
+
+                    $('.timeEnd').append(' <input id="ToYear" value=' + timeNow + 'style="width: 100%;" title = "monthpicker"/>');
+                    $("#ToYear").kendoDatePicker({
+                        // defines the start view
+                        start: "decade",
+
+                        // defines when the calendar should return date
+                        depth: "decade",
+                        format: "yyyy",
+                    });
+                } else {
+                    timeNow = kendo.toString(date, "MM/yyyy");
+
+                    // xóa năm
+                    $(".k-datepicker").remove();
+                    // Xóa comboBox
+                    $(".k-combobox-clearable").remove();
+                    $('.timeReport .startTimeName').text("Giai đoạn: ");
+                    $('.timeReport .endTimeName').text("");
+
+                    $('.timeStart').append(' <input id="FromMonth" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                    $("#FromMonth").kendoDatePicker({
+                        // defines the start view
+                        start: "year",
+
+                        // defines when the calendar should return date
+                        depth: "year",
+                        format: "MM/yyyy",
+                    });
+                }
+
             }
         }
     }
