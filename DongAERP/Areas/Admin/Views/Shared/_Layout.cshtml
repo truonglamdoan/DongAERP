@@ -52,148 +52,228 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="display: block;">
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    @*<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
-                    </button>
+                    </button>*@
                     @if (!HttpContext.Current.Request.Url.LocalPath.Equals("/Admin"))
                     {
-                        @*<div style=" margin-right: 3%;width: 20%;">
-                            @(Html.Kendo().DropDownList()
-                                .Name("typeOfSale")
+                        <div class="input_param" style="position: absolute;float: left;width: 100%;">
+                            <div style=" display: inline; margin-right: 10%; "><span> Đối tác: </span></div>
+                            <div style=" display: inline; margin-right: 10%; ">
+                                @(Html.Kendo().RadioButton().Name("TotalReport").Checked(true).Value(2).HtmlAttributes(new { @name = "report" }).Label("Tổng hợp"))
+                            </div>
+                            <div style=" display: inline; margin-right: 10%; ">
+                                @(Html.Kendo().RadioButton().Name("DABReport").Value(0).HtmlAttributes(new { @name = "report" }).Label("DAB"))
+                            </div>
+                            <div style=" display: inline; margin-right: 10%; ">
+                                @(Html.Kendo().RadioButton().Name("DAMReport").Value(1).HtmlAttributes(new { @name = "report" }).Label("DAMTC"))
+                            </div>
+
+                            <div class="armchair" style="width: 15%;position: absolute;">
+
+                                <h4 style="margin-top: 4%;font-size: 1rem;">Loại báo cáo:</h4>
+                                @(Html.Kendo().DropDownList()
+                                  .Name("categories_Level0")
+                                  .HtmlAttributes(new { style = "width:100%" })
+                                  .OptionLabel("Loại báo cáo...")
+                                  .DataTextField("PartnerName")
+                                  .DataValueField("PartnerID")
+                                  //.DataSource(source => {
+                                  //     source.Read(read => {
+                                  //         read.Action("Categories", "Home");
+                                  //     });
+                                  //})
+                                  .BindTo(new List<Partner>()
+                                                              {
+                                                                                  new Partner(){PartnerID ="level0_item1", PartnerName ="Tổng hợp"},
+                                                                                  new Partner(){PartnerID ="level0_item2", PartnerName ="Chi tiết"},
+                                                              }
+
+                                  )
+                                )
+
+                            </div>
+                            <div class="armchair" style="width: 17%;position: absolute;margin-left: 17%;">
+                                <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Hình thức báo cáo:</h4>
+                                @(Html.Kendo().DropDownList()
+                                .Name("categories_Level1")
                                 .HtmlAttributes(new { style = "width:100%" })
-                                .OptionLabel("Chọn loại doanh số...")
+                                .OptionLabel("Chọn loại...")
                                 .DataTextField("PartnerName")
                                 .DataValueField("PartnerID")
                                 .DataSource(source =>
                                 {
                                     source.Read(read =>
                                     {
-                                        read.Action("TypeOfSale", "Home");
-                                    });
+                                        read.Action("CategoryLevelOne", "Home").Data("dataLevelZero");
+                                    })
+                                    .ServerFiltering(true);
                                 })
-                            )
-                        </div>*@
-                        <div style=" margin-right: 3%;width: 20%;">
-                            @(Html.Kendo().DropDownList()
-                                                    .Name("categoriesLayout")
-                                                    .HtmlAttributes(new { style = "width:100%" })
-                                                    .OptionLabel("Chọn hình thức b/c...")
-                                                    .DataTextField("PartnerName")
-                                                    .DataValueField("PartnerID")
-                                                    .DataSource(source =>
-                                                    {
-                                                        source.Read(read =>
-                                                        {
-                                                            read.Action("Categories", "Home");
-                                                        });
-                                                    })
-                            //.Enable(false)
-                            //.AutoBind(false)
-                            //.CascadeFrom("typeOfSale")
-                            )
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("categories_Level0")
+                                )
+                            </div>
+
+                            <div class="armchair" style=" width: 20%; position: absolute; margin-left: 37%; ">
+                                <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Loại hình:</h4>
+                                @(Html.Kendo().DropDownList()
+                                .Name("categories_Level2")
+                                .HtmlAttributes(new { style = "width:100%; margin-bottom: 5%;" })
+                                .OptionLabel("Chọn báo cáo...")
+                                .DataTextField("PartnerName")
+                                .DataValueField("PartnerID")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("CategoryLevelTwo", "Home")
+                                            .Data("dataLevelOne");
+                                    })
+                                    .ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("categories_Level1")
+                                )
+                            </div>
+                            <div style=" width: 20%; margin-left: 60%; ">
+                                <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Thời gian:</h4>
+                                @(Html.Kendo().DropDownList()
+                                    .Name("categories_Level3")
+                                    .HtmlAttributes(new { style = "width:100%; margin-bottom: 5%;" })
+                                    .OptionLabel("Thời gian...")
+                                    .DataTextField("PartnerName")
+                                    .DataValueField("PartnerID")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("CategoryLevelThree", "Home")
+                                                .Data("dataLevelTwo");
+                                        })
+                                        .ServerFiltering(true);
+                                    })
+                                    .Events(events =>
+                                    {
+                                        events.Select("onSelectTimeReport");
+                                    })
+                                    .Enable(false)
+                                    .AutoBind(false)
+                                    .CascadeFrom("categories_Level2")
+                                )
+                            </div>
+
+                            <div>
+                                <div class="timeReport">
+                                    <ul style="width: 35%;position: absolute;display: block;padding-left: 0%;">
+                                        <span class="startTimeName" style="float: left;margin-right: 30px;margin-top: 5px;"></span>
+                                        <span class="timeStart">
+                                            @*@(Html.Kendo().DatePicker()
+                                                                        .Name("FromDay")
+                                                                        .Format("dd/MM/yyyy")
+                                                                        .Value(DateTime.Now)
+                                                                        .HtmlAttributes(new { style = "width: 70%;float: left;", title = "datepicker" })
+                                            )*@
+                                        </span>
+                                    </ul>
+                                    <ul style="margin-left: 25%;position: absolute;">
+                                        <span class="endTimeName" style="margin-left: 0%;margin-right: 30px;display: inline;"></span>
+                                        <span class="timeEnd" style=" display: inline-flex; ">
+                                            @*@(Html.Kendo().DatePicker()
+                                                .Name("ToDay")
+                                                .Format("dd/MM/yyyy")
+                                                .Value(DateTime.Now)
+                                                .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+                                            )*@
+                                        </span>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <ul style="float: right;margin-right: 20%;position: absolute;margin-left: 50%;width: 60%;">
+                                        @(Html.Kendo().DropDownList()
+                                                      .Name("categoriesDetaitMarket")
+                                                      .HtmlAttributes(new { style = "width: 24%;float: left;" })
+                                                      .OptionLabel("Chọn Thị trường...")
+                                                      .DataTextField("MarketName")
+                                                      .DataValueField("MarketCode")
+                                                      .DataSource(source =>
+                                                      {
+                                                          source.Read(read =>
+                                                          {
+                                                              read.Action("ListMarketForPartner", "ReportDetailtByMarket");
+                                                          });
+                                                      })
+                                        )
+                                    </ul>
+                                    <ul style=" float: right; margin-right: 20%; ">
+                                        @(Html.Kendo().Button()
+                                                    .Name("textButton")
+                                                    .Content("Xem báo cáo")
+                                                    .HtmlAttributes(new { type = "button" })
+                                                    .Events(ev => ev.Click("onClickReport"))
+                                        )
+                                    </ul>
+                                </div>
+                                
+                            </div>
                         </div>
-                        <div style=" margin-right: 3%; ;width: 15%;">
-                            @(Html.Kendo().DropDownList()
-                                            .Name("categoryDetailtLayout")
-                                            .HtmlAttributes(new { style = "width:100%" })
-                                            .OptionLabel("Chọn loại...")
-                                            .DataTextField("PartnerName")
-                                            .DataValueField("PartnerID")
-                                          .DataSource(source =>
-                                          {
-                                              source.Read(read =>
-                                              {
-                                                  read.Action("CategoryDetailt", "Home");
-                                              })
-                                              .ServerFiltering(true);
-                                          })
-                                          .Enable(false)
-                                          .AutoBind(false)
-                                          .CascadeFrom("categoriesLayout")
-                            )
-                        </div>
-                        <div style=" margin-right: 3%;width: 15%;">
-                            @(Html.Kendo().DropDownList()
-                                            .Name("reportLayout")
-                                            .HtmlAttributes(new { style = "width:100%" })
-                                            .OptionLabel("Chọn báo cáo...")
-                                            .DataTextField("PartnerName")
-                                            .DataValueField("PartnerID")
-                                            .DataSource(source =>
-                                            {
-                                                source.Read(read =>
-                                                {
-                                                    read.Action("DetailtReport", "Home")
-                                                      .Data("filterDetailt");
-                                                })
-                                                .ServerFiltering(true);
-                                            })
-                                            .Enable(false)
-                                            .AutoBind(false)
-                                            .CascadeFrom("categoryDetailtLayout")
-                            )
-                        </div>
-                        <div style=" cursor: pointer; ">
-                            @(Html.Kendo().Button()
-                                        .Name("textButton")
-                                        .Content("Xem báo cáo")
-                                        .HtmlAttributes(new { type = "button", @class = "btn-k-primary" })
-                                        .Events(ev => ev.Click("onClickReportLayout"))
-                            )
-                        </div>
+                        
                     }
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
+                    <div style=" float: right; ">
+                        <ul class="navbar-nav ml-auto">
+                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                            <li class="nav-item dropdown no-arrow d-sm-none">
+                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-search fa-fw"></i>
+                                </a>
+                                <!-- Dropdown - Messages -->
+                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                                    <form class="form-inline mr-auto w-100 navbar-search">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button">
+                                                    <i class="fas fa-search fa-sm"></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-                        <div class="topbar-divider d-none d-sm-block"></div>
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img style=" margin-right: 20%; " class="img-profile rounded-circle" src="">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@DongAEnvironment.Fullname</span>
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    </form>
+                                </div>
+                            </li>
+                            <div class="topbar-divider d-none d-sm-block"></div>
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img style=" margin-right: 20%; " class="img-profile rounded-circle" src="">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@DongAEnvironment.Fullname</span>
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/Admin/Login/Logout" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Đăng xuất
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Settings
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Activity Log
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/Admin/Login/Logout" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Đăng xuất
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
@@ -261,6 +341,9 @@
     var reportTypeID = null;
 
     $(document).ready(function () {
+
+        $($('.input_param').parent()).css('height', '174px')
+
 
         let value = localStorage.valueReport;
         let valueReportType = localStorage.reportTypeLS;
@@ -347,6 +430,49 @@
             reportID: $("#categoryDetailtLayout").val()
         };
     }
+
+    function onSelectTimeReport(e) {
+        let level0 = $("#categories_Level0").data("kendoDropDownList").value();
+        let level2 = $("#categories_Level2").data("kendoDropDownList").value();
+
+        if (e.item) {
+            let dataItem = this.dataItem(e.item);
+
+            // Báo cáo tổng hợp
+            if (level0 == 'level0_item1') {
+                debugger;
+                // Chọn báo cáo chi tiết
+                if (level2 == 'item1') {
+
+                    $('.timeReport .startTimeName').text("Từ ngày: ");
+                    $('.timeReport .endTimeName').text("Đến ngày: ");
+
+                    let date = new Date();
+                    let timeNow = kendo.toString(date, "dd/MM/yyyy");
+                    $('.timeStart').append(' <input id="FromDay" value=' + timeNow + 'style="width: 70%;float: left;" title = "datepicker"/>');
+                    $("#FromDay").kendoDatePicker({
+
+                        format: "dd/MM/yyyy",
+                    });
+
+                    $('.timeEnd').append(' <input id="ToDay" value=' + timeNow + 'style="width: 100%;" title = "datepicker"/>');
+                    $("#ToDay").kendoDatePicker({
+
+                        format: "dd/MM/yyyy",
+                    });
+
+
+
+                    @*@(Html.Kendo().DatePicker()
+                        .Name("ToDay")
+                        .Format("dd/MM/yyyy")
+                        .Value(DateTime.Now)
+                        .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+                    ) *@
+                }
+            }
+        }
+    }
 </script>
 
 <style>
@@ -355,4 +481,7 @@
         background-color: #4e73df;
         border-color: #4e73df;
     }
+    /*.topbar {
+        height: 11.375rem;
+    }*/
 </style>

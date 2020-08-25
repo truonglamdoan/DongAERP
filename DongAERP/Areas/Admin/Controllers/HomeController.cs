@@ -22,6 +22,11 @@ namespace DongAERP.Areas.Admin.Controllers
             return View();
         }
 
+        public ActionResult ReportDetailt()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Get thông tin đối tác
         /// </summary>
@@ -45,90 +50,200 @@ namespace DongAERP.Areas.Admin.Controllers
         /// Theo Doanh số tổng hợp
         /// </summary>
         /// <returns></returns>
-        public JsonResult Categories()
+        public JsonResult CategoryLevelOne(string levelZeroID)
         {
             List<Partner> list = new List<Partner>();
-            list.Add(new Partner()
-            {
-                PartnerID = "item1",
-                PartnerName = "Tổng doanh số chi trả"
-            });
-
-            list.Add(new Partner()
-            {
-                PartnerID = "item2",
-                PartnerName = "Theo loại hình dịch vụ"
-            });
-
-            list.Add(new Partner()
-            {
-                PartnerID = "item3",
-                PartnerName = "Theo thị trường"
-            });
-
-            list.Add(new Partner()
-            {
-                PartnerID = "item4",
-                PartnerName = "Theo loại tiền chi trả"
-            });
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult CategoryDetailt()
-        {
-            List<Partner> list = new List<Partner>();
-            list.Add(new Partner()
-            {
-                PartnerID = "item1",
-                PartnerName = "Chi tiết"
-            });
-
-            list.Add(new Partner()
-            {
-                PartnerID = "item2",
-                PartnerName = "So Sánh"
-            });
-
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult DetailtReport(string reportID)
-        {
-            List<Partner> list = new List<Partner>();
-            if (reportID.Equals("item1"))
+            if (levelZeroID.Equals("level0_item1"))
             {
                 list.Add(new Partner()
                 {
                     PartnerID = "item1",
-                    PartnerName = "Theo ngày"
+                    PartnerName = "Tổng doanh số chi trả"
                 });
 
                 list.Add(new Partner()
                 {
                     PartnerID = "item2",
-                    PartnerName = "Theo tháng"
+                    PartnerName = "Theo loại hình dịch vụ"
                 });
 
                 list.Add(new Partner()
                 {
                     PartnerID = "item3",
-                    PartnerName = "Theo năm"
+                    PartnerName = "Theo thị trường"
+                });
+
+                list.Add(new Partner()
+                {
+                    PartnerID = "item4",
+                    PartnerName = "Theo loại tiền chi trả"
                 });
             }
             else
             {
                 list.Add(new Partner()
                 {
-                    PartnerID = "item4",
-                    PartnerName = "Theo giai đoạn"
+                    PartnerID = "item1",
+                    PartnerName = "Thị trường - Loại hình"
                 });
 
                 list.Add(new Partner()
                 {
-                    PartnerID = "item5",
-                    PartnerName = "Theo tháng"
+                    PartnerID = "item2",
+                    PartnerName = "Thị trường - Loại tiền"
+                });
+
+                list.Add(new Partner()
+                {
+                    PartnerID = "item3",
+                    PartnerName = "Đối tác - Loại hình"
+                });
+
+                list.Add(new Partner()
+                {
+                    PartnerID = "item3",
+                    PartnerName = "Đối tác - Loại tiền"
                 });
             }
+            
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CategoryLevelTwo(string levelOneID)
+        {
+            List<Partner> list = new List<Partner>();
+            if (levelOneID.Equals("level0_item1"))
+            {
+                list.Add(new Partner()
+                {
+                    PartnerID = "item1",
+                    PartnerName = "Chi tiết"
+                });
+
+                list.Add(new Partner()
+                {
+                    PartnerID = "item2",
+                    PartnerName = "So Sánh"
+                });
+            }
+            else
+            {
+                list.Add(new Partner()
+                {
+                    PartnerID = "item1",
+                    PartnerName = "Tất cả"
+                });
+
+                list.Add(new Partner()
+                {
+                    PartnerID = "item2",
+                    PartnerName = "Từng"
+                });
+
+                list.Add(new Partner()
+                {
+                    PartnerID = "item3",
+                    PartnerName = "So sánh"
+                });
+            }
+            
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CategoryLevelThree(string levelZeroID, string levelTwoID)
+        {
+            List<Partner> list = new List<Partner>();
+            // Tổng hợp
+            if (levelZeroID.Equals("level0_item1"))
+            {
+                if(levelTwoID == "item1")
+                {
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Theo ngày"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "Theo tháng"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item3",
+                        PartnerName = "Theo năm"
+                    });
+                }
+                else
+                {
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName ="Giai đoạn"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "Theo tháng"
+                    });
+                }
+            }
+
+            // Chi tiết
+            if (levelZeroID.Equals("level0_item2"))
+            {
+                if (levelTwoID == "item1" || levelTwoID == "item2")
+                {
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Theo ngày"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "Theo tháng"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item3",
+                        PartnerName = "Theo năm"
+                    });
+                }
+
+                if (levelTwoID == "item3")
+                {
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Giai đoạn - Tất cả"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "Giai đoạn - Từng"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item3",
+                        PartnerName = "Tháng - Tất cả"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item4",
+                        PartnerName = "Tháng - Từng"
+                    });
+                }
+            }
+            
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -292,5 +407,6 @@ namespace DongAERP.Areas.Admin.Controllers
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+        
     }
 }
