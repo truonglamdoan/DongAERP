@@ -16,12 +16,25 @@
     string lastMonth = string.Format("Tháng {0}/{1}", DateTime.Today.Month - 1, DateTime.Today.Year);
     string monthLastYear = string.Format("Tháng {0}/{1}", DateTime.Today.Month, DateTime.Today.Year - 1);
 
+    var listData = (List<string>)ViewData["listData"];
+
+    string toMonth = string.Empty;
+    string toYear = string.Empty;
+    string reportTypeID = string.Empty;
+
+    if (listData != null)
+    {
+        toMonth = listData[0];
+        toYear = listData[1];
+        reportTypeID = listData[2];
+    }
+
 }
 <script src="~/Areas/Admin/Scripts/ReportForTotalPayment.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- So sánh theo tháng</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
-<hr class="sidebar-divider">
+@*<hr class="sidebar-divider">
 <div style=" display: inline; margin-right: 10%; ">
     @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
 </div>
@@ -30,10 +43,10 @@
 </div>
 <div style=" display: inline; margin-right: 10%; ">
     @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
-</div>
+</div>*@
 <hr class="sidebar-divider">
 <div style=" display: flex; ">
-    <ul style="width: 30%;position: absolute;display: block;">
+    @*<ul style="width: 30%;position: absolute;display: block;">
         <span style="float: left;margin-right: 30px;margin-top: 5px;">Giai đoạn: </span>
         <span>
             @(Html.Kendo().DatePicker()
@@ -50,20 +63,12 @@
     <ul style=" margin-left: 35%; ">
         <span style="margin-left: 0%;margin-right: 30px;display: inline;"></span>
         <span style=" display: inline-flex; ">
-            @*@(Html.Kendo().DatePicker()
-                                                    .Name("ToYear")
-                                                    .Start(CalendarView.Decade)
-                                                    .Depth(CalendarView.Decade)
-                                                    .Format("yyyy")
-                                                    .Value(DateTime.Today)
-                                                    .DateInput()
-                                                    .HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
-            )*@
+            
         </span>
-    </ul>
+    </ul>*@
     @*<ul style="display: inline; " class="search-item">*@
-    <ul class="search-item" style=" width: 27%;margin-top: 5px; ">
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-month" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
+    <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
+        @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-month" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation-month" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
@@ -80,38 +85,38 @@
                 <div class="demo-section k-content wide">
                     
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
-                                                            .Name("chartCompareMonth")
-                                                            .Title(string.Format("Tổng doanh số chi trả \n {0} so với tháng trước \n và cùng kì năm trước (Triệu USD) ", month))
-                                                            .Legend(legend => legend
-                                                                .Position(ChartLegendPosition.Bottom)
-                                                            )
-                                                            .DataSource(ds => ds
-                                                                .Read(read => read.Action("ColumnsChartCompareForMonth", "ReportForTotalPayment").Data("onDataReportTypeID"))
-                                                                .Group(group => group.Add(model => model.NameGradationCompare))
-                                                                .Sort(sort => sort.Add(x => x.NameType))
-                                                                )
+                        .Name("chartCompareMonth")
+                        .Title(string.Format("Tổng doanh số chi trả \n {0} so với tháng trước \n và cùng kì năm trước (Triệu USD) ", month))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Bottom)
+                        )
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartCompareForMonth", "ReportForTotalPayment").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            .Sort(sort => sort.Add(x => x.NameType))
+                            )
 
-                                                            .Series(series =>
-                                                            {
-                                                                series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
+                        .Series(series =>
+                        {
+                            series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
 
-                                                            })
-                                                            .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA")
-                                                            .CategoryAxis(axis => axis
-                                                                //.Labels(labels => labels.Format("{0}"))
-                                                                .MajorGridLines(lines => lines.Visible(false))
-                                                            )
-                                                            .ValueAxis(axis => axis
-                                                                .Numeric()
-                                                                .Labels(labels => labels.Format("{0:N2}"))
-                                                                .Line(line => line.Visible(false))
-                                                                .Min(0)
-                                                            )
-                                                            .Tooltip(tooltip => tooltip
-                                                                .Visible(true)
-                                                                .Format("{0:N2}")
-                                                                .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
-                                                            )
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA")
+                        .CategoryAxis(axis => axis
+                            //.Labels(labels => labels.Format("{0}"))
+                            .MajorGridLines(lines => lines.Visible(false))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                            .Min(0)
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
                     )
                 </div>
             </div>
@@ -133,7 +138,7 @@
                                     })
                                     .DataSource(dataSource => dataSource
                                         .Ajax()
-                                        .Read(read => read.Action("ReportCompareForMonth", "ReportForTotalPayment").Data("onDataReportTypeID"))
+                                        .Read(read => read.Action("SearchReportCompareForMonth", "ReportForTotalPayment").Data("onDataReportTypeID"))
                                     )
                                     .Sortable() // Enable sorting
                                     .Events(events => events
@@ -192,26 +197,28 @@
 
     function onDataReportTypeID(arg) {
 
-        let value = localStorage.reportTypeLS;
-        if (value != undefined) {
+        //let value = localStorage.reportTypeLS;
+        //if (value != undefined) {
 
-            reportTypeID = value;
+        //    reportTypeID = value;
 
-            // Change giá trị cho group radio
-            switch (value) {
-                case '0':
-                    $('#DABReportBody_0').prop('checked', true);
-                    break;
-                case '1':
-                    $('#DAMReportBody_1').prop('checked', true);
-                    break;
-                default:
-                    $('#TotalReportBody_2').prop('checked', true);
-            }
-        }
+        //    // Change giá trị cho group radio
+        //    switch (value) {
+        //        case '0':
+        //            $('#DABReportBody_0').prop('checked', true);
+        //            break;
+        //        case '1':
+        //            $('#DAMReportBody_1').prop('checked', true);
+        //            break;
+        //        default:
+        //            $('#TotalReportBody_2').prop('checked', true);
+        //    }
+        //}
 
         return {
-            reportTypeID: reportTypeID
+            month: "@toMonth",
+            year: "@toYear",
+            reportTypeID: "@reportTypeID"
         };
     }
 

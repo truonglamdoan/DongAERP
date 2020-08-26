@@ -12,12 +12,25 @@
 
     string monthYear = string.Concat(DateTime.Today.ToString("MMMM"), " ", DateTime.Today.ToString("yyyy"));
     int toYear = DateTime.Today.Year;
+
+    var listData = (List<string>)ViewData["listData"];
+
+    string fromDate = string.Empty;
+    string toDate = string.Empty;
+    string reportTypeID = string.Empty;
+
+    if (listData != null)
+    {
+        fromDate = listData[0];
+        toDate = listData[1];
+        reportTypeID = listData[2];
+    }
 }
 <script src="~/Areas/Admin/Scripts/ReportForTotalPayment.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Năm</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
-<hr class="sidebar-divider">
+@*<hr class="sidebar-divider">
 <div style=" display: inline; margin-right: 10%; ">
     @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
 </div>
@@ -26,10 +39,10 @@
 </div>
 <div style=" display: inline; margin-right: 10%; ">
     @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
-</div>
+</div>*@
 <hr class="sidebar-divider">
 <div style=" display: flex; ">
-    <ul style="width: 30%;position: absolute;display: block;">
+    @*<ul style="width: 30%;position: absolute;display: block;">
         <span style="float: left;margin-right: 30px;margin-top: 5px;">Từ năm: </span>
         <span>
             @(Html.Kendo().DatePicker()
@@ -56,10 +69,10 @@
                                                       .HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
             )
         </span>
-    </ul>
+    </ul>*@
     @*<ul style="display: inline; " class="search-item">*@
-    <ul class="search-item" style=" width: 27%;margin-top: 5px; ">
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-year" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
+    <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
+        @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-year" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-year" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
@@ -77,7 +90,7 @@
                         .Name("lineChartReportTotalPaymentForYear")
                         .Title("Tổng doanh số chi trả (Quy USD)")
                         .DataSource(dataSource => dataSource
-                            .Read(read => read.Action("LineChartTotalPaymentReportForYear", "ReportForTotalPayment").Data("onDataReportTypeID"))
+                            .Read(read => read.Action("SearchLineChartTotalPaymentReportForYear", "ReportForTotalPayment").Data("onDataReportTypeID"))
                             .Group(group => group.Add(model => model.NameGradationCompare))
                         )
                         .ChartArea(chartArea =>
@@ -118,46 +131,46 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<dynamic>()
-                                        .Name("gridReportTotalPaymentForYear")
-                                        .HtmlAttributes(new { style = " overflow: auto; " })
-                                        .Columns(columns =>
-                                        {
-                                            Dictionary<string, string> listName = new Dictionary<string, string>();
-                                            listName.Add("ReportID", "");
-                                            listName.Add("year1", toYear.ToString());
-                                            listName.Add("year2", (toYear + 1).ToString());
-                                            listName.Add("year3", (toYear + 2).ToString());
-                                            listName.Add("year4", (toYear + 3).ToString());
-                                            listName.Add("year5", (toYear + 4).ToString());
-                                            listName.Add("Year", "Year");
+                    .Name("gridReportTotalPaymentForYear")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        Dictionary<string, string> listName = new Dictionary<string, string>();
+                        listName.Add("ReportID", "");
+                        listName.Add("year1", toYear.ToString());
+                        listName.Add("year2", (toYear + 1).ToString());
+                        listName.Add("year3", (toYear + 2).ToString());
+                        listName.Add("year4", (toYear + 3).ToString());
+                        listName.Add("year5", (toYear + 4).ToString());
+                        listName.Add("Year", "Year");
 
-                                            foreach (DataColumn col in Model.Columns)
-                                            {
-                                                if (listName.ContainsKey(col.ColumnName))
-                                                {
-                                                    if (col.ColumnName.Equals("ReportID"))
-                                                    {
-                                                        columns.Bound(col.ColumnName).Title(listName[col.ColumnName]).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                                                    }
-                                                    else if (col.ColumnName.Equals("Year"))
-                                                    {
-                                                        columns.Bound(col.ColumnName).Title(listName[col.ColumnName]).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" }).Format("{0:N2}").Visible(true);
-                                                    }
-                                                    else
-                                                    {
-                                                        columns.Bound(col.ColumnName).Title(listName[col.ColumnName]).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" }).Format("{0:N2}");
-                                                    }
-                                                }
-                                            }
-                                        })
-                                        .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Read(read => read.Action("ReportYear", "ReportForTotalPayment").Data("onDataReportTypeID"))
-                                        )
-                                        .Sortable() // Enable sorting
-                                        .Events(events => events
-                                            .DataBound("onDataBound")
-                                        )
+                        foreach (DataColumn col in Model.Columns)
+                        {
+                            if (listName.ContainsKey(col.ColumnName))
+                            {
+                                if (col.ColumnName.Equals("ReportID"))
+                                {
+                                    columns.Bound(col.ColumnName).Title(listName[col.ColumnName]).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                                }
+                                else if (col.ColumnName.Equals("Year"))
+                                {
+                                    columns.Bound(col.ColumnName).Title(listName[col.ColumnName]).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" }).Format("{0:N2}").Visible(true);
+                                }
+                                else
+                                {
+                                    columns.Bound(col.ColumnName).Title(listName[col.ColumnName]).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" }).Format("{0:N2}");
+                                }
+                            }
+                        }
+                    })
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("SearchReportTotalPaymentForYear", "ReportForTotalPayment").Data("onDataReportTypeID"))
+                    )
+                    .Sortable() // Enable sorting
+                    .Events(events => events
+                        .DataBound("onDataBound")
+                    )
                 )
             </div>
         </div>
@@ -198,26 +211,10 @@
 
     function onDataReportTypeID(arg) {
 
-        let value = localStorage.reportTypeLS;
-        if (value != undefined) {
-
-            reportTypeID = value;
-
-            // Change giá trị cho group radio
-            switch (value) {
-                case '0':
-                    $('#DABReportBody_0').prop('checked', true);
-                    break;
-                case '1':
-                    $('#DAMReportBody_1').prop('checked', true);
-                    break;
-                default:
-                    $('#TotalReportBody_2').prop('checked', true);
-            }
-        }
-
         return {
-            reportTypeID: reportTypeID
+            fromDate: "@fromDate",
+            toDate: "@toDate",
+            reportTypeID: "@reportTypeID"
         };
     }
 

@@ -261,7 +261,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <history>
         ///     [Trường Lãm]   Created [10/08/2020]
         /// </history>
-        public JsonResult ListMarketForPartner()
+        public JsonResult ListMarketForPartner(string text)
         {
             List<Market> list = new ReportBL().ListMarket();
             List<Market> listMarket = new List<Market>();
@@ -269,6 +269,11 @@ namespace DongAERP.Areas.Admin.Controllers
             if (list.Count > 0)
             {
                 listMarket = list.Where(x => x.ParentCode == null).ToList();
+
+                if (!string.IsNullOrEmpty(text))
+                {
+                    listMarket = list.Where(x => x.ParentCode == null && x.MarketName.Contains(text)).ToList();
+                }
             }
             return Json(listMarket, JsonRequestBehavior.AllowGet);
         }
