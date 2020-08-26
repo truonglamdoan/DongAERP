@@ -159,7 +159,7 @@
                                     .Events(events =>
                                     {
                                         events.Select("onSelectTimeReport");
-                                        events.Change("onChangeTimeReport");
+                                        events.DataBound("onDataBoundTimeReport");
                                     })
                                     .Enable(false)
                                     .AutoBind(false)
@@ -370,8 +370,8 @@
             level2.value(listData[2]);
             level3.value(listData[3]);
 
-            // Thay đổi thời gian
-            level3.trigger("change");
+            //// Thay đổi thời gian
+            //level3.trigger("select");
         }
 
         // Set comboBox đối tác
@@ -612,21 +612,27 @@
 
     function onSelectTimeReport(e) {
 
+        let valueData = e.item;
+        let dataItem = null;
+
+        if (valueData == undefined) {
+            valueData = true;
+        }
+
         // Loại báo cáo
         let level0 = $("#categories_Level0").data("kendoDropDownList").value();
         // Loại hình
         let level2 = $("#categories_Level2").data("kendoDropDownList").value();
 
-        if ((level0 == null || level0 == undefined) && (level2 == null || level2 == undefined)) {
+        //if ((level0 == null || level0 == undefined) && (level2 == null || level2 == undefined)) {
 
-            let value = localStorage.dataAutoComplete;
-            if (value != undefined) {
+        //    let value = localStorage.dataAutoComplete;
+        //    if (value != undefined) {
 
-                let listData = value.split('-');
-                level0.value(listData[0]);
-                level2.value(listData[2]);
-            }
-        }
+        //        let listData = value.split('-');
+
+        //    }
+        //}
 
         // Xóa ngày tháng
         $(".k-datepicker").remove();
@@ -635,8 +641,28 @@
         // Tắt chọn thị trường
         $("#categoriesDetaitMarket").data("kendoDropDownList").enable(false);
 
-        if (e.item) {
-            let dataItem = this.dataItem(e.item);
+        if (valueData) {
+           
+            if (valueData == true) {
+
+                let level3 = $("#categories_Level3").data("kendoDropDownList");
+                dataItem = level3.dataItem();
+
+                let value = localStorage.dataAutoComplete;
+                if (value != undefined && dataItem.PartnerID == "") {
+
+                    let listData = value.split('-');
+                    level3.value(listData[3]);
+                    // Set lại dataItem
+                    dataItem = level3.dataItem();
+
+                }
+            }
+
+            if (jQuery.type(valueData) == "object") {
+
+                dataItem = this.dataItem(valueData);
+            }
 
             // Báo cáo tổng hợp
             if (level0 == 'level0_item1' && level2 == 'item1'
@@ -879,10 +905,10 @@
         }
     }
 
-    function onChangeTimeReport(e) {
+    function onDataBoundTimeReport(e) {
         debugger;
         let a = null;
-        onSelectTimeReport();
+        onSelectTimeReport(e);
     }
     // Change radio
     $("input[name='report']").change(function () {
