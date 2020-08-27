@@ -123,58 +123,6 @@ namespace DongAERP.Areas.Admin.Controllers
             return View();
         }
 
-        ///// <summary>
-        /////  Báo cáo theo ngày
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public ActionResult ReportDay([DataSourceRequest]DataSourceRequest request, string reportTypeID)
-        //{
-        //    List<ReportForTotalPayment> listData = new ReportBL().DataReportTPForDay(reportTypeID);
-        //    foreach (ReportForTotalPayment item in listData)
-        //    {
-        //        item.ReportID = string.Concat("Ngày ", item.CreatedDate.Day, "/", item.CreatedDate.Month);
-        //        item.Type = 0;
-        //    }
-
-        //    ReportForTotalPayment dataItem = new ReportForTotalPayment()
-        //    {
-        //        ReportID = "Tổng",
-        //        Payed = listData.Sum(x => x.Payed),
-        //        Type = 0
-        //    };
-        //    listData.Add(dataItem);
-
-        //    return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        //}
-
-        ///// <summary>
-        ///// Search báo cáo theo ngày của tổng doanh số chi trả
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <param name="fromDay"></param>
-        ///// <param name="toDay"></param>
-        ///// <returns></returns>
-        //public ActionResult SearchReportTotalPaymentForDay([DataSourceRequest]DataSourceRequest request, DateTime fromDay, DateTime toDay, string reportTypeID)
-        //{
-        //    List<ReportForTotalPayment> listData = new ReportBL().SearchReportTPForDay(fromDay, toDay, reportTypeID);
-        //    foreach (ReportForTotalPayment item in listData)
-        //    {
-        //        item.ReportID = string.Concat("Ngày ", item.CreatedDate.Day, "/", item.CreatedDate.Month, "/", item.CreatedDate.Year);
-        //        item.Type = 0;
-        //    }
-
-        //    ReportForTotalPayment dataItem = new ReportForTotalPayment()
-        //    {
-        //        ReportID = "Tổng",
-        //        Payed = listData.Sum(x => x.Payed),
-        //        Type = 0
-        //    };
-        //    listData.Add(dataItem);
-
-        //    return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        //}
         /// <summary>
         /// Search báo cáo theo ngày của tổng doanh số chi trả
         /// </summary>

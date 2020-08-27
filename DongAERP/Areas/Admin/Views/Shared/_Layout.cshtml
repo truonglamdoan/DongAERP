@@ -361,7 +361,7 @@
         // Thời gian
         let level3 = $("#categories_Level3").data("kendoDropDownList");
         //let reportType = $("#reportType").data("kendoDropDownList");
-        debugger;
+
         if (value != undefined) {
 
             let listData = value.split('-');
@@ -420,6 +420,11 @@
         // Giá trị của giai đoạn
         let gradationDicID = null;
         let url = null;
+
+        // param 1 và 2 cho ngày/tháng/năm/giai đoạn/ tháng
+        let param1 = null;
+        let param2 = null;
+        
         // Báo cáo tổng hợp
         if (level0 == 'level0_item1') {
             // Hình thức báo cáo
@@ -460,6 +465,11 @@
 
                             // Tạo url cho link
                             url = kendo.format("/Admin/{0}/{1}?fromDay={2}&toDay={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+
                         } else {
                             $("<div></div>").kendoAlert({
                                 title: "Cảnh báo!",
@@ -483,6 +493,10 @@
 
                             // Tạo url cho link
                             url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+
                         } else {
                             $("<div></div>").kendoAlert({
                                 title: "Cảnh báo!",
@@ -509,6 +523,9 @@
 
                             url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
 
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
                         }
                 }
                 
@@ -520,6 +537,10 @@
                     toDate = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
                     url = kendo.format("/Admin/{0}/{1}?gradation={2}&year={3}&reportTypeID={4}", categoryText, reportText, gradationDicID.value(), toDate, reportTypeID);
+
+                    // Set giá trị cho param1 và 2
+                    param1 = gradationDicID.value();
+                    param2 = toDate;
                 }
                 
                 if (level3 == 'item2') {
@@ -530,76 +551,28 @@
                     let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
                     url = kendo.format("/Admin/{0}/{1}?month={2}&year={3}&reportTypeID={4}", categoryText, reportText, month, year, reportTypeID);
+
+                    // Set giá trị cho param1 và 2
+                    param1 = month;
+                    param2 = year;
                 }
             }
 
+            debugger;
             if (url != null) {
+
+                // Lưu giá trị vào local storage
+                localStorage.removeItem('timeReport');
+                let timeReport = kendo.format("{0}-{1}-{2}-{3}", param1, param2, level0, level2);
+                localStorage.timeReport = timeReport;
+
                 window.location = url;
+
             }
             
         } else {
-
+            // Báo cáo chi tiết
         }
-
-
-
-        //let typeOfSale = $("#typeOfSale").data("kendoDropDownList").value();
-
-        //let categoriesLayout = $("#categoriesLayout").data("kendoDropDownList").value();
-        //let reportLayout = $("#reportLayout").data("kendoDropDownList").value();
-        //let categoryDetailtLayout = $("#categoryDetailtLayout").data("kendoDropDownList").value();
-        //let reportTypeID = "2";
-
-        //if (!isNullOrEmpty(categoriesLayout) && !isNullOrEmpty(reportLayout) && !isNullOrEmpty(categoryDetailtLayout)) {
-
-        //    // Hình thức báo cáo
-        //    let categoryText = null;
-
-        //    switch (categoriesLayout) {
-        //        case 'item1':
-        //            categoryText = 'ReportForTotalPayment';
-        //            break;
-        //        case 'item2':
-        //            categoryText = 'Report';
-        //            break;
-        //        case 'item3':
-        //            categoryText = 'ReportForMakets';
-        //            break;
-        //        default:
-        //            categoryText = 'ReportTotalMoneyType';
-        //    }
-
-        //    // Loại báo cáo
-        //    let reportText = null;
-        //    switch (reportLayout) {
-        //        case 'item1':
-        //            reportText = 'ReportDay';
-        //            break;
-        //        case 'item2':
-        //            reportText = 'ReportMonth';
-        //            break;
-        //        case 'item3':
-        //            reportText = 'ReportYear';
-        //            break;
-        //        case 'item4':
-        //            reportText = 'ReportGradationCompare';
-        //            break;
-        //        default:
-        //            reportText = 'ReportCompareForMonth';
-        //    }
-
-        //    //localStorage.removeItem('valueReport');
-        //    // Lưu giá trị vào biến local storage
-        //    let valueLocalStorage = kendo.format("{0}_{1}_{2}", categoriesLayout, categoryDetailtLayout, reportLayout);
-        //    localStorage.valueReport = valueLocalStorage;
-
-        //    // Lưu giá trị của loại báo cáo
-        //    localStorage.removeItem('reportTypeLS');
-        //    let reportTypeLS = reportTypeID;
-        //    localStorage.reportTypeLS = reportTypeLS;
-        //    window.location = kendo.format("/Admin/{0}/{1}", categoryText, reportText);
-
-        //}
     }
 
     // Data cho comboBox
@@ -614,25 +587,23 @@
 
         let valueData = e.item;
         let dataItem = null;
+        let listDataTimeReport = null;
 
+        // Trường hợp tự auto Complete
         if (valueData == undefined) {
             valueData = true;
+        }
+
+        // Trường hợp chọn giá trị trên comboBox thời gian
+        if (jQuery.type(valueData) == "object") {
+
+            dataItem = this.dataItem(valueData);
         }
 
         // Loại báo cáo
         let level0 = $("#categories_Level0").data("kendoDropDownList").value();
         // Loại hình
         let level2 = $("#categories_Level2").data("kendoDropDownList").value();
-
-        //if ((level0 == null || level0 == undefined) && (level2 == null || level2 == undefined)) {
-
-        //    let value = localStorage.dataAutoComplete;
-        //    if (value != undefined) {
-
-        //        let listData = value.split('-');
-
-        //    }
-        //}
 
         // Xóa ngày tháng
         $(".k-datepicker").remove();
@@ -659,11 +630,15 @@
                 }
             }
 
-            if (jQuery.type(valueData) == "object") {
+            // Get value timeReport
+            let valueTimeReport = localStorage.timeReport;
+            if (valueTimeReport != undefined) {
 
-                dataItem = this.dataItem(valueData);
+                listDataTimeReport = valueTimeReport.split('-');
+
             }
 
+            debugger;
             // Báo cáo tổng hợp
             if (level0 == 'level0_item1' && level2 == 'item1'
                 || (level0 == 'level0_item2'
@@ -671,31 +646,61 @@
 
                 // Chọn báo cáo chi tiết
                 let date = new Date();
-                let timeNow = kendo.toString(date, "dd/MM/yyyy");
+                let timeStartNow = kendo.toString(date, "dd/MM/yyyy");
+                let timeEndNow = kendo.toString(date, "dd/MM/yyyy");
 
                 if (dataItem.PartnerID == 'item1') {
 
                     $('.timeReport .startTimeName').text("Từ ngày: ");
                     $('.timeReport .endTimeName').text("Đến ngày: ");
 
-                    $('.timeStart').append(' <input id="FromDay" value=' + timeNow + 'style="width: 70%;float: left;" title = "datepicker"/>');
+                    // Trường hợp có auto complete time
+                    if (listDataTimeReport != null || listDataTimeReport != '') {
+                        // start time
+                        let timeStartAutoComplete = listDataTimeReport[0];
+                        let timeEndAutoComplete = listDataTimeReport[1];
+
+                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+
+                            timeStartNow = kendo.format("{0}/{1}/{2}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
+                            timeEndNow = kendo.format("{0}/{1}/{2}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
+
+                        }
+                    }
+
+                    $('.timeStart').append(' <input id="FromDay" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "datepicker"/>');
                     $("#FromDay").kendoDatePicker({
 
                         format: "dd/MM/yyyy",
                     });
 
-                    $('.timeEnd').append(' <input id="ToDay" value=' + timeNow + 'style="width: 100%;" title = "datepicker"/>');
+                    $('.timeEnd').append(' <input id="ToDay" value=' + timeEndNow + 'style="width: 100%;" title = "datepicker"/>');
                     $("#ToDay").kendoDatePicker({
 
                         format: "dd/MM/yyyy",
                     });
                 } else if (dataItem.PartnerID == 'item2') {
 
-                    timeNow = kendo.toString(date, "MM/yyyy");
+                    timeStartNow = kendo.toString(date, "MM/yyyy");
+                    timeEndNow = kendo.toString(date, "MM/yyyy");
+
                     $('.timeReport .startTimeName').text("Từ Tháng: ");
                     $('.timeReport .endTimeName').text("Đến Tháng: ");
 
-                    $('.timeStart').append(' <input id="FromMonth" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                    // Trường hợp có auto complete time
+                    if (listDataTimeReport != null || listDataTimeReport != '') {
+                        // start time
+                        let timeStartAutoComplete = listDataTimeReport[0];
+                        let timeEndAutoComplete = listDataTimeReport[1];
+                        
+                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+
+                            timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
+                            timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
+                        }
+                    }
+
+                    $('.timeStart').append(' <input id="FromMonth" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
                     $("#FromMonth").kendoDatePicker({
                         // defines the start view
                         start: "year",
@@ -705,7 +710,7 @@
                         format: "MM/yyyy",
                     });
 
-                    $('.timeEnd').append(' <input id="ToMonth" value=' + timeNow + 'style="width: 100%;" title = "monthpicker"/>');
+                    $('.timeEnd').append(' <input id="ToMonth" value=' + timeEndNow + 'style="width: 100%;" title = "monthpicker"/>');
                     $("#ToMonth").kendoDatePicker({
                         // defines the start view
                         start: "year",
@@ -715,12 +720,27 @@
                         format: "MM/yyyy",
                     });
                 } else {
-                    timeNow = kendo.toString(date, "yyyy");
+
+                    timeStartNow = kendo.toString(date, "yyyy");
+                    timeEndNow = kendo.toString(date, "yyyy");
 
                     $('.timeReport .startTimeName').text("Từ năm: ");
                     $('.timeReport .endTimeName').text("Đến năm: ");
 
-                    $('.timeStart').append(' <input id="FromYear" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                    // Trường hợp có auto complete time
+                    if (listDataTimeReport != null || listDataTimeReport != '') {
+                        // start time
+                        let timeStartAutoComplete = listDataTimeReport[0];
+                        let timeEndAutoComplete = listDataTimeReport[1];
+
+                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+
+                            timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                            timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
+                        }
+                    }
+
+                    $('.timeStart').append(' <input id="FromYear" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
                     $("#FromYear").kendoDatePicker({
                         // defines the start view
                         start: "decade",
@@ -730,7 +750,7 @@
                         format: "yyyy",
                     });
 
-                    $('.timeEnd').append(' <input id="ToYear" value=' + timeNow + 'style="width: 100%;" title = "monthpicker"/>');
+                    $('.timeEnd').append(' <input id="ToYear" value=' + timeEndNow + 'style="width: 100%;" title = "monthpicker"/>');
                     $("#ToYear").kendoDatePicker({
                         // defines the start view
                         start: "decade",
@@ -748,11 +768,28 @@
 
                 let date = new Date();
                 let timeNow = kendo.toString(date, "yyyy");
+                let gradationAutoComplete = 0;
+
 
                 if (dataItem.PartnerID == 'item1') {
 
                     $('.timeReport .startTimeName').text("Giai đoạn: ");
                     $('.timeReport .endTimeName').text("Năm: ");
+
+                    // Trường hợp có auto complete time
+                    if (listDataTimeReport != null || listDataTimeReport != '') {
+                        // start time
+                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+                            
+                            gradationAutoComplete = kendo.parseInt(listDataTimeReport[0]) - 1;
+                            if (gradationAutoComplete > 3) {
+                                gradationAutoComplete = 0;
+                            }
+                            let timeEndAutoComplete = listDataTimeReport[1];
+
+                            timeNow = kendo.format("{0}", timeEndAutoComplete);
+                        }
+                    }
 
                     $('.timeStart').append(' <input id="gradation" placeholder="Chọn giai đoạn..." style="width: 50%;float: left;"/>');
                     $("#gradation").kendoComboBox({
@@ -766,7 +803,7 @@
                         ],
                         filter: "contains",
                         suggest: true,
-                        index: 0
+                        index: gradationAutoComplete
                     });
 
                     $('.timeEnd').append(' <input id="ToYear" value=' + timeNow + 'style="width: 100%;" title = "monthpicker"/>');
@@ -779,10 +816,20 @@
                         format: "yyyy",
                     });
                 } else {
+
                     timeNow = kendo.toString(date, "MM/yyyy");
                     
                     $('.timeReport .startTimeName').text("Giai đoạn: ");
                     $('.timeReport .endTimeName').text("");
+
+                    // Trường hợp có auto complete time
+                    if (listDataTimeReport != null || listDataTimeReport != '') {
+
+                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+                            
+                            timeNow = kendo.format("{0}/{1}", listDataTimeReport[0], listDataTimeReport[1]);
+                        }
+                    }
 
                     $('.timeStart').append(' <input id="FromMonth" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
                     $("#FromMonth").kendoDatePicker({
@@ -906,13 +953,13 @@
     }
 
     function onDataBoundTimeReport(e) {
-        debugger;
+
         let a = null;
         onSelectTimeReport(e);
     }
     // Change radio
     $("input[name='report']").change(function () {
-        //debugger;
+
         localStorage.removeItem('reportTypeLS');
         let reportTypeLS = $('input[name="report"]:checked').val();
         localStorage.reportTypeLS = reportTypeLS;

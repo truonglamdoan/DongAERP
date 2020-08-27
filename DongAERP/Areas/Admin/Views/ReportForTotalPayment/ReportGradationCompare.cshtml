@@ -42,50 +42,7 @@
 </div>
 <hr class="sidebar-divider">*@
 <div style=" display: flex; ">
-    @*<ul style="width: 30%;position: absolute;display: block;">
-        <span style="float: left;margin-right: 30px;margin-top: 5px;">Giai đoạn: </span>
-        <span>
-            @(Html.Kendo().ComboBox()
-                                  .Name("gradation")
-                                  .Filter("contains")
-                                  .Placeholder("Chọn giai đoạn...")
-                                  .DataTextField("Text")
-                                  .DataValueField("Value")
-                                  .BindTo(new List<SelectListItem>() {
-                              new SelectListItem() {
-                                Text = "3 tháng đầu năm", Value = "1"
-                              },
-                              new SelectListItem() {
-                                Text = "6 tháng đầu năm", Value = "2"
-                              },
-                              new SelectListItem() {
-                                Text = "9 tháng", Value = "3"
-                              },
-                              new SelectListItem() {
-                                Text = "12 tháng", Value = "4"
-                              }
-                                  })
-                                  .SelectedIndex(0)
-                                  .Suggest(true)
-                                  .HtmlAttributes(new { style = "width: 70%;float: left;"})
-            )
-        </span>
-    </ul>
-    <ul style=" margin-left: 35%; ">
-        <span style="margin-left: 0%;margin-right: 30px;display: inline;">Năm: </span>
-        <span style=" display: inline-flex; ">
-            @(Html.Kendo().DatePicker()
-                                    .Name("ToYear")
-                                    .Start(CalendarView.Decade)
-                                    .Depth(CalendarView.Decade)
-                                    .Format("yyyy")
-                                    .Value(DateTime.Today)
-                                    .DateInput()
-                                  	.HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
-            )
-        </span>
-    </ul>*@
-    @*<ul style="display: inline; " class="search-item">*@
+
     <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
         @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
