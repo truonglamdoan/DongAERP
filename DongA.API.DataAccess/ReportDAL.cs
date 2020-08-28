@@ -1939,6 +1939,42 @@ where created_date ='05-MAR-20' AND PARTNER_CODE = 20100 and VND_CNV_AMOUNT = 20
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
+        public List<Partner> ListPartner()
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<Partner>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_ST_MARKET.LIST_PARTNER"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    // Bind the parameters
+                    // p1 is the RETURN REF CURSOR bound to SELECT * FROM EMP;
+                    OracleParameter output = command.Parameters.Add("p_cur", OracleDbType.RefCursor);
+                    output.Direction = ParameterDirection.Output;
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<Partner>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report deatailt cho ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
         public List<ReportDetailtSTMarket> DataReportDetailtMarKetForDay(DateTime now, int reportTypeID)
         {
             OracleCommand command = null;

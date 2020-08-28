@@ -18,11 +18,39 @@
     string toYear = string.Empty;
     string reportTypeID = string.Empty;
 
+    string titleGradaton = string.Empty;
+
     if (listData != null)
     {
         gradation = listData[0];
         toYear = listData[1];
         reportTypeID = listData[2];
+    }
+
+    if (listData != null)
+    {
+        gradation = listData[0];
+        toYear = listData[1];
+        reportTypeID = listData[2];
+
+        string text = " tháng đầu năm";
+        switch (gradation)
+        {
+            case "1":
+                text = string.Concat("3", text);
+                break;
+            case "2":
+                text = string.Concat("6", text);
+                break;
+            case "3":
+                text = string.Concat("9", text);
+                break;
+            default:
+                text = string.Concat("12", text);
+                break;
+        }
+
+        titleGradaton = string.Format("{0}", text);
     }
 
 }
@@ -61,7 +89,7 @@
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartGradationCompare")
-                        .Title("Tổng doanh số chi trả (USD) \n Giai đoạn: 3 tháng đầu năm")
+                        .Title(string.Format("Tổng doanh số chi trả (USD) \n Giai đoạn: {0}", titleGradaton))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Bottom)
                         )

@@ -42,6 +42,27 @@ namespace DongA.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Danh sách thị trường
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        [HttpGet]
+        public List<Partner> ListPartner()
+        {
+            try
+            {
+                List<Partner> listData = new ReportBL().ListPartner();
+                return listData;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
         [HttpGet]
         public List<ReportDetailtSTMarket> DataReportDetailtDay(int reportTypeID)
         {

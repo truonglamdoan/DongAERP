@@ -13,13 +13,15 @@
     <title>SB Admin 2 - Dashboard</title>
     <!-- Custom fonts for this template-->
     <link href="~/Assets/Admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    @*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*@
+    @*
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*@
 
     <link href="~/Content/css.css" rel="stylesheet" />
     <!-- Custom styles for this template-->
     <link href="~/Assets/Admin/css/sb-admin-2.min.css" rel="stylesheet">
 
-    @*<link href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />*@
+    @*
+    <link href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />*@
     <link href="~/Content/kendo/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" />
 
     <script src="~/Scripts/kendo/js/jquery.min.js"></script>
@@ -43,7 +45,7 @@
         <!-- Sidebar -->
         @*@RenderPage("_LeftMenu.cshtml")*@
         @{
-            Html.RenderAction("LeftMenu", "Home");
+        Html.RenderAction("LeftMenu", "Home");
         }
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -59,45 +61,46 @@
                     </button>*@
                     @if (!HttpContext.Current.Request.Url.LocalPath.Equals("/Admin"))
                     {
-                        <div class="input_param" style="position: absolute;float: left;width: 100%;">
-                            <div style=" display: inline; margin-right: 10%; "><span> Đối tác: </span></div>
-                            <div style=" display: inline; margin-right: 10%; ">
-                                @(Html.Kendo().RadioButton().Name("TotalReport").Checked(true).Value(2).HtmlAttributes(new { @name = "report" }).Label("Tổng hợp"))
-                            </div>
-                            <div style=" display: inline; margin-right: 10%; ">
-                                @(Html.Kendo().RadioButton().Name("DABReport").Value(0).HtmlAttributes(new { @name = "report" }).Label("DAB"))
-                            </div>
-                            <div style=" display: inline; margin-right: 10%; ">
-                                @(Html.Kendo().RadioButton().Name("DAMReport").Value(1).HtmlAttributes(new { @name = "report" }).Label("DAMTC"))
-                            </div>
+                    <div class="input_param" style="position: absolute;float: left;width: 100%;">
+                        <div style=" display: inline; margin-right: 10%; "><span> Đối tác: </span></div>
+                        <div style=" display: inline; margin-right: 10%; ">
+                            @(Html.Kendo().RadioButton().Name("TotalReport").Checked(true).Value(2).HtmlAttributes(new { @name = "report" }).Label("Tổng hợp"))
+                        </div>
+                        <div style=" display: inline; margin-right: 10%; ">
+                            @(Html.Kendo().RadioButton().Name("DABReport").Value(0).HtmlAttributes(new { @name = "report" }).Label("DAB"))
+                        </div>
+                        <div style=" display: inline; margin-right: 10%; ">
+                            @(Html.Kendo().RadioButton().Name("DAMReport").Value(1).HtmlAttributes(new { @name = "report" }).Label("DAMTC"))
+                        </div>
 
-                            <div class="armchair" style="width: 15%;position: absolute;">
+                        <div class="armchair" style="width: 15%;position: absolute;">
 
-                                <h4 style="margin-top: 4%;font-size: 1rem;">Loại báo cáo:</h4>
-                                @(Html.Kendo().DropDownList()
-                                  .Name("categories_Level0")
-                                  .HtmlAttributes(new { style = "width:100%" })
-                                  .OptionLabel("Loại báo cáo...")
-                                  .DataTextField("PartnerName")
-                                  .DataValueField("PartnerID")
-                                  //.DataSource(source => {
-                                  //     source.Read(read => {
-                                  //         read.Action("Categories", "Home");
-                                  //     });
-                                  //})
-                                  .BindTo(new List<Partner>()
+                            <h4 style="margin-top: 4%;font-size: 1rem;">Loại báo cáo:</h4>
+                            @(Html.Kendo().DropDownList()
+                            .Name("categories_Level0")
+                            .HtmlAttributes(new { style = "width:100%" })
+                            .OptionLabel("Loại báo cáo...")
+                            .DataTextField("PartnerName")
+                            .DataValueField("PartnerID")
+                            //.DataSource(source => {
+                            //     source.Read(read => {
+                            //         read.Action("Categories", "Home");
+                            //     });
+                            //})
+                            .BindTo(new List<Partner>
+                                ()
                                 {
-                                    new Partner(){PartnerID ="level0_item1", PartnerName ="Tổng hợp"},
-                                    new Partner(){PartnerID ="level0_item2", PartnerName ="Chi tiết"},
+                                new Partner(){PartnerID ="level0_item1", PartnerName ="Tổng hợp"},
+                                new Partner(){PartnerID ="level0_item2", PartnerName ="Chi tiết"},
                                 }
 
-                                  )
+                                )
                                 )
 
-                            </div>
-                            <div class="armchair" style="width: 22%;position: absolute;margin-left: 17%;">
-                                <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Hình thức báo cáo:</h4>
-                                @(Html.Kendo().DropDownList()
+                        </div>
+                        <div class="armchair" style="width: 22%;position: absolute;margin-left: 17%;">
+                            <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Hình thức báo cáo:</h4>
+                            @(Html.Kendo().DropDownList()
                                 .Name("categories_Level1")
                                 .HtmlAttributes(new { style = "width:100%" })
                                 .OptionLabel("Chọn loại...")
@@ -114,12 +117,17 @@
                                 .Enable(false)
                                 .AutoBind(false)
                                 .CascadeFrom("categories_Level0")
-                                )
-                            </div>
+                                .Events(events =>
+                                {
+                                    events.Select("onClickReportLevel1");
+                                })
 
-                            <div class="armchair" style="width: 15%;position: absolute;margin-left: 42%;">
-                                <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Loại hình:</h4>
-                                @(Html.Kendo().DropDownList()
+                            )
+                        </div>
+
+                        <div class="armchair" style="width: 15%;position: absolute;margin-left: 42%;">
+                            <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Loại hình:</h4>
+                            @(Html.Kendo().DropDownList()
                                 .Name("categories_Level2")
                                 .HtmlAttributes(new { style = "width:100%; margin-top: 3px;" })
                                 .OptionLabel("Chọn báo cáo...")
@@ -130,102 +138,104 @@
                                     source.Read(read =>
                                     {
                                         read.Action("CategoryLevelTwo", "Home")
-                                            .Data("dataLevelOne");
+                                        .Data("dataLevelOne");
                                     })
                                     .ServerFiltering(true);
                                 })
                                 .Enable(false)
                                 .AutoBind(false)
                                 .CascadeFrom("categories_Level1")
-                                )
+                            )
+                        </div>
+                        <div style=" width: 20%; margin-left: 60%; ">
+                            <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Thời gian:</h4>
+                            @(Html.Kendo().DropDownList()
+                                .Name("categories_Level3")
+                                .HtmlAttributes(new { style = "width:100%; margin-bottom: 5%;" })
+                                .OptionLabel("Thời gian...")
+                                .DataTextField("PartnerName")
+                                .DataValueField("PartnerID")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("CategoryLevelThree", "Home")
+                                        .Data("dataLevelTwo");
+                                    })
+                                    .ServerFiltering(true);
+                                })
+                                .Events(events =>
+                                {
+                                    events.Select("onSelectTimeReport");
+                                    events.DataBound("onDataBoundTimeReport");
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("categories_Level2")
+                            )
+                        </div>
+
+                        <div>
+                            <div class="timeReport">
+                                <ul style="width: 35%;position: absolute;display: block;padding-left: 0%;">
+                                    <span class="startTimeName" style="float: left;margin-right: 30px;margin-top: 5px;"></span>
+                                    <span class="timeStart">
+                                        @*@(Html.Kendo().DatePicker()
+                                        .Name("FromDay")
+                                        .Format("dd/MM/yyyy")
+                                        .Value(DateTime.Now)
+                                        .HtmlAttributes(new { style = "width: 70%;float: left;", title = "datepicker" })
+                                        )*@
+                                    </span>
+                                </ul>
+                                <ul style="margin-left: 20%;position: absolute;">
+                                    <span class="endTimeName" style="margin-left: 0%;margin-right: 30px;display: inline;"></span>
+                                    <span class="timeEnd" style=" display: inline-flex; ">
+                                        @*@(Html.Kendo().DatePicker()
+                                        .Name("ToDay")
+                                        .Format("dd/MM/yyyy")
+                                        .Value(DateTime.Now)
+                                        .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+                                        )*@
+                                    </span>
+                                </ul>
                             </div>
-                            <div style=" width: 20%; margin-left: 60%; ">
-                                <h4 style="margin-top: 2em;margin-top: 3%;font-size: 1rem;">Thời gian:</h4>
-                                @(Html.Kendo().DropDownList()
-                                    .Name("categories_Level3")
-                                    .HtmlAttributes(new { style = "width:100%; margin-bottom: 5%;" })
-                                    .OptionLabel("Thời gian...")
-                                    .DataTextField("PartnerName")
-                                    .DataValueField("PartnerID")
+                            <div>
+                                <ul class="categoriesMarket" style="float: right;margin-right: 15%;position: absolute;margin-left: 49%;width: 86%;">
+                                    <span class="categoriesMarketText" style="margin-left: 0%;margin-right: 30px;display: inline;"></span>
+                                    <span class="categoriesDetaitMarketID" style=" display: inline-flex; ">
+                                    @*@(Html.Kendo().DropDownList()
+                                    .Name("categoriesDetaitMarket")
+                                    .HtmlAttributes(new { style = "width: 24%;float: left;" })
+                                    //.OptionLabel("Chọn Thị trường...")
+                                    .DataTextField("MarketName")
+                                    .DataValueField("MarketCode")
                                     .DataSource(source =>
                                     {
-                                        source.Read(read =>
-                                        {
-                                            read.Action("CategoryLevelThree", "Home")
-                                                .Data("dataLevelTwo");
-                                        })
-                                        .ServerFiltering(true);
-                                    })
-                                    .Events(events =>
+                                    source.Read(read =>
                                     {
-                                        events.Select("onSelectTimeReport");
-                                        events.DataBound("onDataBoundTimeReport");
+                                    read.Action("ListMarketForPartner", "ReportDetailtByMarket");
+                                    });
+                                    //.ServerFiltering(true);
                                     })
                                     .Enable(false)
-                                    .AutoBind(false)
-                                    .CascadeFrom("categories_Level2")
-                                )
+                                    .Filter(FilterType.Contains)
+
+                                    )*@
+                                </ul>
+                                <ul style=" float: right; margin-right: 4%; ">
+                                    @(Html.Kendo().Button()
+                                        .Name("textButton")
+                                        .Content("Xem báo cáo")
+                                        .HtmlAttributes(new { @type = "button", @class = "kendoDanger" })
+                                        .Events(ev => ev.Click("onClickReport"))
+                                    )
+                                </ul>
                             </div>
 
-                            <div>
-                                <div class="timeReport">
-                                    <ul style="width: 35%;position: absolute;display: block;padding-left: 0%;">
-                                        <span class="startTimeName" style="float: left;margin-right: 30px;margin-top: 5px;"></span>
-                                        <span class="timeStart">
-                                            @*@(Html.Kendo().DatePicker()
-                                                                        .Name("FromDay")
-                                                                        .Format("dd/MM/yyyy")
-                                                                        .Value(DateTime.Now)
-                                                                        .HtmlAttributes(new { style = "width: 70%;float: left;", title = "datepicker" })
-                                            )*@
-                                        </span>
-                                    </ul>
-                                    <ul style="margin-left: 25%;position: absolute;">
-                                        <span class="endTimeName" style="margin-left: 0%;margin-right: 30px;display: inline;"></span>
-                                        <span class="timeEnd" style=" display: inline-flex; ">
-                                            @*@(Html.Kendo().DatePicker()
-                                                .Name("ToDay")
-                                                .Format("dd/MM/yyyy")
-                                                .Value(DateTime.Now)
-                                                .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
-                                            )*@
-                                        </span>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <ul class="categoriesDetaitMarketID" style="float: right;margin-right: 15%;position: absolute;margin-left: 57%;width: 86%;display: none;">
-                                        @(Html.Kendo().DropDownList()
-                                            .Name("categoriesDetaitMarket")
-                                            .HtmlAttributes(new { style = "width: 24%;float: left;" })
-                                            //.OptionLabel("Chọn Thị trường...")
-                                            .DataTextField("MarketName")
-                                            .DataValueField("MarketCode")
-                                            .DataSource(source =>
-                                            {
-                                                source.Read(read =>
-                                                {
-                                                    read.Action("ListMarketForPartner", "ReportDetailtByMarket");
-                                                });
-                                                //.ServerFiltering(true);
-                                            })
-                                            .Enable(false)
-                                            .Filter(FilterType.Contains)
-
-                                        )
-                                    </ul>
-                                    <ul style=" float: right; margin-right: 4%; ">
-                                        @(Html.Kendo().Button()
-                                            .Name("textButton")
-                                            .Content("Xem báo cáo")
-                                            .HtmlAttributes(new { @type = "button", @class = "kendoDanger" })
-                                            .Events(ev => ev.Click("onClickReport"))
-                                        )
-                                    </ul>
-                                </div>
-                                
-                            </div>
                         </div>
-                        
+                    </div>
+
                     }
                     <!-- Topbar Navbar -->
                     <div style=" float: right; ">
@@ -327,7 +337,8 @@
         </div>
     </div>
     <!-- Bootstrap core JavaScript-->
-    @*<script src="~/Assets/Admin/vendor/jquery/jquery.min.js"></script>*@
+    @*
+    <script src="~/Assets/Admin/vendor/jquery/jquery.min.js"></script>*@
     <script src="~/Assets/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="~/Assets/Admin/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -336,8 +347,9 @@
     <!-- Page level plugins -->
     <script src="~/Assets/Admin/vendor/chart.js/Chart.min.js"></script>
     <!-- Page level custom scripts -->
-    @*<script src="~/Assets/Admin/js/demo/chart-area-demo.js"></script>
-        <script src="~/Assets/Admin/js/demo/chart-pie-demo.js"></script>*@
+    @*
+    <script src="~/Assets/Admin/js/demo/chart-area-demo.js"></script>
+    <script src="~/Assets/Admin/js/demo/chart-pie-demo.js"></script>*@
 </body>
 </html>
 
@@ -387,7 +399,7 @@
                 default:
                     $('input[name="report"]')[0].checked = true;
             }
-            
+
         }
     });
 
@@ -414,7 +426,7 @@
 
         // Theo ngày
         let fromDate = null;
-        let fromDateConvert = null;    
+        let fromDateConvert = null;
         let toDate = null;
         let toDateConvert = null;
         // Giá trị của giai đoạn
@@ -424,7 +436,11 @@
         // param 1 và 2 cho ngày/tháng/năm/giai đoạn/ tháng
         let param1 = null;
         let param2 = null;
-        
+
+        // Tính số ngày chênh lệch
+        let difference_In_Time = null;
+        let difference_In_Days = null;
+
         // Báo cáo tổng hợp
         if (level0 == 'level0_item1') {
             // Hình thức báo cáo
@@ -457,6 +473,10 @@
                         toDate = $('#ToDay').data('kendoDatePicker').value();
                         toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
                         if ((fromDate.getMonth() == toDate.getMonth() && fromDate.getFullYear() == toDate.getFullYear())
                             // Trường hợp khác tháng cùng năm
                             || (toDate.getMonth() == fromDate.getMonth() + 1 && fromDate.getFullYear() == toDate.getFullYear() && difference_In_Days < 30)
@@ -473,12 +493,12 @@
                         } else {
                             $("<div></div>").kendoAlert({
                                 title: "Cảnh báo!",
-                                content: "Bạn chỉ được phép tìm kiếm trong 12 tháng trở lại"
+                                content: "Bạn chỉ được phép tìm kiếm trong 30 ngày trở lại"
                             }).data("kendoAlert").open();
                         }
                         break;
                     case 'item2':
-                        
+
                         reportText = 'ReportMonth';
 
                         fromDate = $('#FromMonth').data('kendoDatePicker').value();
@@ -486,6 +506,10 @@
 
                         toDate = $('#ToMonth').data('kendoDatePicker').value();
                         toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
 
                         // Chỉ cho phép chọn trong 12 tháng
                         if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
@@ -513,6 +537,10 @@
                         toDate = $('#ToYear').data('kendoDatePicker').value();
                         toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
                         if (toDate.getFullYear() - fromDate.getFullYear() > 4) {
 
                             $("<div></div>").kendoAlert({
@@ -528,7 +556,7 @@
                             param2 = toDateConvert;
                         }
                 }
-                
+
             } else {
                 if (level3 == 'item1') {
                     reportText = 'ReportGradationCompare';
@@ -542,9 +570,9 @@
                     param1 = gradationDicID.value();
                     param2 = toDate;
                 }
-                
+
                 if (level3 == 'item2') {
-                    
+
                     reportText = 'ReportCompareForMonth';
 
                     let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
@@ -569,12 +597,80 @@
                 window.location = url;
 
             }
-            
+
         } else {
-            // Báo cáo chi tiết
+            
         }
     }
 
+    // Sự kiện click vào dropdownlist level1
+    function onClickReportLevel1(e) {
+        //debugger;
+
+        let level0 = $("#categories_Level0").data("kendoDropDownList").value();
+        let level1 = $("#categories_Level1").data("kendoDropDownList").value();
+        let itemData = e.dataItem;
+        // Báo cáo chi tiết
+        // Hiện dropdownlist thị trường
+        if (level0 == 'level0_item2') {
+            if (itemData.PartnerID == 'item2') {
+
+                $('.categoriesMarket .categoriesMarketText').text("Thị trường: ");
+                $(".categoriesDetaitMarketID .k-dropdown").remove();
+
+                $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitMarket" style="width: 100%;float: left;"/>');
+
+                $("#categoriesDetaitMarket").kendoDropDownList({
+
+                    optionLabel: "Chọn thị trường...",
+                    dataTextField: "MarketName",
+                    dataValueField: "MarketCode",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                
+                                url: '@Url.Action("ListMarketForPartner", "ReportDetailtByMarket")',
+                                dataType: "json",
+                                contentType: "application/json",
+                                type: "POST",
+                            }
+                        },
+                        //serverFiltering: true
+                    },
+                    filter: "contains",
+                });
+            }
+
+            // Hiện dropdownlist đối tác
+            if (itemData.PartnerID == 'item4') {
+
+                $('.categoriesMarket .categoriesMarketText').text("Đối tác: ");
+                $(".categoriesDetaitMarketID .k-dropdown").remove();
+
+                $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitPartner" style="width: 100%;float: left;"/>');
+
+                $("#categoriesDetaitPartner").kendoDropDownList({
+
+                    optionLabel: "Chọn đối tác...",
+                    dataTextField: "PartnerName",
+                    dataValueField: "PartnerCode",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                
+                                url: '@Url.Action("ListMarketForPartner", "Home")',
+                                dataType: "json",
+                                contentType: "application/json",
+                                type: "POST",
+                            }
+                        },
+                        //serverFiltering: true
+                    },
+                    filter: "contains",
+                });
+            }
+        }
+    }
     // Data cho comboBox
     function filterDetailt() {
 
@@ -609,11 +705,11 @@
         $(".k-datepicker").remove();
         // Xóa comboBox
         $(".k-combobox-clearable").remove();
-        // Tắt chọn thị trường
-        $("#categoriesDetaitMarket").data("kendoDropDownList").enable(false);
+        //// Tắt chọn thị trường
+        //$("#categoriesDetaitMarket").data("kendoDropDownList").enable(false);
 
         if (valueData) {
-           
+
             if (valueData == true) {
 
                 let level3 = $("#categories_Level3").data("kendoDropDownList");
@@ -638,7 +734,7 @@
 
             }
 
-            debugger;
+            //debugger;
             // Báo cáo tổng hợp
             if (level0 == 'level0_item1' && level2 == 'item1'
                 || (level0 == 'level0_item2'
@@ -655,7 +751,7 @@
                     $('.timeReport .endTimeName').text("Đến ngày: ");
 
                     // Trường hợp có auto complete time
-                    if (listDataTimeReport != null || listDataTimeReport != '') {
+                    if (listDataTimeReport != null) {
                         // start time
                         let timeStartAutoComplete = listDataTimeReport[0];
                         let timeEndAutoComplete = listDataTimeReport[1];
@@ -692,7 +788,7 @@
                         // start time
                         let timeStartAutoComplete = listDataTimeReport[0];
                         let timeEndAutoComplete = listDataTimeReport[1];
-                        
+
                         if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
 
                             timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
@@ -780,7 +876,7 @@
                     if (listDataTimeReport != null || listDataTimeReport != '') {
                         // start time
                         if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-                            
+
                             gradationAutoComplete = kendo.parseInt(listDataTimeReport[0]) - 1;
                             if (gradationAutoComplete > 3) {
                                 gradationAutoComplete = 0;
@@ -818,7 +914,7 @@
                 } else {
 
                     timeNow = kendo.toString(date, "MM/yyyy");
-                    
+
                     $('.timeReport .startTimeName').text("Giai đoạn: ");
                     $('.timeReport .endTimeName').text("");
 
@@ -826,7 +922,7 @@
                     if (listDataTimeReport != null || listDataTimeReport != '') {
 
                         if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-                            
+
                             timeNow = kendo.format("{0}/{1}", listDataTimeReport[0], listDataTimeReport[1]);
                         }
                     }
@@ -973,13 +1069,14 @@
         background-color: #4e73df;
         border-color: #4e73df;
     }
+
     .kendoDanger {
         background-color: blue;
         color: white;
     }
 
-    .kendoDanger:hover {
-        background-color: darkblue;
-        color: white;
-    }
+        .kendoDanger:hover {
+            background-color: darkblue;
+            color: white;
+        }
 </style>

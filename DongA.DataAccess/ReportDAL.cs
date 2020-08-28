@@ -1311,7 +1311,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
             {
                 var result = new List<Partner>();
                 // Get data cho theo API
-                result = DongADatabase.ToDataAPIObject<Partner>("ReportDetailtData", "ListPartNer");
+                result = DongADatabase.ToDataAPIObject<Partner>("ReportDetailtData", "ListPartner");
                 return result;
             }
             catch (Exception ex)

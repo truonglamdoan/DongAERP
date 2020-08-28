@@ -1183,6 +1183,27 @@ namespace DongA.API.Bussiness
         }
 
         /// <summary>
+        /// List các đối tác
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<Partner> ListPartner()
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<Partner> result = dal.ListPartner();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
         /// List Report deatailt cho ngày
         /// </summary>
         /// <returns></returns>

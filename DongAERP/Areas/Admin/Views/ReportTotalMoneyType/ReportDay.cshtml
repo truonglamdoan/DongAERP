@@ -3,48 +3,30 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     string NameUrl = ViewBag.NameURL;
+
+    var listData = (List<string>)ViewData["listData"];
+
+    string fromDate = string.Empty;
+    string toDate = string.Empty;
+    string reportTypeID = string.Empty;
+
+    if (listData != null)
+    {
+        fromDate = listData[0];
+        toDate = listData[1];
+        reportTypeID = listData[2];
+    }
 }
 <script src="~/Areas/Admin/Scripts/ReportForTotalMoneyType.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo ngày</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DABReportBody").Value(0).HtmlAttributes(new { @name = "reportDate" }).Label("DAB"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
-</div>
-<hr class="sidebar-divider">
+
 <div style=" display: flex; ">
-    <ul style="width: 30%;position: absolute;display: block;">
-        <span style="float: left;margin-right: 30px;margin-top: 5px;">Từ ngày: </span>
-        <span>
-            @(Html.Kendo().DatePicker()
-                                                          .Name("FromDay")
-                                                          .Format("dd/MM/yyyy")
-                                                          .Value(DateTime.Now)
-                                                          .HtmlAttributes(new { style = "width: 70%;float: left;", title = "datepicker" })
-            )
-        </span>
-    </ul>
-    <ul style=" margin-left: 35%; ">
-        <span style="margin-left: 0%;margin-right: 30px;display: inline;">Đến ngày: </span>
-        <span style=" display: inline-flex; ">
-            @(Html.Kendo().DatePicker()
-                                                          .Name("ToDay")
-                                                          .Format("dd/MM/yyyy")
-                                                          .Value(DateTime.Now)
-                                                          .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
-            )
-        </span>
-    </ul>
-    @*<ul style="display: inline; " class="search-item">*@
-    <ul class="search-item" style=" width: 27%;margin-top: 5px; ">
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-day" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
+    
+    <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
+        @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-day" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-day" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
@@ -59,41 +41,41 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.ReportForTotalMoneyType>()
-                                                            .Name("lineChartReportTotalMoneyTypeForDay")
-                                                            .Title("Doanh số chi trả theo từng loại tiền (Quy USD)")
-                                                            .Legend(legend => legend
-                                                                .Position(ChartLegendPosition.Top)
-                                                            )
-                                                            .ChartArea(chartArea =>
-                                                            {
-                                                                chartArea.Height(550);
-                                                            })
-                                                            .DataSource(ds => ds.Read(read => read.Action("ReportDay", "ReportTotalMoneyType").Data("onDataReportTypeID")))
-                                                            .Series(series =>
-                                                            {
+                        .Name("lineChartReportTotalMoneyTypeForDay")
+                        .Title("Doanh số chi trả theo từng loại tiền (Quy USD)")
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(550);
+                        })
+                        .DataSource(ds => ds.Read(read => read.Action("SearchLineChartTotalMoneyTypeForReport", "ReportTotalMoneyType").Data("onDataReportTypeID")))
+                        .Series(series =>
+                        {
 
-                                                                series.Line(model => model.VND).Name("VND").CategoryField("ReportID");
-                                                                series.Line(model => model.USD).Name("USD").CategoryField("ReportID");
-                                                                series.Line(model => model.EUR).Name("EUR").CategoryField("ReportID");
-                                                                series.Line(model => model.CAD).Name("CAD").CategoryField("ReportID");
-                                                                series.Line(model => model.AUD).Name("AUD").CategoryField("ReportID");
-                                                                series.Line(model => model.GBP).Name("GBP").CategoryField("ReportID");
-                                                                //series.Line(model => model.TongDS).Name("Tổng").CategoryField("ReportID").Color("#2F4F4F");
-                                                            })
-                                                            .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
-                                                            .CategoryAxis(axis => axis
-                                                                .Labels(labels => labels.Rotation(-45))
-                                                                .Crosshair(c => c.Visible(true))
-                                                            )
-                                                            .ValueAxis(axis => axis.Numeric()
-                                                                .Labels(labels => labels.Format("{0:N2}"))
-                                                            //.MajorUnit(10000)
-                                                            )
-                                                            .Tooltip(tooltip => tooltip
-                                                                .Visible(true)
-                                                                .Shared(true)
-                                                                .Format("{0:N2}")
-                                                            )
+                            series.Line(model => model.VND).Name("VND").CategoryField("ReportID");
+                            series.Line(model => model.USD).Name("USD").CategoryField("ReportID");
+                            series.Line(model => model.EUR).Name("EUR").CategoryField("ReportID");
+                            series.Line(model => model.CAD).Name("CAD").CategoryField("ReportID");
+                            series.Line(model => model.AUD).Name("AUD").CategoryField("ReportID");
+                            series.Line(model => model.GBP).Name("GBP").CategoryField("ReportID");
+                            //series.Line(model => model.TongDS).Name("Tổng").CategoryField("ReportID").Color("#2F4F4F");
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
+                        .CategoryAxis(axis => axis
+                            .Labels(labels => labels.Rotation(-45))
+                            .Crosshair(c => c.Visible(true))
+                        )
+                        .ValueAxis(axis => axis.Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                        //.MajorUnit(10000)
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Shared(true)
+                            .Format("{0:N2}")
+                        )
                     )
                 </div>
             </div>
@@ -109,48 +91,48 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCharColumn>()
-                                    .Name("ColumnchartForDay")
-                                    .Title("Doanh số chi trả theo từng loại tiền (Quy USD)")
-                                    .Legend(legend => legend
-                                        .Position(ChartLegendPosition.Top)
-                                    )
-                                    .PlotArea(plotArea => plotArea.Background("white"))
-                                    .SeriesDefaults(seriesDefaults => seriesDefaults
-                                        .Column()
-                                        .Stack(true)
-                                    )
-                                    .ChartArea(chartArea =>
-                                    {
-                                        chartArea.Height(550);
-                                    })
-                                    .DataSource(ds => ds
-                                        .Read(read => read.Action("BarChartGradationCompare", "ReportTotalMoneyType").Data("onDataReportTypeID"))
-                                        .Group(group => group.Add(model => model.Serie))
-                                        )
+                        .Name("ColumnchartForDay")
+                        .Title("Doanh số chi trả theo từng loại tiền (Quy USD)")
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .PlotArea(plotArea => plotArea.Background("white"))
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                            .Column()
+                            .Stack(true)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(550);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnChartTotalMoneyTypeForReport", "ReportTotalMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.Serie))
+                            )
 
-                                    .Series(series =>
-                                    {
-                                        series.Column(model => model.Valor1)
-                                                .Name("#= group.value #");
-                                    })
-                                    .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
-                                    .CategoryAxis(axis => axis
-                                        .Categories(categories => categories.Segmento)
-                                        .MajorGridLines(lines => lines.Visible(false))
-                                        .Line(line =>line.Visible(false))
-                                        .Labels(labels => labels.Rotation(-45))
-                                    )
-                                    .ValueAxis(axis => axis
-                                        .Numeric()
-                                        .Labels(labels => labels.Format("{0:N2}"))
-                                        .Line(line => line.Visible(false))
-                                    )
-                                    .Tooltip(tooltip => tooltip
-                                        .Visible(true)
-                                        .Format("{0:N2}")
-                                        .Template("#= series.name # <br /> " +
-                                                    "Số tiền = #= kendo.format('{0:N2}', value) #")
-                                    )
+                        .Series(series =>
+                        {
+                            series.Column(model => model.Valor1)
+                                    .Name("#= group.value #");
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.Segmento)
+                            .MajorGridLines(lines => lines.Visible(false))
+                            .Line(line =>line.Visible(false))
+                            .Labels(labels => labels.Rotation(-45))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name # <br /> " +
+                                        "Số tiền = #= kendo.format('{0:N2}', value) #")
+                        )
                     )
                 </div>
             </div>
@@ -163,38 +145,38 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<DongA.Entities.ReportForTotalMoneyType>()
-                                                                .Name("gridReportTotalMoneyTypeForDay")
-                                                                .HtmlAttributes(new { style = " overflow: auto; " })
-                                                                .Columns(columns =>
-                                                                {
-                                                                    columns.Bound(c => c.ReportID).Title("Ngày").Width(300).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                                                                    columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    //columns.Bound(c => c.TongDS).Title("Tổng quy USD").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;font-weight: 700;" });
-                                                                })
-                                                                .DataSource(dataSource => dataSource
-                                                                    .Ajax()
-                                                                    //.PageSize(31)
-                                                                    .Group(group => group.Add(p => p.Type))
-                                                                    .Read(read => read.Action("ReportDay", "ReportTotalMoneyType").Data("onDataReportTypeID"))
-                                                                )
-                                                                //.Pageable(pageable => pageable
-                                                                //    .PageSizes(new int[] { 10, 20, 31 })
-                                                                //    .Messages(message => message
-                                                                //        .Display("")
-                                                                //        .ItemsPerPage("")
-                                                                //    )
+                    .Name("gridReportTotalMoneyTypeForDay")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.ReportID).Title("Ngày").Width(300).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                        columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        //columns.Bound(c => c.TongDS).Title("Tổng quy USD").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;font-weight: 700;" });
+                    })
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        //.PageSize(31)
+                        .Group(group => group.Add(p => p.Type))
+                        .Read(read => read.Action("SearchReportTotalMoneyTypeForDay", "ReportTotalMoneyType").Data("onDataReportTypeID"))
+                    )
+                    //.Pageable(pageable => pageable
+                    //    .PageSizes(new int[] { 10, 20, 31 })
+                    //    .Messages(message => message
+                    //        .Display("")
+                    //        .ItemsPerPage("")
+                    //    )
 
-                                                                //) // Enable paging
+                    //) // Enable paging
 
-                                                                .Sortable() // Enable sorting
-                                                                .Events(events => events
-                                                                    .DataBound("onDataBound")
-                                                                )
+                    .Sortable() // Enable sorting
+                    .Events(events => events
+                        .DataBound("onDataBound")
+                    )
                 )
             </div>
         </div>
@@ -207,37 +189,37 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<DongA.Entities.ReportForTotalMoneyType>()
-                                                                .Name("gridReportTotalMoneyTypeForDayConvert")
-                                                                .HtmlAttributes(new { style = " overflow: auto; " })
-                                                                .Columns(columns =>
-                                                                {
-                                                                    columns.Bound(c => c.ReportID).Title("Ngày").Width(300).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                                                                    columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                    columns.Bound(c => c.TongDS).Title("Tổng quy USD").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;font-weight: 700;" });
-                                                                })
-                                                                .DataSource(dataSource => dataSource
-                                                                    .Ajax()
-                                                                    //.PageSize(31)
-                                                                    //.Group(group => group.Add(p => p.Type))
-                                                                    .Read(read => read.Action("ReportDayConvert", "ReportTotalMoneyType").Data("onDataReportTypeID"))
-                                                                )
-                                                                //.Pageable(pageable => pageable
-                                                                //    .PageSizes(new int[] {10, 20, 31})
+                    .Name("gridReportTotalMoneyTypeForDayConvert")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.ReportID).Title("Ngày").Width(300).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                        columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.TongDS).Title("Tổng quy USD").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;font-weight: 700;" });
+                    })
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        //.PageSize(31)
+                        //.Group(group => group.Add(p => p.Type))
+                        .Read(read => read.Action("SearchReportTotalMoneyTypeForDayConvert", "ReportTotalMoneyType").Data("onDataReportTypeID"))
+                    )
+                    //.Pageable(pageable => pageable
+                    //    .PageSizes(new int[] {10, 20, 31})
 
-                                                                //    .Messages(message => message
-                                                                //        .Display("")
-                                                                //        .ItemsPerPage("Ngày")
-                                                                //    )
-                                                                //) // Enable paging
-                                                                .Sortable() // Enable sorting
-                                                                .Events(events => events
-                                                                    .DataBound("onDataBoundConvert")
-                                                                )
+                    //    .Messages(message => message
+                    //        .Display("")
+                    //        .ItemsPerPage("Ngày")
+                    //    )
+                    //) // Enable paging
+                    .Sortable() // Enable sorting
+                    .Events(events => events
+                        .DataBound("onDataBoundConvert")
+                    )
                 )
             </div>
         </div>
@@ -260,26 +242,10 @@
 
     function onDataReportTypeID(arg) {
 
-        let value = localStorage.reportTypeLS;
-        if (value != undefined) {
-
-            reportTypeID = value;
-
-            // Change giá trị cho group radio
-            switch (value) {
-                case '0':
-                    $('#DABReportBody_0').prop('checked', true);
-                    break;
-                case '1':
-                    $('#DAMReportBody_1').prop('checked', true);
-                    break;
-                default:
-                    $('#TotalReportBody_2').prop('checked', true);
-            }
-        }
-
         return {
-            reportTypeID: reportTypeID
+            fromDay: "@fromDate",
+            toDay: "@toDate",
+            reportTypeID: "@reportTypeID"
         };
     }
 

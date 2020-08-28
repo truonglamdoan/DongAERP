@@ -101,7 +101,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 list.Add(new Partner()
                 {
-                    PartnerID = "item3",
+                    PartnerID = "item4",
                     PartnerName = "Đối tác - Loại tiền"
                 });
             }
@@ -407,6 +407,19 @@ namespace DongAERP.Areas.Admin.Controllers
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        
+
+        /// <summary>
+        /// Danh sách các thị trường theo đối tác
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Trường Lãm]   Created [10/08/2020]
+        /// </history>
+        public JsonResult ListMarketForPartner()
+        {
+            List<Partner> list = new ReportBL().ListPartner();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
