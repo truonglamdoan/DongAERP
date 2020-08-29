@@ -24,10 +24,23 @@ namespace DongAERP.Areas.Admin.Controllers
         /// Màn hình báo cáo cho ngày
         /// </summary>
         /// <returns></returns>
-        public ActionResult MarketForTotal()
+        public ActionResult MarketForTotal(DateTime? fromDay, DateTime? toDay, string reportTypeID, string marketID)
         {
             string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/Tất cả";
             ViewBag.NameURL = nameUrl;
+
+            if (fromDay != null && toDay != null && reportTypeID != null && marketID != null)
+            {
+                List<string> listData = new List<string>()
+                {
+                    fromDay.Value.ToString("MM/dd/yyyy"),
+                    toDay.Value.ToString("MM/dd/yyyy"),
+                    reportTypeID,
+                    marketID
+                };
+
+                ViewData["listData"] = listData;
+            }
             return View();
         }
 
@@ -130,38 +143,6 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("CK2", typeof(double));
             table.Columns.Add("TDS2", typeof(double));
             return View(table);
-        }
-
-        /// <summary>
-        /// Bảng hiển thị thông tin các giao dịch qua các ngày
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult MarketForTotal([DataSourceRequest]DataSourceRequest request, string reportTypeID)
-        {
-            List<ReportDetailtServiceType> listData = new ReportBL().GetListReportDetailtForDay(reportTypeID);
-            int count = 1;
-            foreach (ReportDetailtServiceType item in listData)
-            {
-                item.STT = (count++).ToString();
-                item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
-            }
-
-            ReportDetailtServiceType dataItem = new ReportDetailtServiceType()
-            {
-                STT = "Tổng",
-                DSChiQuay = listData.Sum(x => x.DSChiQuay),
-                DSChiNha = listData.Sum(x => x.DSChiNha),
-                DSCK = listData.Sum(x => x.DSCK),
-                TongDS = listData.Sum(x => x.TongDS)
-            };
-
-            listData.Add(dataItem);
-
-            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
