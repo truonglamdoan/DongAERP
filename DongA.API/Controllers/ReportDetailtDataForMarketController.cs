@@ -99,6 +99,48 @@ namespace DongA.API.Controllers
             }
         }
 
+        /// <summary>
+        /// List Report từ tháng đến tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtSTMarket> SearchDataReportDetailtMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtSTMarket> listReport = new ReportBL().SearchDataReportDetailtMonth(fromDate, toDate, reportTypeID, marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report từ năm đến năm
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<ReportDetailtSTMarket> SearchDataReportDetailtYear(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                List<ReportDetailtSTMarket> listReport = new ReportBL().SearchDataReportDetailtYear(fromDate, toDate, reportTypeID, marketID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
         [HttpGet]
         public List<ReportDetailtServiceType> DataReportDetailtForOneMarket(int reportTypeID)
         {

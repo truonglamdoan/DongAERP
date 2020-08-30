@@ -11,25 +11,51 @@
     string NameUrl = ViewBag.NameURL;
     int year = DateTime.Today.Year;
 
-    //List<Report> listDataGradation = ViewBag.ListDataGradation;
+    var listData = (List<string>)ViewData["listData"];
+
+    string gradation = string.Empty;
+    string toYear = string.Empty;
+    string reportTypeID = string.Empty;
+    string marketID = string.Empty;
+
+    string titleGradatonYear = string.Empty;
+    string titleGradatonLastYear = string.Empty;
+
+    if (listData != null)
+    {
+        gradation = listData[0];
+        toYear = listData[1];
+        reportTypeID = listData[2];
+        marketID = listData[3];
+
+        string text = " tháng đầu năm";
+        switch (gradation)
+        {
+            case "1":
+                text = string.Concat("3", text);
+                break;
+            case "2":
+                text = string.Concat("6", text);
+                break;
+            case "3":
+                text = string.Concat("9", text);
+                break;
+            default:
+                text = string.Concat("12", text);
+                break;
+        }
+
+        titleGradatonYear = string.Format("Lũy kế {0} {1}", text, toYear);
+        titleGradatonLastYear = string.Format("Lũy kế {0} {1}", text, int.Parse(toYear) - 1);
+    }
 }
 <script src="~/Areas/Admin/Scripts/ReportDetailtByMarket.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Năm</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DABReportBody").Value(0).HtmlAttributes(new { @name = "reportDate" }).Label("DAB"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
-</div>
-<hr class="sidebar-divider">
 <div style=" display: flex; ">
-    <ul style="width: 30%;position: absolute;display: block;">
+    @*<ul style="width: 30%;position: absolute;display: block;">
         <span style="float: left;margin-right: 30px;margin-top: 5px;">Giai đoạn: </span>
         <span>
             @(Html.Kendo().ComboBox()
@@ -71,10 +97,10 @@
                     .HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
             )
         </span>
-    </ul>
+    </ul>*@
     @*<ul style="display: inline; " class="search-item">*@
-    <ul class="search-item" style=" width: 27%;margin-top: 5px; ">
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-forAll" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
+    <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
+        @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-forAll" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation-forAll" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
@@ -90,51 +116,51 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
-                                                        .Name("chartGradationCompare")
-                                                        .Title("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
-                                                        .Legend(legend => legend
-                                                            .Position(ChartLegendPosition.Top)
-                                                        )
-                                                        .SeriesDefaults(seriesDefaults => seriesDefaults
-                                                            .Column()
-                                                        )
-                                                        .ChartArea(chartArea =>
-                                                        {
-                                                            chartArea.Height(550);
-                                                        })
-                                                        .DataSource(ds => ds
-                                                            .Read(read => read.Action("ColumnsChartGradationCompare", "ReportDetailtByMarket").Data("onDataReportTypeID"))
-                                                            .Group(group => group.Add(model => model.NameGradationCompare))
-                                                            )
+                        .Name("chartGradationCompare")
+                        .Title("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                            .Column()
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(550);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("ColumnsChartGradationCompare", "ReportDetailtByMarket").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            )
 
-                                                        .Series(series =>
-                                                        {
-                                                            series.Column(model => model.amount).Name("#= group.value #");
-                                                                //.CategoryField("NameType");
+                        .Series(series =>
+                        {
+                            series.Column(model => model.amount).Name("#= group.value #");
+                                //.CategoryField("NameType");
 
-                                                            })
-                                                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
-                                                        .CategoryAxis(axis => axis
-                                                            .Categories(categories => categories.NameType)
-                                                            .MajorGridLines(lines => lines.Visible(false))
-                                                        //.MajorGridLines(lines => lines.Visible(true))
-                                                        )
-                                                        .CategoryAxis(axis => axis
-                                                            .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
-                                                            .MajorGridLines(lines => lines.Visible(true).Color("black"))
+                            })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        //.MajorGridLines(lines => lines.Visible(true))
+                        )
+                        .CategoryAxis(axis => axis
+                            .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
+                            .MajorGridLines(lines => lines.Visible(true).Color("black"))
 
-                                                        //.Line(line => line.Visible(false))
-                                                        )
-                                                        .ValueAxis(axis => axis
-                                                            .Numeric()
-                                                            .Labels(labels => labels.Format("{0:N2}"))
-                                                            .Line(line => line.Visible(false))
-                                                        )
-                                                        .Tooltip(tooltip => tooltip
-                                                            .Visible(true)
-                                                            .Format("{0:N2}")
-                                                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
-                                                        )
+                        //.Line(line => line.Visible(false))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
                     )
                 </div>
             </div>
@@ -328,26 +354,11 @@
 
     function onDataReportTypeID(arg) {
 
-        let value = localStorage.reportTypeLS;
-        if (value != undefined) {
-
-            reportTypeID = value;
-
-            // Change giá trị cho group radio
-            switch (value) {
-                case '0':
-                    $('#DABReportBody_0').prop('checked', true);
-                    break;
-                case '1':
-                    $('#DAMReportBody_1').prop('checked', true);
-                    break;
-                default:
-                    $('#TotalReportBody_2').prop('checked', true);
-            }
-        }
-
         return {
-            reportTypeID: reportTypeID
+            gradation: "@gradation",
+            year: "@toYear",
+            reportTypeID: "@reportTypeID",
+            marketID: "@marketID"
         };
     }
 

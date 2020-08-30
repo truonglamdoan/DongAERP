@@ -2576,6 +2576,8 @@
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\ReportDetailtCompareMonthForAll.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\ReportDetailtCompareMonthForOne.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ReportDetailt.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtByMarket\MarketForTotalForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtByMarket\MarketForTotalForYear.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
