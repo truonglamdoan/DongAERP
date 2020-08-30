@@ -1481,6 +1481,48 @@ namespace DongA.Bussiness
         }
 
         /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtServiceType> SearchMarketForOneForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtServiceType> result = dal.SearchMarketForOneForMonth(fromDate, toDate, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt cho báo cáo theo năm
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtServiceType> SearchMarketForOneForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtServiceType> result = dal.SearchMarketForOneForYear(fromDate, toDate, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
         /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
         /// </summary>
         /// <returns></returns>

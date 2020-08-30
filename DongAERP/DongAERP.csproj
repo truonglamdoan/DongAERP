@@ -2578,6 +2578,8 @@
     <Content Include="Areas\Admin\Views\Home\ReportDetailt.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtByMarket\MarketForTotalForMonth.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtByMarket\MarketForTotalForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtByMarket\MarketForOneForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtByMarket\MarketForOneForYear.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

@@ -758,62 +758,62 @@
                         break;
                     case 'item2':
 
-                        //reportText = 'ReportMonth';
+                        reportText = 'MarketForOneForMonth';
 
-                        //fromDate = $('#FromMonth').data('kendoDatePicker').value();
-                        //fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+                        fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
 
-                        //toDate = $('#ToMonth').data('kendoDatePicker').value();
-                        //toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+                        toDate = $('#ToMonth').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
-                        //// Tính số ngày chênh lệch
-                        //difference_In_Time = toDate.getTime() - fromDate.getTime();
-                        //difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
 
-                        //// Chỉ cho phép chọn trong 12 tháng
-                        //if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
-                        //    || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
+                        // Chỉ cho phép chọn trong 12 tháng
+                        if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
+                            || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                        //    // Tạo url cho link
-                        //    url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
-                        //    // Set giá trị cho param1 và 2
-                        //    param1 = fromDateConvert;
-                        //    param2 = toDateConvert;
+                            // Tạo url cho link
+                            url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}&marketID={5}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID, marketID);
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
 
-                        //} else {
-                        //    $("<div></div>").kendoAlert({
-                        //        title: "Cảnh báo!",
-                        //        content: "Bạn chỉ được phép tìm kiếm trong 12 tháng trở lại"
-                        //    }).data("kendoAlert").open();
-                        //}
+                        } else {
+                            $("<div></div>").kendoAlert({
+                                title: "Cảnh báo!",
+                                content: "Bạn chỉ được phép tìm kiếm trong 12 tháng trở lại"
+                            }).data("kendoAlert").open();
+                        }
                         break;
                     default:
-                        //reportText = 'ReportYear';
+                        reportText = 'MarketForOneForYear';
 
-                        //fromDate = $('#FromYear').data('kendoDatePicker').value();
-                        //fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+                        fromDate = $('#FromYear').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
 
-                        //toDate = $('#ToYear').data('kendoDatePicker').value();
-                        //toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+                        toDate = $('#ToYear').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
-                        //// Tính số ngày chênh lệch
-                        //difference_In_Time = toDate.getTime() - fromDate.getTime();
-                        //difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
 
-                        //if (toDate.getFullYear() - fromDate.getFullYear() > 4) {
+                        if (toDate.getFullYear() - fromDate.getFullYear() > 4) {
 
-                        //    $("<div></div>").kendoAlert({
-                        //        title: "Cảnh báo!",
-                        //        content: "Bạn chỉ được phép tìm kiếm trong 5 năm trở lại"
-                        //    }).data("kendoAlert").open();
-                        //} else {
+                            $("<div></div>").kendoAlert({
+                                title: "Cảnh báo!",
+                                content: "Bạn chỉ được phép tìm kiếm trong 5 năm trở lại"
+                            }).data("kendoAlert").open();
+                        } else {
 
-                        //    url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+                            url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}&marketID={5}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID, marketID);
 
-                        //    // Set giá trị cho param1 và 2
-                        //    param1 = fromDateConvert;
-                        //    param2 = toDateConvert;
-                        //}
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+                        }
                         break;
                 }
             }
@@ -1081,9 +1081,7 @@
     }
 
     function onSelectTimeReport(e) {
-
-        debugger;
-
+        
         let valueData = e.item;
         let dataItem = null;
         let listDataTimeReport = null;

@@ -1436,6 +1436,52 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         }
 
         /// <summary>
+        /// List Report detailt cho tháng của báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtServiceType> SearchMarketForOneForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtServiceType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtServiceType>("ReportDetailtDataForMarket", "SearchDataReportDetailtForOneMarketForMonth", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "marketID", marketID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt cho tháng của báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtServiceType> SearchMarketForOneForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtServiceType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtServiceType>("ReportDetailtDataForMarket", "SearchDataReportDetailtForOneMarketForYear", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "marketID", marketID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
         /// List Report cho so sánh giai đoạn
         /// </summary>
         /// <returns></returns>

@@ -1347,6 +1347,66 @@ namespace DongA.API.Bussiness
         }
 
         /// <summary>
+        /// List Report từ ngày đến ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtServiceType> SearchDataReportDetailtForOneMarketForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+
+                // get first day in fromMonth
+                DateTime fromDateRecent = new DateTime(fromDate.Year, fromDate.Month, 1);
+
+                // get last day in toMonth
+                int lastDayInToDate = DateTime.DaysInMonth(toDate.Year, toDate.Month);
+                DateTime toDateRecent = new DateTime(toDate.Year, toDate.Month, lastDayInToDate);
+
+                List<ReportDetailtServiceType> result = dal.SearchDataReportDetailtForOneMarket(fromDateRecent, toDateRecent, reportTypeID, marketID);
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report từ ngày đến ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtServiceType> SearchDataReportDetailtForOneMarketForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+
+                List<ReportDetailtServiceType> result = dal.SearchDataReportDetailtForOneMarket(fromDateRecent, toDateRecent, reportTypeID, marketID);
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
         /// List Report cho so sánh giai đoạn
         /// </summary>
         /// <returns></returns>
