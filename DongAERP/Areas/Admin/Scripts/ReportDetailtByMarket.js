@@ -334,42 +334,42 @@ var Report = new function () {
 
     this.GradationCompartion = function () {
 
-        $('ul.search-item .search-grid-gradation-forAll').click(function () {
+        //$('ul.search-item .search-grid-gradation-forAll').click(function () {
 
-            //// For month report
-            //let urlChart = "/Admin/Report/SearchChartGradationCompare?Gradation=";
+        //    //// For month report
+        //    //let urlChart = "/Admin/Report/SearchChartGradationCompare?Gradation=";
 
-            let gradationDicID = $("#gradation").data("kendoComboBox").value();
+        //    let gradationDicID = $("#gradation").data("kendoComboBox").value();
 
-            let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+        //    let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            // Grid hiển thị
-            let grid = $("#gridGradationCompare").data("kendoGrid");
-            let urlGrid = "/Admin/ReportDetailtByMarket/SearchGridReportForGradation?Gradation=";
-            grid.dataSource.transport.options.read.url = urlGrid + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType;
-            // Thay đổi title header của grid
-            let gradationYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
-            let gradationLastYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear - 1);
-            $($("#gridGradationCompare thead").find("tr:eq(0) th[colspan='4'] .k-link")[0]).html(gradationLastYearText);
-            $($("#gridGradationCompare thead").find("tr:eq(0) th[colspan='4'] .k-link")[1]).html(gradationYearText);
-            grid.dataSource.read();
+        //    // Grid hiển thị
+        //    let grid = $("#gridGradationCompare").data("kendoGrid");
+        //    let urlGrid = "/Admin/ReportDetailtByMarket/SearchGridReportForGradation?Gradation=";
+        //    grid.dataSource.transport.options.read.url = urlGrid + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType;
+        //    // Thay đổi title header của grid
+        //    let gradationYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
+        //    let gradationLastYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear - 1);
+        //    $($("#gridGradationCompare thead").find("tr:eq(0) th[colspan='4'] .k-link")[0]).html(gradationLastYearText);
+        //    $($("#gridGradationCompare thead").find("tr:eq(0) th[colspan='4'] .k-link")[1]).html(gradationYearText);
+        //    grid.dataSource.read();
 
-            // Biểu đồ cột hiển thị từng dịch vụ từng thị trường
-            let chartGradation = $("#chartGradationCompare").data("kendoChart");
-            let urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnChartReportForGradation?Gradation=";
-            chartGradation.dataSource.transport.options.read.url = urlChartDS + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType;
-            chartGradation.options.title.text = kendo.format("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
-            chartGradation.options.categoryAxis[1].categories = [gradationLastYearText, gradationYearText];
-            chartGradation.dataSource.read();
+        //    // Biểu đồ cột hiển thị từng dịch vụ từng thị trường
+        //    let chartGradation = $("#chartGradationCompare").data("kendoChart");
+        //    let urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnChartReportForGradation?Gradation=";
+        //    chartGradation.dataSource.transport.options.read.url = urlChartDS + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType;
+        //    chartGradation.options.title.text = kendo.format("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
+        //    chartGradation.options.categoryAxis[1].categories = [gradationLastYearText, gradationYearText];
+        //    chartGradation.dataSource.read();
 
-            // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
-            let chartPieProportion = $("#ColumnchartForYearPercent").data("kendoChart");
-            let urlChartPieProportion = "/Admin/ReportDetailtByMarket/SearchColumnChartReportForGradationPercent?Gradation=";
-            chartPieProportion.dataSource.transport.options.read.url = urlChartPieProportion + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType;
-            chartPieProportion.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
-            chartPieProportion.options.categoryAxis[1].categories = [gradationLastYearText, gradationYearText];
-            chartPieProportion.dataSource.read();
-        });
+        //    // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
+        //    let chartPieProportion = $("#ColumnchartForYearPercent").data("kendoChart");
+        //    let urlChartPieProportion = "/Admin/ReportDetailtByMarket/SearchColumnChartReportForGradationPercent?Gradation=";
+        //    chartPieProportion.dataSource.transport.options.read.url = urlChartPieProportion + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType;
+        //    chartPieProportion.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
+        //    chartPieProportion.options.categoryAxis[1].categories = [gradationLastYearText, gradationYearText];
+        //    chartPieProportion.dataSource.read();
+        //});
 
         // PrintExcel for report month
         // Trường hợp in Excel cho loại hình dịch vụ so sánh theo giao đoạn có type.
@@ -379,87 +379,89 @@ var Report = new function () {
 
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+            // Get mã thị trường
+            let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            window.location = "/ReportDetailtExcelForMarket/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType;
+            window.location = "/ReportDetailtExcelForMarket/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
     this.GradationCompartionForOne = function () {
 
-        $('ul.search-item .search-grid-gradation-ForOne').click(function () {
+        //$('ul.search-item .search-grid-gradation-ForOne').click(function () {
             
-            // Get mã thị trường
-            let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+        //    // Get mã thị trường
+        //    let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            let gradationDicID = $("#gradation").data("kendoComboBox").value();
-            let gradationDicText = $("#gradation").data("kendoComboBox").text();
+        //    let gradationDicID = $("#gradation").data("kendoComboBox").value();
+        //    let gradationDicText = $("#gradation").data("kendoComboBox").text();
 
-            let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+        //    let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            // Grid hiển thị
-            let grid = $("#gridGradationCompareForOne").data("kendoGrid");
-            let urlGrid = "/Admin/ReportDetailtByMarket/SearchGridReportForGradationForOne?Gradation=";
-            grid.dataSource.transport.options.read.url = urlGrid + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            // Thay đổi title header của grid
-            let gradationYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
-            let gradationLastYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear - 1);
-            $($("#gridGradationCompareForOne thead").find("tr:eq(0) th[colspan='4'] .k-link")[0]).html(gradationLastYearText);
-            $($("#gridGradationCompareForOne thead").find("tr:eq(0) th[colspan='4'] .k-link")[1]).html(gradationYearText);
-            grid.dataSource.read();
+        //    // Grid hiển thị
+        //    let grid = $("#gridGradationCompareForOne").data("kendoGrid");
+        //    let urlGrid = "/Admin/ReportDetailtByMarket/SearchGridReportForGradationForOne?Gradation=";
+        //    grid.dataSource.transport.options.read.url = urlGrid + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+        //    // Thay đổi title header của grid
+        //    let gradationYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear);
+        //    let gradationLastYearText = kendo.format("Lũy kế {0} {1}", $("#gradation").data("kendoComboBox").text(), toYear - 1);
+        //    $($("#gridGradationCompareForOne thead").find("tr:eq(0) th[colspan='4'] .k-link")[0]).html(gradationLastYearText);
+        //    $($("#gridGradationCompareForOne thead").find("tr:eq(0) th[colspan='4'] .k-link")[1]).html(gradationYearText);
+        //    grid.dataSource.read();
 
-            // Grid hiển thị
-            let gridCompare = $("#gridGradationCompareForOneCompare").data("kendoGrid");
-            let urlGridCompare = "/Admin/ReportDetailtByMarket/SearchGridReportForGradationForOneCompare?Gradation=";
-            gridCompare.dataSource.transport.options.read.url = urlGridCompare + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            // title cho bảng tăng giảm so với cùng kì năm ngoái
-            gradationLastYearText = kendo.format("Tăng giảm so với cùng kì {0}", toYear - 1);
-            $($("#gridGradationCompareForOneCompare thead").find("tr:eq(0) th[colspan='4'] .k-link")[0]).html(gradationLastYearText);
-            gridCompare.dataSource.read();
+        //    // Grid hiển thị
+        //    let gridCompare = $("#gridGradationCompareForOneCompare").data("kendoGrid");
+        //    let urlGridCompare = "/Admin/ReportDetailtByMarket/SearchGridReportForGradationForOneCompare?Gradation=";
+        //    gridCompare.dataSource.transport.options.read.url = urlGridCompare + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+        //    // title cho bảng tăng giảm so với cùng kì năm ngoái
+        //    gradationLastYearText = kendo.format("Tăng giảm so với cùng kì {0}", toYear - 1);
+        //    $($("#gridGradationCompareForOneCompare thead").find("tr:eq(0) th[colspan='4'] .k-link")[0]).html(gradationLastYearText);
+        //    gridCompare.dataSource.read();
 
-            // Biểu đồ cột hiển thị từng dịch vụ từng thị trường
-            let chartGradation = $("#chartGradationCompareForOne").data("kendoChart");
-            let urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnsChartGradationCompareForOne?Gradation=";
-            chartGradation.dataSource.transport.options.read.url = urlChartDS + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            chartGradation.options.title.text = kendo.format("Doanh số từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear);
-            chartGradation.dataSource.read();
+        //    // Biểu đồ cột hiển thị từng dịch vụ từng thị trường
+        //    let chartGradation = $("#chartGradationCompareForOne").data("kendoChart");
+        //    let urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnsChartGradationCompareForOne?Gradation=";
+        //    chartGradation.dataSource.transport.options.read.url = urlChartDS + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+        //    chartGradation.options.title.text = kendo.format("Doanh số từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear);
+        //    chartGradation.dataSource.read();
 
-            // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
-            let chartPieProportion = $("#ColumnchartForYearPercentForOne").data("kendoChart");
-            let urlChartPieProportion = "/Admin/ReportDetailtByMarket/SearchColumnChartGradationCompareStackForOne?Gradation=";
-            chartPieProportion.dataSource.transport.options.read.url = urlChartPieProportion + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            chartPieProportion.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear);
+        //    // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
+        //    let chartPieProportion = $("#ColumnchartForYearPercentForOne").data("kendoChart");
+        //    let urlChartPieProportion = "/Admin/ReportDetailtByMarket/SearchColumnChartGradationCompareStackForOne?Gradation=";
+        //    chartPieProportion.dataSource.transport.options.read.url = urlChartPieProportion + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+        //    chartPieProportion.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear);
 
-            chartPieProportion.dataSource.read();
+        //    chartPieProportion.dataSource.read();
 
-            // Hiển thị theo phần trăm
-            // Grid hiển thị
-            let gridPercent = $("#gridGradationComparePercent").data("kendoGrid");
-            let urlGridPercent = "/Admin/ReportDetailtByMarket/SearchDataDetailtGridGradationComparePercent?Gradation=";
-            gridPercent.dataSource.transport.options.read.url = urlGridPercent + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            // Thay đổi giá trị của header
-            let titleName = "Lũy kế " + gradationDicText + " " + (toYear - 1).toString();
-            $("#gridGradationCompareConvert thead").find("[data-field='LK2'] .k-link").html(titleName);
+        //    // Hiển thị theo phần trăm
+        //    // Grid hiển thị
+        //    let gridPercent = $("#gridGradationComparePercent").data("kendoGrid");
+        //    let urlGridPercent = "/Admin/ReportDetailtByMarket/SearchDataDetailtGridGradationComparePercent?Gradation=";
+        //    gridPercent.dataSource.transport.options.read.url = urlGridPercent + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+        //    // Thay đổi giá trị của header
+        //    let titleName = "Lũy kế " + gradationDicText + " " + (toYear - 1).toString();
+        //    $("#gridGradationCompareConvert thead").find("[data-field='LK2'] .k-link").html(titleName);
 
-            titleName = "Lũy kế " + gradationDicText + " " + (toYear).toString();
-            $("#gridGradationCompareConvert thead").find("[data-field='LK1'] .k-link").html(titleName);
-            gridPercent.dataSource.read();
+        //    titleName = "Lũy kế " + gradationDicText + " " + (toYear).toString();
+        //    $("#gridGradationCompareConvert thead").find("[data-field='LK1'] .k-link").html(titleName);
+        //    gridPercent.dataSource.read();
 
-            // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
-            let chartPie = $("#chartGradationPercentYear").data("kendoChart");
-            let urlChartPie = "/Admin/ReportDetailtByMarket/SearchDataGradationComparePieYear?Gradation=";
-            chartPie.dataSource.transport.options.read.url = urlChartPie + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            chartPie.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear);
+        //    // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
+        //    let chartPie = $("#chartGradationPercentYear").data("kendoChart");
+        //    let urlChartPie = "/Admin/ReportDetailtByMarket/SearchDataGradationComparePieYear?Gradation=";
+        //    chartPie.dataSource.transport.options.read.url = urlChartPie + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+        //    chartPie.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear);
 
-            chartPie.dataSource.read();
+        //    chartPie.dataSource.read();
 
-            // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
-            let chartPieLastYear = $("#chartGradationPercentLastYear").data("kendoChart");
-            let urlChartPieLastYear = "/Admin/ReportDetailtByMarket/SearchDataGradationComparePieLastYear?Gradation=";
-            chartPieLastYear.dataSource.transport.options.read.url = urlChartPieLastYear + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            chartPieLastYear.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear - 1);
+        //    // Biểu đồ cột tỉ trọng từng dịch vụ từng thị trường
+        //    let chartPieLastYear = $("#chartGradationPercentLastYear").data("kendoChart");
+        //    let urlChartPieLastYear = "/Admin/ReportDetailtByMarket/SearchDataGradationComparePieLastYear?Gradation=";
+        //    chartPieLastYear.dataSource.transport.options.read.url = urlChartPieLastYear + gradationDicID + "&year=" + toYear + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+        //    chartPieLastYear.options.title.text = kendo.format("Tỉ trọng từng dịch vụ từng thị trường \n Thị trường: {0} \n Giai đoạn: {1} {2}", $('#categoriesDetaitMarket').data('kendoDropDownList').text(), $("#gradation").data("kendoComboBox").text(), toYear - 1);
 
-            chartPieLastYear.dataSource.read();
-        });
+        //    chartPieLastYear.dataSource.read();
+        //});
 
         // PrintExcel for report month
         // Trường hợp in Excel cho loại hình dịch vụ so sánh theo giao đoạn có type.
@@ -479,62 +481,64 @@ var Report = new function () {
 
     this.CompareMonthForAll = function () {
 
-        $('ul.search-item .search-grid-comparemonth-forAll').click(function () {
+        //$('ul.search-item .search-grid-comparemonth-forAll').click(function () {
             
-            let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
-            let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+        //    let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+        //    let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-            let monthYear = kendo.format("Tháng {0}/{1}", month, year);
-            let lastYear = kendo.format("Tháng {0}/{1}", month, year - 1);
-            let lastMonth = kendo.format("Tháng {0}/{1}", month - 1, year);
+        //    let monthYear = kendo.format("Tháng {0}/{1}", month, year);
+        //    let lastYear = kendo.format("Tháng {0}/{1}", month, year - 1);
+        //    let lastMonth = kendo.format("Tháng {0}/{1}", month - 1, year);
 
 
-            // grid doanh số
-            let urlGridDS = "/Admin/ReportDetailtByMarket/SearchReportDetailtCompareMonthForAll?month=";
-            let grid = $("#gridCompareMonthForAll").data("kendoGrid");
-            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    // grid doanh số
+        //    let urlGridDS = "/Admin/ReportDetailtByMarket/SearchReportDetailtCompareMonthForAll?month=";
+        //    let grid = $("#gridCompareMonthForAll").data("kendoGrid");
+        //    grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
 
-            $($("#gridCompareMonthForAll thead tr:eq(0) th")[1]).find('.k-link').html(monthYear);
-            $($("#gridCompareMonthForAll thead tr:eq(0) th")[2]).find('.k-link').html(lastMonth);
-            $($("#gridCompareMonthForAll thead tr:eq(0) th")[3]).find('.k-link').html(lastYear);
+        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[1]).find('.k-link').html(monthYear);
+        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[2]).find('.k-link').html(lastMonth);
+        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[3]).find('.k-link').html(lastYear);
             
-            grid.dataSource.read();
+        //    grid.dataSource.read();
 
-            // grid doanh số
-            urlGridDS = "/Admin/ReportDetailtByMarket/SearchReportDetailtCompareMonthForAllCompare?month=";
-            grid = $("#gridCompareMonthForAllCompare").data("kendoGrid");
+        //    // grid doanh số
+        //    urlGridDS = "/Admin/ReportDetailtByMarket/SearchReportDetailtCompareMonthForAllCompare?month=";
+        //    grid = $("#gridCompareMonthForAllCompare").data("kendoGrid");
             
-            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-            grid.dataSource.read();
+        //    grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    grid.dataSource.read();
 
-            // Biểu đồ cột doanh số theo phần trăm
-            let chart = $("#ColumnChartStackCompareMonthForAllPercent").data("kendoChart");
-            let urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnChartStackCompareMonthForAll?month=";
-            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-            chart.options.title.text = kendo.format("Tỉ trọng từng thị trường từng loại dịch vụ \n {0}", monthYear);
-            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            chart.dataSource.read();
+        //    // Biểu đồ cột doanh số theo phần trăm
+        //    let chart = $("#ColumnChartStackCompareMonthForAllPercent").data("kendoChart");
+        //    let urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnChartStackCompareMonthForAll?month=";
+        //    chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    chart.options.title.text = kendo.format("Tỉ trọng từng thị trường từng loại dịch vụ \n {0}", monthYear);
+        //    chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+        //    chart.dataSource.read();
 
-            // Biểu đồ cột doanh số
-            chart = $("#chartGradationCompare").data("kendoChart");
-            urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnsChartCompareMonthForAll?month=";
-            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-            chart.options.title.text = kendo.format("Doanh số từng thị trường từng loại dịch vụ \n {0}", monthYear);
-            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            chart.dataSource.read();
+        //    // Biểu đồ cột doanh số
+        //    chart = $("#chartGradationCompare").data("kendoChart");
+        //    urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnsChartCompareMonthForAll?month=";
+        //    chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    chart.options.title.text = kendo.format("Doanh số từng thị trường từng loại dịch vụ \n {0}", monthYear);
+        //    chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+        //    chart.dataSource.read();
             
-        });
+        //});
 
         // PrintExcel for report month
         // Trường hợp in Excel cho loại hình dịch vụ so sánh theo giao đoạn có type.
         // Trong đó type = 1: Loại hình dịch vụ so sánh theo giai đoạn
         // Trong đó type = 2: Loại hình dịch vụ so sánh theo tháng
         $('ul.search-item .print-grid-comparemonth-forAll').click(function () {
-            
+            // Get mã thị trường
+            let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
             
-            window.location = "/ReportDetailtExcelForMarket/CreateExcelCompareForAll/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType;
+            window.location = "/ReportDetailtExcelForMarket/CreateExcelCompareForAll/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 

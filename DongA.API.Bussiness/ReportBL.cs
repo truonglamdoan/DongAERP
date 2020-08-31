@@ -1413,12 +1413,12 @@ namespace DongA.API.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtServiceType> SearchDataReportDetailtGradationForAll(int ToYear, int typeID, string reportTypeID)
+        public List<ReportDetailtServiceType> SearchDataReportDetailtGradationForAll(int ToYear, int typeID, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtServiceType> result = dal.SearchDataReportDetailtGradationForAll(ToYear, typeID, reportTypeID);
+                List<ReportDetailtServiceType> result = dal.SearchDataReportDetailtGradationForAll(ToYear, typeID, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1455,12 +1455,12 @@ namespace DongA.API.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtSTMarket> SearchDataReportDetailtCompareMonthForAll(int ToYear, int ToMonth, string reportTypeID)
+        public List<ReportDetailtSTMarket> SearchDataReportDetailtCompareMonthForAll(int ToYear, int ToMonth, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtSTMarket> result = dal.SearchDataReportDetailtCompareMonthForAll(ToYear, ToMonth, reportTypeID);
+                List<ReportDetailtSTMarket> result = dal.SearchDataReportDetailtCompareMonthForAll(ToYear, ToMonth, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)

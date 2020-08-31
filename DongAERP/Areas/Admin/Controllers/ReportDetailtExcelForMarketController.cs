@@ -397,7 +397,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <param name="year"></param>
         /// <param name="typeID"></param>
         /// <returns></returns>
-        public ActionResult CreateExcelForGradationCompare(string gradationID, int year, string reportTypeID)
+        public ActionResult CreateExcelForGradationCompare(string gradationID, int year, string reportTypeID, string marketID)
         {
             WorkbookDesigner designer = new WorkbookDesigner();
             string templatePath = "~/Content/Report/ReportDetailMarketForGaration.xlsx";
@@ -438,7 +438,7 @@ namespace DongAERP.Areas.Admin.Controllers
             CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
 
             // Nguyên tệ
-            List<ReportDetailtServiceType> listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID);
+            List<ReportDetailtServiceType> listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID, marketID);
             // clone Object
             List<ReportDetailtServiceType> listReportDataClone = new List<ReportDetailtServiceType>(listReportData);
 
@@ -1662,7 +1662,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <param name="year"></param>
         /// <param name="typeID"></param>
         /// <returns></returns>
-        public ActionResult CreateExcelCompareForAll(int month, int year, string reportTypeID)
+        public ActionResult CreateExcelCompareForAll(int month, int year, string reportTypeID, string marketID)
         {
             WorkbookDesigner designer = new WorkbookDesigner();
             string templatePath = "~/Content/Report/ReportDetailMarketForCompare.xlsx";
@@ -1686,7 +1686,7 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo title
             CreateTitle("A3", "K3", sheetReport, stringMarket, 14);
             
-            List<ReportDetailtSTMarket> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForAll(year, month, reportTypeID);
+            List<ReportDetailtSTMarket> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForAll(year, month, reportTypeID, marketID);
 
             // clone Object
             List<ReportDetailtSTMarket> listDataCompareMonthClone = new List<ReportDetailtSTMarket>(listDataCompareMonth);

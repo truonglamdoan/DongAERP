@@ -1529,12 +1529,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtServiceType> ReportDetailtGradationCompareForAll(int ToYear, int typeID, string reportTypeID)
+        public List<ReportDetailtServiceType> ReportDetailtGradationCompareForAll(int ToYear, int typeID, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtServiceType> result = dal.ReportDetailtGradationCompareForAll(ToYear, typeID, reportTypeID);
+                List<ReportDetailtServiceType> result = dal.ReportDetailtGradationCompareForAll(ToYear, typeID, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1550,12 +1550,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtServiceType> ReportDetailtGradationCompareForAllPercent(int ToYear, int typeID, string reportTypeID)
+        public List<ReportDetailtServiceType> ReportDetailtGradationCompareForAllPercent(int ToYear, int typeID, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtServiceType> result = dal.ReportDetailtGradationCompareForAll(ToYear, typeID, reportTypeID);
+                List<ReportDetailtServiceType> result = dal.ReportDetailtGradationCompareForAll(ToYear, typeID, reportTypeID, marketID);
                 List<ReportDetailtServiceType> resultConvert = new List<ReportDetailtServiceType>();
                 double sumDSChiQuayYear = 0;
                 double sumDSChiNhaYear = 0;
@@ -1727,12 +1727,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtSTMarket> ReportDetailtCompareMonthForAll(int toYear, int toMonth, string reportTypeID)
+        public List<ReportDetailtSTMarket> ReportDetailtCompareMonthForAll(int toYear, int toMonth, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtSTMarket> result = dal.ReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID);
+                List<ReportDetailtSTMarket> result = dal.ReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1748,12 +1748,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtSTMarket> ColumnChartStackCompareMonthForAllPercent(int toYear, int toMonth, string reportTypeID)
+        public List<ReportDetailtSTMarket> ColumnChartStackCompareMonthForAllPercent(int toYear, int toMonth, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtSTMarket> result = dal.ReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID);
+                List<ReportDetailtSTMarket> result = dal.ReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID, marketID);
                 List<ReportDetailtSTMarket> resultConvert = new List<ReportDetailtSTMarket>();
                 // Tháng hiện tại
                 double sumDSChiQuayYear = 0;

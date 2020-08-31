@@ -1488,13 +1488,13 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtServiceType> ReportDetailtGradationCompareForAll(int toYear, int typeID, string reportTypeID)
+        public List<ReportDetailtServiceType> ReportDetailtGradationCompareForAll(int toYear, int typeID, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try
             {
                 var result = new List<ReportDetailtServiceType>();
-                result = DongADatabase.ToDataAPIObject<ReportDetailtServiceType>("ReportDetailtDataForMarket", "SearchDataReportDetailtGradationForAll", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID);
+                result = DongADatabase.ToDataAPIObject<ReportDetailtServiceType>("ReportDetailtDataForMarket", "SearchDataReportDetailtGradationForAll", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID, "marketID", marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1532,13 +1532,13 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtSTMarket> ReportDetailtCompareMonthForAll(int toYear, int toMonth, string reportTypeID)
+        public List<ReportDetailtSTMarket> ReportDetailtCompareMonthForAll(int toYear, int toMonth, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try
             {
                 var result = new List<ReportDetailtSTMarket>();
-                result = DongADatabase.ToDataAPIObject<ReportDetailtSTMarket>("ReportDetailtDataForMarket", "SearchDataReportDetailtCompareMonthForAll", "toYear", toYear, "toMonth", toMonth, "reportTypeID", reportTypeID);
+                result = DongADatabase.ToDataAPIObject<ReportDetailtSTMarket>("ReportDetailtDataForMarket", "SearchDataReportDetailtCompareMonthForAll", "toYear", toYear, "toMonth", toMonth, "reportTypeID", reportTypeID, "marketID", marketID);
                 return result;
             }
             catch (Exception ex)

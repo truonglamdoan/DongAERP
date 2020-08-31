@@ -55,50 +55,7 @@
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
 <div style=" display: flex; ">
-    @*<ul style="width: 30%;position: absolute;display: block;">
-        <span style="float: left;margin-right: 30px;margin-top: 5px;">Giai đoạn: </span>
-        <span>
-            @(Html.Kendo().ComboBox()
-                .Name("gradation")
-                .Filter("contains")
-                .Placeholder("Chọn giai đoạn...")
-                .DataTextField("Text")
-                .DataValueField("Value")
-                .BindTo(new List<SelectListItem>() {
-                    new SelectListItem() {
-                    Text = "3 tháng đầu năm", Value = "1"
-                    },
-                    new SelectListItem() {
-                    Text = "6 tháng đầu năm", Value = "2"
-                    },
-                    new SelectListItem() {
-                    Text = "9 tháng", Value = "3"
-                    },
-                    new SelectListItem() {
-                    Text = "12 tháng", Value = "4"
-                    }
-                })
-                .SelectedIndex(0)
-                .Suggest(true)
-                .HtmlAttributes(new { style = "width: 70%;float: left;" })
-            )
-        </span>
-    </ul>
-    <ul style=" margin-left: 35%; ">
-        <span style="margin-left: 0%;margin-right: 30px;display: inline;">Năm: </span>
-        <span style=" display: inline-flex; ">
-            @(Html.Kendo().DatePicker()
-                .Name("ToYear")
-                .Start(CalendarView.Decade)
-                .Depth(CalendarView.Decade)
-                .Format("yyyy")
-                .Value(DateTime.Today)
-                .DateInput()
-                    .HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
-            )
-        </span>
-    </ul>*@
-    @*<ul style="display: inline; " class="search-item">*@
+
     <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
         @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-forAll" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation-forAll" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
@@ -129,7 +86,7 @@
                             chartArea.Height(550);
                         })
                         .DataSource(ds => ds
-                            .Read(read => read.Action("ColumnsChartGradationCompare", "ReportDetailtByMarket").Data("onDataReportTypeID"))
+                            .Read(read => read.Action("SearchColumnChartReportForGradation", "ReportDetailtByMarket").Data("onDataReportTypeID"))
                             .Group(group => group.Add(model => model.NameGradationCompare))
                             )
 
@@ -146,7 +103,7 @@
                         //.MajorGridLines(lines => lines.Visible(true))
                         )
                         .CategoryAxis(axis => axis
-                            .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
+                            .Categories(string.Format("Lũy kế 3 tháng {0}", year), string.Format("Lũy kế 3 tháng {0}", year - 1))
                             .MajorGridLines(lines => lines.Visible(true).Color("black"))
 
                         //.Line(line => line.Visible(false))
@@ -174,56 +131,56 @@
             <div class="card-body">
                 <div id="chart"></div>
                 @(Html.Kendo().Chart<DongA.Entities.GradationCharColumn>()
-                                                .Name("ColumnchartForYearPercent")
-                                                .Title("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
-                                                .Legend(legend => legend
-                                                    .Position(ChartLegendPosition.Top)
-                                                )
-                                                .PlotArea(plotArea => plotArea.Background("white"))
-                                                .SeriesDefaults(seriesDefaults => seriesDefaults
-                                                    .Column()
-                                                    .Stack(true)
-                                                )
-                                                .ChartArea(chartArea =>
-                                                {
-                                                    chartArea.Height(550);
-                                                })
-                                                .DataSource(ds => ds
-                                                    .Read(read => read.Action("ColumnChartGradationCompareStack", "ReportDetailtByMarket").Data("onDataReportTypeID"))
-                                                    .Group(group =>
-                                                    {
-                                                        group.Add(model => model.Serie);
-                                                    })
+                    .Name("ColumnchartForYearPercent")
+                    .Title("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
+                    .Legend(legend => legend
+                        .Position(ChartLegendPosition.Top)
+                    )
+                    .PlotArea(plotArea => plotArea.Background("white"))
+                    .SeriesDefaults(seriesDefaults => seriesDefaults
+                        .Column()
+                        .Stack(true)
+                    )
+                    .ChartArea(chartArea =>
+                    {
+                        chartArea.Height(550);
+                    })
+                    .DataSource(ds => ds
+                        .Read(read => read.Action("SearchColumnChartReportForGradationPercent", "ReportDetailtByMarket").Data("onDataReportTypeID"))
+                        .Group(group =>
+                        {
+                            group.Add(model => model.Serie);
+                        })
 
-                                                    )
+                        )
 
-                                                .Series(series =>
-                                                {
-                                                    series.Column(model => model.Valor1)
-                                                            .Name("#= group.value #");
-                                                })
-                                                .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
-                                                .CategoryAxis(axis => axis
-                                                    .Categories(categories => categories.Segmento)
-                                                    .MajorGridLines(lines => lines.Visible(false))
-                                                    .Line(line => line.Visible(false))
-                                                )
-                                                .CategoryAxis(axis => axis
-                                                    .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
-                                                    .MajorGridLines(lines => lines.Visible(true).Color("black"))
-                                                    .Line(line => line.Visible(true))
-                                                )
-                                                .ValueAxis(axis => axis
-                                                    .Numeric()
-                                                    .Labels(labels => labels.Format("{0:N2}"))
-                                                    .Line(line => line.Visible(false))
-                                                    .Max(100)
-                                                )
-                                                .Tooltip(tooltip => tooltip
-                                                    .Visible(true)
-                                                    .Format("{0:N2} %")
-                                                    .Template("#= series.name#: #= kendo.format('{0:N2} %', value) #")
-                                                )
+                    .Series(series =>
+                    {
+                        series.Column(model => model.Valor1)
+                                .Name("#= group.value #");
+                    })
+                    .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
+                    .CategoryAxis(axis => axis
+                        .Categories(categories => categories.Segmento)
+                        .MajorGridLines(lines => lines.Visible(false))
+                        .Line(line => line.Visible(false))
+                    )
+                    .CategoryAxis(axis => axis
+                        .Categories(string.Format("Lũy kế 3 tháng {0}", year), string.Format("Lũy kế 3 tháng {0}", year - 1))
+                        .MajorGridLines(lines => lines.Visible(true).Color("black"))
+                        .Line(line => line.Visible(true))
+                    )
+                    .ValueAxis(axis => axis
+                        .Numeric()
+                        .Labels(labels => labels.Format("{0:N2}"))
+                        .Line(line => line.Visible(false))
+                        .Max(100)
+                    )
+                    .Tooltip(tooltip => tooltip
+                        .Visible(true)
+                        .Format("{0:N2} %")
+                        .Template("#= series.name#: #= kendo.format('{0:N2} %', value) #")
+                    )
                 )
             </div>
         </div>
@@ -235,47 +192,55 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<dynamic>()
-                                                            .Name("gridGradationCompare")
-                                                            .HtmlAttributes(new { style = " overflow: auto; " })
-                                                            .Columns(columns =>
-                                                            {
-                                                                columns.Bound(Model.Columns[0].ColumnName).Title("Thị trường")
-                                                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                                                .HtmlAttributes(new { style = " text-align: center;" });
-                                                                columns.Group(group => group
-                                                                    .Title(string.Format("Lũy kế 3 tháng {0}", year - 1))
-                                                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                                                    .HtmlAttributes(new { style = " text-align: center;" })
-                                                                    .Columns(info =>
-                                                                    {
-                                                                        info.Bound(Model.Columns[1].ColumnName).Title("Chi Quầy").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                        info.Bound(Model.Columns[2].ColumnName).Title("Chi Nhà").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                        info.Bound(Model.Columns[3].ColumnName).Title("Chuyển Khoản").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                        info.Bound(Model.Columns[4].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                                                                    })
-                                                                );
-                                                                columns.Group(group => group
-                                                                    .Title(string.Format("Lũy kế 3 tháng {0}", year))
-                                                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                                                    .HtmlAttributes(new { style = " text-align: center;" })
-                                                                    .Columns(info =>
-                                                                    {
-                                                                        info.Bound(Model.Columns[5].ColumnName).Title("Chi Quầy").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                        info.Bound(Model.Columns[6].ColumnName).Title("Chi Nhà").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                        info.Bound(Model.Columns[7].ColumnName).Title("Chuyển Khoản").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                                                        info.Bound(Model.Columns[8].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                                                                    })
+                    .Name("gridGradationCompare")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound(Model.Columns[0].ColumnName)
+                            .Hidden()
+                            .ClientGroupHeaderTemplate("#= value #");
 
-                                                                );
-                                                            })
-                                                            .Sortable() // Enable sorting
-                                                            .DataSource(dataSource => dataSource
-                                                                .Ajax()
-                                                                .Read(read => read.Action("ReportDetailtGradationCompareForAll", "ReportDetailtByMarket").Data("onDataReportTypeID"))
-                                                            )
-                                                            .Events(events => events
-                                                                .DataBound("onDataBoundgridGradationCompare")
-                                                            )
+                        columns.Bound(Model.Columns[9].ColumnName).Title("")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
+                        columns.Group(group => group
+                            .Title(string.Format("Lũy kế 3 tháng {0}", year - 1))
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound(Model.Columns[1].ColumnName).Title("Chi Quầy").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound(Model.Columns[2].ColumnName).Title("Chi Nhà").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound(Model.Columns[3].ColumnName).Title("Chuyển Khoản").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound(Model.Columns[4].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                            })
+                        );
+                        columns.Group(group => group
+                            .Title(string.Format("Lũy kế 3 tháng {0}", year))
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound(Model.Columns[5].ColumnName).Title("Chi Quầy").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound(Model.Columns[6].ColumnName).Title("Chi Nhà").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound(Model.Columns[7].ColumnName).Title("Chuyển Khoản").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound(Model.Columns[8].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                            })
+
+                        );
+                    })
+                    .Sortable() // Enable sorting
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("SearchGridReportForGradation", "ReportDetailtByMarket").Data("onDataReportTypeID"))
+                        .Group(group =>
+
+                            group.Add("MarketName", typeof(string))
+                        )
+                    )
+                    .Events(events => events
+                        .DataBound("onDataBoundgridGradationCompare")
+                    )
                 )
             </div>
         </div>
@@ -302,9 +267,9 @@
     // In đậm cho Grid
     function onDataBound(arg) {
 
-        let lastRow = $('#gridGradationCompare tbody tr');
-        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
-        $(lastRow[lastRow.length - 2]).css('font-weight', 'bold');
+        //let lastRow = $('#gridGradationCompare tbody tr');
+        //$(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        //$(lastRow[lastRow.length - 2]).css('font-weight', 'bold');
 
         // Tô màu dòng record có tỉ lệ tăng giảm
         let trGrid = $('#gridGradationCompare tbody tr');
@@ -328,8 +293,8 @@
     // In đậm cho Grid
     function onDataBoundgridGradationCompare(arg) {
 
-        let lastRow = $('#gridGradationCompare tbody tr');
-        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        //let lastRow = $('#gridGradationCompare tbody tr');
+        //$(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
 
         //// Tô màu dòng record có tỉ lệ tăng giảm
         //let trGrid = $('#gridGradationComparePercent tbody tr');

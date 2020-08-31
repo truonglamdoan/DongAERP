@@ -227,11 +227,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtServiceType> SearchDataReportDetailtGradationForAll(int toYear, int typeID, string reportTypeID)
+        public List<ReportDetailtServiceType> SearchDataReportDetailtGradationForAll(int toYear, int typeID, string reportTypeID, string marketID)
         {
             try
             {
-                List<ReportDetailtServiceType> result = new ReportBL().SearchDataReportDetailtGradationForAll(toYear, typeID, reportTypeID);
+                List<ReportDetailtServiceType> result = new ReportBL().SearchDataReportDetailtGradationForAll(toYear, typeID, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -269,11 +269,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtSTMarket> SearchDataReportDetailtCompareMonthForAll(int toYear, int toMonth, string reportTypeID)
+        public List<ReportDetailtSTMarket> SearchDataReportDetailtCompareMonthForAll(int toYear, int toMonth, string reportTypeID, string marketID)
         {
             try
             {
-                List<ReportDetailtSTMarket> result = new ReportBL().SearchDataReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID);
+                List<ReportDetailtSTMarket> result = new ReportBL().SearchDataReportDetailtCompareMonthForAll(toYear, toMonth, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
