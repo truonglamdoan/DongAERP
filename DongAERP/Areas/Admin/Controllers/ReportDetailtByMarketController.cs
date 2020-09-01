@@ -174,18 +174,21 @@ namespace DongAERP.Areas.Admin.Controllers
             // Khởi tạo datatable
             DataTable table = new DataTable();
             // Tạo các cột cho datatable
-            table.Columns.Add("MarketName", typeof(String));
-            table.Columns.Add("CQ1", typeof(double));
-            table.Columns.Add("CN1", typeof(double));
-            table.Columns.Add("CK1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("PartnerName", typeof(String));
 
+            table.Columns.Add("CQ1", typeof(double));
             table.Columns.Add("CQ2", typeof(double));
+
+            table.Columns.Add("CN1", typeof(double));
             table.Columns.Add("CN2", typeof(double));
+
+            table.Columns.Add("CK1", typeof(double));
             table.Columns.Add("CK2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
             table.Columns.Add("TDS2", typeof(double));
 
-            table.Columns.Add("ReportID", typeof(String));
+            table.Columns.Add("MarketName", typeof(String));
 
             if (!string.IsNullOrEmpty(gradation) && !string.IsNullOrEmpty(marketID))
             {
@@ -215,15 +218,20 @@ namespace DongAERP.Areas.Admin.Controllers
             DataTable table = new DataTable();
             // Tạo các cột cho datatable
             table.Columns.Add("PartnerName", typeof(String));
-            table.Columns.Add("CQ1", typeof(double));
-            table.Columns.Add("CN1", typeof(double));
-            table.Columns.Add("CK1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
 
+            table.Columns.Add("CQ1", typeof(double));
             table.Columns.Add("CQ2", typeof(double));
+
+            table.Columns.Add("CN1", typeof(double));
             table.Columns.Add("CN2", typeof(double));
+
+            table.Columns.Add("CK1", typeof(double));
             table.Columns.Add("CK2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
             table.Columns.Add("TDS2", typeof(double));
+
+            table.Columns.Add("ReportID", typeof(String));
 
             if (!string.IsNullOrEmpty(gradation) && !string.IsNullOrEmpty(marketID))
             {
@@ -535,14 +543,25 @@ namespace DongAERP.Areas.Admin.Controllers
         {
              List<ReportDetailtServiceType> listData = new ReportBL().SearchMarketForOne(fromDay, toDay, reportTypeID, marketID);
             int count = 1;
+            List<string> listDataMarket = new List<string>();
+
+            string marketName = string.Empty;
 
             foreach (ReportDetailtServiceType item in listData)
             {
-                if (string.IsNullOrEmpty(item.MarketName))
+
+                // Trường hợp không phải là châu Á
+                if (!listDataMarket.Contains(item.MarketName))
                 {
-                    item.MarketName = "Tất cả Thị trường";
+                    listDataMarket.Add(item.MarketName);
+                    count = 1;
+                    item.STT = (count++).ToString();
                 }
-                item.STT = (count++).ToString();
+                else
+                {
+                    item.STT = (count++).ToString();
+                }
+
                 item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
             }
 
@@ -600,85 +619,16 @@ namespace DongAERP.Areas.Admin.Controllers
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         
-
-        ///// <summary>
-        ///// Get data cho việc vẽ biểu đồ cột chồng cho so sánh giai đoạn
-        ///// </summary>
-        ///// <returns></returns>
-        ///// <history>
-        /////     [Truong Lam]   Created [10/06/2020]
-        ///// </history>
-        //[HttpPost]
-        //public ActionResult ColumnChartGradationCompareStack(string reportTypeID)
-        //{
-        //    DateTime now = DateTime.Now;
-        //    // Với mặt định chọn giai đoạn 3 tháng đầu năm
-        //    int gradationID = 1;
-        //    List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForAllPercent(now.Year, gradationID, reportTypeID);
-
-        //    // Số mảng cần tạo
-        //    int arrayCount = 3;
-        //    GradationCharColumn[] arrayGradation = new GradationCharColumn[listDataGradation.Count * arrayCount];
-        //    int count = 0;
-        //    // group theo nhóm
-        //    int tooltip = 1;
-        //    foreach (ReportDetailtServiceType item in listDataGradation)
-        //    {
-        //        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-        //        arrayGradation[count] = new GradationCharColumn()
-        //        {
-        //            Serie = item.MarketName,
-        //            Segmento = string.Concat("Chi Quầy ", item.Year),
-        //            Valor1 = item.DSChiQuay,
-        //            Tooltip = tooltip
-        //        };
-
-        //        count++;
-        //        arrayGradation[count] = new GradationCharColumn()
-        //        {
-        //            Serie = item.MarketName,
-        //            Segmento = string.Concat("Chi Nhà ", item.Year),
-        //            Valor1 = item.DSChiNha,
-        //            Tooltip = tooltip
-        //        };
-
-        //        count++;
-        //        arrayGradation[count] = new GradationCharColumn()
-        //        {
-        //            Serie = item.MarketName,
-        //            Segmento = string.Concat("DSCK ", item.Year),
-        //            Valor1 = item.DSCK,
-        //            Tooltip = tooltip
-        //        };
-        //        count++;
-        //        tooltip++;
-        //    }
-
-        //    if (listDataGradation.Count == 0)
-        //    {
-        //        arrayGradation = new GradationCharColumn[1];
-        //        arrayGradation[0] = new GradationCharColumn()
-        //        {
-        //            Serie = "1",
-        //            Segmento = "1",
-        //            Valor1 = 0,
-        //            Tooltip = 1
-
-        //        };
-        //    }
-
-        //    return Json(arrayGradation);
-        //}
         
         /// <summary>
-        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn của Chi Quầy
         /// </summary>
         /// <returns></returns>
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpPost]
-        public ActionResult SearchColumnChartReportForGradation([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
+        public ActionResult SearchColumnChartReportForGradationForDSChiQuay([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForAll(year, gradation, reportTypeID, marketID);
             GradationCompare[] arrayGradation = null;
@@ -686,7 +636,7 @@ namespace DongAERP.Areas.Admin.Controllers
             if (marketID.Equals("0"))
             {
                 // Số record của mảng
-                int countArray = 3;
+                int countArray = 1;
                 arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
                 int count = 0;
                 foreach (ReportDetailtServiceType item in listDataGradation)
@@ -694,28 +644,11 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = item.MarketName,
+                        NameGradationCompare = string.Format("Chi Quầy {0}", item.Year),
                         amount = item.DSChiQuay,
-                        NameType = string.Format("Chi Quầy {0}", item.Year)
+                        NameType = item.MarketName
                     };
 
-                    count++;
-                    arrayGradation[count] = new GradationCompare()
-                    {
-                        NameGradationCompare = item.MarketName,
-                        amount = item.DSChiNha,
-                        NameType = string.Format("Chi Nhà {0}", item.Year)
-                    };
-
-                    count++;
-                    arrayGradation[count] = new GradationCompare()
-                    {
-                        NameGradationCompare = item.MarketName,
-                        amount = item.DSCK,
-                        NameType = string.Format("DSCK {0}", item.Year)
-                    };
-
-                    // Tăng count lên 1 đơn vị
                     count++;
                     year = year - 1;
                 }
@@ -733,7 +666,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
                 
                 // Số record của mảng
-                int countArray = 6;
+                int countArray = 2;
                 arrayGradation = new GradationCompare[countArray * listAsianItem.Count];
                 int count = 0;
                 List<ReportDetailtServiceType> listDSMarketYear = new List<ReportDetailtServiceType>();
@@ -759,59 +692,275 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = item,
+                        NameGradationCompare = string.Format("Chi Quầy {0}", year),
                         amount = sumDSChiQuayYear,
-                        NameType = string.Format("Chi Quầy {0}", year)
+                        NameType = item
                     };
 
-                    count++;
-                    arrayGradation[count] = new GradationCompare()
-                    {
-                        NameGradationCompare = item,
-                        amount = sumDSChiNhaYear,
-                        NameType = string.Format("Chi Nhà {0}", year)
-                    };
-
-                    count++;
-                    arrayGradation[count] = new GradationCompare()
-                    {
-                        NameGradationCompare = item,
-                        amount = sumDSCKYear,
-                        NameType = string.Format("DSCK {0}", year)
-                    };
-                    
                     count++;
 
                     // LastYear
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = item,
+                        NameGradationCompare = string.Format("Chi Quầy {0}", year - 1),
                         amount = sumDSChiQuayLastYear,
-                        NameType = string.Format("Chi Quầy {0}", year - 1)
+                        NameType = item
                     };
 
-                    count++;
-                    arrayGradation[count] = new GradationCompare()
-                    {
-                        NameGradationCompare = item,
-                        amount = sumDSChiNhaLastYear,
-                        NameType = string.Format("Chi Nhà {0}", year - 1)
-                    };
-
-                    count++;
-                    arrayGradation[count] = new GradationCompare()
-                    {
-                        NameGradationCompare = item,
-                        amount = sumDSCKLastYear,
-                        NameType = string.Format("DSCK {0}", year - 1)
-                    };
-
-                    // Tăng count lên 1 đơn vị
                     count++;
                 }
             }
             
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn của Chi nhà
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnChartReportForGradationForDSChiNha([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForAll(year, gradation, reportTypeID, marketID);
+            GradationCompare[] arrayGradation = null;
+            // Trường hợp tất cả thị trường
+            if (marketID.Equals("0"))
+            {
+                // Số record của mảng
+                int countArray = 1;
+                arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
+                int count = 0;
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format("Chi Nhà {0}", item.Year),
+                        amount = item.DSChiNha,
+                        NameType = item.MarketName
+                    };
+
+                    count++;
+                    year = year - 1;
+                }
+            }
+            else
+            {
+                // List các thị trường của châu Á
+                List<string> listAsianItem = new List<string>();
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    if (!listAsianItem.Contains(item.MarketName))
+                    {
+                        listAsianItem.Add(item.MarketName);
+                    }
+                }
+
+                // Số record của mảng
+                int countArray = 2;
+                arrayGradation = new GradationCompare[countArray * listAsianItem.Count];
+                int count = 0;
+                List<ReportDetailtServiceType> listDSMarketYear = new List<ReportDetailtServiceType>();
+                List<ReportDetailtServiceType> listDSMarketLastYear = new List<ReportDetailtServiceType>();
+
+                foreach (string item in listAsianItem)
+                {
+                    listDSMarketYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    listDSMarketLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    double sumDSChiQuayYear = listDSMarketYear.Sum(x => x.DSChiQuay);
+                    double sumDSChiNhaYear = listDSMarketYear.Sum(x => x.DSChiNha);
+                    double sumDSCKYear = listDSMarketYear.Sum(x => x.DSCK);
+                    double sumTongDSYear = listDSMarketYear.Sum(x => x.TongDS);
+
+                    // LastYear
+                    double sumDSChiQuayLastYear = listDSMarketLastYear.Sum(x => x.DSChiQuay);
+                    double sumDSChiNhaLastYear = listDSMarketLastYear.Sum(x => x.DSChiNha);
+                    double sumDSCKLastYear = listDSMarketLastYear.Sum(x => x.DSCK);
+                    double sumTongDSLastYear = listDSMarketLastYear.Sum(x => x.TongDS);
+
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format("Chi Nhà {0}", year),
+                        amount = sumDSChiNhaYear,
+                        NameType = item
+                    };
+
+                    count++;
+                    
+                    // LastYear
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format("Chi Nhà {0}", year - 1),
+                        amount = sumDSChiNhaLastYear,
+                        NameType = item
+                    };
+
+                    count++;
+                    
+                }
+            }
+
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn của Chi nhà
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnChartReportForGradationForDSCK([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForAll(year, gradation, reportTypeID, marketID);
+            GradationCompare[] arrayGradation = null;
+            // Trường hợp tất cả thị trường
+            if (marketID.Equals("0"))
+            {
+                // Số record của mảng
+                int countArray = 1;
+                arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
+                int count = 0;
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format("Chuyển khoản {0}", item.Year),
+                        amount = item.DSCK,
+                        NameType = item.MarketName
+                    };
+
+                    count++;
+                    year = year - 1;
+                }
+            }
+            else
+            {
+                // List các thị trường của châu Á
+                List<string> listAsianItem = new List<string>();
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    if (!listAsianItem.Contains(item.MarketName))
+                    {
+                        listAsianItem.Add(item.MarketName);
+                    }
+                }
+
+                // Số record của mảng
+                int countArray = 2;
+                arrayGradation = new GradationCompare[countArray * listAsianItem.Count];
+                int count = 0;
+                List<ReportDetailtServiceType> listDSMarketYear = new List<ReportDetailtServiceType>();
+                List<ReportDetailtServiceType> listDSMarketLastYear = new List<ReportDetailtServiceType>();
+
+                foreach (string item in listAsianItem)
+                {
+                    listDSMarketYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    listDSMarketLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    double sumDSChiQuayYear = listDSMarketYear.Sum(x => x.DSChiQuay);
+                    double sumDSChiNhaYear = listDSMarketYear.Sum(x => x.DSChiNha);
+                    double sumDSCKYear = listDSMarketYear.Sum(x => x.DSCK);
+                    double sumTongDSYear = listDSMarketYear.Sum(x => x.TongDS);
+
+                    // LastYear
+                    double sumDSChiQuayLastYear = listDSMarketLastYear.Sum(x => x.DSChiQuay);
+                    double sumDSChiNhaLastYear = listDSMarketLastYear.Sum(x => x.DSChiNha);
+                    double sumDSCKLastYear = listDSMarketLastYear.Sum(x => x.DSCK);
+                    double sumTongDSLastYear = listDSMarketLastYear.Sum(x => x.TongDS);
+
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format("DSCK {0}", year),
+                        amount = sumDSCKYear,
+                        NameType = item
+                    };
+
+                    count++;
+                    //arrayGradation[count] = new GradationCompare()
+                    //{
+                    //    NameGradationCompare = item,
+                    //    amount = sumDSChiNhaYear,
+                    //    NameType = string.Format("Chi Nhà {0}", year)
+                    //};
+
+                    //count++;
+                    //arrayGradation[count] = new GradationCompare()
+                    //{
+                    //    NameGradationCompare = item,
+                    //    amount = sumDSCKYear,
+                    //    NameType = string.Format("DSCK {0}", year)
+                    //};
+
+                    //count++;
+
+                    // LastYear
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format("DSCK {0}", year - 1),
+                        amount = sumDSCKLastYear,
+                        NameType = item
+                    };
+
+                    count++;
+                    //arrayGradation[count] = new GradationCompare()
+                    //{
+                    //    NameGradationCompare = item,
+                    //    amount = sumDSChiNhaLastYear,
+                    //    NameType = string.Format("Chi Nhà {0}", year - 1)
+                    //};
+
+                    //count++;
+                    //arrayGradation[count] = new GradationCompare()
+                    //{
+                    //    NameGradationCompare = item,
+                    //    amount = sumDSCKLastYear,
+                    //    NameType = string.Format("DSCK {0}", year - 1)
+                    //};
+
+                    //// Tăng count lên 1 đơn vị
+                    //count++;
+                }
+            }
+
 
             if (arrayGradation == null)
             {
@@ -1032,13 +1181,15 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tạo các cột cho datatable
                 table.Columns.Add("MarketName", typeof(String));
                 table.Columns.Add("CQ1", typeof(double));
-                table.Columns.Add("CN1", typeof(double));
-                table.Columns.Add("CK1", typeof(double));
-                table.Columns.Add("TDS1", typeof(double));
-
                 table.Columns.Add("CQ2", typeof(double));
+
+                table.Columns.Add("CN1", typeof(double));
                 table.Columns.Add("CN2", typeof(double));
+
+                table.Columns.Add("CK1", typeof(double));
                 table.Columns.Add("CK2", typeof(double));
+
+                table.Columns.Add("TDS1", typeof(double));
                 table.Columns.Add("TDS2", typeof(double));
 
                 table.Columns.Add("ReportID", typeof(String));
@@ -1086,26 +1237,15 @@ namespace DongAERP.Areas.Admin.Controllers
 
                             reportID = dataItemLastYear.ReportID;
                         }
-
                         
                         // add item vào table
-                        table.Rows.Add(dataItemLastYear.MarketName, dataItemLastYear.DSChiQuay, dataItemLastYear.DSChiNha, dataItemLastYear.DSCK, dataItemLastYear.TongDS
-                            , dataItemYear.DSChiQuay, dataItemYear.DSChiNha, dataItemYear.DSCK, dataItemYear.TongDS
+                        table.Rows.Add(dataItemLastYear.MarketName
+                            , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
+                            , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
+                            , dataItemLastYear.DSCK, dataItemYear.DSCK
+                            , dataItemLastYear.TongDS, dataItemYear.TongDS
                             , reportID);
                     }
-
-                    //DataRow row = table.NewRow();
-                    //row["MarketName"] = "Tổng";
-                    //row["CQ1"] = table.Compute("Sum(CQ1)", "");
-                    //row["CN1"] = table.Compute("Sum(CN1)", "");
-                    //row["CK1"] = table.Compute("Sum(CK1)", "");
-                    //row["TDS1"] = table.Compute("Sum(TDS1)", "");
-
-                    //row["CQ2"] = table.Compute("Sum(CQ2)", "");
-                    //row["CN2"] = table.Compute("Sum(CN2)", "");
-                    //row["CK2"] = table.Compute("Sum(CK2)", "");
-                    //row["TDS2"] = table.Compute("Sum(TDS2)", "");
-                    //table.Rows.Add(row);
                 }
             }
             // Trường hợp thuộc thị trường Châu Á
@@ -1120,16 +1260,19 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Khởi tạo datatable
                 table = new DataTable();
                 // Tạo các cột cho datatable
-                table.Columns.Add("MarketName", typeof(String)); 
-                table.Columns.Add("CQ1", typeof(double));
-                table.Columns.Add("CN1", typeof(double));
-                table.Columns.Add("CK1", typeof(double));
-                table.Columns.Add("TDS1", typeof(double));
+                table.Columns.Add("MarketName", typeof(String));
 
+                table.Columns.Add("CQ1", typeof(double));
                 table.Columns.Add("CQ2", typeof(double));
+
+                table.Columns.Add("CN1", typeof(double));
                 table.Columns.Add("CN2", typeof(double));
+
+                table.Columns.Add("CK1", typeof(double));
                 table.Columns.Add("CK2", typeof(double));
-                table.Columns.Add("TDS2", typeof(double));
+
+                table.Columns.Add("TDS1", typeof(double));
+                table.Columns.Add("TDS2", typeof(double)); ;
                 
                 table.Columns.Add("ReportID", typeof(String));
 
@@ -1174,8 +1317,11 @@ namespace DongAERP.Areas.Admin.Controllers
                     if (dataItemLastYear != null && dataItemYear != null && foundRows.Count() == 0)
                     {
                         // add item vào table
-                        table.Rows.Add(item.MarketName, dataItemLastYear.DSChiQuay, dataItemLastYear.DSChiNha, dataItemLastYear.DSCK, dataItemLastYear.TongDS
-                            , dataItemYear.DSChiQuay, dataItemYear.DSChiNha, dataItemYear.DSCK, dataItemYear.TongDS
+                        table.Rows.Add(item.MarketName
+                            , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
+                            , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
+                            , dataItemLastYear.DSCK, dataItemYear.DSCK
+                            , dataItemLastYear.TongDS, dataItemYear.TongDS
                             , reportID);
                     }
                 }
@@ -1197,76 +1343,79 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
 
-            foreach (ReportDetailtServiceType item in listDataGradation)
-            {
-                item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-            }
 
             // Khởi tạo datatable
             DataTable table = new DataTable();
             // Tạo các cột cho datatable
             table.Columns.Add("PartnerName", typeof(String));
-            table.Columns.Add("CQ1", typeof(double));
-            table.Columns.Add("CN1", typeof(double));
-            table.Columns.Add("CK1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
 
+            table.Columns.Add("CQ1", typeof(double));
             table.Columns.Add("CQ2", typeof(double));
+
+            table.Columns.Add("CN1", typeof(double));
             table.Columns.Add("CN2", typeof(double));
+
+            table.Columns.Add("CK1", typeof(double));
             table.Columns.Add("CK2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
             table.Columns.Add("TDS2", typeof(double));
 
-            foreach (ReportDetailtServiceType item in listDataGradation)
+            table.Columns.Add("MarketName", typeof(String));
+
+            if (!marketID.Equals("005"))
             {
-                // Cùng kì
-                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
-                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
-
-                // Trường hợp năm trước có đối tác và năm nay không có
-                if (dataItemLastYear != null && dataItemYear == null)
+                foreach (ReportDetailtServiceType item in listDataGradation)
                 {
-                    dataItemYear = new ReportDetailtServiceType();
-                    dataItemYear.PartnerName = dataItemLastYear.PartnerName;
-                    dataItemYear.DSChiQuay = 0;
-                    dataItemYear.DSChiNha = 0;
-                    dataItemYear.DSCK = 0;
-                    dataItemYear.Year = year.ToString();
+                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
                 }
 
-                // Trường hợp năm trước không có đối tác và năm nay có đối tác
-                if (dataItemYear != null && dataItemLastYear == null)
+                foreach (ReportDetailtServiceType item in listDataGradation)
                 {
-                    dataItemLastYear = new ReportDetailtServiceType();
-                    dataItemLastYear.PartnerName = dataItemYear.PartnerName;
-                    dataItemLastYear.DSChiQuay = 0;
-                    dataItemLastYear.DSChiNha = 0;
-                    dataItemLastYear.DSCK = 0;
-                    dataItemLastYear.Year = (year - 1).ToString();
+                    // Cùng kì
+                    ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
+                    ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
+
+                    // Trường hợp năm trước có đối tác và năm nay không có
+                    if (dataItemLastYear != null && dataItemYear == null)
+                    {
+                        dataItemYear = new ReportDetailtServiceType();
+                        dataItemYear.PartnerName = dataItemLastYear.PartnerName;
+                        dataItemYear.MarketName = dataItemLastYear.MarketName;
+                        dataItemYear.DSChiQuay = 0;
+                        dataItemYear.DSChiNha = 0;
+                        dataItemYear.DSCK = 0;
+                        dataItemYear.Year = year.ToString();
+                    }
+
+                    // Trường hợp năm trước không có đối tác và năm nay có đối tác
+                    if (dataItemYear != null && dataItemLastYear == null)
+                    {
+                        dataItemLastYear = new ReportDetailtServiceType();
+                        dataItemLastYear.PartnerName = dataItemYear.PartnerName;
+                        dataItemLastYear.MarketName = dataItemYear.MarketName;
+                        dataItemLastYear.DSChiQuay = 0;
+                        dataItemLastYear.DSChiNha = 0;
+                        dataItemLastYear.DSCK = 0;
+                        dataItemLastYear.Year = (year - 1).ToString();
+                    }
+
+                    // Check tồn tại của item
+                    string value = string.Format("PartnerName='{0}'", item.PartnerName);
+                    DataRow[] foundRows = table.Select(value);
+                    if (dataItemLastYear != null && dataItemYear != null && foundRows.Count() == 0)
+                    {
+                        // add item vào table
+                        table.Rows.Add(dataItemLastYear.PartnerName
+                            , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
+                            , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
+                            , dataItemLastYear.DSCK, dataItemYear.DSCK
+                            , dataItemLastYear.TongDS, dataItemYear.TongDS
+                            , dataItemLastYear.MarketName);
+                    }
                 }
 
-                // Check tồn tại của item
-                string value = string.Format("PartnerName='{0}'", item.PartnerName);
-                DataRow[] foundRows = table.Select(value);
-                if (dataItemLastYear != null && dataItemYear != null && foundRows.Count() == 0)
-                {
-                    // add item vào table
-                    table.Rows.Add(dataItemLastYear.PartnerName, dataItemLastYear.DSChiQuay, dataItemLastYear.DSChiNha, dataItemLastYear.DSCK, dataItemLastYear.TongDS
-                        , dataItemYear.DSChiQuay, dataItemYear.DSChiNha, dataItemYear.DSCK, dataItemYear.TongDS);
-                }
             }
-
-            DataRow row = table.NewRow();
-            row["PartnerName"] = "Tổng";
-            row["CQ1"] = table.Compute("Sum(CQ1)", "");
-            row["CN1"] = table.Compute("Sum(CN1)", "");
-            row["CK1"] = table.Compute("Sum(CK1)", "");
-            row["TDS1"] = table.Compute("Sum(TDS1)", "");
-
-            row["CQ2"] = table.Compute("Sum(CQ2)", "");
-            row["CN2"] = table.Compute("Sum(CN2)", "");
-            row["CK2"] = table.Compute("Sum(CK2)", "");
-            row["TDS2"] = table.Compute("Sum(TDS2)", "");
-            table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
