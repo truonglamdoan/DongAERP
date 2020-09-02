@@ -97,12 +97,12 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường Danh sách Chi Quầy (USD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
-                        .Name("chartGradationCompareForOne")
+                        .Name("chartGradationCompareForOneForDSChiQuay")
                         .Title(string.Format("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: {0}", text))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
@@ -112,30 +112,136 @@
                         )
                         .ChartArea(chartArea =>
                         {
-                            chartArea.Height(550);
+                            chartArea.Height(300);
                         })
                         .DataSource(ds => ds
-                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOne", "ReportDetailtByMarket").Data("onDataReportTypeID"))
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneForDSChiQuay", "ReportDetailtByMarket").Data("onDataReportTypeID"))
                             .Group(group => group.Add(model => model.NameGradationCompare))
                             )
 
                         .Series(series =>
                         {
                             series.Column(model => model.amount).Name("#= group.value #");
-                                //.CategoryField("NameType");
+                            //.CategoryField("NameType");
 
-                            })
+                        })
                         .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
                         .CategoryAxis(axis => axis
                             .Categories(categories => categories.NameType)
                             .MajorGridLines(lines => lines.Visible(false))
                         //.MajorGridLines(lines => lines.Visible(true))
                         )
-                        .CategoryAxis(axis => axis
-                            .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
-                            .MajorGridLines(lines => lines.Visible(true).Color("black"))
+                        //.CategoryAxis(axis => axis
+                        //    .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
+                        //    .MajorGridLines(lines => lines.Visible(true).Color("black"))
 
-                        //.Line(line => line.Visible(false))
+                        ////.Line(line => line.Visible(false))
+                        //)
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường theo Danh sách Chi Nhà (USD)</h6>
+            </div>
+            <div class="card-body">
+                <div class="demo-section k-content wide">
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartGradationCompareForOneForDSChiNha")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: {0}", text))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                            .Column()
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(300);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneForDSChiNha", "ReportDetailtByMarket").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            )
+
+                        .Series(series =>
+                        {
+                            series.Column(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        //.MajorGridLines(lines => lines.Visible(true))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường theo Danh số Chuyển Khoản (USD)</h6>
+            </div>
+            <div class="card-body">
+                <div class="demo-section k-content wide">
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartGradationCompareForOneForDSCK")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: {0}", text))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                            .Column()
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(300);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneForDSCK", "ReportDetailtByMarket").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            )
+
+                        .Series(series =>
+                        {
+                            series.Column(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        //.MajorGridLines(lines => lines.Visible(true))
                         )
                         .ValueAxis(axis => axis
                             .Numeric()
@@ -168,7 +274,7 @@
                     .PlotArea(plotArea => plotArea.Background("white"))
                     .SeriesDefaults(seriesDefaults => seriesDefaults
                         .Column()
-                        .Stack(true)
+                    //.Stack(true)
                     )
                     .ChartArea(chartArea =>
                     {
@@ -186,7 +292,7 @@
 
                     .Series(series =>
                     {
-                        series.Column(model => model.Valor1)
+                        series.Bar(model => model.Valor1)
                                 .Name("#= group.value #");
                     })
                     .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
@@ -194,7 +300,7 @@
                         .Categories(categories => categories.Segmento)
                         .MajorGridLines(lines => lines.Visible(false))
                         .Line(line => line.Visible(false))
-                        .Labels(labels => labels.Rotation(-15))
+                    //.Labels(labels => labels.Rotation(-15))
                     )
                     .ValueAxis(axis => axis
                         .Numeric()
@@ -316,7 +422,7 @@
                                 info.Bound(Model.Columns[1].ColumnName).Title("Chi Quầy").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 info.Bound(Model.Columns[2].ColumnName).Title("Chi Nhà").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 info.Bound(Model.Columns[3].ColumnName).Title("Chuyển Khoản").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[4].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                info.Bound("TDS1").Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                             })
                         );
                     })

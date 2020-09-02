@@ -1428,12 +1428,12 @@ namespace DongAERP.Areas.Admin.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpPost]
-        public ActionResult SearchColumnsChartGradationCompareForOne([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
+        public ActionResult SearchColumnsChartGradationCompareForOneForDSChiQuay([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
 
             // Số record của mảng
-            int countArray = 3;
+            int countArray = 1;
             GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
             int count = 0;
             foreach (ReportDetailtServiceType item in listDataGradation)
@@ -1441,28 +1441,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                 arrayGradation[count] = new GradationCompare()
                 {
-                    NameGradationCompare = item.PartnerName,
+                    NameGradationCompare = string.Format("Chi Quầy {0}", item.Year),
                     amount = item.DSChiQuay,
-                    NameType = string.Format("Chi Quầy {0}", item.Year)
+                    NameType = item.PartnerName
                 };
 
-                count++;
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = item.PartnerName,
-                    amount = item.DSChiNha,
-                    NameType = string.Format("Chi Nhà {0}", item.Year)
-                };
-
-                count++;
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = item.PartnerName,
-                    amount = item.DSCK,
-                    NameType = string.Format("DSCK {0}", item.Year)
-                };
-
-                // Tăng count lên 1 đơn vị
                 count++;
                 year = year - 1;
             }
@@ -1480,6 +1463,95 @@ namespace DongAERP.Areas.Admin.Controllers
 
             return Json(arrayGradation);
         }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn theo danh số Chi nhà
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartGradationCompareForOneForDSChiNha([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+
+            // Số record của mảng
+            int countArray = 1;
+            GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
+            int count = 0;
+            foreach (ReportDetailtServiceType item in listDataGradation)
+            {
+                // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = string.Format("Chi Nhà {0}", item.Year),
+                    amount = item.DSChiNha,
+                    NameType = item.PartnerName
+                };
+
+                count++;
+                year = year - 1;
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn theo danh số Chi nhà
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartGradationCompareForOneForDSCK([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+
+            // Số record của mảng
+            int countArray = 1;
+            GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
+            int count = 0;
+            foreach (ReportDetailtServiceType item in listDataGradation)
+            {
+                // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                arrayGradation[count] = new GradationCompare()
+                {
+                    NameGradationCompare = string.Format("Chuyển Khoản {0}", item.Year),
+                    amount = item.DSCK,
+                    NameType = item.PartnerName
+                };
+
+                count++;
+                year = year - 1;
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
 
         /// <summary>
         /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn
