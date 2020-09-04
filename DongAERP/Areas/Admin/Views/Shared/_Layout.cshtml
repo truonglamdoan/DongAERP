@@ -182,7 +182,7 @@
                             )
                         </div>
 
-                        <div>
+                        <div class="armchair" style=" display: inline; ">
                             <div class="timeReport">
                                 <ul style="width: 35%;position: absolute;display: block;padding-left: 0%;">
                                     <span class="startTimeName" style="float: left;margin-right: 30px;margin-top: 5px;"></span>
@@ -195,7 +195,7 @@
                                         )*@
                                     </span>
                                 </ul>
-                                <ul style="margin-left: 23%;position: absolute;">
+                                <ul style="margin-left: 25%;position: absolute;display: block;padding-left: 1px;">
                                     <span class="endTimeName" style="margin-left: 0%;margin-right: 30px;display: inline;"></span>
                                     <span class="timeEnd" style=" display: inline-flex; ">
                                         @*@(Html.Kendo().DatePicker()
@@ -611,7 +611,7 @@
                     categoryText = 'ReportDetailtByMarket';
                     break;
                 case 'item2':
-                    categoryText = '';
+                    categoryText = 'ReportDetailtMarketByMoneyType';
                     break;
                 case 'item3':
                     categoryText = '';
@@ -818,7 +818,7 @@
                         break;
                 }
             } else {
-                debugger;
+
                 let gradationDicID = null;
                 let toYear = null;
 
@@ -1413,7 +1413,7 @@
             // Trường hợp chọn giai đoạn
             // Báo cáo chi tiết
             if (level0 == 'level0_item2' && level2 == 'item3') {
-                debugger;
+
                 let date = new Date();
                 let timeNow = kendo.toString(date, "yyyy");
                 // Default đầu tiên
@@ -1554,6 +1554,12 @@
                         break;
                     case 'item3':
                         timeNow = kendo.toString(date, "MM/yyyy");
+                        let month = parseInt(listDataTimeReport[0] - 1);
+                        let year = listDataTimeReport[1];
+
+                        if (month != null && year != null) {
+                            timeNow = kendo.toString(new Date(year, month, 01), "MM/yyyy");
+                        }
 
                         $('.timeReport .startTimeName').text("Giai đoạn: ");
                         $('.timeReport .endTimeName').text("");
@@ -1598,6 +1604,13 @@
                         break;
                     default:
                         timeNow = kendo.toString(date, "MM/yyyy");
+
+                        let toMonth = parseInt(listDataTimeReport[0] - 1);
+                        let toYear = listDataTimeReport[1];
+
+                        if (toMonth != null && toYear != null && !isNaN(toMonth) && !isNaN(toYear)) {
+                            timeNow = kendo.toString(new Date(toYear, toMonth, 01), "MM/yyyy");
+                        }
                         // Tắt chọn thị trường
                         //$("#categoriesDetaitMarket").data("kendoDropDownList").enable(true);
                         $('.timeReport .startTimeName').text("Giai đoạn: ");

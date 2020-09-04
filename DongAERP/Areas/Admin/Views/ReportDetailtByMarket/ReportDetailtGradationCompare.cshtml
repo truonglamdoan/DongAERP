@@ -84,7 +84,7 @@
                         )
                         .ChartArea(chartArea =>
                         {
-                            chartArea.Height(550);
+                            chartArea.Height(350);
                         })
                         .DataSource(ds => ds
                             .Read(read => read.Action("SearchColumnChartReportForGradationForDSChiQuay", "ReportDetailtByMarket").Data("onDataReportTypeID"))
@@ -137,7 +137,7 @@
                         )
                         .ChartArea(chartArea =>
                         {
-                            chartArea.Height(550);
+                            chartArea.Height(350);
                         })
                         .DataSource(ds => ds
                             .Read(read => read.Action("SearchColumnChartReportForGradationForDSChiNha", "ReportDetailtByMarket").Data("onDataReportTypeID"))
@@ -190,7 +190,7 @@
                         )
                         .ChartArea(chartArea =>
                         {
-                            chartArea.Height(550);
+                            chartArea.Height(350);
                         })
                         .DataSource(ds => ds
                             .Read(read => read.Action("SearchColumnChartReportForGradationForDSCK", "ReportDetailtByMarket").Data("onDataReportTypeID"))
@@ -209,12 +209,6 @@
                             .MajorGridLines(lines => lines.Visible(false))
                         //.MajorGridLines(lines => lines.Visible(true))
                         )
-                        //.CategoryAxis(axis => axis
-                        //    .Categories(string.Format("Lũy kế 3 tháng {0}", year), string.Format("Lũy kế 3 tháng {0}", year - 1))
-                        //    .MajorGridLines(lines => lines.Visible(true).Color("black"))
-
-                        ////.Line(line => line.Visible(false))
-                        //)
                         .ValueAxis(axis => axis
                             .Numeric()
                             .Labels(labels => labels.Format("{0:N2}"))
@@ -259,7 +253,7 @@
                             group.Add(model => model.Serie);
                         })
                         .Sort(sort => sort.Add(model => model.Segmento).Ascending())
-                        )
+                    )
 
                     .Series(series =>
                     {
@@ -276,7 +270,7 @@
                         .Categories("Chi Nhà", "Chi Quầy", "Chuyển khoản")
                         .MajorGridLines(lines => lines.Visible(true).Color("black"))
                         .Line(line => line.Visible(true))
-                        .Labels(label => label.Font("20px Arial,Helvetica,sans-serif"))
+                        .Labels(label => label.Font("18px Arial,Helvetica,sans-serif"))
                     )
                     .ValueAxis(axis => axis
                         .Numeric()

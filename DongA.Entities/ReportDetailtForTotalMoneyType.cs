@@ -12,6 +12,7 @@ namespace DongA.Entities
     {
 
         public string STT { set; get; }
+        public string ReportID { set; get; }
 
         [Column("MARKETCODE")]
         public string MarketCode { get; set; }

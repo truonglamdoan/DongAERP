@@ -24,10 +24,73 @@ namespace DongAERP.Areas.Admin.Controllers
         /// Báo cáo thị trường theo loại tiền chi trả tất cả
         /// </summary>
         /// <returns></returns>
-        public ActionResult MarketForTotal()
+        public ActionResult MarketForTotal(DateTime? fromDay, DateTime? toDay, string reportTypeID, string marketID)
         {
             string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/Tất cả";
             ViewBag.NameURL = nameUrl;
+
+            if (fromDay != null && toDay != null && reportTypeID != null && marketID != null)
+            {
+                List<string> listData = new List<string>()
+                {
+                    fromDay.Value.ToString("MM/dd/yyyy"),
+                    toDay.Value.ToString("MM/dd/yyyy"),
+                    reportTypeID,
+                    marketID
+                };
+
+                ViewData["listData"] = listData;
+            }
+
+            return View();
+        }
+
+
+        /// <summary>
+        /// Màn hình báo cáo cho tháng
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MarketForTotalForMonth(DateTime? fromDate, DateTime? toDate, string reportTypeID, string marketID)
+        {
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/Tất cả";
+            ViewBag.NameURL = nameUrl;
+
+            if (fromDate != null && toDate != null && reportTypeID != null && marketID != null)
+            {
+                List<string> listData = new List<string>()
+                {
+                    fromDate.Value.ToString("MM/dd/yyyy"),
+                    toDate.Value.ToString("MM/dd/yyyy"),
+                    reportTypeID,
+                    marketID
+                };
+
+                ViewData["listData"] = listData;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// Màn hình báo cáo cho năm
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MarketForTotalForYear(DateTime? fromDate, DateTime? toDate, string reportTypeID, string marketID)
+        {
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/Tất cả";
+            ViewBag.NameURL = nameUrl;
+
+            if (fromDate != null && toDate != null && reportTypeID != null && marketID != null)
+            {
+                List<string> listData = new List<string>()
+                {
+                    fromDate.Value.ToString("MM/dd/yyyy"),
+                    toDate.Value.ToString("MM/dd/yyyy"),
+                    reportTypeID,
+                    marketID
+                };
+
+                ViewData["listData"] = listData;
+            }
             return View();
         }
 
@@ -176,41 +239,6 @@ namespace DongAERP.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Bảng hiển thị thông tin các giao dịch qua các ngày
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult MarketForTotal([DataSourceRequest]DataSourceRequest request, string reportTypeID)
-        {
-            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().ListReportDetailtMTForAll(reportTypeID);
-            int count = 1;
-            foreach (ReportDetailtForTotalMoneyType item in listData)
-            {
-                item.STT = (count++).ToString();
-                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-            }
-
-            ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
-            {
-                MarketName = "Tổng",
-                VND = listData.Sum(x => x.VND),
-                USD = listData.Sum(x => x.USD),
-                EUR = listData.Sum(x => x.EUR),
-                CAD = listData.Sum(x => x.CAD),
-                AUD = listData.Sum(x => x.AUD),
-                GBP = listData.Sum(x => x.GBP),
-                TongDS = listData.Sum(x => x.TongDS)
-            };
-
-            listData.Add(dataItem);
-
-            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
-
-        /// <summary>
         /// Search report day theo ngày nhập vào
         /// </summary>
         /// <returns></returns>
@@ -223,59 +251,62 @@ namespace DongAERP.Areas.Admin.Controllers
 
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
+                item.ReportID = item.MarketName;
+                if (marketID.Equals("0"))
+                {
+                    item.MarketName = "Tất cả thị trường";
+                }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
-
-            ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
-            {
-                MarketName = "Tổng",
-                VND = listData.Sum(x => x.VND),
-                USD = listData.Sum(x => x.USD),
-                EUR = listData.Sum(x => x.EUR),
-                CAD = listData.Sum(x => x.CAD),
-                AUD = listData.Sum(x => x.AUD),
-                GBP = listData.Sum(x => x.GBP),
-                TongDS = listData.Sum(x => x.TongDS)
-            };
-
-            listData.Add(dataItem);
-
+            
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-
         /// <summary>
-        /// Bảng hiển thị thông tin các giao dịch qua các ngày
+        /// Search report detailt theo tháng của loại tiền
         /// </summary>
         /// <returns></returns>
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        [HttpPost]
-        public ActionResult MarketForTotalConvert([DataSourceRequest]DataSourceRequest request, string reportTypeID)
+        public ActionResult SearchMarketForTotalForMonth([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
-            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().ListReportDetailtMTForAllConvert(reportTypeID);
-            int count = 1;
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForAllForMonth(fromDate, toDate, reportTypeID, marketID);
+
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
-                item.STT = (count++).ToString();
+                item.ReportID = item.MarketName;
+                if (marketID.Equals("0"))
+                {
+                    item.MarketName = "Tất cả thị trường";
+                }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
+            
+            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
 
-            ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
+        /// <summary>
+        /// Search report detailt theo năm của loại tiền
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public ActionResult SearchMarketForTotalForYear([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForAllForYear(fromDate, toDate, reportTypeID, marketID);
+
+            foreach (ReportDetailtForTotalMoneyType item in listData)
             {
-                MarketName = "Tổng",
-                VND = listData.Sum(x => x.VND),
-                USD = listData.Sum(x => x.USD),
-                EUR = listData.Sum(x => x.EUR),
-                CAD = listData.Sum(x => x.CAD),
-                AUD = listData.Sum(x => x.AUD),
-                GBP = listData.Sum(x => x.GBP),
-                TongDS = listData.Sum(x => x.TongDS)
-            };
-
-            listData.Add(dataItem);
-
+                item.ReportID = item.MarketName;
+                if (marketID.Equals("0"))
+                {
+                    item.MarketName = "Tất cả thị trường";
+                }
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
+            
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -292,46 +323,107 @@ namespace DongAERP.Areas.Admin.Controllers
 
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
+                item.ReportID = item.MarketName;
+                if (marketID.Equals("0"))
+                {
+                    item.MarketName = "Tất cả thị trường";
+                }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
 
-            ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
-            {
-                MarketName = "Tổng",
-                VND = listData.Sum(x => x.VND),
-                USD = listData.Sum(x => x.USD),
-                EUR = listData.Sum(x => x.EUR),
-                CAD = listData.Sum(x => x.CAD),
-                AUD = listData.Sum(x => x.AUD),
-                GBP = listData.Sum(x => x.GBP),
-                TongDS = listData.Sum(x => x.TongDS)
-            };
-
-            listData.Add(dataItem);
+            listData.Add(
+                new ReportDetailtForTotalMoneyType()
+                {
+                    ReportID = "Tổng",
+                    VND = listData.Sum(x => x.VND),
+                    USD = listData.Sum(x => x.USD),
+                    EUR = listData.Sum(x => x.EUR),
+                    CAD = listData.Sum(x => x.CAD),
+                    AUD = listData.Sum(x => x.AUD),
+                    GBP = listData.Sum(x => x.GBP),
+                    TongDS = listData.Sum(x => x.TongDS)
+                }
+            );
 
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
-        /// Bảng hiển thị thông tin các giao dịch qua các ngày
+        /// Search report day theo ngày nhập vào
         /// </summary>
         /// <returns></returns>
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        [HttpPost]
-        public ActionResult MarketForOne([DataSourceRequest]DataSourceRequest request, string reportTypeID)
+        public ActionResult SearchMarketForTotalForMonthConvert([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
-            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().ListReportDetailtMTForOne(reportTypeID);
-            int count = 1;
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForAllForMonthConvert(fromDate, toDate, reportTypeID, marketID);
+
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
-                item.STT = (count++).ToString();
+                item.ReportID = item.MarketName;
+                if (marketID.Equals("0"))
+                {
+                    item.MarketName = "Tất cả thị trường";
+                }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
 
+            listData.Add(
+                new ReportDetailtForTotalMoneyType()
+                {
+                    ReportID = "Tổng",
+                    VND = listData.Sum(x => x.VND),
+                    USD = listData.Sum(x => x.USD),
+                    EUR = listData.Sum(x => x.EUR),
+                    CAD = listData.Sum(x => x.CAD),
+                    AUD = listData.Sum(x => x.AUD),
+                    GBP = listData.Sum(x => x.GBP),
+                    TongDS = listData.Sum(x => x.TongDS)
+                }
+            );
+
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// Search report day theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public ActionResult SearchMarketForTotalForYearConvert([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForAllForYearConvert(fromDate, toDate, reportTypeID, marketID);
+
+            foreach (ReportDetailtForTotalMoneyType item in listData)
+            {
+                item.ReportID = item.MarketName;
+                if (marketID.Equals("0"))
+                {
+                    item.MarketName = "Tất cả thị trường";
+                }
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
+
+            listData.Add(
+                new ReportDetailtForTotalMoneyType()
+                {
+                    ReportID = "Tổng",
+                    VND = listData.Sum(x => x.VND),
+                    USD = listData.Sum(x => x.USD),
+                    EUR = listData.Sum(x => x.EUR),
+                    CAD = listData.Sum(x => x.CAD),
+                    AUD = listData.Sum(x => x.AUD),
+                    GBP = listData.Sum(x => x.GBP),
+                    TongDS = listData.Sum(x => x.TongDS)
+                }
+            );
+
+            return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
 
         /// <summary>
         /// Search report day theo ngày nhập vào
