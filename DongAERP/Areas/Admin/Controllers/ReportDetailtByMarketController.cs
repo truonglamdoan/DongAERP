@@ -207,9 +207,7 @@ namespace DongAERP.Areas.Admin.Controllers
             }
             return View(table);
         }
-
-
-
+        
         public ActionResult ReportDetailtGradationCompareForOne(string gradation, int? year, string reportTypeID, string marketID)
         {
             string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/Từng thị trường";

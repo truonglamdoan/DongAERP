@@ -2151,18 +2151,55 @@ namespace DongA.Bussiness
         }
 
         /// <summary>
-        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// List Report
         /// </summary>
         /// <returns></returns>
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllConvert(int ToYear, int typeID, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOneForMonthConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForAllConvert(ToYear, typeID, reportTypeID);
+
+                // get first day in fromMonth
+                DateTime fromDateRecent = new DateTime(fromDate.Year, fromDate.Month, 1);
+
+                // get last day in toMonth
+                int lastDayInToDate = DateTime.DaysInMonth(toDate.Year, toDate.Month);
+                DateTime toDateRecent = new DateTime(toDate.Year, toDate.Month, lastDayInToDate);
+
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForOneConvert(fromDateRecent, toDateRecent, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOneForYearConvert(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForOneConvert(fromDateRecent, toDateRecent, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -2178,34 +2215,107 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllPercent(int ToYear, int typeID, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllConvert(int ToYear, int typeID, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForAllConvert(ToYear, typeID, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForAllConvert(ToYear, typeID, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllPercent(int toYear, int typeID, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTGradationCompareForAllConvert(toYear, typeID, reportTypeID, marketID);
                 List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>();
+                List<string> listMarket = new List<string>();
 
                 foreach (ReportDetailtForTotalMoneyType item in result)
                 {
-                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-                    ReportDetailtForTotalMoneyType itemDetailtPercent = new ReportDetailtForTotalMoneyType();
-
-                    itemDetailtPercent = new ReportDetailtForTotalMoneyType()
+                    if(!listMarket.Contains(item.MarketName))
                     {
-                        MarketCode = item.MarketCode,
-                        MarketName = item.MarketName,
-                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
-                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
-                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
-                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
-                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
-                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven),
-                        Year = item.Year
-                    };
-
-                    resultConvert.Add(itemDetailtPercent);
+                        listMarket.Add(item.MarketName);
+                    }
                 }
+
+                List<ReportDetailtForTotalMoneyType> listDataYear = result.Where(x => x.Year == toYear.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = result.Where(x => x.Year == (toYear - 1).ToString()).ToList();
+
+                // Year
+                double sumVNDYear = listDataYear.Sum(x => x.VND);
+                double sumUSDYear = listDataYear.Sum(x => x.USD);
+                double sumEURYear = listDataYear.Sum(x => x.EUR);
+                double sumCADYear = listDataYear.Sum(x => x.CAD);
+                double sumAUDYear = listDataYear.Sum(x => x.AUD);
+                double sumGBPYear = listDataYear.Sum(x => x.GBP);
+
+                double sumTongYear = sumVNDYear + sumUSDYear + sumEURYear + sumCADYear + sumAUDYear + sumGBPYear;
+
+                // Last Year
+                double sumVNDLastYear = listDataLastYear.Sum(x => x.VND);
+                double sumUSDLastYear = listDataLastYear.Sum(x => x.USD);
+                double sumEURLastYear = listDataLastYear.Sum(x => x.EUR);
+                double sumCADLastYear = listDataLastYear.Sum(x => x.CAD);
+                double sumAUDLastYear = listDataLastYear.Sum(x => x.AUD);
+                double sumGBPLastYear = listDataLastYear.Sum(x => x.GBP);
+
+                double sumTongLastYear = sumVNDLastYear + sumUSDLastYear + sumEURLastYear + sumCADLastYear + sumAUDLastYear + sumGBPLastYear;
+
+                foreach (ReportDetailtForTotalMoneyType item in result)
+                {
+                    if (item.Year == toYear.ToString())
+                    {
+                        ReportDetailtForTotalMoneyType dataItem = result.Find(x => x.MarketName == item.MarketName && x.Year == toYear.ToString());
+                        resultConvert.Add(
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketCode = item.MarketCode,
+                                MarketName = item.MarketName,
+                                VND = sumVNDYear == 0 ? 0 : Math.Round((item.VND / sumVNDYear) * 100, 2, MidpointRounding.ToEven),
+                                USD = sumUSDYear == 0 ? 0 : Math.Round((item.USD / sumUSDYear) * 100, 2, MidpointRounding.ToEven),
+                                EUR = sumEURYear == 0 ? 0 : Math.Round((item.EUR / sumEURYear) * 100, 2, MidpointRounding.ToEven),
+                                CAD = sumCADYear == 0 ? 0 : Math.Round((item.CAD / sumCADYear) * 100, 2, MidpointRounding.ToEven),
+                                AUD = sumAUDYear == 0 ? 0 : Math.Round((item.AUD / sumAUDYear) * 100, 2, MidpointRounding.ToEven),
+                                GBP = sumGBPYear == 0 ? 0 : Math.Round((item.GBP / sumGBPYear) * 100, 2, MidpointRounding.ToEven),
+                                Year = item.Year
+                            }
+                        );
+                    }
+                    else
+                    {
+                        ReportDetailtForTotalMoneyType dataItem = result.Find(x => x.MarketName == item.MarketName && x.Year == (toYear - 1).ToString());
+                        resultConvert.Add(
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketCode = item.MarketCode,
+                                MarketName = item.MarketName,
+                                VND = sumVNDLastYear == 0 ? 0 : Math.Round((item.VND / sumVNDLastYear) * 100, 2, MidpointRounding.ToEven),
+                                USD = sumUSDLastYear == 0 ? 0 : Math.Round((item.USD / sumUSDLastYear) * 100, 2, MidpointRounding.ToEven),
+                                EUR = sumEURLastYear == 0 ? 0 : Math.Round((item.EUR / sumEURLastYear) * 100, 2, MidpointRounding.ToEven),
+                                CAD = sumCADLastYear == 0 ? 0 : Math.Round((item.CAD / sumCADLastYear) * 100, 2, MidpointRounding.ToEven),
+                                AUD = sumAUDLastYear == 0 ? 0 : Math.Round((item.AUD / sumAUDLastYear) * 100, 2, MidpointRounding.ToEven),
+                                GBP = sumGBPLastYear == 0 ? 0 : Math.Round((item.GBP / sumGBPLastYear) * 100, 2, MidpointRounding.ToEven),
+                                Year = item.Year
+                            }
+                        );
+                    }
+                }
+
                 return resultConvert;
             }
             catch (Exception ex)
@@ -2530,6 +2640,64 @@ namespace DongA.Bussiness
                 throw new DongAException(DongALayer.Business, ex.Message, ex);
             }
         }
+        
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOneForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+
+                // get first day in fromMonth
+                DateTime fromDateRecent = new DateTime(fromDate.Year, fromDate.Month, 1);
+
+                // get last day in toMonth
+                int lastDayInToDate = DateTime.DaysInMonth(toDate.Year, toDate.Month);
+                DateTime toDateRecent = new DateTime(toDate.Year, toDate.Month, lastDayInToDate);
+
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForOne(fromDateRecent, toDateRecent, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchReportDetailtMTForOneForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchReportDetailtMTForOne(fromDateRecent, toDateRecent, reportTypeID, marketID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
 
         #endregion
     }

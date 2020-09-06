@@ -2464,7 +2464,7 @@ where created_date ='05-MAR-20' AND PARTNER_CODE = 20100 and VND_CNV_AMOUNT = 20
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int ToYear, int typeID, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int ToYear, int typeID, string reportTypeID, string marketID)
         {
             OracleCommand command = null;
             try
@@ -2477,6 +2477,7 @@ where created_date ='05-MAR-20' AND PARTNER_CODE = 20100 and VND_CNV_AMOUNT = 20
                     DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
                     DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
                     DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Varchar2, ParameterDirection.Input, marketID);
                     // Cursor
                     DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
 

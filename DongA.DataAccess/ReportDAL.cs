@@ -1762,13 +1762,13 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllConvert(int toYear, int typeID, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTGradationCompareForAllConvert(int toYear, int typeID, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try
             {
                 var result = new List<ReportDetailtForTotalMoneyType>();
-                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "SearchDataReportDetailtMTGradationForAllConvert", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID);
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForMarket", "SearchDataReportDetailtMTGradationForAllConvert", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID, "marketID", marketID);
                 return result;
             }
             catch (Exception ex)

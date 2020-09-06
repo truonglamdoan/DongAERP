@@ -2582,6 +2582,8 @@
     <Content Include="Areas\Admin\Views\ReportDetailtByMarket\MarketForOneForYear.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForTotalForMonth.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForTotalForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForOneForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForOneForYear.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

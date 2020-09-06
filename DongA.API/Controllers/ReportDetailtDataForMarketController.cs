@@ -501,11 +501,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int toYear, int typeID, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int toYear, int typeID, string reportTypeID, string marketID)
         {
             try
             {
-                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTGradationForAllConvert(toYear, typeID, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTGradationForAllConvert(toYear, typeID, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)

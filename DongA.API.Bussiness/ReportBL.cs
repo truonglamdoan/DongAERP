@@ -1603,12 +1603,12 @@ namespace DongA.API.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int ToYear, int typeID, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTGradationForAllConvert(int ToYear, int typeID, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.SearchDataReportDetailtMTGradationForAllConvert(ToYear, typeID, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchDataReportDetailtMTGradationForAllConvert(ToYear, typeID, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)

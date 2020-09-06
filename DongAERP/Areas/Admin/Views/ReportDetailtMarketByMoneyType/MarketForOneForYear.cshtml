@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     string NameUrl = ViewBag.NameURL;
-    
+
     var listData = (List<string>)ViewData["listData"];
 
     string fromDate = string.Empty;
@@ -99,7 +99,7 @@
                             aggregates.Add(p => p.GBP).Sum();
                         })
                         .Group(groups => groups.Add(p => p.MarketName))
-                        .Read(read => read.Action("SearchMarketForOne", "ReportDetailtMarketByMoneyType")
+                        .Read(read => read.Action("SearchMarketForOneForYear", "ReportDetailtMarketByMoneyType")
                         .Data("onDataReportTypeID")
                         )
                     )
@@ -184,7 +184,7 @@
                             aggregates.Add(p => p.TongDS).Sum();
                         })
                         .Group(groups => groups.Add(p => p.MarketName))
-                        .Read(read => read.Action("SearchMarketForOneConvert", "ReportDetailtMarketByMoneyType")
+                        .Read(read => read.Action("SearchMarketForOneForYearConvert", "ReportDetailtMarketByMoneyType")
                         .Data("onDataReportTypeID")
                         )
                     )
@@ -200,7 +200,7 @@
 
 <script type="text/javascript">
     function onDataBound(arg) {
-        
+
         // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
         if ('@marketID' != '005') {
 
@@ -213,7 +213,7 @@
     }
 
     function onDataBoundConvert(arg) {
-        
+
         // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
         if ('@marketID' != '005') {
 
@@ -226,10 +226,10 @@
     }
 
     function onDataReportTypeID(arg) {
-    
+
         return {
-            fromDay: "@fromDate",
-            toDay: "@toDate",
+            fromDate: "@fromDate",
+            toDate: "@toDate",
             reportTypeID: "@reportTypeID",
             marketID: "@marketID"
         };
