@@ -1150,7 +1150,7 @@
     }
 
     function onSelectTimeReport(e) {
-        
+
         let valueData = e.item;
         let dataItem = null;
         let listDataTimeReport = null;
@@ -1412,6 +1412,7 @@
             // Trường hợp chọn loại báo cáo chi tiết theo giai đoạn và theo tháng
             // Trường hợp chọn giai đoạn
             // Báo cáo chi tiết
+            debugger;
             if (level0 == 'level0_item2' && level2 == 'item3') {
 
                 let date = new Date();
@@ -1420,17 +1421,18 @@
                 let countItemDetailt = 0;
                 let countItemDetailtMarket = 0;
 
+                // Trường hợp chọn từ select level3
+                if (dataItem != null) {
+                    timeNow = kendo.toString(date, "yyyy");
+                    countItemDetailt = 0;
+                }
+
                 if (listDataTimeReport != null) {
                     countItemDetailt = kendo.parseInt(listDataTimeReport[0]) - 1;
                     timeNow = listDataTimeReport[1];
                     countItemDetailtMarket = listDataTimeReport[4];
                 }
 
-                // Trường hợp chọn từ select level3
-                if (dataItem != null) {
-                    timeNow = kendo.toString(date, "yyyy");
-                    countItemDetailt = 0;
-                }
 
                 switch (dataItem.PartnerID) {
                     case 'item1':

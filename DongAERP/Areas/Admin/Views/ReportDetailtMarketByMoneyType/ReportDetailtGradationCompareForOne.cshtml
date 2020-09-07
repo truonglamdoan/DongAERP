@@ -11,7 +11,77 @@
     string NameUrl = ViewBag.NameURL;
     int year = DateTime.Today.Year;
 
-    //List<Report> listDataGradation = ViewBag.ListDataGradation;
+
+    var listData = (List<string>)ViewData["listData"];
+
+    string gradation = string.Empty;
+    string toYear = string.Empty;
+    string reportTypeID = string.Empty;
+    string marketID = string.Empty;
+
+    string titleGradatonYear = string.Empty;
+    string titleGradatonLastYear = string.Empty;
+    string text = string.Empty;
+    string textColumn = string.Empty;
+    string textMarket = string.Empty;
+
+    if (listData != null)
+    {
+        gradation = listData[0];
+        toYear = listData[1];
+        reportTypeID = listData[2];
+        marketID = listData[3];
+
+        text = " tháng năm";
+        textColumn = "T";
+        switch (gradation)
+        {
+            case "1":
+                text = string.Concat("3", text);
+                textColumn = string.Concat("3", textColumn);
+                break;
+            case "2":
+                text = string.Concat("6", text);
+                textColumn = string.Concat("6", textColumn);
+                break;
+            case "3":
+                text = string.Concat("9", text);
+                textColumn = string.Concat("9", textColumn);
+                break;
+            default:
+                text = string.Concat("12", text);
+                textColumn = string.Concat("12", textColumn);
+                break;
+        }
+
+        switch (marketID)
+        {
+            case "001":
+                textMarket = "Châu Âu";
+                break;
+            case "002":
+                textMarket = "Mỹ";
+                break;
+            case "003":
+                textMarket = "Canada";
+                break;
+            case "004":
+                textMarket = "Úc";
+                break;
+            case "005":
+                textMarket = "Châu Á";
+                break;
+            case "014":
+                textMarket = "Toàn cầu";
+                break;
+            default:
+                textMarket = "Khác";
+                break;
+        }
+
+        titleGradatonYear = string.Format("Lũy kế {0} {1}", text, toYear);
+        titleGradatonLastYear = string.Format("Lũy kế {0} {1}", text, int.Parse(toYear) - 1);
+    }
 }
 
 <script src="~/Areas/Admin/Scripts/ReportDetailtMarketByMoneyType.js"></script>
@@ -19,88 +89,53 @@
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DABReportBody").Value(0).HtmlAttributes(new { @name = "reportDate" }).Label("DAB"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-
-    <ul style="">
-        <span style="float: left;margin-right: 25px;margin-top: 5px;">Thị trường: </span>
-        <span>
-
-            @(Html.Kendo().DropDownList()
-                                                  .Name("categoriesDetaitMarket")
-                                                  .HtmlAttributes(new { style = "width: 24%;float: left;" })
-                                                  .OptionLabel("Chọn Thị trường...")
-                                                  .DataTextField("MarketName")
-                                                  .DataValueField("MarketCode")
-                                                  .DataSource(source =>
-                                                  {
-                                                      source.Read(read =>
-                                                      {
-                                                          read.Action("ListMarketForPartner", "ReportDetailtByMarket");
-                                                      });
-                                                  })
-                                                  //.Events(events =>events.DataBound("onDataBoundDropDownList"))
-                                                  .Value("001")
-            )
-        </span>
-    </ul>
-</div>
-<hr class="sidebar-divider">
 <div style=" display: flex; ">
-    <ul style="width: 30%;position: absolute;display: block;">
-        <span style="float: left;margin-right: 30px;margin-top: 5px;">Giai đoạn: </span>
-        <span>
-            @(Html.Kendo().ComboBox()
-                                                                                          .Name("gradation")
-                                                                                          .Filter("contains")
-                                                                                          .Placeholder("Chọn giai đoạn...")
-                                                                                          .DataTextField("Text")
-                                                                                          .DataValueField("Value")
-                                                                                          .BindTo(new List<SelectListItem>() {
-                                                          new SelectListItem() {
-                                                            Text = "3 tháng đầu năm", Value = "1"
-                                                          },
-                                                          new SelectListItem() {
-                                                            Text = "6 tháng đầu năm", Value = "2"
-                                                          },
-                                                          new SelectListItem() {
-                                                            Text = "9 tháng", Value = "3"
-                                                          },
-                                                          new SelectListItem() {
-                                                            Text = "12 tháng", Value = "4"
-                                                          }
-                                                                                          })
-                                                                                          .SelectedIndex(0)
-                                                                                          .Suggest(true)
-                                                                                          .HtmlAttributes(new { style = "width: 70%;float: left;" })
+
+    <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
+        @if (marketID.Equals("005"))
+        {
+            @(Html.Kendo().DropDownList()
+                    .Name("dropdownlistMarket")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    //.Filter("startswith")
+                    .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() {
+                            Text = "Tất cả", Value = "005"
+                        },
+                        new SelectListItem() {
+                            Text = "Malaysia", Value = "006"
+                        },
+                        new SelectListItem() {
+                            Text = "Hàn Quốc", Value = "007"
+                        },
+                        new SelectListItem() {
+                            Text = "Nhật Bản", Value = "008"
+                        },
+                        new SelectListItem() {
+                            Text = "Đài Loan", Value = "009"
+                        },
+                        new SelectListItem() {
+                            Text = "Singapore", Value = "010"
+                        },
+                        new SelectListItem() {
+                            Text = "Campuchia", Value = "011"
+                        },
+                        new SelectListItem() {
+                            Text = "Hồng Kông", Value = "012"
+                        },
+                        new SelectListItem() {
+                            Text = "Thái Lan", Value = "013"
+                        }
+                    })
+                    .Events(e =>
+                    {
+                        e.Select("Report.onSelectGradationMarketID");
+                    })
             )
-        </span>
-    </ul>
-    <ul style=" margin-left: 35%; ">
-        <span style="margin-left: 0%;margin-right: 30px;display: inline;">Năm: </span>
-        <span style=" display: inline-flex; ">
-            @(Html.Kendo().DatePicker()
-                                                                                            .Name("ToYear")
-                                                                                            .Start(CalendarView.Decade)
-                                                                                            .Depth(CalendarView.Decade)
-                                                                                            .Format("yyyy")
-                                                                                            .Value(DateTime.Today)
-                                                                                            .DateInput()
-                                                                                              .HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
-            )
-        </span>
-    </ul>
-    @*<ul style="display: inline; " class="search-item">*@
-    <ul class="search-item" style=" width: 27%;margin-top: 5px; ">
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-ForOne" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
+        }
+
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation-ForOne" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
@@ -116,42 +151,311 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
-                        .Name("chartGradationCompareForOne")
-                        .Title("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
+                        .Name("chartGradationCompareForOneVND")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường - VND \n Giai đoạn: {0} {1}", text, toYear))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
                         .SeriesDefaults(seriesDefaults => seriesDefaults
-                            .Column()
-                            .Stack(true)
+                        .Column()
+                        //.Stack(true)
+                            //.Bar().Stack(ChartStackType.Normal)
                         )
                         .ChartArea(chartArea =>
                         {
-                            chartArea.Height(550);
+                            chartArea.Height(350);
                         })
                         .DataSource(ds => ds
-                            .Read(read => read.Action("ColumnsChartGradationCompareForOne", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneVND", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
                             .Group(group => group.Add(model => model.NameGradationCompare))
+                            .Sort(sort => sort.Add(model => model.NameType))
                             )
 
                         .Series(series =>
                         {
-                            series.Column(model => model.amount).Name("#= group.value #");
-                                //.CategoryField("NameType");
+                            series.Bar(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
 
-                            })
+                        })
                         .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
                         .CategoryAxis(axis => axis
                             .Categories(categories => categories.NameType)
                             .MajorGridLines(lines => lines.Visible(false))
-                        //.MajorGridLines(lines => lines.Visible(true))
-                            .Labels(labels => labels.Rotation(-15))
                         )
-                        .CategoryAxis(axis => axis
-                            .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
-                            .MajorGridLines(lines => lines.Visible(true).Color("black"))
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+            </div>
+            <div class="card-body">
+                <div class="demo-section k-content wide">
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartGradationCompareForOneUSD")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường - USD \n Giai đoạn: {0} {1}", text, toYear))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                        .Column()
+                        //.Stack(true)
+                            //.Bar().Stack(ChartStackType.Normal)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(350);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneUSD", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            .Sort(sort => sort.Add(model => model.NameType))
+                            )
 
-                        //.Line(line => line.Visible(false))
+                        .Series(series =>
+                        {
+                            series.Bar(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+            </div>
+            <div class="card-body">
+                <div class="demo-section k-content wide">
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartGradationCompareForOneEUR")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường - EUR \n Giai đoạn: {0} {1}", text, toYear))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                        .Column()
+                        //.Stack(true)
+                            //.Bar().Stack(ChartStackType.Normal)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(350);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneEUR", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            .Sort(sort => sort.Add(model => model.NameType))
+                            )
+
+                        .Series(series =>
+                        {
+                            series.Bar(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+            </div>
+            <div class="card-body">
+                <div class="demo-section k-content wide">
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartGradationCompareForOneCAD")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường - CAD \n Giai đoạn: {0} {1}", text, toYear))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                        .Column()
+                        //.Stack(true)
+                            //.Bar().Stack(ChartStackType.Normal)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(350);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneCAD", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            .Sort(sort => sort.Add(model => model.NameType))
+                            )
+
+                        .Series(series =>
+                        {
+                            series.Bar(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+            </div>
+            <div class="card-body">
+                <div class="demo-section k-content wide">
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartGradationCompareForOneAUD")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường - AUD \n Giai đoạn: {0} {1}", text, toYear))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                        .Column()
+                        //.Stack(true)
+                            //.Bar().Stack(ChartStackType.Normal)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(350);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneAUD", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            .Sort(sort => sort.Add(model => model.NameType))
+                            )
+
+                        .Series(series =>
+                        {
+                            series.Bar(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}")
+                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+            </div>
+            <div class="card-body">
+                <div class="demo-section k-content wide">
+                    @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
+                        .Name("chartGradationCompareForOneGBP")
+                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường - GBP \n Giai đoạn: {0} {1}", text, toYear))
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .SeriesDefaults(seriesDefaults => seriesDefaults
+                        .Column()
+                        //.Stack(true)
+                            //.Bar().Stack(ChartStackType.Normal)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(350);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnsChartGradationCompareForOneGBP", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            .Sort(sort => sort.Add(model => model.NameType))
+                            )
+
+                        .Series(series =>
+                        {
+                            series.Bar(model => model.amount).Name("#= group.value #");
+                            //.CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FFFF00", "#FE642E", "#088A08", "#0B0B61")
+                        .CategoryAxis(axis => axis
+                            .Categories(categories => categories.NameType)
+                            .MajorGridLines(lines => lines.Visible(false))
                         )
                         .ValueAxis(axis => axis
                             .Numeric()
@@ -176,61 +480,62 @@
             <div class="card-body">
                 <div id="chart"></div>
                 @(Html.Kendo().Chart<DongA.Entities.GradationCharColumn>()
-                        .Name("ColumnchartForYearPercentForOne")
-                        .Title("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
-                        .Legend(legend => legend
-                            .Position(ChartLegendPosition.Top)
-                        )
-                        .PlotArea(plotArea => plotArea.Background("white"))
-                        .SeriesDefaults(seriesDefaults => seriesDefaults
-                            .Column()
-                            .Stack(true)
-                        )
-                        .ChartArea(chartArea =>
+                    .Name("ColumnchartForYearPercentForOne")
+                    .Title(string.Format("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} {1}", text, toYear))
+                    .Legend(legend => legend
+                        .Position(ChartLegendPosition.Top)
+                    )
+                    .PlotArea(plotArea => plotArea.Background("white"))
+                    .SeriesDefaults(seriesDefaults => seriesDefaults
+                    //.Column()
+                    //.Stack(true)
+                        .Bar().Stack(ChartStackType.Normal)
+                    )
+                    .ChartArea(chartArea =>
+                    {
+                        chartArea.Height(550);
+                    })
+                    .DataSource(ds => ds
+                        .Read(read => read.Action("SearchColumnChartGradationCompareStackForOne", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                        .Group(group =>
                         {
-                            chartArea.Height(550);
+                            group.Add(model => model.Serie);
                         })
-                        .DataSource(ds => ds
-                            .Read(read => read.Action("ColumnChartGradationCompareStackForOne", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
-                            .Group(group =>
-                            {
-                                group.Add(model => model.Serie);
-                            })
-                            //.Sort(sort => sort.Add(model => model.Segmento))
+                        .Sort(sort => sort.Add(model => model.Segmento))
 
-                            )
+                    )
 
-                        .Series(series =>
-                        {
-                            series.Column(model => model.Valor1)
-                                    .Name("#= group.value #");
-                        })
-                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
-                        .CategoryAxis(axis => axis
-                            .Categories(categories => categories.Segmento)
-                            .MajorGridLines(lines => lines.Visible(false))
-                            .Line(line => line.Visible(false))
-                            .Labels(labels => labels.Rotation(-15))
-                        )
-                        .CategoryAxis(axis => axis
-                            .Categories(string.Format("Lũy kế 3 tháng {0}", year - 1), string.Format("Lũy kế 3 tháng {0}", year))
-                            .MajorGridLines(lines => lines.Visible(true).Color("black"))
+                    .Series(series =>
+                    {
+                        series.Bar(model => model.Valor1)
+                                .Name("#= group.value #");
+                    })
+                    .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
+                    .CategoryAxis(axis => axis
+                        .Categories(categories => categories.Segmento)
+                        .MajorGridLines(lines => lines.Visible(false))
+                        .Line(line => line.Visible(false))
+                    //.Labels(labels => labels.Rotation(-15))
+                    )
+                    .CategoryAxis(axis => axis
+                        .Categories("AUD", "CAD", "EUR", "GBP", "USD", "VND")
+                        .MajorGridLines(lines => lines.Visible(true).Color("black"))
 
-                        //.Line(line => line.Visible(false))
-                        )
-                        .ValueAxis(axis => axis
-                            .Numeric()
-                            .Labels(labels => labels
-                                .Format("{0:N2}")
-                            )
-                            .Line(line => line.Visible(false))
-                            .Max(100)
-                        )
-                        .Tooltip(tooltip => tooltip
-                            .Visible(true)
+                    //.Line(line => line.Visible(false))
+                    )
+                    .ValueAxis(axis => axis
+                        .Numeric()
+                        .Labels(labels => labels
                             .Format("{0:N2}")
-                            .Template("#= series.name#: #= kendo.format('{0:N2}', value) #")
                         )
+                        .Line(line => line.Visible(false))
+                        .Max(100)
+                    )
+                    .Tooltip(tooltip => tooltip
+                        .Visible(true)
+                        .Format("{0:N2}")
+                        .Template("#= series.name#: #= kendo.format('{0:N2} %', value) #")
+                    )
                 )
             </div>
         </div>
@@ -254,54 +559,140 @@
                         columns.Bound(Model.Columns[0].ColumnName)
                             .Title("Đối tác")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                            .HtmlAttributes(new { style = " text-align: center;" });
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .ClientGroupFooterTemplate("Tổng")
+                            .ClientFooterTemplate("Tổng tất cả");
                         columns.Group(group => group
-                            .Title(string.Format("Lũy kế 3 tháng {0}", year - 1))
+                            .Title("VND")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[1].ColumnName).Title("VND").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[2].ColumnName).Title("USD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[3].ColumnName).Title("EUR").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[4].ColumnName).Title("CAD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[5].ColumnName).Title("AUD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[6].ColumnName).Title("GBP").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                //info.Bound(Model.Columns[7].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                info.Bound(Model.Columns[1].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound(Model.Columns[2].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
                             })
                         );
                         columns.Group(group => group
-                            .Title(string.Format("Lũy kế 3 tháng {0}", year))
+                            .Title("USD")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[8].ColumnName).Title("VND").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[9].ColumnName).Title("USD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[10].ColumnName).Title("EUR").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[11].ColumnName).Title("CAD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[12].ColumnName).Title("AUD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[13].ColumnName).Title("GBP").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                //info.Bound(Model.Columns[14].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                info.Bound(Model.Columns[3].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound(Model.Columns[4].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
                             })
-
                         );
-                        ;
+                        columns.Group(group => group
+                            .Title("EUR")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .Columns(info =>
+                            {
+                                info.Bound(Model.Columns[5].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound(Model.Columns[6].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                            })
+                        );
+                        columns.Group(group => group
+                            .Title("CAD")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .Columns(info =>
+                            {
+                                info.Bound(Model.Columns[7].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound(Model.Columns[8].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                            })
+                        );
+                        columns.Group(group => group
+                            .Title("AUD")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .Columns(info =>
+                            {
+                                info.Bound(Model.Columns[9].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound(Model.Columns[10].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                            })
+                        );
+                        columns.Group(group => group
+                            .Title("GBP")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .Columns(info =>
+                            {
+                                info.Bound(Model.Columns[11].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound(Model.Columns[12].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                            })
+                        );
                     })
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
-                        //.Group(groups => groups.Add(Model.Columns[15].ColumnName, typeof(string), System.ComponentModel.ListSortDirection.Descending))
+                        .ServerOperation(false)
+                        .Aggregates(aggregates =>
+                        {
+                            aggregates.Add("VND1", typeof(double)).Sum();
+                            aggregates.Add("VND2", typeof(double)).Sum();
+                            aggregates.Add("USD1", typeof(double)).Sum();
+                            aggregates.Add("USD2", typeof(double)).Sum();
+                            aggregates.Add("EUR1", typeof(double)).Sum();
+                            aggregates.Add("EUR2", typeof(double)).Sum();
+                            aggregates.Add("CAD1", typeof(double)).Sum();
+                            aggregates.Add("CAD2", typeof(double)).Sum();
+                            aggregates.Add("AUD1", typeof(double)).Sum();
+                            aggregates.Add("AUD2", typeof(double)).Sum();
+                            aggregates.Add("GBP1", typeof(double)).Sum();
+                            aggregates.Add("GBP2", typeof(double)).Sum();
+                        })
+                        .Read(read => read.Action("SearchGridReportForGradationForOne", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                        .Group(group =>
 
-                        .Read(read => read.Action("ReportDetailtGradationCompareForOneConvert", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
-                    //.Sort(x=>x.Add(Model.Columns[0].ColumnName).Ascending())
-                    .Group(group =>
-
-                        group.Add(Model.Columns[15].ColumnName, typeof(string))
+                            group.Add("MarketName", typeof(string))
+                        )
                     )
+                    .Events(events => events
+                        .DataBound("onDataBoundGradationCompareForOne")
                     )
-                //.Groupable()
-                //.Events(events => events
-                //    .DataBound("onDataBoundGradationCompare")
-                //)
                 )
             </div>
         </div>
@@ -324,36 +715,77 @@
 
                         columns.Bound(Model.Columns[0].ColumnName).Title("Đối tác")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                            .HtmlAttributes(new { style = " text-align: center;" });
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .ClientGroupFooterTemplate("Tổng")
+                            .ClientFooterTemplate("Tổng tất cả");
                         columns.Group(group => group
-                            .Title(string.Format("Tăng giảm so với cùng kì {0}", year - 1))
+                            .Title(string.Format("Tăng giảm so với cùng kì {0}", int.Parse(toYear) - 1))
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[1].ColumnName).Title("VND").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[2].ColumnName).Title("USD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[3].ColumnName).Title("EUR").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[4].ColumnName).Title("CAD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[5].ColumnName).Title("AUD").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[6].ColumnName).Title("GBP").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[7].ColumnName).Title("Tổng").Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                info.Bound("VND1").Title("VND").Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound("USD1").Title("USD").Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound("EUR1").Title("EUR").Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound("CAD1").Title("CAD").Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound("AUD1").Title("AUD").Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound("GBP1").Title("GBP").Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                                info.Bound("TDS1").Title("Tổng").Format("{0:n2}")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" })
+                                    .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                                    .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
                             })
                         );
                     })
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
-                        .Read(read => read.Action("ReportDetailtGradationCompareForOneConvertCompare", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
+                        .ServerOperation(false)
+                        .Aggregates(aggregates =>
+                        {
+                            aggregates.Add("VND1", typeof(double)).Sum();
+                            aggregates.Add("USD1", typeof(double)).Sum();
+                            aggregates.Add("EUR1", typeof(double)).Sum();
+                            aggregates.Add("CAD1", typeof(double)).Sum();
+                            aggregates.Add("AUD1", typeof(double)).Sum();
+                            aggregates.Add("GBP1", typeof(double)).Sum();
+                            aggregates.Add("TDS1", typeof(double)).Sum();
+                        })
+                        .Read(read => read.Action("SearchGridReportForGradationForOneCompare", "ReportDetailtMarketByMoneyType").Data("onDataReportTypeID"))
 
                         .Group(group =>
 
                             group.Add("MarketName", typeof(string))
                         )
                     )
-                //.Events(events => events
-                //    .DataBound("onDataBoundGradationCompareForOne")
-                //)
+                    .Events(events => events
+                        .DataBound("onDataBoundGradationCompareForOneCompare")
+                    )
                 )
             </div>
         </div>
@@ -362,10 +794,17 @@
 
 <script type="text/javascript">
 
-    //function onDataBoundDropDownList() {
-    //    debugger;
-    //    let dropdownList = $("#categoriesDetaitMarket").data("kendoDropDownList");
-    //}
+    function onDataBoundGradationCompareForOne() {
+
+        // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
+        if ('@marketID' != '005') {
+
+            $('#gridGradationCompareForOne tr.k-group-footer').css('display', 'none');
+        } else {
+
+            $('#gridGradationCompareForOne tr.k-group-footer').css('display', '');
+        }
+    }
 
     function GradationCompareDSGrid() {
 
@@ -377,7 +816,16 @@
     }
 
     // In đậm cho Grid
-    function onDataBoundGradationCompareForOne(arg) {
+    function onDataBoundGradationCompareForOneCompare(arg) {
+
+        // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
+        if ('@marketID' != '005') {
+
+            $('#gridGradationCompareForOneCompare tr.k-group-footer').css('display', 'none');
+        } else {
+
+            $('#gridGradationCompareForOneCompare tr.k-group-footer').css('display', '');
+        }
 
         let lastRow = $('#gridGradationCompareForOneCompare tbody tr');
         $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
@@ -401,42 +849,21 @@
         }
     }
 
-    // In đậm cho Grid
-    function onDataBoundGradationCompare(arg) {
+    //// In đậm cho Grid
+    //function onDataBoundGradationCompare(arg) {
 
-        let lastRow = $('#gridGradationCompareForOne tbody tr');
-        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
-    }
+    //    let lastRow = $('#gridGradationCompareForOne tbody tr');
+    //    $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+    //}
 
-    // In đậm cho Grid
-    function onDataBoundPercent(arg) {
-
-        let lastRow = $('#gridGradationComparePercent tbody tr');
-        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
-    }
 
     function onDataReportTypeID(arg) {
 
-        let value = localStorage.reportTypeLS;
-        if (value != undefined) {
-
-            reportTypeID = value;
-
-            // Change giá trị cho group radio
-            switch (value) {
-                case '0':
-                    $('#DABReportBody_0').prop('checked', true);
-                    break;
-                case '1':
-                    $('#DAMReportBody_1').prop('checked', true);
-                    break;
-                default:
-                    $('#TotalReportBody_2').prop('checked', true);
-            }
-        }
-
         return {
-            reportTypeID: reportTypeID
+            gradation: "@gradation",
+            year: "@toYear",
+            reportTypeID: "@reportTypeID",
+            marketID: "@marketID"
         };
     }
 
