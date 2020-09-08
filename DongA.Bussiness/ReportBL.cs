@@ -2705,12 +2705,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtMTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -2726,12 +2726,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> ColumnChartStackDetailtMTCompareMonthForAllPercent(int toYear, int toMonth, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> ColumnChartStackDetailtMTCompareMonthForAllPercent(int toYear, int toMonth, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID, marketID);
                 List<ReportDetailtForTotalMoneyType> resultConvert = new List<ReportDetailtForTotalMoneyType>();
 
                 foreach(ReportDetailtForTotalMoneyType item in result)
@@ -2795,6 +2795,7 @@ namespace DongA.Bussiness
                             dataItemLastYear = new ReportDetailtForTotalMoneyType();
                             dataItemLastYear.MarketCode = item.MarketCode;
                             dataItemLastYear.MarketName = item.MarketName;
+                            dataItemLastYear.PartnerCode = item.PartnerCode;
                             dataItemLastYear.PartnerName = item.PartnerName;
                             dataItemLastYear.Year = (year - 1).ToString();
                             dataItemLastYear.Month = month.ToString();
@@ -2807,6 +2808,7 @@ namespace DongA.Bussiness
                             dataItemYear = new ReportDetailtForTotalMoneyType();
                             dataItemYear.MarketCode = item.MarketCode;
                             dataItemYear.MarketName = item.MarketName;
+                            dataItemYear.PartnerCode = item.PartnerCode;
                             dataItemYear.PartnerName = item.PartnerName;
                             dataItemYear.Year = year.ToString();
                             dataItemYear.Month = month.ToString();
@@ -2819,6 +2821,7 @@ namespace DongA.Bussiness
                             dataItemLastMonth = new ReportDetailtForTotalMoneyType();
                             dataItemLastMonth.MarketCode = item.MarketCode;
                             dataItemLastMonth.MarketName = item.MarketName;
+                            dataItemLastMonth.PartnerCode = item.PartnerCode;
                             dataItemLastMonth.PartnerName = item.PartnerName;
                             dataItemLastMonth.Year = year.ToString();
                             dataItemLastMonth.Month = (month - 1).ToString();
@@ -2855,6 +2858,34 @@ namespace DongA.Bussiness
                 List<ReportDetailtForTotalMoneyType> resultConvertPercent = new List<ReportDetailtForTotalMoneyType>();
 
                 List<string> listTemp = new List<string>();
+
+                List<ReportDetailtForTotalMoneyType> listDataItemLastYear = result.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataItemYear = result.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataItemLastMonth = result.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+
+                // Cùng kì
+                double sumVNDTotalLastYear = listDataItemLastYear.Sum(x => x.VND);
+                double sumUSDTotalLastYear = listDataItemLastYear.Sum(x => x.USD);
+                double sumEURTotalLastYear = listDataItemLastYear.Sum(x => x.EUR);
+                double sumCADTotalLastYear = listDataItemLastYear.Sum(x => x.CAD);
+                double sumAUDTotalLastYear = listDataItemLastYear.Sum(x => x.AUD);
+                double sumGBPTotalLastYear = listDataItemLastYear.Sum(x => x.GBP);
+
+                // Tháng hiện tại
+                double sumVNDTotalYear = listDataItemYear.Sum(x => x.VND);
+                double sumUSDTotalYear = listDataItemYear.Sum(x => x.USD);
+                double sumEURTotalYear = listDataItemYear.Sum(x => x.EUR);
+                double sumCADTotalYear = listDataItemYear.Sum(x => x.CAD);
+                double sumAUDTotalYear = listDataItemYear.Sum(x => x.AUD);
+                double sumGBPTotalYear = listDataItemYear.Sum(x => x.GBP);
+
+                // Tháng trước
+                double sumVNDTotalLastMonth = listDataItemLastMonth.Sum(x => x.VND);
+                double sumUSDTotalLastMonth = listDataItemLastMonth.Sum(x => x.USD);
+                double sumEURTotalLastMonth = listDataItemLastMonth.Sum(x => x.EUR);
+                double sumCADTotalLastMonth = listDataItemLastMonth.Sum(x => x.CAD);
+                double sumAUDTotalLastMonth = listDataItemLastMonth.Sum(x => x.AUD);
+                double sumGBPTotalLastMonth = listDataItemLastMonth.Sum(x => x.GBP);
 
                 foreach (ReportDetailtForTotalMoneyType item in resultConvert)
                 {
@@ -2911,35 +2942,74 @@ namespace DongA.Bussiness
 
                 foreach (ReportDetailtForTotalMoneyType item in result)
                 {
-                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-
-                    double sumVND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven);
-                    double sumUSD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven);
-                    double sumEUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven);
-                    double sumCAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven);
-                    double sumAUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven);
-                    double sumGBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven);
-
-                    ReportDetailtForTotalMoneyType dataItem = new ReportDetailtForTotalMoneyType()
+                    // Tháng hiện tại
+                    if(item.Month == month.ToString() && item.Year == year.ToString())
                     {
-                        PartnerCode = item.PartnerCode,
-                        PartnerName = item.PartnerName,
-                        MarketCode = item.MarketCode,
-                        MarketName = item.MarketName,
-                        VND = sumVND,
-                        USD = sumUSD,
-                        EUR = sumEUR,
-                        CAD = sumCAD,
-                        AUD = sumAUD,
-                        GBP = sumGBP,
-                        Month = item.Month,
-                        Year = item.Year
-                    };
+                        resultConvertPercent.Add(
+                             new ReportDetailtForTotalMoneyType()
+                             {
+                                 PartnerCode = item.PartnerCode,
+                                 PartnerName = item.PartnerName,
+                                 MarketCode = item.MarketCode,
+                                 MarketName = item.MarketName,
+                                 VND = sumVNDTotalYear == 0 ? 0 : Math.Round((item.VND / sumVNDTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                 USD = sumUSDTotalYear == 0 ? 0 : Math.Round((item.USD / sumUSDTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                 EUR = sumEURTotalYear == 0 ? 0 : Math.Round((item.EUR / sumEURTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                 CAD = sumCADTotalYear == 0 ? 0 : Math.Round((item.CAD / sumCADTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                 AUD = sumAUDTotalYear == 0 ? 0 : Math.Round((item.AUD / sumAUDTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                 GBP = sumGBPTotalYear == 0 ? 0 : Math.Round((item.GBP / sumGBPTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                 Month = item.Month,
+                                 Year = item.Year
+                             }
+                        );
+                    }
 
-                    resultConvertPercent.Add(dataItem);
+                    // Tháng trước
+                    if (item.Month == (month - 1).ToString() && item.Year == year.ToString())
+                    {
+                        resultConvertPercent.Add(
+                             new ReportDetailtForTotalMoneyType()
+                             {
+                                 PartnerCode = item.PartnerCode,
+                                 PartnerName = item.PartnerName,
+                                 MarketCode = item.MarketCode,
+                                 MarketName = item.MarketName,
+                                 VND = sumVNDTotalLastMonth == 0 ? 0 : Math.Round((item.VND / sumVNDTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                 USD = sumUSDTotalLastMonth == 0 ? 0 : Math.Round((item.USD / sumUSDTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                 EUR = sumEURTotalLastMonth == 0 ? 0 : Math.Round((item.EUR / sumEURTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                 CAD = sumCADTotalLastMonth == 0 ? 0 : Math.Round((item.CAD / sumCADTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                 AUD = sumAUDTotalLastMonth == 0 ? 0 : Math.Round((item.AUD / sumAUDTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                 GBP = sumGBPTotalLastMonth == 0 ? 0 : Math.Round((item.GBP / sumGBPTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                 Month = item.Month,
+                                 Year = item.Year
+                             }
+                        );
+                    }
+
+                    // Cùng kì năm trước
+                    if (item.Month == month.ToString() && item.Year == (year - 1).ToString())
+                    {
+                        resultConvertPercent.Add(
+                             new ReportDetailtForTotalMoneyType()
+                             {
+                                 PartnerCode = item.PartnerCode,
+                                 PartnerName = item.PartnerName,
+                                 MarketCode = item.MarketCode,
+                                 MarketName = item.MarketName,
+                                 VND = sumVNDTotalLastYear == 0 ? 0 : Math.Round((item.VND / sumVNDTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                 USD = sumUSDTotalLastYear == 0 ? 0 : Math.Round((item.USD / sumUSDTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                 EUR = sumEURTotalLastYear == 0 ? 0 : Math.Round((item.EUR / sumEURTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                 CAD = sumCADTotalLastYear == 0 ? 0 : Math.Round((item.CAD / sumCADTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                 AUD = sumAUDTotalLastYear == 0 ? 0 : Math.Round((item.AUD / sumAUDTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                 GBP = sumGBPTotalLastYear == 0 ? 0 : Math.Round((item.GBP / sumGBPTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                 Month = item.Month,
+                                 Year = item.Year
+                             }
+                        );
+                    }
                 }
                 
-                return resultConvertPercent.OrderBy(x=>x.Year).ThenBy(x=>x.Month).ToList();
+                return resultConvertPercent;
             }
             catch (Exception ex)
             {

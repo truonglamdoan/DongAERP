@@ -269,7 +269,7 @@ namespace DongAERP.Areas.Admin.Controllers
             return View(table);
         }
 
-        public ActionResult ReportDetailtCompareMonthForAll()
+        public ActionResult ReportDetailtCompareMonthForAll(int? month, int? year, string reportTypeID, string marketID)
         {
             string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/So sánh - Theo tháng - tất cả thị trường";
             ViewBag.NameURL = nameUrl;
@@ -278,37 +278,57 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo các cột cho datatable
             table.Columns.Add("MarketName", typeof(String));
             table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // tháng trước
             table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            // Năm hiện tại
             table.Columns.Add("VND3", typeof(double));
-            table.Columns.Add("USD3", typeof(double));
-            table.Columns.Add("EUR3", typeof(double));
-            table.Columns.Add("CAD3", typeof(double));
-            table.Columns.Add("AUD3", typeof(double));
-            table.Columns.Add("GBP3", typeof(double));
-            table.Columns.Add("TDS3", typeof(double));
 
-            table.Columns.Add("MarketName", typeof(String));
+            table.Columns.Add("USD1", typeof(double));
+            table.Columns.Add("USD2", typeof(double));
+            table.Columns.Add("USD3", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
+            table.Columns.Add("EUR2", typeof(double));
+            table.Columns.Add("EUR3", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
+            table.Columns.Add("CAD2", typeof(double));
+            table.Columns.Add("CAD3", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
+            table.Columns.Add("AUD2", typeof(double));
+            table.Columns.Add("AUD3", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
+            table.Columns.Add("GBP2", typeof(double));
+            table.Columns.Add("GBP3", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
+            table.Columns.Add("TDS3", typeof(double));
+            
+
+            table.Columns.Add("ReportID", typeof(String));
+
+
+            if (month != null && year != null)
+            {
+                if (month.Value > 0 && year.Value > 0 && reportTypeID != null && marketID != null)
+                {
+                    List<string> listData = new List<string>()
+                    {
+                        month.ToString(),
+                        year.ToString(),
+                        reportTypeID,
+                        marketID
+                    };
+
+                    ViewData["listData"] = listData;
+                }
+            }
             return View(table);
         }
 
 
-        public ActionResult ReportDetailtCompareMonthForOne()
+        public ActionResult ReportDetailtCompareMonthForOne(int? month, int? year, string reportTypeID, string marketID)
         {
             string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/So sánh - Theo tháng - Từng thị trường";
             ViewBag.NameURL = nameUrl;
@@ -317,32 +337,51 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo các cột cho datatable
             table.Columns.Add("PartnerName", typeof(String));
             table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // tháng trước
             table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            // Năm hiện tại
             table.Columns.Add("VND3", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
+            table.Columns.Add("USD2", typeof(double));
             table.Columns.Add("USD3", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
+            table.Columns.Add("EUR2", typeof(double));
             table.Columns.Add("EUR3", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
+            table.Columns.Add("CAD2", typeof(double));
             table.Columns.Add("CAD3", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
+            table.Columns.Add("AUD2", typeof(double));
             table.Columns.Add("AUD3", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
+            table.Columns.Add("GBP2", typeof(double));
             table.Columns.Add("GBP3", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
             table.Columns.Add("TDS3", typeof(double));
 
             table.Columns.Add("MarketName", typeof(String));
+            
+            if (month != null && year != null)
+            {
+                if (month.Value > 0 && year.Value > 0 && reportTypeID != null && marketID != null)
+                {
+                    List<string> listData = new List<string>()
+                    {
+                        month.ToString(),
+                        year.ToString(),
+                        reportTypeID,
+                        marketID
+                    };
+
+                    ViewData["listData"] = listData;
+                }
+            }
+
             return View(table);
         }
 
@@ -2640,112 +2679,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             return Json(arrayGradation);
         }
-
-        /// <summary>
-        /// Get data cho báo cáo so sánh giai đoạn theo loại tiền chi trả
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult ReportDetailtCompareMonthForAll([DataSourceRequest]DataSourceRequest request, string reportTypeID)
-        {
-            // Danh sach của data gradation gồm key và value
-            int toYear = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-            }
-
-            // Danh sách mã thị trường của Tất cả
-            List<string> listMarket = new List<string>() { "003", "005", "001", "002", "014", "004" };
-
-            // Khởi tạo datatable
-            DataTable table = new DataTable();
-            // Tạo các cột cho datatable
-            // Cùng kì năm trước
-            table.Columns.Add("MarketName", typeof(String));
-            table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // tháng trước
-            table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            // Năm hiện tại
-            table.Columns.Add("VND3", typeof(double));
-            table.Columns.Add("USD3", typeof(double));
-            table.Columns.Add("EUR3", typeof(double));
-            table.Columns.Add("CAD3", typeof(double));
-            table.Columns.Add("AUD3", typeof(double));
-            table.Columns.Add("GBP3", typeof(double));
-            table.Columns.Add("TDS3", typeof(double));
-
-            foreach (string item in listMarket)
-            {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.MarketCode == item && x.Month == toMonth.ToString() && x.Year == (toYear - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.MarketCode == item && x.Month == toMonth.ToString() && x.Year == toYear.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.MarketCode == item && x.Month == (toMonth - 1).ToString() && x.Year == toYear.ToString());
-
-                if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null)
-                {
-                    // add item vào table
-                    table.Rows.Add(dataItemYear.MarketName
-                        , dataItemLastYear.VND, dataItemLastYear.USD, dataItemLastYear.EUR, dataItemLastYear.CAD, dataItemLastYear.AUD, dataItemLastYear.GBP, dataItemLastYear.TongDS
-                        , dataItemLastMonth.VND, dataItemLastMonth.USD, dataItemLastMonth.EUR, dataItemLastMonth.CAD, dataItemLastMonth.AUD, dataItemLastMonth.GBP, dataItemLastMonth.TongDS
-                        , dataItemYear.VND, dataItemYear.USD, dataItemYear.EUR, dataItemYear.CAD, dataItemYear.AUD, dataItemYear.GBP, dataItemYear.TongDS
-                        );
-                }
-            }
-
-            DataRow row = table.NewRow();
-            row["MarketName"] = "Tổng";
-            row["VND1"] = table.Compute("Sum(VND1)", "");
-            row["USD1"] = table.Compute("Sum(USD1)", "");
-            row["EUR1"] = table.Compute("Sum(EUR1)", "");
-            row["CAD1"] = table.Compute("Sum(CAD1)", "");
-            row["AUD1"] = table.Compute("Sum(AUD1)", "");
-            row["GBP1"] = table.Compute("Sum(GBP1)", "");
-            row["TDS1"] = table.Compute("Sum(TDS1)", "");
-
-            row["VND2"] = table.Compute("Sum(VND2)", "");
-            row["USD2"] = table.Compute("Sum(USD2)", "");
-            row["EUR2"] = table.Compute("Sum(EUR2)", "");
-            row["CAD2"] = table.Compute("Sum(CAD2)", "");
-            row["AUD2"] = table.Compute("Sum(AUD2)", "");
-            row["GBP2"] = table.Compute("Sum(GBP2)", "");
-            row["TDS2"] = table.Compute("Sum(TDS2)", "");
-
-            row["VND3"] = table.Compute("Sum(VND3)", "");
-            row["USD3"] = table.Compute("Sum(USD3)", "");
-            row["EUR3"] = table.Compute("Sum(EUR3)", "");
-            row["CAD3"] = table.Compute("Sum(CAD3)", "");
-            row["AUD3"] = table.Compute("Sum(AUD3)", "");
-            row["GBP3"] = table.Compute("Sum(GBP3)", "");
-            row["TDS3"] = table.Compute("Sum(TDS3)", "");
-
-            table.Rows.Add(row);
-
-            //ViewBag.ListDataGradation = listDataGradation;
-            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
-
+        
 
         /// <summary>
         /// Get data cho báo cáo chi tiết so sánh theo tháng
@@ -2755,9 +2689,9 @@ namespace DongAERP.Areas.Admin.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpPost]
-        public ActionResult SearchReportDetailtCompareMonthForAll([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID)
+        public ActionResult SearchReportDetailtCompareMonthForAll([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
         {
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID);
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
 
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
             {
@@ -2770,174 +2704,43 @@ namespace DongAERP.Areas.Admin.Controllers
             // Khởi tạo datatable
             DataTable table = new DataTable();
             // Tạo các cột cho datatable
-            // Cùng kì năm trước
             table.Columns.Add("MarketName", typeof(String));
             table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // tháng trước
             table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            // Năm hiện tại
             table.Columns.Add("VND3", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
+            table.Columns.Add("USD2", typeof(double));
             table.Columns.Add("USD3", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
+            table.Columns.Add("EUR2", typeof(double));
             table.Columns.Add("EUR3", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
+            table.Columns.Add("CAD2", typeof(double));
             table.Columns.Add("CAD3", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
+            table.Columns.Add("AUD2", typeof(double));
             table.Columns.Add("AUD3", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
+            table.Columns.Add("GBP2", typeof(double));
             table.Columns.Add("GBP3", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
             table.Columns.Add("TDS3", typeof(double));
 
-            foreach (string item in listMarket)
-            {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.MarketCode == item && x.Month == month.ToString() && x.Year == (year - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.MarketCode == item && x.Month == month.ToString() && x.Year == year.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.MarketCode == item && x.Month == (month - 1).ToString() && x.Year == year.ToString());
 
-                if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null)
-                {
-                    // add item vào table
-                    table.Rows.Add(dataItemYear.MarketName
-                        , dataItemLastYear.VND, dataItemLastYear.USD, dataItemLastYear.EUR, dataItemLastYear.CAD, dataItemLastYear.AUD, dataItemLastYear.GBP, dataItemLastYear.TongDS
-                        , dataItemLastMonth.VND, dataItemLastMonth.USD, dataItemLastMonth.EUR, dataItemLastMonth.CAD, dataItemLastMonth.AUD, dataItemLastMonth.GBP, dataItemLastMonth.TongDS
-                        , dataItemYear.VND, dataItemYear.USD, dataItemYear.EUR, dataItemYear.CAD, dataItemYear.AUD, dataItemYear.GBP, dataItemYear.TongDS
-                        );
-                }
-            }
-
-            DataRow row = table.NewRow();
-            row["MarketName"] = "Tổng";
-            row["VND1"] = table.Compute("Sum(VND1)", "");
-            row["USD1"] = table.Compute("Sum(USD1)", "");
-            row["EUR1"] = table.Compute("Sum(EUR1)", "");
-            row["CAD1"] = table.Compute("Sum(CAD1)", "");
-            row["AUD1"] = table.Compute("Sum(AUD1)", "");
-            row["GBP1"] = table.Compute("Sum(GBP1)", "");
-            row["TDS1"] = table.Compute("Sum(TDS1)", "");
-
-            row["VND2"] = table.Compute("Sum(VND2)", "");
-            row["USD2"] = table.Compute("Sum(USD2)", "");
-            row["EUR2"] = table.Compute("Sum(EUR2)", "");
-            row["CAD2"] = table.Compute("Sum(CAD2)", "");
-            row["AUD2"] = table.Compute("Sum(AUD2)", "");
-            row["GBP2"] = table.Compute("Sum(GBP2)", "");
-            row["TDS2"] = table.Compute("Sum(TDS2)", "");
-
-            row["VND3"] = table.Compute("Sum(VND3)", "");
-            row["USD3"] = table.Compute("Sum(USD3)", "");
-            row["EUR3"] = table.Compute("Sum(EUR3)", "");
-            row["CAD3"] = table.Compute("Sum(CAD3)", "");
-            row["AUD3"] = table.Compute("Sum(AUD3)", "");
-            row["GBP3"] = table.Compute("Sum(GBP3)", "");
-            row["TDS3"] = table.Compute("Sum(TDS3)", "");
-
-            table.Rows.Add(row);
-
-            //ViewBag.ListDataGradation = listDataGradation;
-            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
-
-        /// <summary>
-        /// Get data cho báo cáo chi tiết theo tháng
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult ReportDetailtCompareMonthForAllCompare([DataSourceRequest]DataSourceRequest request, string reportTypeID)
-        {
-            int toYear = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+            table.Columns.Add("ReportID", typeof(String));
 
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
             {
-                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-            }
-
-            // Khởi tạo datatable
-            DataTable table = new DataTable();
-            // Tạo các cột cho datatable
-            table.Columns.Add("MarketName", typeof(String));
-
-            // So sánh với tháng trước
-            table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // So sánh với cùng kì năm trước
-            table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.MarketCode == item.MarketCode && x.Month == toMonth.ToString() && x.Year == (toYear - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.MarketCode == item.MarketCode && x.Month == toMonth.ToString() && x.Year == toYear.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.MarketCode == item.MarketCode && x.Month == (toMonth - 1).ToString() && x.Year == toYear.ToString());
-
-                // Cùng kì năm trước
-                if (dataItemLastYear == null)
-                {
-                    dataItemLastYear.MarketCode = item.MarketCode;
-                    dataItemLastYear.MarketName = item.MarketName;
-                }
-
-                // Tháng hiện tại
-                if (dataItemYear == null)
-                {
-                    dataItemYear.MarketCode = item.MarketCode;
-                    dataItemYear.MarketName = item.MarketName;
-                }
-
-                // Tháng trước
-                if (dataItemLastMonth == null)
-                {
-                    dataItemLastMonth.MarketCode = item.MarketCode;
-                    dataItemLastMonth.MarketName = item.MarketName;
-                }
-
-                // So với cùng kì năm trước
-                double sumVNDLastYear = Math.Round(dataItemYear.VND - dataItemLastYear.VND, 2, MidpointRounding.ToEven);
-                double sumUSDLastYear = Math.Round(dataItemYear.USD - dataItemLastYear.USD, 2, MidpointRounding.ToEven);
-                double sumEURLastYear = Math.Round(dataItemYear.EUR - dataItemLastYear.EUR, 2, MidpointRounding.ToEven);
-                double sumCADLastYear = Math.Round(dataItemYear.CAD - dataItemLastYear.CAD, 2, MidpointRounding.ToEven);
-                double sumAUDLastYear = Math.Round(dataItemYear.AUD - dataItemLastYear.AUD, 2, MidpointRounding.ToEven);
-                double sumGBPLastYear = Math.Round(dataItemYear.GBP - dataItemLastYear.GBP, 2, MidpointRounding.ToEven);
-
-                double sumTDSLastYear = sumVNDLastYear + sumUSDLastYear + sumEURLastYear + sumCADLastYear + sumAUDLastYear + sumGBPLastYear;
-
-                // so với tháng trước
-                double sumVNDLastMonth = Math.Round(dataItemYear.VND - dataItemLastMonth.VND, 2, MidpointRounding.ToEven);
-                double sumUSDLastMonth = Math.Round(dataItemYear.USD - dataItemLastMonth.USD, 2, MidpointRounding.ToEven);
-                double sumEURLastMonth = Math.Round(dataItemYear.EUR - dataItemLastMonth.EUR, 2, MidpointRounding.ToEven);
-                double sumCADLastMonth = Math.Round(dataItemYear.CAD - dataItemLastMonth.CAD, 2, MidpointRounding.ToEven);
-                double sumAUDLastMonth = Math.Round(dataItemYear.AUD - dataItemLastMonth.AUD, 2, MidpointRounding.ToEven);
-                double sumGBPLastMonth = Math.Round(dataItemYear.GBP - dataItemLastMonth.GBP, 2, MidpointRounding.ToEven);
-
-                double sumTDSLastMonth = sumVNDLastMonth + sumUSDLastMonth + sumEURLastMonth + sumCADLastMonth + sumAUDLastMonth + sumGBPLastMonth;
+                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.MarketCode == item.MarketCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
+                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.MarketCode == item.MarketCode && x.Month == month.ToString() && x.Year == year.ToString());
+                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.MarketCode == item.MarketCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
 
                 // Check tồn tại của item
                 string value = string.Format("MarketName='{0}'", item.MarketName);
@@ -2947,38 +2750,54 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     // add item vào table
                     table.Rows.Add(dataItemYear.MarketName
-                        , sumVNDLastMonth, sumUSDLastMonth, sumEURLastMonth, sumCADLastMonth, sumAUDLastMonth, sumGBPLastMonth
-                        , Math.Round(sumTDSLastMonth, 2, MidpointRounding.ToEven)
-                        , sumVNDLastYear, sumUSDLastYear, sumEURLastYear, sumCADLastYear, sumAUDLastYear, sumGBPLastYear
-                        , Math.Round(sumTDSLastYear, 2, MidpointRounding.ToEven)
+                        , dataItemLastYear.VND, dataItemLastMonth.VND, dataItemYear.VND
+                        , dataItemLastYear.USD, dataItemLastMonth.USD, dataItemYear.USD
+                        , dataItemLastYear.EUR, dataItemLastMonth.EUR, dataItemYear.EUR
+                        , dataItemLastYear.CAD, dataItemLastMonth.CAD, dataItemYear.CAD
+                        , dataItemLastYear.AUD, dataItemLastMonth.AUD, dataItemYear.AUD
+                        , dataItemLastYear.GBP, dataItemLastMonth.GBP, dataItemYear.GBP
+                        , dataItemLastYear.TongDS, dataItemLastMonth.TongDS, dataItemYear.TongDS
                         );
                 }
             }
+            // Cùng kì
+            
 
             DataRow row = table.NewRow();
             row["MarketName"] = "Tổng";
             row["VND1"] = table.Compute("Sum(VND1)", "");
-            row["USD1"] = table.Compute("Sum(USD1)", "");
-            row["EUR1"] = table.Compute("Sum(EUR1)", "");
-            row["CAD1"] = table.Compute("Sum(CAD1)", "");
-            row["AUD1"] = table.Compute("Sum(AUD1)", "");
-            row["GBP1"] = table.Compute("Sum(GBP1)", "");
-            row["TDS1"] = table.Compute("Sum(TDS1)", "");
-
             row["VND2"] = table.Compute("Sum(VND2)", "");
+            row["VND3"] = table.Compute("Sum(VND3)", "");
+
+            row["USD1"] = table.Compute("Sum(USD1)", "");
             row["USD2"] = table.Compute("Sum(USD2)", "");
+            row["USD3"] = table.Compute("Sum(USD3)", "");
+
+            row["EUR1"] = table.Compute("Sum(EUR1)", "");
             row["EUR2"] = table.Compute("Sum(EUR2)", "");
+            row["EUR3"] = table.Compute("Sum(EUR3)", "");
+
+            row["CAD1"] = table.Compute("Sum(CAD1)", "");
             row["CAD2"] = table.Compute("Sum(CAD2)", "");
+            row["CAD3"] = table.Compute("Sum(CAD3)", "");
+
+            row["AUD1"] = table.Compute("Sum(AUD1)", "");
             row["AUD2"] = table.Compute("Sum(AUD2)", "");
+            row["AUD3"] = table.Compute("Sum(AUD3)", "");
+
+            row["GBP1"] = table.Compute("Sum(GBP1)", "");
             row["GBP2"] = table.Compute("Sum(GBP2)", "");
+            row["GBP3"] = table.Compute("Sum(GBP3)", "");
+
+            row["TDS1"] = table.Compute("Sum(TDS1)", "");
             row["TDS2"] = table.Compute("Sum(TDS2)", "");
+            row["TDS3"] = table.Compute("Sum(TDS3)", "");
 
             table.Rows.Add(row);
 
-            //ViewBag.ListDataGradation = listDataGradation;
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
+        
         /// <summary>
         /// Get data cho báo cáo chi tiết theo tháng
         /// </summary>
@@ -2987,9 +2806,9 @@ namespace DongAERP.Areas.Admin.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpPost]
-        public ActionResult SearchReportDetailtCompareMonthForAllCompare([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID)
+        public ActionResult SearchReportDetailtCompareMonthForAllCompare([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
         {
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID);
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
 
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
             {
@@ -3003,20 +2822,24 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // So sánh với tháng trước
             table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // So sánh với cùng kì năm trước
             table.Columns.Add("VND2", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
             table.Columns.Add("USD2", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
             table.Columns.Add("EUR2", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
             table.Columns.Add("CAD2", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
             table.Columns.Add("AUD2", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
             table.Columns.Add("GBP2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
             table.Columns.Add("TDS2", typeof(double));
 
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
@@ -3075,10 +2898,13 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     // add item vào table
                     table.Rows.Add(dataItemYear.MarketName
-                        , sumVNDLastMonth, sumUSDLastMonth, sumEURLastMonth, sumCADLastMonth, sumAUDLastMonth, sumGBPLastMonth
-                        , Math.Round(sumTDSLastMonth, 2, MidpointRounding.ToEven)
-                        , sumVNDLastYear, sumUSDLastYear, sumEURLastYear, sumCADLastYear, sumAUDLastYear, sumGBPLastYear
-                        , Math.Round(sumTDSLastYear, 2, MidpointRounding.ToEven)
+                        , sumVNDLastMonth, sumVNDLastYear
+                        , sumUSDLastMonth, sumUSDLastYear
+                        , sumEURLastMonth, sumEURLastYear
+                        , sumCADLastMonth, sumCADLastYear
+                        , sumAUDLastMonth, sumAUDLastYear
+                        , sumGBPLastMonth, sumGBPLastYear
+                        , Math.Round(sumTDSLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumTDSLastYear, 2, MidpointRounding.ToEven)
                         );
                 }
             }
@@ -3086,19 +2912,24 @@ namespace DongAERP.Areas.Admin.Controllers
             DataRow row = table.NewRow();
             row["MarketName"] = "Tổng";
             row["VND1"] = table.Compute("Sum(VND1)", "");
-            row["USD1"] = table.Compute("Sum(USD1)", "");
-            row["EUR1"] = table.Compute("Sum(EUR1)", "");
-            row["CAD1"] = table.Compute("Sum(CAD1)", "");
-            row["AUD1"] = table.Compute("Sum(AUD1)", "");
-            row["GBP1"] = table.Compute("Sum(GBP1)", "");
-            row["TDS1"] = table.Compute("Sum(TDS1)", "");
-
             row["VND2"] = table.Compute("Sum(VND2)", "");
+
+            row["USD1"] = table.Compute("Sum(USD1)", "");
             row["USD2"] = table.Compute("Sum(USD2)", "");
+
+            row["EUR1"] = table.Compute("Sum(EUR1)", "");
             row["EUR2"] = table.Compute("Sum(EUR2)", "");
+
+            row["CAD1"] = table.Compute("Sum(CAD1)", "");
             row["CAD2"] = table.Compute("Sum(CAD2)", "");
+
+            row["AUD1"] = table.Compute("Sum(AUD1)", "");
             row["AUD2"] = table.Compute("Sum(AUD2)", "");
+
+            row["GBP1"] = table.Compute("Sum(GBP1)", "");
             row["GBP2"] = table.Compute("Sum(GBP2)", "");
+
+            row["TDS1"] = table.Compute("Sum(TDS1)", "");
             row["TDS2"] = table.Compute("Sum(TDS2)", "");
 
             table.Rows.Add(row);
@@ -3106,7 +2937,7 @@ namespace DongAERP.Areas.Admin.Controllers
             //ViewBag.ListDataGradation = listDataGradation;
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
+        
         /// <summary>
         /// Get data cho việc vẽ biểu đồ cột chồng cho so sánh giai đoạn
         /// </summary>
@@ -3115,556 +2946,557 @@ namespace DongAERP.Areas.Admin.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpPost]
-        public ActionResult ColumnChartStackCompareMonthForAll(string reportTypeID)
+        public ActionResult SearchColumnChartStackCompareMonthForAll([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
         {
-            int year = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ColumnChartStackDetailtMTCompareMonthForAllPercent(year, toMonth, reportTypeID);
-
-            GradationCharColumn[] arrayGradation = null;
-
-            if (listDataCompareMonth.Count > 0)
-            {
-                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == toMonth.ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (toMonth - 1).ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == toMonth.ToString() && x.Year == (year - 1).ToString()).ToList();
-
-                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
-                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
-                {
-                    // Số record của mảng
-                    int countArray = 6;
-                    arrayGradation = new GradationCharColumn[countArray * listDataCompareMonth.Count];
-                    int count = 0;
-                    int tooltip = 1;
-
-                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-                    {
-                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "VND",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.VND,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "USD",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.USD,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "EUR",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.EUR,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "CAD",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.CAD,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "AUD",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.AUD,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "GBP",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.GBP,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-                        tooltip++;
-                    }
-                }
-            }
-
-            if (arrayGradation == null)
-            {
-                arrayGradation = new GradationCharColumn[1];
-                arrayGradation[0] = new GradationCharColumn()
-                {
-                    Serie = "1",
-                    Segmento = "1",
-                    Valor1 = 0,
-                    Tooltip = 1
-
-                };
-            }
-
-            return Json(arrayGradation);
-        }
-
-        /// <summary>
-        /// Get data cho việc vẽ biểu đồ cột chồng cho so sánh giai đoạn
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult SearchColumnChartStackCompareMonthForAll([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID)
-        {
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ColumnChartStackDetailtMTCompareMonthForAllPercent(year, month, reportTypeID);
-
-            GradationCharColumn[] arrayGradation = null;
-
-            if (listDataCompareMonth.Count > 0)
-            {
-                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
-
-                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
-                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
-                {
-                    // Số record của mảng
-                    int countArray = 6;
-                    arrayGradation = new GradationCharColumn[countArray * listDataCompareMonth.Count];
-                    int count = 0;
-                    int tooltip = 1;
-
-                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-                    {
-                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "VND",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.VND,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "USD",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.USD,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "EUR",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.EUR,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "CAD",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.CAD,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "AUD",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.AUD,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCharColumn()
-                        {
-                            Serie = "GBP",
-                            Segmento = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year),
-                            Valor1 = item.GBP,
-                            Tooltip = tooltip
-                        };
-
-                        count++;
-                        tooltip++;
-                    }
-                }
-            }
-
-            if (arrayGradation == null)
-            {
-                arrayGradation = new GradationCharColumn[1];
-                arrayGradation[0] = new GradationCharColumn()
-                {
-                    Serie = "1",
-                    Segmento = "1",
-                    Valor1 = 0,
-                    Tooltip = 1
-
-                };
-            }
-
-            return Json(arrayGradation);
-        }
-
-        /// <summary>
-        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult ColumnsChartCompareMonthForAll(string reportTypeID)
-        {
-            int year = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, toMonth, reportTypeID);
-
-            GradationCompare[] arrayGradation = null;
-            if (listDataCompareMonth.Count > 0)
-            {
-                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == toMonth.ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (toMonth - 1).ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == toMonth.ToString() && x.Year == (year - 1).ToString()).ToList();
-
-                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
-                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
-                {
-                    // Số record của mảng
-                    int countArray = 6;
-                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
-                    int count = 0;
-
-                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-                    {
-                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "VND",
-                            amount = item.VND,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "USD",
-                            amount = item.USD,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "EUR",
-                            amount = item.EUR,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "CAD",
-                            amount = item.CAD,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "AUD",
-                            amount = item.AUD,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "GBP",
-                            amount = item.GBP,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        year = year - 1;
-                    }
-                }
-            }
-
-            if (arrayGradation == null)
-            {
-                arrayGradation = new GradationCompare[1];
-                arrayGradation[0] = new GradationCompare()
-                {
-                    NameGradationCompare = "1",
-                    NameType = ""
-
-                };
-            }
-
-            return Json(arrayGradation);
-        }
-
-        /// <summary>
-        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult SearchColumnsChartCompareMonthForAll([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID)
-        {
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID);
-
-            GradationCompare[] arrayGradation = null;
-            if (listDataCompareMonth.Count > 0)
-            {
-                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
-
-                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
-                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
-                {
-                    // Số record của mảng
-                    int countArray = 6;
-                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
-                    int count = 0;
-
-                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-                    {
-                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "VND",
-                            amount = item.VND,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "USD",
-                            amount = item.USD,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "EUR",
-                            amount = item.EUR,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "CAD",
-                            amount = item.CAD,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "AUD",
-                            amount = item.AUD,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        arrayGradation[count] = new GradationCompare()
-                        {
-                            NameGradationCompare = "GBP",
-                            amount = item.GBP,
-                            NameType = string.Format("{0} {1}/{2}", item.MarketName, item.Month, item.Year)
-                        };
-
-                        count++;
-
-                        year = year - 1;
-                    }
-                }
-            }
-
-            if (arrayGradation == null)
-            {
-                arrayGradation = new GradationCompare[1];
-                arrayGradation[0] = new GradationCompare()
-                {
-                    NameGradationCompare = "1",
-                    NameType = ""
-
-                };
-            }
-
-            return Json(arrayGradation);
-        }
-
-        /// <summary>
-        /// Get data cho báo cáo so sánh giai đoạn
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult ReportDetailtCompareMonthForOne([DataSourceRequest]DataSourceRequest request, string reportTypeID)
-        {
-            // Danh sach của data gradation gồm key và value
-            int toYear = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-            string marketID = "001";
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(toYear, toMonth, reportTypeID, marketID);
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ColumnChartStackDetailtMTCompareMonthForAllPercent(year, month, reportTypeID, marketID);
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>();
 
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
 
-            // Danh sách mã thị trường của Tất cả
-            List<string> listMarket = new List<string>() { "003", "005", "001", "002", "014", "004" };
+            GradationCharColumn[] arrayGradation = null;
 
-            // Khởi tạo datatable
-            DataTable table = new DataTable();
-            // Tạo các cột cho datatable
-            // Cùng kì năm trước
-            table.Columns.Add("PartnerName", typeof(String));
-            table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // tháng trước
-            table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            // Năm hiện tại
-            table.Columns.Add("VND3", typeof(double));
-            table.Columns.Add("USD3", typeof(double));
-            table.Columns.Add("EUR3", typeof(double));
-            table.Columns.Add("CAD3", typeof(double));
-            table.Columns.Add("AUD3", typeof(double));
-            table.Columns.Add("GBP3", typeof(double));
-            table.Columns.Add("TDS3", typeof(double));
-
-            table.Columns.Add("MarketName", typeof(String));
-
-            List<string> listTemp = new List<string>();
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            if (listDataCompareMonth.Count > 0)
             {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == toMonth.ToString() && x.Year == (toYear - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == toMonth.ToString() && x.Year == toYear.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (toMonth - 1).ToString() && x.Year == toYear.ToString());
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
 
-                if (!listTemp.Contains(item.PartnerCode))
+                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
+                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
                 {
-                    // Trường hợp năm trước có đối tác không có
-                    if (dataItemLastYear == null)
-                    {
-                        dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                        dataItemLastYear.MarketCode = item.MarketCode;
-                        dataItemLastYear.MarketName = item.MarketName;
-                        dataItemLastYear.PartnerName = item.PartnerName;
-                        dataItemLastYear.Year = item.Year;
-                        dataItemLastYear.Month = item.Month;
-                    }
+                    // Tháng hiện tại
+                    double sumVNDTotalYear = listDataYear.Sum(x => x.VND);
+                    double sumUSDTotalYear = listDataYear.Sum(x => x.USD);
+                    double sumEURTotalYear = listDataYear.Sum(x => x.EUR);
+                    double sumCADTotalYear = listDataYear.Sum(x => x.CAD);
+                    double sumAUDTotalYear = listDataYear.Sum(x => x.AUD);
+                    double sumGBPTotalYear = listDataYear.Sum(x => x.GBP);
 
-                    // Trường hợp năm có đối tác không có
-                    if (dataItemYear == null)
-                    {
-                        dataItemYear = new ReportDetailtForTotalMoneyType();
-                        dataItemYear.MarketCode = item.MarketCode;
-                        dataItemYear.MarketName = item.MarketName;
-                        dataItemYear.PartnerName = item.PartnerName;
-                        dataItemYear.Year = item.Year;
-                        dataItemYear.Month = item.Month;
-                    }
+                    double sumTongDSTotalYear = listDataYear.Sum(x => x.TongDS);
 
-                    // Trường hợp năm có tháng trước có đối tác không có
-                    if (dataItemLastMonth == null)
-                    {
-                        dataItemLastMonth = new ReportDetailtForTotalMoneyType();
-                        dataItemLastMonth.MarketCode = item.MarketCode;
-                        dataItemLastMonth.MarketName = item.MarketName;
-                        dataItemLastMonth.PartnerName = item.PartnerName;
-                        dataItemLastMonth.Year = item.Year;
-                        dataItemLastMonth.Month = item.Month;
-                    }
+                    // Tháng trước
+                    double sumVNDTotalLastMonth = listDataLastMonth.Sum(x => x.VND);
+                    double sumUSDTotalLastMonth = listDataLastMonth.Sum(x => x.USD);
+                    double sumEURTotalLastMonth = listDataLastMonth.Sum(x => x.EUR);
+                    double sumCADTotalLastMonth = listDataLastMonth.Sum(x => x.CAD);
+                    double sumAUDTotalLastMonth = listDataLastMonth.Sum(x => x.AUD);
+                    double sumGBPTotalLastMonth = listDataLastMonth.Sum(x => x.GBP);
 
-                    // Check tồn tại của item
-                    string value = string.Format("PartnerName='{0}'", item.PartnerName);
-                    DataRow[] foundRows = table.Select(value);
+                    double sumTongDSTotalLastMonth = listDataLastMonth.Sum(x => x.TongDS);
 
-                    if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null && foundRows.Count() == 0)
+                    // Cùng kì năm trước
+                    double sumVNDTotalLastYear = listDataLastYear.Sum(x => x.VND);
+                    double sumUSDTotalLastYear = listDataLastYear.Sum(x => x.USD);
+                    double sumEURTotalLastYear = listDataLastYear.Sum(x => x.EUR);
+                    double sumCADTotalLastYear = listDataLastYear.Sum(x => x.CAD);
+                    double sumAUDTotalLastYear = listDataLastYear.Sum(x => x.AUD);
+                    double sumGBPTotalLastYear = listDataLastYear.Sum(x => x.GBP);
+
+                    double sumTongDSTotalLastYear = listDataLastYear.Sum(x => x.TongDS);
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
                     {
-                        // add item vào table
-                        table.Rows.Add(item.PartnerName
-                            , dataItemYear.VND, dataItemYear.USD, dataItemYear.EUR, dataItemYear.CAD, dataItemYear.AUD, dataItemYear.GBP, dataItemYear.TongDS
-                            , dataItemLastMonth.VND, dataItemLastMonth.USD, dataItemLastMonth.EUR, dataItemLastMonth.CAD, dataItemLastMonth.AUD, dataItemLastMonth.GBP, dataItemLastMonth.TongDS
-                            , dataItemLastYear.VND, dataItemLastYear.USD, dataItemLastYear.EUR, dataItemLastYear.CAD, dataItemLastYear.AUD, dataItemLastYear.GBP, dataItemLastYear.TongDS
-                            , item.MarketName
+                        // Tháng hiện tại
+                        if (item.Month == month.ToString() && item.Year == year.ToString())
+                        {
+                            listDataCompareMonthConvert.Add(
+                                new ReportDetailtForTotalMoneyType()
+                                {
+                                    MarketCode = item.MarketCode,
+                                    MarketName = item.MarketName,
+                                    VND = sumVNDTotalYear == 0 ? 0 : Math.Round((item.VND / sumVNDTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                    USD = sumUSDTotalYear == 0 ? 0 : Math.Round((item.USD / sumUSDTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                    EUR = sumEURTotalYear == 0 ? 0 : Math.Round((item.EUR / sumEURTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                    CAD = sumCADTotalYear == 0 ? 0 : Math.Round((item.CAD / sumCADTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                    AUD = sumAUDTotalYear == 0 ? 0 : Math.Round((item.AUD / sumAUDTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                    GBP = sumGBPTotalYear == 0 ? 0 : Math.Round((item.GBP / sumGBPTotalYear) * 100, 2, MidpointRounding.ToEven),
+                                    Month = item.Month,
+                                    Year = item.Year
+                                }
                             );
+                        }
+
+                        // Tháng trước
+                        if (item.Month == (month - 1).ToString() && item.Year == year.ToString())
+                        {
+                            listDataCompareMonthConvert.Add(
+                                new ReportDetailtForTotalMoneyType()
+                                {
+                                    MarketCode = item.MarketCode,
+                                    MarketName = item.MarketName,
+                                    VND = sumVNDTotalLastMonth == 0 ? 0 : Math.Round((item.VND / sumVNDTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                    USD = sumUSDTotalLastMonth == 0 ? 0 : Math.Round((item.USD / sumUSDTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                    EUR = sumEURTotalLastMonth == 0 ? 0 : Math.Round((item.EUR / sumEURTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                    CAD = sumCADTotalLastMonth == 0 ? 0 : Math.Round((item.CAD / sumCADTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                    AUD = sumAUDTotalLastMonth == 0 ? 0 : Math.Round((item.AUD / sumAUDTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                    GBP = sumGBPTotalLastMonth == 0 ? 0 : Math.Round((item.GBP / sumGBPTotalLastMonth) * 100, 2, MidpointRounding.ToEven),
+                                    Month = item.Month,
+                                    Year= item.Year
+                                }
+                            );
+                        }
+
+                        // Cùng kì năm trước
+                        if (item.Month == month.ToString() && item.Year == (year - 1).ToString())
+                        {
+                            listDataCompareMonthConvert.Add(
+                                new ReportDetailtForTotalMoneyType()
+                                {
+                                    MarketCode = item.MarketCode,
+                                    MarketName = item.MarketName,
+                                    VND = sumVNDTotalLastYear == 0 ? 0 : Math.Round((item.VND / sumVNDTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                    USD = sumUSDTotalLastYear == 0 ? 0 : Math.Round((item.USD / sumUSDTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                    EUR = sumEURTotalLastYear == 0 ? 0 : Math.Round((item.EUR / sumEURTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                    CAD = sumCADTotalLastYear == 0 ? 0 : Math.Round((item.CAD / sumCADTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                    AUD = sumAUDTotalLastYear == 0 ? 0 : Math.Round((item.AUD / sumAUDTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                    GBP = sumGBPTotalLastYear == 0 ? 0 : Math.Round((item.GBP / sumGBPTotalLastYear) * 100, 2, MidpointRounding.ToEven),
+                                    Month = item.Month,
+                                    Year = item.Year
+                                }
+                            );
+                        }
+                    }
+                    
+                    // Số record của mảng
+                    int countArray = 6;
+                    arrayGradation = new GradationCharColumn[countArray * listDataCompareMonthConvert.Count];
+                    int count = 0;
+                    int tooltip = 1;
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonthConvert)
+                    {
+                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                        arrayGradation[count] = new GradationCharColumn()
+                        {
+                            Serie = item.MarketName,
+                            Segmento = string.Format("VND Tháng {0}/{1}", item.Month, item.Year),
+                            Valor1 = item.VND,
+                            Tooltip = tooltip
+                        };
+
+                        count++;
+
+                        arrayGradation[count] = new GradationCharColumn()
+                        {
+                            Serie = item.MarketName,
+                            Segmento = string.Format("USD Tháng {0}/{1}", item.Month, item.Year),
+                            Valor1 = item.USD,
+                            Tooltip = tooltip
+                        };
+
+                        count++;
+
+                        arrayGradation[count] = new GradationCharColumn()
+                        {
+                            Serie = item.MarketName,
+                            Segmento = string.Format("EUR Tháng {0}/{1}", item.Month, item.Year),
+                            Valor1 = item.EUR,
+                            Tooltip = tooltip
+                        };
+
+                        count++;
+
+                        arrayGradation[count] = new GradationCharColumn()
+                        {
+                            Serie = item.MarketName,
+                            Segmento = string.Format("CAD Tháng {0}/{1}", item.Month, item.Year),
+                            Valor1 = item.CAD,
+                            Tooltip = tooltip
+                        };
+
+                        count++;
+
+                        arrayGradation[count] = new GradationCharColumn()
+                        {
+                            Serie = item.MarketName,
+                            Segmento = string.Format("AUD Tháng {0}/{1}", item.Month, item.Year),
+                            Valor1 = item.AUD,
+                            Tooltip = tooltip
+                        };
+
+                        count++;
+
+                        arrayGradation[count] = new GradationCharColumn()
+                        {
+                            Serie = item.MarketName,
+                            Segmento = string.Format("GBP Tháng {0}/{1}", item.Month, item.Year),
+                            Valor1 = item.GBP,
+                            Tooltip = tooltip
+                        };
+
+                        count++;
+                        tooltip++;
                     }
                 }
             }
 
-            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCharColumn[1];
+                arrayGradation[0] = new GradationCharColumn()
+                {
+                    Serie = "1",
+                    Segmento = "1",
+                    Valor1 = 0,
+                    Tooltip = 1
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+        
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn - VND
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartCompareMonthForAllVND([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
+
+            GradationCompare[] arrayGradation = null;
+            if (listDataCompareMonth.Count > 0)
+            {
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+
+                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
+                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
+                {
+                    // Số record của mảng
+                    int countArray = 1;
+                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+                    int count = 0;
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                    {
+                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                        arrayGradation[count] = new GradationCompare()
+                        {
+                            NameGradationCompare = string.Format("VND Tháng {0}/{1}", item.Month, item.Year),
+                            amount = item.VND,
+                            NameType = item.MarketName
+                        };
+
+                        count++;
+                        
+                        year = year - 1;
+                    }
+                }
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
         }
 
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn - USD
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartCompareMonthForAllUSD([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
+
+            GradationCompare[] arrayGradation = null;
+            if (listDataCompareMonth.Count > 0)
+            {
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+
+                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
+                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
+                {
+                    // Số record của mảng
+                    int countArray = 1;
+                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+                    int count = 0;
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                    {
+                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                        arrayGradation[count] = new GradationCompare()
+                        {
+                            NameGradationCompare = string.Format("USD Tháng {0}/{1}", item.Month, item.Year),
+                            amount = item.USD,
+                            NameType = item.MarketName
+                        };
+
+                        count++;
+
+                        year = year - 1;
+                    }
+                }
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn - EUR
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartCompareMonthForAllEUR([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
+
+            GradationCompare[] arrayGradation = null;
+            if (listDataCompareMonth.Count > 0)
+            {
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+
+                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
+                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
+                {
+                    // Số record của mảng
+                    int countArray = 1;
+                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+                    int count = 0;
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                    {
+                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                        arrayGradation[count] = new GradationCompare()
+                        {
+                            NameGradationCompare = string.Format("EUR Tháng {0}/{1}", item.Month, item.Year),
+                            amount = item.EUR,
+                            NameType = item.MarketName
+                        };
+
+                        count++;
+
+                        year = year - 1;
+                    }
+                }
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn - CAD
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartCompareMonthForAllCAD([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
+
+            GradationCompare[] arrayGradation = null;
+            if (listDataCompareMonth.Count > 0)
+            {
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+
+                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
+                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
+                {
+                    // Số record của mảng
+                    int countArray = 1;
+                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+                    int count = 0;
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                    {
+                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                        arrayGradation[count] = new GradationCompare()
+                        {
+                            NameGradationCompare = string.Format("CAD Tháng {0}/{1}", item.Month, item.Year),
+                            amount = item.CAD,
+                            NameType = item.MarketName
+                        };
+
+                        count++;
+
+                        year = year - 1;
+                    }
+                }
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn - AUD
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartCompareMonthForAllAUD([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
+
+            GradationCompare[] arrayGradation = null;
+            if (listDataCompareMonth.Count > 0)
+            {
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+
+                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
+                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
+                {
+                    // Số record của mảng
+                    int countArray = 1;
+                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+                    int count = 0;
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                    {
+                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                        arrayGradation[count] = new GradationCompare()
+                        {
+                            NameGradationCompare = string.Format("AUD Tháng {0}/{1}", item.Month, item.Year),
+                            amount = item.AUD,
+                            NameType = item.MarketName
+                        };
+
+                        count++;
+
+                        year = year - 1;
+                    }
+                }
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn - GBP
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchColumnsChartCompareMonthForAllGBP([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
+
+            GradationCompare[] arrayGradation = null;
+            if (listDataCompareMonth.Count > 0)
+            {
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+
+                // Trường hợp đủ dữ liệu tháng hiện tại, tháng trước và cùng kì năm trước
+                if (listDataYear.Count > 0 && listDataLastMonth.Count > 0 && listDataLastYear.Count > 0)
+                {
+                    // Số record của mảng
+                    int countArray = 1;
+                    arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
+                    int count = 0;
+
+                    foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                    {
+                        // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                        arrayGradation[count] = new GradationCompare()
+                        {
+                            NameGradationCompare = string.Format("GBP Tháng {0}/{1}", item.Month, item.Year),
+                            amount = item.GBP,
+                            NameType = item.MarketName
+                        };
+
+                        count++;
+
+                        year = year - 1;
+                    }
+                }
+            }
+
+            if (arrayGradation == null)
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+        
         /// <summary>
         /// Get data cho báo cáo so sánh giai đoạn
         /// </summary>
@@ -3676,273 +3508,218 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchReportDetailtCompareMonthForOne([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(year, month, reportTypeID, marketID);
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-            }
-
-            // Danh sách mã thị trường của Tất cả
-            List<string> listMarket = new List<string>() { "003", "005", "001", "002", "014", "004" };
-
+            
             // Khởi tạo datatable
             DataTable table = new DataTable();
             // Tạo các cột cho datatable
-            // Cùng kì năm trước
             table.Columns.Add("PartnerName", typeof(String));
             table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // tháng trước
             table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            // Năm hiện tại
             table.Columns.Add("VND3", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
+            table.Columns.Add("USD2", typeof(double));
             table.Columns.Add("USD3", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
+            table.Columns.Add("EUR2", typeof(double));
             table.Columns.Add("EUR3", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
+            table.Columns.Add("CAD2", typeof(double));
             table.Columns.Add("CAD3", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
+            table.Columns.Add("AUD2", typeof(double));
             table.Columns.Add("AUD3", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
+            table.Columns.Add("GBP2", typeof(double));
             table.Columns.Add("GBP3", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
             table.Columns.Add("TDS3", typeof(double));
 
             table.Columns.Add("MarketName", typeof(String));
-
+            
             List<string> listTemp = new List<string>();
 
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            if (!marketID.Contains("005"))
             {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
-                if (!listTemp.Contains(item.PartnerCode))
+                foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
                 {
-                    // Trường hợp năm trước có đối tác không có
-                    if (dataItemLastYear == null)
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                }
+
+                foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                {
+                    // Cùng kì
+                    ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
+                    ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
+                    ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
+
+                    if (!listTemp.Contains(item.PartnerCode))
                     {
-                        dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                        dataItemLastYear.MarketCode = item.MarketCode;
-                        dataItemLastYear.MarketName = item.MarketName;
-                        dataItemLastYear.PartnerName = item.PartnerName;
-                        dataItemLastYear.Year = item.Year;
-                        dataItemLastYear.Month = item.Month;
+                        // Trường hợp năm trước có đối tác không có
+                        if (dataItemLastYear == null)
+                        {
+                            dataItemLastYear = new ReportDetailtForTotalMoneyType();
+                            dataItemLastYear.MarketCode = item.MarketCode;
+                            dataItemLastYear.MarketName = item.MarketName;
+                            dataItemLastYear.PartnerName = item.PartnerName;
+                            dataItemLastYear.Year = item.Year;
+                            dataItemLastYear.Month = item.Month;
+                        }
+
+                        // Trường hợp năm có đối tác không có
+                        if (dataItemYear == null)
+                        {
+                            dataItemYear = new ReportDetailtForTotalMoneyType();
+                            dataItemYear.MarketCode = item.MarketCode;
+                            dataItemYear.MarketName = item.MarketName;
+                            dataItemYear.PartnerName = item.PartnerName;
+                            dataItemYear.Year = item.Year;
+                            dataItemYear.Month = item.Month;
+                        }
+
+                        // Trường hợp năm có tháng trước có đối tác không có
+                        if (dataItemLastMonth == null)
+                        {
+                            dataItemLastMonth = new ReportDetailtForTotalMoneyType();
+                            dataItemLastMonth.MarketCode = item.MarketCode;
+                            dataItemLastMonth.MarketName = item.MarketName;
+                            dataItemLastMonth.PartnerName = item.PartnerName;
+                            dataItemLastMonth.Year = item.Year;
+                            dataItemLastMonth.Month = item.Month;
+                        }
+
+                        // Check tồn tại của item
+                        string value = string.Format("PartnerName='{0}'", item.PartnerName);
+                        DataRow[] foundRows = table.Select(value);
+
+                        if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null && foundRows.Count() == 0)
+                        {
+                            // add item vào table
+                            table.Rows.Add(item.PartnerName
+                                , dataItemYear.VND, dataItemLastMonth.VND, dataItemLastYear.VND
+                                , dataItemYear.USD, dataItemLastMonth.USD, dataItemLastYear.USD
+                                , dataItemYear.EUR, dataItemLastMonth.EUR, dataItemLastYear.EUR
+                                , dataItemYear.CAD, dataItemLastMonth.CAD, dataItemLastYear.CAD
+                                , dataItemYear.AUD, dataItemLastMonth.AUD, dataItemLastYear.AUD
+                                , dataItemYear.GBP, dataItemLastMonth.GBP, dataItemLastYear.GBP
+                                , dataItemYear.TongDS, dataItemLastMonth.TongDS, dataItemLastYear.TongDS
+                                , item.MarketName
+                                );
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                {
+                    if(!listTemp.Contains(item.MarketName))
+                    {
+                        listTemp.Add(item.MarketName);
+                    }
+                }
+                
+                foreach (string item in listTemp)
+                {
+                    List<ReportDetailtForTotalMoneyType> dataItemLastYear = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+                    List<ReportDetailtForTotalMoneyType> dataItemYear = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtForTotalMoneyType> dataItemLastMonth = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+
+                    // Cùng kì
+                    if (dataItemLastYear.Count == 0)
+                    {
+                        dataItemLastYear = new List<ReportDetailtForTotalMoneyType>()
+                        {
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketName = item,
+                                Month = month.ToString(),
+                                Year = (year - 1).ToString()
+                            }
+                        };
                     }
 
-                    // Trường hợp năm có đối tác không có
-                    if (dataItemYear == null)
+                    // Tháng hiện tại
+                    if (dataItemYear.Count == 0)
                     {
-                        dataItemYear = new ReportDetailtForTotalMoneyType();
-                        dataItemYear.MarketCode = item.MarketCode;
-                        dataItemYear.MarketName = item.MarketName;
-                        dataItemYear.PartnerName = item.PartnerName;
-                        dataItemYear.Year = item.Year;
-                        dataItemYear.Month = item.Month;
+                        dataItemYear = new List<ReportDetailtForTotalMoneyType>()
+                        {
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketName = item,
+                                Month = month.ToString(),
+                                Year = year.ToString()
+                            }
+                        };
                     }
 
-                    // Trường hợp năm có tháng trước có đối tác không có
-                    if (dataItemLastMonth == null)
+                    // Tháng trước
+                    if (dataItemLastMonth.Count == 0)
                     {
-                        dataItemLastMonth = new ReportDetailtForTotalMoneyType();
-                        dataItemLastMonth.MarketCode = item.MarketCode;
-                        dataItemLastMonth.MarketName = item.MarketName;
-                        dataItemLastMonth.PartnerName = item.PartnerName;
-                        dataItemLastMonth.Year = item.Year;
-                        dataItemLastMonth.Month = item.Month;
+                        dataItemLastMonth = new List<ReportDetailtForTotalMoneyType>()
+                        {
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketName = item,
+                                Month = (month -1).ToString(),
+                                Year = year.ToString()
+                            }
+                        };
                     }
 
-                    // Check tồn tại của item
-                    string value = string.Format("PartnerName='{0}'", item.PartnerName);
-                    DataRow[] foundRows = table.Select(value);
+                    // Cùng kì năm trước
+                    double sumVNDLastYear = dataItemLastYear.Sum(x => x.VND);
+                    double sumUSDLastYear = dataItemLastYear.Sum(x => x.USD);
+                    double sumEURLastYear = dataItemLastYear.Sum(x => x.EUR);
+                    double sumCADLastYear = dataItemLastYear.Sum(x => x.CAD);
+                    double sumAUDLastYear = dataItemLastYear.Sum(x => x.AUD);
+                    double sumGBPLastYear = dataItemLastYear.Sum(x => x.GBP);
 
-                    if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null && foundRows.Count() == 0)
-                    {
-                        // add item vào table
-                        table.Rows.Add(item.PartnerName
-                            , dataItemYear.VND, dataItemYear.USD, dataItemYear.EUR, dataItemYear.CAD, dataItemYear.AUD, dataItemYear.GBP, dataItemYear.TongDS
-                            , dataItemLastMonth.VND, dataItemLastMonth.USD, dataItemLastMonth.EUR, dataItemLastMonth.CAD, dataItemLastMonth.AUD, dataItemLastMonth.GBP, dataItemLastMonth.TongDS
-                            , dataItemLastYear.VND, dataItemLastYear.USD, dataItemLastYear.EUR, dataItemLastYear.CAD, dataItemLastYear.AUD, dataItemLastYear.GBP, dataItemLastYear.TongDS
-                            , item.MarketName
-                            );
-                    }
+                    double sumTongDSLastYear = dataItemLastYear.Sum(x => x.TongDS);
+
+                    // Tháng hiện tại
+                    double sumVNDYear = dataItemYear.Sum(x => x.VND);
+                    double sumUSDYear = dataItemYear.Sum(x => x.USD);
+                    double sumEURYear = dataItemYear.Sum(x => x.EUR);
+                    double sumCADYear = dataItemYear.Sum(x => x.CAD);
+                    double sumAUDYear = dataItemYear.Sum(x => x.AUD);
+                    double sumGBPYear = dataItemYear.Sum(x => x.GBP);
+
+                    double sumTongDSYear = dataItemYear.Sum(x => x.TongDS);
+
+                    // Tháng trước
+                    double sumVNDLastMonth = dataItemLastMonth.Sum(x => x.VND);
+                    double sumUSDLastMonth = dataItemLastMonth.Sum(x => x.USD);
+                    double sumEURLastMonth = dataItemLastMonth.Sum(x => x.EUR);
+                    double sumCADLastMonth = dataItemLastMonth.Sum(x => x.CAD);
+                    double sumAUDLastMonth = dataItemLastMonth.Sum(x => x.AUD);
+                    double sumGBPLastMonth = dataItemLastMonth.Sum(x => x.GBP);
+
+                    double sumTongDSLastMonth = dataItemLastMonth.Sum(x => x.TongDS);
+
+                    table.Rows.Add(
+                        item
+                        , sumVNDYear, sumVNDLastMonth, sumVNDLastYear
+                        , sumUSDYear, sumUSDLastMonth, sumUSDLastYear
+                        , sumEURYear, sumEURLastMonth, sumEURLastYear
+                        , sumCADYear, sumCADLastMonth, sumCADLastYear
+                        , sumAUDYear, sumAUDLastMonth, sumAUDLastYear
+                        , sumGBPYear, sumGBPLastMonth, sumGBPLastYear
+                        , sumTongDSYear, sumTongDSLastMonth, sumTongDSLastYear
+                        , "Thị trường Châu Á"
+                    );
                 }
             }
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
-        /// <summary>
-        /// Get data cho báo cáo so sánh giai đoạn
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult ReportDetailtCompareMonthForOneCompare([DataSourceRequest]DataSourceRequest request, string reportTypeID)
-        {
-            // Danh sach của data gradation gồm key và value
-            int toYear = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-            string marketID = "001";
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(toYear, toMonth, reportTypeID, marketID);
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-            }
-
-            // Khởi tạo datatable
-            DataTable table = new DataTable();
-            // Tạo các cột cho datatable
-            // So sánh với tháng trước
-            table.Columns.Add("PartnerName", typeof(String));
-            table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // Cùng kì năm trước
-            table.Columns.Add("VND2", typeof(double));
-            table.Columns.Add("USD2", typeof(double));
-            table.Columns.Add("EUR2", typeof(double));
-            table.Columns.Add("CAD2", typeof(double));
-            table.Columns.Add("AUD2", typeof(double));
-            table.Columns.Add("GBP2", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            table.Columns.Add("MarketName", typeof(String));
-
-            List<string> listTemp = new List<string>();
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == toMonth.ToString() && x.Year == (toYear - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == toMonth.ToString() && x.Year == toYear.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (toMonth - 1).ToString() && x.Year == toYear.ToString());
-
-                if (!listTemp.Contains(item.PartnerCode))
-                {
-                    // Trường hợp năm trước không có đối tác
-                    if (dataItemLastYear == null)
-                    {
-                        dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                        dataItemLastYear.MarketCode = item.MarketCode;
-                        dataItemLastYear.MarketName = item.MarketName;
-                        dataItemLastYear.PartnerName = item.PartnerName;
-                        dataItemLastYear.Year = item.Year;
-                        dataItemLastYear.Month = item.Month;
-                    }
-
-                    // Trường hợp năm hiện tại không có đối tác
-                    if (dataItemYear == null)
-                    {
-                        dataItemYear = new ReportDetailtForTotalMoneyType();
-                        dataItemYear.MarketCode = item.MarketCode;
-                        dataItemYear.MarketName = item.MarketName;
-                        dataItemYear.PartnerName = item.PartnerName;
-                        dataItemYear.Year = item.Year;
-                        dataItemYear.Month = item.Month;
-                    }
-
-                    // Trường hợp tháng trước không có
-                    if (dataItemLastMonth == null)
-                    {
-                        dataItemLastMonth = new ReportDetailtForTotalMoneyType();
-                        dataItemLastMonth.MarketCode = item.MarketCode;
-                        dataItemLastMonth.MarketName = item.MarketName;
-                        dataItemLastMonth.PartnerName = item.PartnerName;
-                        dataItemLastMonth.Year = item.Year;
-                        dataItemLastMonth.Month = item.Month;
-                    }
-
-                    // so với tháng trước
-                    double sumVND = dataItemYear.VND - dataItemLastMonth.VND;
-                    double sumUSD = dataItemYear.USD - dataItemLastMonth.USD;
-                    double sumEUR = dataItemYear.EUR - dataItemLastMonth.EUR;
-                    double sumCAD = dataItemYear.CAD - dataItemLastMonth.CAD;
-                    double sumAUD = dataItemYear.AUD - dataItemLastMonth.AUD;
-                    double sumGBP = dataItemYear.GBP - dataItemLastMonth.GBP;
-
-                    double sumTongDS = dataItemYear.TongDS - dataItemLastMonth.TongDS;
-
-                    // so với cùng kì năm trước
-                    double sumVNDLastYear = dataItemYear.VND - dataItemLastYear.VND;
-                    double sumUSDLastYear = dataItemYear.USD - dataItemLastYear.USD;
-                    double sumEURLastYear = dataItemYear.EUR - dataItemLastYear.EUR;
-                    double sumCADLastYear = dataItemYear.CAD - dataItemLastYear.CAD;
-                    double sumAUDLastYear = dataItemYear.AUD - dataItemLastYear.AUD;
-                    double sumGBPLastYear = dataItemYear.GBP - dataItemLastYear.GBP;
-
-                    double sumTongDSLastYear = dataItemYear.TongDS - dataItemLastYear.TongDS;
-
-                    // Check tồn tại của item
-                    string value = string.Format("PartnerName='{0}'", item.PartnerName);
-                    DataRow[] foundRows = table.Select(value);
-
-                    if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null && foundRows.Count() == 0)
-                    {
-                        // add item vào table
-                        table.Rows.Add(item.PartnerName
-                            // So với tháng hiện tại
-                            , Math.Round(sumVND, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumUSD, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumEUR, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumCAD, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumAUD, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumGBP, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumTongDS, 2, MidpointRounding.ToEven)
-
-                            // So với cùng kì năm trước
-                            , Math.Round(sumVNDLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumUSDLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumEURLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumCADLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumAUDLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumGBPLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumTongDSLastYear, 2, MidpointRounding.ToEven)
-                            , item.MarketName
-                            );
-                    }
-
-                    // Add partnerCode để kiểm tra
-                    listTemp.Add(item.PartnerCode);
-                }
-            }
-
-            //DataRow row = table.NewRow();
-            //row["PartnerName"] = "Tổng";
-            //row["CQ1"] = table.Compute("Sum(CQ1)", "");
-            //row["CN1"] = table.Compute("Sum(CN1)", "");
-            //row["CK1"] = table.Compute("Sum(CK1)", "");
-            //row["TDS1"] = table.Compute("Sum(TDS1)", "");
-
-            //row["CQ2"] = table.Compute("Sum(CQ2)", "");
-            //row["CN2"] = table.Compute("Sum(CN2)", "");
-            //row["CK2"] = table.Compute("Sum(CK2)", "");
-            //row["TDS2"] = table.Compute("Sum(TDS2)", "");
-            //table.Rows.Add(row);
-
-            //ViewBag.ListDataGradation = listDataGradation;
-            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
-
+        
         /// <summary>
         /// Get data cho báo cáo so sánh giai đoạn
         /// </summary>
@@ -3966,301 +3743,237 @@ namespace DongAERP.Areas.Admin.Controllers
             // So sánh với tháng trước
             table.Columns.Add("PartnerName", typeof(String));
             table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-            table.Columns.Add("TDS1", typeof(double));
-
-            // Cùng kì năm trước
             table.Columns.Add("VND2", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
             table.Columns.Add("USD2", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
             table.Columns.Add("EUR2", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
             table.Columns.Add("CAD2", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
             table.Columns.Add("AUD2", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
             table.Columns.Add("GBP2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
             table.Columns.Add("TDS2", typeof(double));
 
             table.Columns.Add("MarketName", typeof(String));
 
             List<string> listTemp = new List<string>();
 
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            if (!marketID.Contains("005"))
             {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
-                if (!listTemp.Contains(item.PartnerCode))
+                foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
                 {
-                    // Trường hợp năm trước không có đối tác
-                    if (dataItemLastYear == null)
+                    // Cùng kì
+                    ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
+                    ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
+                    ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
+
+                    if (!listTemp.Contains(item.PartnerCode))
                     {
-                        dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                        dataItemLastYear.MarketCode = item.MarketCode;
-                        dataItemLastYear.MarketName = item.MarketName;
-                        dataItemLastYear.PartnerName = item.PartnerName;
-                        dataItemLastYear.Year = item.Year;
-                        dataItemLastYear.Month = item.Month;
+                        // Trường hợp năm trước không có đối tác
+                        if (dataItemLastYear == null)
+                        {
+                            dataItemLastYear = new ReportDetailtForTotalMoneyType();
+                            dataItemLastYear.MarketCode = item.MarketCode;
+                            dataItemLastYear.MarketName = item.MarketName;
+                            dataItemLastYear.PartnerName = item.PartnerName;
+                            dataItemLastYear.Year = item.Year;
+                            dataItemLastYear.Month = item.Month;
+                        }
+
+                        // Trường hợp năm hiện tại không có đối tác
+                        if (dataItemYear == null)
+                        {
+                            dataItemYear = new ReportDetailtForTotalMoneyType();
+                            dataItemYear.MarketCode = item.MarketCode;
+                            dataItemYear.MarketName = item.MarketName;
+                            dataItemYear.PartnerName = item.PartnerName;
+                            dataItemYear.Year = item.Year;
+                            dataItemYear.Month = item.Month;
+                        }
+
+                        // Trường hợp tháng trước không có
+                        if (dataItemLastMonth == null)
+                        {
+                            dataItemLastMonth = new ReportDetailtForTotalMoneyType();
+                            dataItemLastMonth.MarketCode = item.MarketCode;
+                            dataItemLastMonth.MarketName = item.MarketName;
+                            dataItemLastMonth.PartnerName = item.PartnerName;
+                            dataItemLastMonth.Year = item.Year;
+                            dataItemLastMonth.Month = item.Month;
+                        }
+
+                        // so với tháng trước
+                        double sumVND = dataItemYear.VND - dataItemLastMonth.VND;
+                        double sumUSD = dataItemYear.USD - dataItemLastMonth.USD;
+                        double sumEUR = dataItemYear.EUR - dataItemLastMonth.EUR;
+                        double sumCAD = dataItemYear.CAD - dataItemLastMonth.CAD;
+                        double sumAUD = dataItemYear.AUD - dataItemLastMonth.AUD;
+                        double sumGBP = dataItemYear.GBP - dataItemLastMonth.GBP;
+
+                        double sumTongDS = dataItemYear.TongDS - dataItemLastMonth.TongDS;
+
+                        // so với cùng kì năm trước
+                        double sumVNDLastYear = dataItemYear.VND - dataItemLastYear.VND;
+                        double sumUSDLastYear = dataItemYear.USD - dataItemLastYear.USD;
+                        double sumEURLastYear = dataItemYear.EUR - dataItemLastYear.EUR;
+                        double sumCADLastYear = dataItemYear.CAD - dataItemLastYear.CAD;
+                        double sumAUDLastYear = dataItemYear.AUD - dataItemLastYear.AUD;
+                        double sumGBPLastYear = dataItemYear.GBP - dataItemLastYear.GBP;
+
+                        double sumTongDSLastYear = dataItemYear.TongDS - dataItemLastYear.TongDS;
+
+                        // Check tồn tại của item
+                        string value = string.Format("PartnerName='{0}'", item.PartnerName);
+                        DataRow[] foundRows = table.Select(value);
+
+                        if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null && foundRows.Count() == 0)
+                        {
+                            // add item vào table
+                            table.Rows.Add(item.PartnerName
+                                // So với tháng hiện tại
+                                , Math.Round(sumVND, 2, MidpointRounding.ToEven)
+                                , Math.Round(sumVNDLastYear, 2, MidpointRounding.ToEven)
+
+                                , Math.Round(sumUSD, 2, MidpointRounding.ToEven)
+                                , Math.Round(sumUSDLastYear, 2, MidpointRounding.ToEven)
+
+                                , Math.Round(sumEUR, 2, MidpointRounding.ToEven)
+                                , Math.Round(sumEURLastYear, 2, MidpointRounding.ToEven)
+
+                                , Math.Round(sumCAD, 2, MidpointRounding.ToEven)
+                                , Math.Round(sumCADLastYear, 2, MidpointRounding.ToEven)
+
+                                , Math.Round(sumAUD, 2, MidpointRounding.ToEven)
+                                , Math.Round(sumAUDLastYear, 2, MidpointRounding.ToEven)
+
+                                , Math.Round(sumGBP, 2, MidpointRounding.ToEven)
+                                , Math.Round(sumGBPLastYear, 2, MidpointRounding.ToEven)
+
+                                , Math.Round(sumTongDS, 2, MidpointRounding.ToEven)
+                                , Math.Round(sumTongDSLastYear, 2, MidpointRounding.ToEven)
+                                , item.MarketName
+                                );
+                        }
+
+                        // Add partnerCode để kiểm tra
+                        listTemp.Add(item.PartnerCode);
                     }
-
-                    // Trường hợp năm hiện tại không có đối tác
-                    if (dataItemYear == null)
-                    {
-                        dataItemYear = new ReportDetailtForTotalMoneyType();
-                        dataItemYear.MarketCode = item.MarketCode;
-                        dataItemYear.MarketName = item.MarketName;
-                        dataItemYear.PartnerName = item.PartnerName;
-                        dataItemYear.Year = item.Year;
-                        dataItemYear.Month = item.Month;
-                    }
-
-                    // Trường hợp tháng trước không có
-                    if (dataItemLastMonth == null)
-                    {
-                        dataItemLastMonth = new ReportDetailtForTotalMoneyType();
-                        dataItemLastMonth.MarketCode = item.MarketCode;
-                        dataItemLastMonth.MarketName = item.MarketName;
-                        dataItemLastMonth.PartnerName = item.PartnerName;
-                        dataItemLastMonth.Year = item.Year;
-                        dataItemLastMonth.Month = item.Month;
-                    }
-
-                    // so với tháng trước
-                    double sumVND = dataItemYear.VND - dataItemLastMonth.VND;
-                    double sumUSD = dataItemYear.USD - dataItemLastMonth.USD;
-                    double sumEUR = dataItemYear.EUR - dataItemLastMonth.EUR;
-                    double sumCAD = dataItemYear.CAD - dataItemLastMonth.CAD;
-                    double sumAUD = dataItemYear.AUD - dataItemLastMonth.AUD;
-                    double sumGBP = dataItemYear.GBP - dataItemLastMonth.GBP;
-
-                    double sumTongDS = dataItemYear.TongDS - dataItemLastMonth.TongDS;
-
-                    // so với cùng kì năm trước
-                    double sumVNDLastYear = dataItemYear.VND - dataItemLastYear.VND;
-                    double sumUSDLastYear = dataItemYear.USD - dataItemLastYear.USD;
-                    double sumEURLastYear = dataItemYear.EUR - dataItemLastYear.EUR;
-                    double sumCADLastYear = dataItemYear.CAD - dataItemLastYear.CAD;
-                    double sumAUDLastYear = dataItemYear.AUD - dataItemLastYear.AUD;
-                    double sumGBPLastYear = dataItemYear.GBP - dataItemLastYear.GBP;
-
-                    double sumTongDSLastYear = dataItemYear.TongDS - dataItemLastYear.TongDS;
-
-                    // Check tồn tại của item
-                    string value = string.Format("PartnerName='{0}'", item.PartnerName);
-                    DataRow[] foundRows = table.Select(value);
-
-                    if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null && foundRows.Count() == 0)
-                    {
-                        // add item vào table
-                        table.Rows.Add(item.PartnerName
-                            // So với tháng hiện tại
-                            , Math.Round(sumVND, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumUSD, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumEUR, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumCAD, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumAUD, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumGBP, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumTongDS, 2, MidpointRounding.ToEven)
-
-                            // So với cùng kì năm trước
-                            , Math.Round(sumVNDLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumUSDLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumEURLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumCADLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumAUDLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumGBPLastYear, 2, MidpointRounding.ToEven)
-                            , Math.Round(sumTongDSLastYear, 2, MidpointRounding.ToEven)
-                            , item.MarketName
-                            );
-                    }
-
-                    // Add partnerCode để kiểm tra
-                    listTemp.Add(item.PartnerCode);
                 }
             }
+            else
+            {
+                foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+                {
+                    if (!listTemp.Contains(item.MarketName))
+                    {
+                        listTemp.Add(item.MarketName);
+                    }
+                }
 
-            //DataRow row = table.NewRow();
-            //row["PartnerName"] = "Tổng";
-            //row["CQ1"] = table.Compute("Sum(CQ1)", "");
-            //row["CN1"] = table.Compute("Sum(CN1)", "");
-            //row["CK1"] = table.Compute("Sum(CK1)", "");
-            //row["TDS1"] = table.Compute("Sum(TDS1)", "");
+                foreach (string item in listTemp)
+                {
+                    List<ReportDetailtForTotalMoneyType> dataItemLastYear = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+                    List<ReportDetailtForTotalMoneyType> dataItemYear = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtForTotalMoneyType> dataItemLastMonth = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
 
-            //row["CQ2"] = table.Compute("Sum(CQ2)", "");
-            //row["CN2"] = table.Compute("Sum(CN2)", "");
-            //row["CK2"] = table.Compute("Sum(CK2)", "");
-            //row["TDS2"] = table.Compute("Sum(TDS2)", "");
-            //table.Rows.Add(row);
+                    // Cùng kì
+                    if (dataItemLastYear.Count == 0)
+                    {
+                        dataItemLastYear = new List<ReportDetailtForTotalMoneyType>()
+                        {
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketName = item,
+                                Month = month.ToString(),
+                                Year = (year - 1).ToString()
+                            }
+                        };
+                    }
 
-            //ViewBag.ListDataGradation = listDataGradation;
+                    // Tháng hiện tại
+                    if (dataItemYear.Count == 0)
+                    {
+                        dataItemYear = new List<ReportDetailtForTotalMoneyType>()
+                        {
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketName = item,
+                                Month = month.ToString(),
+                                Year = year.ToString()
+                            }
+                        };
+                    }
+
+                    // Tháng trước
+                    if (dataItemLastMonth.Count == 0)
+                    {
+                        dataItemLastMonth = new List<ReportDetailtForTotalMoneyType>()
+                        {
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                MarketName = item,
+                                Month = (month -1).ToString(),
+                                Year = year.ToString()
+                            }
+                        };
+                    }
+
+                    // Cùng kì năm trước
+                    double sumVNDLastYear = dataItemLastYear.Sum(x => x.VND);
+                    double sumUSDLastYear = dataItemLastYear.Sum(x => x.USD);
+                    double sumEURLastYear = dataItemLastYear.Sum(x => x.EUR);
+                    double sumCADLastYear = dataItemLastYear.Sum(x => x.CAD);
+                    double sumAUDLastYear = dataItemLastYear.Sum(x => x.AUD);
+                    double sumGBPLastYear = dataItemLastYear.Sum(x => x.GBP);
+
+                    double sumTongDSLastYear = dataItemLastYear.Sum(x => x.TongDS);
+
+                    // Tháng hiện tại
+                    double sumVNDYear = dataItemYear.Sum(x => x.VND);
+                    double sumUSDYear = dataItemYear.Sum(x => x.USD);
+                    double sumEURYear = dataItemYear.Sum(x => x.EUR);
+                    double sumCADYear = dataItemYear.Sum(x => x.CAD);
+                    double sumAUDYear = dataItemYear.Sum(x => x.AUD);
+                    double sumGBPYear = dataItemYear.Sum(x => x.GBP);
+
+                    double sumTongDSYear = dataItemYear.Sum(x => x.TongDS);
+
+                    // Tháng trước
+                    double sumVNDLastMonth = dataItemLastMonth.Sum(x => x.VND);
+                    double sumUSDLastMonth = dataItemLastMonth.Sum(x => x.USD);
+                    double sumEURLastMonth = dataItemLastMonth.Sum(x => x.EUR);
+                    double sumCADLastMonth = dataItemLastMonth.Sum(x => x.CAD);
+                    double sumAUDLastMonth = dataItemLastMonth.Sum(x => x.AUD);
+                    double sumGBPLastMonth = dataItemLastMonth.Sum(x => x.GBP);
+
+                    double sumTongDSLastMonth = dataItemLastMonth.Sum(x => x.TongDS);
+
+                    table.Rows.Add(
+                        item
+                        , Math.Round(sumVNDYear - sumVNDLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumVNDYear - sumVNDLastYear, 2, MidpointRounding.ToEven)
+                        , Math.Round(sumUSDYear - sumUSDLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumUSDYear - sumUSDLastYear, 2, MidpointRounding.ToEven)
+                        , Math.Round(sumEURYear - sumEURLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumEURYear - sumEURLastYear, 2, MidpointRounding.ToEven)
+                        , Math.Round(sumCADYear - sumCADLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumCADYear - sumCADLastYear, 2, MidpointRounding.ToEven)
+                        , Math.Round(sumAUDYear - sumAUDLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumAUDYear - sumAUDLastYear, 2, MidpointRounding.ToEven)
+                        , Math.Round(sumGBPYear - sumGBPLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumGBPYear - sumGBPLastYear, 2, MidpointRounding.ToEven)
+                        , Math.Round(sumTongDSYear - sumTongDSLastMonth, 2, MidpointRounding.ToEven), Math.Round(sumTongDSYear - sumTongDSLastYear, 2, MidpointRounding.ToEven)
+                        , "Thị trường Châu Á"
+                    );
+                }
+
+            }
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
-        /// <summary>
-        /// Get data cho việc vẽ biểu đồ cột chồng cho so sánh giai đoạn
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult ColumnChartCompareMonthStackForOne(string reportTypeID)
-        {
-            int toYear = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-            string marketID = "001";
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvertPercent(toYear, toMonth, reportTypeID, marketID);
-
-            List<ReportDetailtForTotalMoneyType> listDataCommpareMonthClone = new List<ReportDetailtForTotalMoneyType>(listDataCompareMonth);
-
-            List<string> listTemp = new List<string>();
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCommpareMonthClone)
-            {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == toMonth.ToString() && x.Year == (toYear - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == toMonth.ToString() && x.Year == toYear.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (toMonth - 1).ToString() && x.Year == toYear.ToString());
-
-                if (!listTemp.Contains(item.PartnerCode))
-                {
-                    // Trường hợp năm không có đối tác
-                    if (dataItemLastYear == null)
-                    {
-                        dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                        dataItemLastYear.MarketCode = item.MarketCode;
-                        dataItemLastYear.MarketName = item.MarketName;
-                        dataItemLastYear.PartnerName = item.PartnerName;
-                        dataItemLastYear.Year = (toYear - 1).ToString();
-                        dataItemLastYear.Month = toMonth.ToString();
-                        listDataCompareMonth.Add(dataItemLastYear);
-                    }
-
-                    // Trường hợp năm hiện tại không có đối tác
-                    if (dataItemYear == null)
-                    {
-                        dataItemYear = new ReportDetailtForTotalMoneyType();
-                        dataItemYear.MarketCode = item.MarketCode;
-                        dataItemYear.MarketName = item.MarketName;
-                        dataItemYear.PartnerName = item.PartnerName;
-                        dataItemYear.Year = toYear.ToString();
-                        dataItemYear.Month = toMonth.ToString();
-                        listDataCompareMonth.Add(dataItemYear);
-                    }
-
-                    // Trường hợp tháng trước không có
-                    if (dataItemLastMonth == null)
-                    {
-                        dataItemLastMonth = new ReportDetailtForTotalMoneyType();
-                        dataItemLastMonth.MarketCode = item.MarketCode;
-                        dataItemLastMonth.MarketName = item.MarketName;
-                        dataItemLastMonth.PartnerName = item.PartnerName;
-                        dataItemLastMonth.Year = toYear.ToString();
-                        dataItemLastMonth.Month = (toMonth - 1).ToString();
-                        listDataCompareMonth.Add(dataItemLastMonth);
-                    }
-
-                    // Add partnerCode để kiểm tra
-                    listTemp.Add(item.PartnerCode);
-                }
-            }
-
-
-            // Số mảng cần tạo
-            int arrayCount = 6;
-            GradationCharColumn[] arrayGradation = new GradationCharColumn[listDataCompareMonth.Count * arrayCount];
-            int count = 0;
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-                arrayGradation[count] = new GradationCharColumn()
-                {
-                    Serie = "VND",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
-                    Valor1 = item.VND,
-                    Month = item.Month,
-                    Year = item.Year,
-                    //Tooltip = tooltip
-                };
-                count++;
-
-                arrayGradation[count] = new GradationCharColumn()
-                {
-                    Serie = "USD",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
-                    Valor1 = item.USD,
-                    Month = item.Month,
-                    Year = item.Year,
-                    //Tooltip = tooltip
-                };
-                count++;
-
-                arrayGradation[count] = new GradationCharColumn()
-                {
-                    Serie = "EUR",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
-                    Valor1 = item.EUR,
-                    Month = item.Month,
-                    Year = item.Year,
-                    //Tooltip = tooltip
-                };
-                count++;
-
-                arrayGradation[count] = new GradationCharColumn()
-                {
-                    Serie = "CAD",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
-                    Valor1 = item.CAD,
-                    Month = item.Month,
-                    Year = item.Year,
-                    //Tooltip = tooltip
-                };
-                count++;
-
-                arrayGradation[count] = new GradationCharColumn()
-                {
-                    Serie = "AUD",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
-                    Valor1 = item.AUD,
-                    Month = item.Month,
-                    Year = item.Year,
-                    //Tooltip = tooltip
-                };
-                count++;
-
-                arrayGradation[count] = new GradationCharColumn()
-                {
-                    Serie = "GBP",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
-                    Valor1 = item.GBP,
-                    Month = item.Month,
-                    Year = item.Year,
-                    //Tooltip = tooltip
-                };
-                count++;
-            }
-
-            if (listDataCompareMonth.Count == 0)
-            {
-                arrayGradation = new GradationCharColumn[1];
-                arrayGradation[0] = new GradationCharColumn()
-                {
-                    Serie = "1",
-                    Segmento = "1",
-                    Valor1 = 0,
-                    Tooltip = 1
-
-                };
-            }
-
-            return Json(arrayGradation);
-        }
-
+        
         /// <summary>
         /// Get data cho việc vẽ biểu đồ cột chồng cho so sánh giai đoạn
         /// </summary>
@@ -4274,60 +3987,7 @@ namespace DongAERP.Areas.Admin.Controllers
             List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvertPercent(year, month, reportTypeID, marketID);
 
             List<ReportDetailtForTotalMoneyType> listDataCommpareMonthClone = new List<ReportDetailtForTotalMoneyType>(listDataCompareMonth);
-
-            List<string> listTemp = new List<string>();
-
-            foreach (ReportDetailtForTotalMoneyType item in listDataCommpareMonthClone)
-            {
-                // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
-                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
-                if (!listTemp.Contains(item.PartnerCode))
-                {
-                    // Trường hợp năm không có đối tác
-                    if (dataItemLastYear == null)
-                    {
-                        dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                        dataItemLastYear.MarketCode = item.MarketCode;
-                        dataItemLastYear.MarketName = item.MarketName;
-                        dataItemLastYear.PartnerName = item.PartnerName;
-                        dataItemLastYear.Year = (year - 1).ToString();
-                        dataItemLastYear.Month = month.ToString();
-                        listDataCompareMonth.Add(dataItemLastYear);
-                    }
-
-                    // Trường hợp năm hiện tại không có đối tác
-                    if (dataItemYear == null)
-                    {
-                        dataItemYear = new ReportDetailtForTotalMoneyType();
-                        dataItemYear.MarketCode = item.MarketCode;
-                        dataItemYear.MarketName = item.MarketName;
-                        dataItemYear.PartnerName = item.PartnerName;
-                        dataItemYear.Year = year.ToString();
-                        dataItemYear.Month = month.ToString();
-                        listDataCompareMonth.Add(dataItemYear);
-                    }
-
-                    // Trường hợp tháng trước không có
-                    if (dataItemLastMonth == null)
-                    {
-                        dataItemLastMonth = new ReportDetailtForTotalMoneyType();
-                        dataItemLastMonth.MarketCode = item.MarketCode;
-                        dataItemLastMonth.MarketName = item.MarketName;
-                        dataItemLastMonth.PartnerName = item.PartnerName;
-                        dataItemLastMonth.Year = year.ToString();
-                        dataItemLastMonth.Month = (month - 1).ToString();
-                        listDataCompareMonth.Add(dataItemLastMonth);
-                    }
-
-                    // Add partnerCode để kiểm tra
-                    listTemp.Add(item.PartnerCode);
-                }
-            }
-
-
+            
             // Số mảng cần tạo
             int arrayCount = 6;
             GradationCharColumn[] arrayGradation = new GradationCharColumn[listDataCompareMonth.Count * arrayCount];
@@ -4338,8 +3998,8 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                 arrayGradation[count] = new GradationCharColumn()
                 {
-                    Serie = "VND",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
+                    Serie = string.Format("VND {0}/{1}", item.Month, item.Year),
+                    Segmento = item.PartnerName,
                     Valor1 = item.VND,
                     //Tooltip = tooltip
                 };
@@ -4347,8 +4007,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 arrayGradation[count] = new GradationCharColumn()
                 {
-                    Serie = "USD",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
+                    Serie = string.Format("USD {0}/{1}", item.Month, item.Year),
+                    Segmento = item.PartnerName,
                     Valor1 = item.USD,
                     //Tooltip = tooltip
                 };
@@ -4356,8 +4016,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 arrayGradation[count] = new GradationCharColumn()
                 {
-                    Serie = "EUR",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
+                    Serie = string.Format("EUR {0}/{1}", item.Month, item.Year),
+                    Segmento = item.PartnerName,
                     Valor1 = item.EUR,
                     //Tooltip = tooltip
                 };
@@ -4365,8 +4025,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 arrayGradation[count] = new GradationCharColumn()
                 {
-                    Serie = "CAD",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
+                    Serie = string.Format("CAD {0}/{1}", item.Month, item.Year),
+                    Segmento = item.PartnerName,
                     Valor1 = item.CAD,
                     //Tooltip = tooltip
                 };
@@ -4374,8 +4034,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 arrayGradation[count] = new GradationCharColumn()
                 {
-                    Serie = "AUD",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
+                    Serie = string.Format("AUD {0}/{1}", item.Month, item.Year),
+                    Segmento = item.PartnerName,
                     Valor1 = item.AUD,
                     //Tooltip = tooltip
                 };
@@ -4383,8 +4043,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 arrayGradation[count] = new GradationCharColumn()
                 {
-                    Serie = "GBP",
-                    Segmento = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year),
+                    Serie = string.Format("GBP {0}/{1}", item.Month, item.Year),
+                    Segmento = item.PartnerName,
                     Valor1 = item.GBP,
                     //Tooltip = tooltip
                 };
@@ -4406,6 +4066,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             return Json(arrayGradation);
         }
+        
 
         /// <summary>
         /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn
@@ -4415,105 +4076,12 @@ namespace DongAERP.Areas.Admin.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpPost]
-        public ActionResult ColumnsChartCompareMonthForOne(string reportTypeID)
-        {
-            int year = DateTime.Now.Year;
-            int toMonth = DateTime.Now.Month;
-            string marketID = "001";
-
-            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(year, toMonth, reportTypeID, marketID);
-
-            // Số record của mảng
-            int countArray = 6;
-            GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
-            int count = 0;
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "VND",
-                    amount = item.VND,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "USD",
-                    amount = item.USD,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "EUR",
-                    amount = item.EUR,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "CAD",
-                    amount = item.CAD,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "AUD",
-                    amount = item.AUD,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "GBP",
-                    amount = item.GBP,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                year = year - 1;
-            }
-
-            if (arrayGradation == null)
-            {
-                arrayGradation = new GradationCompare[1];
-                arrayGradation[0] = new GradationCompare()
-                {
-                    NameGradationCompare = "1",
-                    NameType = ""
-
-                };
-            }
-
-            return Json(arrayGradation);
-        }
-
-        /// <summary>
-        /// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn
-        /// </summary>
-        /// <returns></returns>
-        /// <history>
-        ///     [Truong Lam]   Created [10/06/2020]
-        /// </history>
-        [HttpPost]
-        public ActionResult SearchColumnsChartCompareMonthForOne([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
+        public ActionResult SearchColumnsChartCompareMonthForOneVND([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(year, month, reportTypeID, marketID);
-
+            
             // Số record của mảng
-            int countArray = 6;
+            int countArray = 1;
             GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataCompareMonth.Count];
             int count = 0;
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
@@ -4521,58 +4089,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                 arrayGradation[count] = new GradationCompare()
                 {
-                    NameGradationCompare = "VND",
+                    NameGradationCompare = string.Format("VND Tháng {0}/{1}", item.Month, item.Year),
                     amount = item.VND,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
+                    NameType = item.PartnerName
                 };
 
                 count++;
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "USD",
-                    amount = item.USD,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "EUR",
-                    amount = item.EUR,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "CAD",
-                    amount = item.CAD,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "AUD",
-                    amount = item.AUD,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                arrayGradation[count] = new GradationCompare()
-                {
-                    NameGradationCompare = "GBP",
-                    amount = item.GBP,
-                    NameType = string.Format("{0} {1}/{2}", item.PartnerName, item.Month, item.Year)
-                };
-
-                count++;
-
-                year = year - 1;
             }
 
             if (arrayGradation == null)

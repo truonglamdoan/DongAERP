@@ -522,51 +522,51 @@ var Report = new function () {
 
     this.CompareMonthForAll = function () {
 
-        $('ul.search-item .search-grid-comparemonth-forAll').click(function () {
+        //$('ul.search-item .search-grid-comparemonth-forAll').click(function () {
             
-            let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
-            let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+        //    let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+        //    let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-            let monthYear = kendo.format("Tháng {0}/{1}", month, year);
-            let lastYear = kendo.format("Tháng {0}/{1}", month, year - 1);
-            let lastMonth = kendo.format("Tháng {0}/{1}", month - 1, year);
+        //    let monthYear = kendo.format("Tháng {0}/{1}", month, year);
+        //    let lastYear = kendo.format("Tháng {0}/{1}", month, year - 1);
+        //    let lastMonth = kendo.format("Tháng {0}/{1}", month - 1, year);
 
 
-            // grid doanh số
-            let urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForAll?month=";
-            let grid = $("#gridCompareMonthForAll").data("kendoGrid");
-            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    // grid doanh số
+        //    let urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForAll?month=";
+        //    let grid = $("#gridCompareMonthForAll").data("kendoGrid");
+        //    grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
 
-            $($("#gridCompareMonthForAll thead tr:eq(0) th")[1]).find('.k-link').html(monthYear);
-            $($("#gridCompareMonthForAll thead tr:eq(0) th")[2]).find('.k-link').html(lastMonth);
-            $($("#gridCompareMonthForAll thead tr:eq(0) th")[3]).find('.k-link').html(lastYear);
+        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[1]).find('.k-link').html(monthYear);
+        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[2]).find('.k-link').html(lastMonth);
+        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[3]).find('.k-link').html(lastYear);
             
-            grid.dataSource.read();
+        //    grid.dataSource.read();
 
-            // grid doanh số
-            urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForAllCompare?month=";
-            grid = $("#gridCompareMonthForAllCompare").data("kendoGrid");
+        //    // grid doanh số
+        //    urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForAllCompare?month=";
+        //    grid = $("#gridCompareMonthForAllCompare").data("kendoGrid");
             
-            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-            grid.dataSource.read();
+        //    grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    grid.dataSource.read();
 
-            // Biểu đồ cột doanh số theo phần trăm
-            let chart = $("#ColumnChartStackCompareMonthForAllPercent").data("kendoChart");
-            let urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnChartStackCompareMonthForAll?month=";
-            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-            chart.options.title.text = kendo.format("Tỉ trọng từng thị trường từng loại dịch vụ \n {0}", monthYear);
-            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            chart.dataSource.read();
+        //    // Biểu đồ cột doanh số theo phần trăm
+        //    let chart = $("#ColumnChartStackCompareMonthForAllPercent").data("kendoChart");
+        //    let urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnChartStackCompareMonthForAll?month=";
+        //    chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    chart.options.title.text = kendo.format("Tỉ trọng từng thị trường từng loại dịch vụ \n {0}", monthYear);
+        //    chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+        //    chart.dataSource.read();
 
-            // Biểu đồ cột doanh số
-            chart = $("#chartGradationCompare").data("kendoChart");
-            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForAll?month=";
-            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-            chart.options.title.text = kendo.format("Doanh số từng thị trường từng loại dịch vụ \n {0}", monthYear);
-            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            chart.dataSource.read();
+        //    // Biểu đồ cột doanh số
+        //    chart = $("#chartGradationCompare").data("kendoChart");
+        //    urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForAll?month=";
+        //    chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
+        //    chart.options.title.text = kendo.format("Doanh số từng thị trường từng loại dịch vụ \n {0}", monthYear);
+        //    chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+        //    chart.dataSource.read();
             
-        });
+        //});
 
         // PrintExcel for report month
         // Trường hợp in Excel cho loại hình dịch vụ so sánh theo giao đoạn có type.
@@ -681,6 +681,91 @@ var Report = new function () {
             window.location = "/ReportDetailtExcelForMarket/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
+
+    /// Call select item khi chọn item từ thị trường con của thị trường Châu Á
+    this.onSelectMarketID = function (e) {
+        debugger;
+        let dataItem = null;
+        // Get mã thị trường
+        let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+        let marketName = $('#categoriesDetaitMarket').data('kendoDropDownList').text();
+
+        let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+        let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+
+        let monthYear = kendo.format("Tháng {0}/{1}", month, year);
+        let lastYear = kendo.format("Tháng {0}/{1}", month, year - 1);
+        let lastMonth = kendo.format("Tháng {0}/{1}", month - 1, year);
+
+        // Khi chọn dữ liệu từ các thị trường con của Thị trường Châu Á
+        if (e.item) {
+
+            dataItem = e.dataItem;
+        }
+
+        if (dataItem != null) {
+
+            // grid bảng số liệu
+            let urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForOne?month=";
+            let grid = $("#gridCompareMonthForOne").data("kendoGrid");
+            grid.dataSource.transport.options.read.data = '';
+            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            grid.dataSource.read();
+
+            // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
+            if (dataItem.Value != '005') {
+                grid.bind("dataBound", function () {
+                    $('#gridCompareMonthForOne tr.k-group-footer').css('display', 'none');
+                });
+            } else {
+                grid.bind("dataBound", function () {
+                    $('#gridCompareMonthForOne tr.k-group-footer').css('display', '');
+                });
+            }
+
+            // grid cho bảng số liệu tăng giảm
+            urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForOneCompare?month=";
+            grid = $("#gridCompareMonthForOneCompare").data("kendoGrid");
+            grid.dataSource.transport.options.read.data = '';
+            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            grid.dataSource.read();
+
+            // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
+            if (dataItem.Value != '005') {
+                grid.bind("dataBound", function () {
+                    $('#gridCompareMonthForOneCompare tr.k-group-footer').css('display', 'none');
+                });
+            } else {
+                grid.bind("dataBound", function () {
+                    $('#gridCompareMonthForOneCompare tr.k-group-footer').css('display', '');
+                });
+            }
+
+            
+
+            // grid tỉ trọng với tháng hiện tại so với tháng trước và cùng kì năm trước
+            urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchDataDetailtGridCompareMonthPercent?month=";
+            grid = $("#gridCompareMonthPercent").data("kendoGrid");
+            grid.dataSource.transport.options.read.data = '';
+            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[2]).find('.k-link').html(monthYear);
+            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[3]).find('.k-link').html(lastMonth);
+            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[4]).find('.k-link').html(lastYear);
+            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            grid.dataSource.read();
+
+            // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
+            if (dataItem.Value != '005') {
+                grid.bind("dataBound", function () {
+                    $('#gridCompareMonthPercent tr.k-group-footer').css('display', 'none');
+                });
+            } else {
+                grid.bind("dataBound", function () {
+                    $('#gridCompareMonthPercent tr.k-group-footer').css('display', '');
+                });
+            }
+
+        }
+    };
 }
 
 // Loading

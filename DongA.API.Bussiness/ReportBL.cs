@@ -1687,12 +1687,12 @@ namespace DongA.API.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
-        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAllConvert(int ToYear, int ToMonth, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAllConvert(int ToYear, int ToMonth, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.SearchDataReportDetailtMTCompareMonthForAllConvert(ToYear, ToMonth, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchDataReportDetailtMTCompareMonthForAllConvert(ToYear, ToMonth, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)

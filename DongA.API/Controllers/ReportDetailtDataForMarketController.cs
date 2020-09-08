@@ -586,11 +586,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID)
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtMTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID, string marketID)
         {
             try
             {
-                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+                List<ReportDetailtForTotalMoneyType> result = new ReportBL().SearchDataReportDetailtMTCompareMonthForAllConvert(toYear, toMonth, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
