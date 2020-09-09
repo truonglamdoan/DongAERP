@@ -50,6 +50,7 @@
     <Compile Include="Partner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report.cs" />
+    <Compile Include="ReportDetailtForPartner.cs" />
     <Compile Include="ReportDetailtForTotalMoneyType.cs" />
     <Compile Include="ReportDetailtServiceType.cs" />
     <Compile Include="ReportDetailtSTMarket.cs" />
