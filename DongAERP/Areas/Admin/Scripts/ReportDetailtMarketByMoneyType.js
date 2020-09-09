@@ -583,90 +583,6 @@ var Report = new function () {
 
     this.CompareMonthForOne = function () {
 
-        $('ul.search-item .search-grid-comparemonth-forOne').click(function () {
-
-            // Get mã thị trường
-            let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
-            let marketName = $('#categoriesDetaitMarket').data('kendoDropDownList').text();
-
-            let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
-            let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
-
-            let monthYear = kendo.format("Tháng {0}/{1}", month, year);
-            let lastYear = kendo.format("Tháng {0}/{1}", month, year - 1);
-            let lastMonth = kendo.format("Tháng {0}/{1}", month - 1, year);
-
-
-            // grid doanh số
-            let urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForOne?month=";
-            let grid = $("#gridCompareMonthForOne").data("kendoGrid");
-            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-
-            $($("#gridCompareMonthForOne thead tr:eq(0) th[data-field !='PartnerName']")[2]).find('.k-link').html(monthYear);
-            $($("#gridCompareMonthForOne thead tr:eq(0) th[data-field !='PartnerName']")[3]).find('.k-link').html(lastMonth);
-            $($("#gridCompareMonthForOne thead tr:eq(0) th[data-field !='PartnerName']")[4]).find('.k-link').html(lastYear);
-
-            grid.dataSource.read();
-
-            // grid doanh số
-            urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchReportDetailtCompareMonthForOneCompare?month=";
-            grid = $("#gridCompareMonthForOneCompare").data("kendoGrid");
-
-            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            grid.dataSource.read();
-
-            // Biểu đồ cột doanh số theo phần trăm
-            let chart = $("#chartColumnChartCompareMonthStackForOne").data("kendoChart");
-            let urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnChartCompareMonthStackForOne?month=";
-            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", marketName);
-            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            chart.dataSource.read();
-
-            // Biểu đồ cột doanh số
-            chart = $("#chartColumnsChartCompareMonthForOne").data("kendoChart");
-            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOne?month=";
-            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", marketName);
-            chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            chart.dataSource.read();
-
-            //// Biểu đồ tròn tỉ trọng của tháng hiện tại
-            //chart = $("#chartCompareMonthPercentYear").data("kendoChart");
-            //urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchDataCompareMonthPieYear?month=";
-            //chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            //chart.options.title.text = kendo.format("Tỉ trong các đối tác thị trường {0} \n {1}", marketName, monthYear);
-            ////chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            //chart.dataSource.read();
-
-            //// Biểu đồ tròn tỉ trọng của tháng trước
-            //chart = $("#chartCompareMonthPercentLastMonth").data("kendoChart");
-            //urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchDataCompareMonthPieLastMonth?month=";
-            //chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            //chart.options.title.text = kendo.format("Tỉ trong các đối tác thị trường {0} \n {1}", marketName, lastMonth);
-            ////chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            //chart.dataSource.read();
-
-            //// Biểu đồ tròn tỉ trọng của cùng kì năm trước
-            //chart = $("#chartCompareMonthPercentLastYear").data("kendoChart");
-            //urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchDataCompareMonthPieLastYear?month=";
-            //chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            //chart.options.title.text = kendo.format("Tỉ trong các đối tác thị trường {0} \n {1}", marketName, lastYear);
-            ////chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-            //chart.dataSource.read();
-
-            //// grid tỉ trọng với tháng hiện tại so với tháng trước và cùng kì năm trước
-            //urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchDataDetailtGridCompareMonthPercent?month=";
-            //grid = $("#gridCompareMonthPercent").data("kendoGrid");
-            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[2]).find('.k-link').html(monthYear);
-            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[3]).find('.k-link').html(lastMonth);
-            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[4]).find('.k-link').html(lastYear);
-            //grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            //grid.dataSource.read();
-
-
-        });
-
         // PrintExcel for report month
         // Trường hợp in Excel cho loại hình dịch vụ so sánh theo giao đoạn có type.
         // Trong đó type = 1: Loại hình dịch vụ so sánh theo giai đoạn
@@ -740,18 +656,70 @@ var Report = new function () {
                     $('#gridCompareMonthForOneCompare tr.k-group-footer').css('display', '');
                 });
             }
-
             
+            // Biểu đồ cột doanh số - VND
+            chart = $("#chartColumnsChartCompareMonthForOneVND").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOneVND?month=";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", dataItem.Text);
+            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
 
-            // grid tỉ trọng với tháng hiện tại so với tháng trước và cùng kì năm trước
-            urlGridDS = "/Admin/ReportDetailtMarketByMoneyType/SearchDataDetailtGridCompareMonthPercent?month=";
-            grid = $("#gridCompareMonthPercent").data("kendoGrid");
-            grid.dataSource.transport.options.read.data = '';
-            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[2]).find('.k-link').html(monthYear);
-            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[3]).find('.k-link').html(lastMonth);
-            //$($("#gridCompareMonthPercent thead tr:eq(0) th")[4]).find('.k-link').html(lastYear);
-            grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
-            grid.dataSource.read();
+            // Biểu đồ cột doanh số - USD
+            chart = $("#chartColumnsChartCompareMonthForOneUSD").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOneUSD?month=";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", dataItem.Text);
+            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
+
+            // Biểu đồ cột doanh số - EUR
+            chart = $("#chartColumnsChartCompareMonthForOneEUR").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOneEUR?month=";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", dataItem.Text);
+            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
+
+            // Biểu đồ cột doanh số - CAD
+            chart = $("#chartColumnsChartCompareMonthForOneCAD").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOneCAD?month=";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", dataItem.Text);
+            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
+
+            // Biểu đồ cột doanh số - AUD
+            chart = $("#chartColumnsChartCompareMonthForOneAUD").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOneAUD?month=";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", dataItem.Text);
+            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
+
+            // Biểu đồ cột doanh số - GBP
+            chart = $("#chartColumnsChartCompareMonthForOneGBP").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnsChartCompareMonthForOneGBP?month=";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", dataItem.Text);
+            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
+
+
+            // Biểu đồ cột doanh số theo phần trăm
+            chart = $("#chartColumnChartCompareMonthStackForOne").data("kendoChart");
+            urlChartDS = "/Admin/ReportDetailtMarketByMoneyType/SearchColumnChartCompareMonthStackForOne?month=";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+            chart.options.title.text = kendo.format("Doanh số các đối tác thị trường {0}", + dataItem.Text);
+            //chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
+            chart.dataSource.read();
 
             // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
             if (dataItem.Value != '005') {

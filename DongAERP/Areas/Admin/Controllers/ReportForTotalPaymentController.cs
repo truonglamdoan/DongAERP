@@ -581,7 +581,7 @@ namespace DongAERP.Areas.Admin.Controllers
         //            // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
         //            arrayGradation[count] = new GradationCompare()
         //            {
-        //                NameGradationCompare = string.Concat("Lũy thừa 3 tháng năm ", item.Year),
+        //                NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", item.Year),
         //                amount = item.Payed,
         //                NameType = string.Concat("Lũy thừa 3 tháng năm ", item.Year)
         //            };
@@ -641,7 +641,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy thừa {0} {1}", text, item.Year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.Payed,
                         NameType = string.Format("Lũy thừa {0} {1}", text, item.Year)
                     };

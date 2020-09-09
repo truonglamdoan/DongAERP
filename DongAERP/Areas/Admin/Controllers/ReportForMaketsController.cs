@@ -499,7 +499,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy thừa {0} {1}", text, item.Year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.American,
                         NameType = "Mỹ"
                     };
@@ -507,7 +507,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy thừa {0} {1}", text, item.Year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.Asia,
                         NameType = "Châu Á"
                     };
@@ -515,7 +515,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy thừa {0} {1}", text, item.Year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.Global,
                         NameType = "Toàn Cầu"
                     };
@@ -523,7 +523,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy thừa {0} {1}", text, item.Year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.Europe,
                         NameType = "Châu Âu"
                     };
@@ -531,7 +531,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy thừa {0} {1}", text, item.Year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.Canada,
                         NameType = "Canada"
                     };
@@ -539,7 +539,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy thừa {0} {1}", text, item.Year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.Australia,
                         NameType = "Úc"
                     };
