@@ -1102,7 +1102,7 @@
                             break;
                     }
                 } else {
-
+                    
                     let gradationDicID = null;
                     let toYear = null;
 
@@ -1127,6 +1127,13 @@
                             break;
                         case 'item2':
 
+                            // Get mã thị trường
+                            partnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
+
+                            if (partnerID == '') {
+                                return;
+                            }
+                            
                             reportText = 'ReportDetailtGradationCompareForOne';
 
                             gradationDicID = $("#gradation").data("kendoComboBox").value();
@@ -1228,7 +1235,8 @@
                 partnerID = listData[4];
             }
         }
-        
+
+        debugger;
         // Báo cáo chi tiết
         // Hiện dropdownlist thị trường
         if (level0 == 'level0_item2') {
@@ -1967,22 +1975,23 @@
                             });
 
                             // Loại hình Từng
-                            $('.categoriesMarket .categoriesMarketText').text("Thị trường: ");
+                            $('.categoriesMarket .categoriesMarketText').text("Đối tác: ");
                             $(".categoriesDetaitMarketID .k-dropdown").remove();
 
-                            $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitMarket" style="width: 100%;float: left;"/>');
-                            $('.categoriesDetaitMarketID').css('width', '24%');
+                            $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitPartner" style="width: 100%;float: left;"/>');
+                            $('.categoriesDetaitMarketID').css('width', '27%');
 
-                            $("#categoriesDetaitMarket").kendoDropDownList({
+                            $("#categoriesDetaitPartner").kendoDropDownList({
 
-                                optionLabel: "Chọn thị trường...",
-                                dataTextField: "MarketName",
-                                dataValueField: "MarketCode",
+                                optionLabel: "Chọn đối tác...",
+                                dataTextField: "PartnerName",
+                                dataValueField: "PartnerCode",
+                                height: 400,
                                 dataSource: {
                                     transport: {
                                         read: {
-
-                                            url: '@Url.Action("ListMarketForPartner", "ReportDetailtByMarket")',
+                                
+                                            url: '@Url.Action("ListMarketForPartner", "Home")',
                                             dataType: "json",
                                             contentType: "application/json",
                                             type: "POST",
@@ -1990,7 +1999,7 @@
                                     },
                                     //serverFiltering: true
                                 },
-                                //filter: "contains",
+                                filter: "contains",
                                 value: countItemDetailtMarket,
                             });
 

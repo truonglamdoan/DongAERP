@@ -2594,6 +2594,7 @@
     <Content Include="Areas\Admin\Views\ReportDetailtPartner\PartnerForOneForYear.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtPartner\ReportDetailtGradationCompare.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtPartner\ReportDetailtGradationCompareForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\ReportDetailtCompareMonthForAll.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
