@@ -17,6 +17,7 @@ namespace DongA.Entities
 {
     public class ReportDetailtForPartner
     {
+        public string STT { set; get; }
         [Column("PARTNERCODE")]
         public string PartnerCode { set; get; }
         [Column("PARTNERNAME")]

@@ -1844,5 +1844,145 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         }
 
         #endregion
+
+        #region Báo cáo chi tiết cho đối tác
+        /// <summary>
+        /// List Report detailt cho đối tác
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchReportDetailtPartnerForDay(DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForPartner>("ReportDetailtDataForPartner", "SearchDataReportDetailtForPartnerForAll", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchPartnerForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForPartner>("ReportDetailtDataForPartner", "SearchDataReportDetailtForOneForDay", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "partnerID", partnerID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt cho từng đối tác theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchPartnerForOneForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForPartner>("ReportDetailtDataForPartner", "SearchDataReportDetailtForOneForMonth", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "partnerID", partnerID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report detailt cho từng đối tác theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchPartnerForOneForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForPartner>("ReportDetailtDataForPartner", "SearchDataReportDetailtForOneForYear", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID, "partnerID", partnerID);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+        
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> ReportDetailtPartnerGradationCompareForAll(int toYear, int typeID, string reportTypeID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForPartner>("ReportDetailtDataForPartner", "SearchDataReportDetailtGradationForAll", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> ReportDetailtPartnerGradationCompareForOne(int toYear, int typeID, string reportTypeID, string partnerID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForPartner>("ReportDetailtDataForPartner", "SearchDataReportDetailtGradationForOne", "toYear", toYear, "typeID", typeID, "reportTypeID", reportTypeID, "partnerID", partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        #endregion
     }
 }

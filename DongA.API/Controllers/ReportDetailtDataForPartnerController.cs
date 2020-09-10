@@ -51,11 +51,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtForPartner> SearchDataReportDetailtDay(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForPartner> SearchDataReportDetailtForOneForDay(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
         {
             try
             {
-                List<ReportDetailtForPartner> listReport = new ReportBL().SearchDataDetailtForPartnerForDay(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtForPartner> listReport = new ReportBL().SearchDataDetailtForOnePartnerForDay(fromDate, toDate, reportTypeID, partnerID);
                 return listReport;
             }
             catch (Exception ex)
@@ -72,11 +72,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtForPartner> SearchDataReportDetailtForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForPartner> SearchDataReportDetailtForOneForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
         {
             try
             {
-                List<ReportDetailtForPartner> listReport = new ReportBL().SearchDataDetailtForPartnerForMonth(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtForPartner> listReport = new ReportBL().SearchDataDetailtForOnePartnerForMonth(fromDate, toDate, reportTypeID, partnerID);
                 return listReport;
             }
             catch (Exception ex)
@@ -93,11 +93,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtForPartner> SearchDataReportDetailtForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtForPartner> SearchDataReportDetailtForOneForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
         {
             try
             {
-                List<ReportDetailtForPartner> listReport = new ReportBL().SearchDataDetailtForPartnerForYear(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtForPartner> listReport = new ReportBL().SearchDataDetailtForOnePartnerForYear(fromDate, toDate, reportTypeID, partnerID);
                 return listReport;
             }
             catch (Exception ex)
@@ -135,11 +135,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtForPartner> SearchDataReportDetailtGradationForOne(int toYear, int typeID, string reportTypeID, string marketID)
+        public List<ReportDetailtForPartner> SearchDataReportDetailtGradationForOne(int toYear, int typeID, string reportTypeID, string partnerID)
         {
             try
             {
-                List<ReportDetailtForPartner> result = new ReportBL().SearchDataReportDetailtGradationForPartnerForOne(toYear, typeID, reportTypeID, marketID);
+                List<ReportDetailtForPartner> result = new ReportBL().SearchDataReportDetailtGradationForPartnerForOne(toYear, typeID, reportTypeID, partnerID);
                 return result;
             }
             catch (Exception ex)
@@ -177,11 +177,11 @@ namespace DongA.API.Controllers
         ///     [Truong Lam]   Created [10/08/2020]
         /// </history>
         [HttpGet]
-        public List<ReportDetailtForPartner> SearchDataReportDetailtCompareMonthForOne(int toYear, int toMonth, string reportTypeID, string marketID)
+        public List<ReportDetailtForPartner> SearchDataReportDetailtCompareMonthForOne(int toYear, int toMonth, string reportTypeID, string partnerID)
         {
             try
             {
-                List<ReportDetailtForPartner> result = new ReportBL().SearchDataReportDetailtCompareMonthForPartnerForOne(toYear, toMonth, reportTypeID, marketID);
+                List<ReportDetailtForPartner> result = new ReportBL().SearchDataReportDetailtCompareMonthForPartnerForOne(toYear, toMonth, reportTypeID, partnerID);
                 return result;
             }
             catch (Exception ex)

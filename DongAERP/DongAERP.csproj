@@ -173,6 +173,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportDetailtByMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtExcelForMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtMarketByMoneyTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportDetailtPartnerController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelCompareController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalMoneyTypeController.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Scripts\ReportDetailtByPartner.js" />
     <Content Include="Areas\Admin\Scripts\ReportDetailtByMarket.js" />
     <Content Include="Areas\Admin\Scripts\DateReport.js" />
     <Content Include="Areas\Admin\Scripts\ReportDetailtMarketByMoneyType.js" />
@@ -2584,6 +2586,14 @@
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForTotalForYear.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForOneForMonth.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtMarketByMoneyType\MarketForOneForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\PartnerForTotal.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\PartnerForTotalForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\PartnerForTotalForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\PartnerForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\PartnerForOneForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\PartnerForOneForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\ReportDetailtGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartner\ReportDetailtGradationCompareForOne.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
