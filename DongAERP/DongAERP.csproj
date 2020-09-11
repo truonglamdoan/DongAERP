@@ -2599,6 +2599,11 @@
     <Content Include="Areas\Admin\Views\ReportDetailtPartner\ReportDetailtCompareMonthForAll.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtPartner\ReportDetailtCompareMonthForOne.cshtml" />
     <Content Include="Areas\Admin\Views\ReportDetailtPartnerLT\PartnerForTotal.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartnerLT\PartnerForTotalForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartnerLT\PartnerForTotalForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartnerLT\PartnerForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartnerLT\PartnerForOneForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportDetailtPartnerLT\PartnerForOneForYear.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

@@ -41,7 +41,7 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<dynamic>()
-                    .Name("gridReportDetailtByTotal")
+                    .Name("gridReportDetailtByTotalForMonth")
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
@@ -111,7 +111,7 @@
                     .Scrollable(scrollable => scrollable.Height(500))
                     .DataSource(dataSource => dataSource
                         .Ajax()
-                        .Read(read => read.Action("SearchPartnerForTotal", "ReportDetailtPartnerLT")
+                        .Read(read => read.Action("SearchPartnerForTotalForMonth", "ReportDetailtPartnerLT")
                         .Data("onDataReportTypeID")
                     )
                     )
@@ -128,16 +128,18 @@
 <script type="text/javascript">
     function onDataBound(arg) {
 
-        let lastRow = $('#gridReportDetailtByTotal tbody tr');
+        let lastRow = $('#gridReportDetailtByTotalForMonth tbody:eq(0) tr');
         $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
-        $('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
+
+        lastRow = $('#gridReportDetailtByTotalForMonth tbody[role="rowgroup"] tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
     }
 
     function onDataReportTypeID(arg) {
 
         return {
-            fromDay: "@fromDate",
-            toDay: "@toDate",
+            fromDate: "@fromDate",
+            toDate: "@toDate",
             reportTypeID: "@reportTypeID"
         };
     }
