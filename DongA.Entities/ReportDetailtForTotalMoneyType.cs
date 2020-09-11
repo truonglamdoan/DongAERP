@@ -40,5 +40,6 @@ namespace DongA.Entities
         public string Month { get; set; }
         [Column("YEAR")]
         public string Year { get; set; }
+        public int typeID { get; set; }
     }
 }

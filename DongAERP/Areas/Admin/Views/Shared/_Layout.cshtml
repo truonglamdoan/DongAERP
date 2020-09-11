@@ -615,7 +615,7 @@
                     categoryText = 'ReportDetailtPartner';
                     break;
                 default:
-                    categoryText = '';
+                    categoryText = 'ReportDetailtPartnerLT';
             }
 
             // Trường hợp hình thức báo cáo- Thị trường
@@ -995,7 +995,7 @@
                             }
                             break;
                     }
-
+                    // từng
                 } else if (level2 == 'item2') {
                     
                     // Get mã thị trường
@@ -1101,6 +1101,7 @@
                             }
                             break;
                     }
+                    // So sánh
                 } else {
                     
                     let gradationDicID = null;
@@ -1154,7 +1155,7 @@
                             year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
                             month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-                            url = kendo.format("/Admin/{0}/{1}?month={2}&year={3}&reportTypeID={4}&marketID={5}", categoryText, reportText, month, year, reportTypeID, marketID);
+                            url = kendo.format("/Admin/{0}/{1}?month={2}&year={3}&reportTypeID={4}", categoryText, reportText, month, year, reportTypeID);
 
                             // Set giá trị cho param1 và 2
                             param1 = month;
@@ -1162,13 +1163,20 @@
 
                             break;
                         default:
+                            
+                            // Get mã thị trường
+                            partnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
+
+                            if (partnerID == '') {
+                                return;
+                            }
 
                             reportText = 'ReportDetailtCompareMonthForOne';
 
                             year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
                             month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-                            url = kendo.format("/Admin/{0}/{1}?month={2}&year={3}&reportTypeID={4}&marketID={5}", categoryText, reportText, month, year, reportTypeID, marketID);
+                            url = kendo.format("/Admin/{0}/{1}?month={2}&year={3}&reportTypeID={4}&partnerID={5}", categoryText, reportText, month, year, reportTypeID, partnerID);
 
                             // Set giá trị cho param1 và 2
                             param1 = month;
@@ -1635,7 +1643,6 @@
             // Trường hợp chọn loại báo cáo chi tiết theo giai đoạn và theo tháng
             // Trường hợp chọn giai đoạn
             // Báo cáo chi tiết
-
             if (level0 == 'level0_item2' && level2 == 'item3') {
 
                 let date = new Date();
@@ -1909,6 +1916,7 @@
                     }
                     
                     switch (dataItem.PartnerID) {
+                        // Giai đoạn tất cả
                         case 'item1':
 
                             $('.timeReport .startTimeName').text("Giai đoạn: ");
@@ -1944,6 +1952,7 @@
                             $(".categoriesDetaitMarketID .k-dropdown").remove();
                             
                             break;
+                        // Giai đoạn từng
                         case 'item2':
 
                             $('.timeReport .startTimeName').text("Giai đoạn: ");
@@ -2004,6 +2013,7 @@
                             });
 
                             break;
+                        // tháng - tất cả
                         case 'item3':
                             timeNow = kendo.toString(date, "MM/yyyy");
                             let month = parseInt(listDataTimeReport[0] - 1);
@@ -2027,32 +2037,9 @@
                             });
 
                             // Thị trường - Tất cả
-                            $('.categoriesMarket .categoriesMarketText').text("Thị trường: ");
+                            $('.categoriesMarket .categoriesMarketText').text("");
                             $(".categoriesDetaitMarketID .k-dropdown").remove();
-
-                            $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitMarket" style="width: 100%;float: left;"/>');
-                            $('.categoriesDetaitMarketID').css('width', '24%');
-
-                            $("#categoriesDetaitMarket").kendoDropDownList({
-
-                                optionLabel: "Chọn thị trường...",
-                                dataTextField: "MarketName",
-                                dataValueField: "MarketCode",
-                                dataSource: {
-                                    transport: {
-                                        read: {
-
-                                            url: '@Url.Action("ListMarket", "ReportDetailtByMarket")',
-                                            dataType: "json",
-                                            contentType: "application/json",
-                                            type: "POST",
-                                        }
-                                    },
-                                    //serverFiltering: true
-                                },
-                                value: countItemDetailtMarket,
-                            });
-
+                            
                             break;
                         default:
                             timeNow = kendo.toString(date, "MM/yyyy");
@@ -2079,22 +2066,23 @@
                             });
 
                             // Loại hình Từng
-                            $('.categoriesMarket .categoriesMarketText').text("Thị trường: ");
+                            $('.categoriesMarket .categoriesMarketText').text("Đối tác: ");
                             $(".categoriesDetaitMarketID .k-dropdown").remove();
 
-                            $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitMarket" style="width: 100%;float: left;"/>');
-                            $('.categoriesDetaitMarketID').css('width', '24%');
+                            $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitPartner" style="width: 100%;float: left;"/>');
+                            $('.categoriesDetaitMarketID').css('width', '27%');
 
-                            $("#categoriesDetaitMarket").kendoDropDownList({
+                            $("#categoriesDetaitPartner").kendoDropDownList({
 
-                                optionLabel: "Chọn thị trường...",
-                                dataTextField: "MarketName",
-                                dataValueField: "MarketCode",
+                                optionLabel: "Chọn đối tác...",
+                                dataTextField: "PartnerName",
+                                dataValueField: "PartnerCode",
+                                height: 400,
                                 dataSource: {
                                     transport: {
                                         read: {
-
-                                            url: '@Url.Action("ListMarketForPartner", "ReportDetailtByMarket")',
+                                
+                                            url: '@Url.Action("ListMarketForPartner", "Home")',
                                             dataType: "json",
                                             contentType: "application/json",
                                             type: "POST",
@@ -2102,7 +2090,7 @@
                                     },
                                     //serverFiltering: true
                                 },
-                                //filter: "contains",
+                                filter: "contains",
                                 value: countItemDetailtMarket,
                             });
 
