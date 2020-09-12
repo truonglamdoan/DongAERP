@@ -1704,97 +1704,79 @@ namespace DongAERP.Areas.Admin.Controllers
                     }
                 );
             }
-
-
+            
             // Khởi tạo datatable
             DataTable table = new DataTable();
             // Tạo các cột cho datatable
             table.Columns.Add("PartnerName", typeof(String));
 
             table.Columns.Add("VND1", typeof(double));
-            table.Columns.Add("USD1", typeof(double));
-            table.Columns.Add("EUR1", typeof(double));
-            table.Columns.Add("CAD1", typeof(double));
-            table.Columns.Add("AUD1", typeof(double));
-            table.Columns.Add("GBP1", typeof(double));
-
-
             table.Columns.Add("VND2", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
             table.Columns.Add("USD2", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
             table.Columns.Add("EUR2", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
             table.Columns.Add("CAD2", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
             table.Columns.Add("AUD2", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
             table.Columns.Add("GBP2", typeof(double));
 
-            table.Columns.Add("TDS2", typeof(double));
-
-            List<string> listPartner = new List<string>();
+            List<int> listPartner = new List<int>();
+            string value = string.Empty;
 
             foreach (ReportDetailtForTotalMoneyType item in listDataTotal)
             {
-                string value = string.Format("{0}/{1}", item.typeID, item.Year);
-                if (listPartner.Contains(value))
+                value = "Nguyên tệ";
+
+                if(item.typeID.Equals(1))
+                {
+                    value = "Quy USD";
+                }
+                if(listPartner.Contains(item.typeID))
                 {
                     continue;
                 }
 
-                listPartner.Add(value);
+                listPartner.Add(item.typeID);
 
                 // Nguyên tệ
-                ReportDetailtForTotalMoneyType dataItem = listDataTotal.Find(x => x.Year == item.Year && x.typeID == 0);
-                // Quy USD
-                ReportDetailtForTotalMoneyType dataItemConvert = listDataTotal.Find(x => x.Year == item.Year && x.typeID == 1);
+                ReportDetailtForTotalMoneyType dataItemYear = listDataTotal.Find(x => x.Year == year.ToString() && x.typeID == item.typeID);
+                ReportDetailtForTotalMoneyType dataItemLastYear = listDataTotal.Find(x => x.Year == (year - 1).ToString() && x.typeID == item.typeID);
 
-                if (dataItem == null)
+                if (dataItemYear == null)
                 {
-                    dataItem = new ReportDetailtForTotalMoneyType()
+                    dataItemYear = new ReportDetailtForTotalMoneyType()
                     {
-                        PartnerCode = item.PartnerCode,
-                        PartnerName = item.PartnerName
+                        Year = year.ToString()
                     };
                 }
 
-                if (dataItemConvert == null)
+                if (dataItemLastYear == null)
                 {
-                    dataItemConvert = new ReportDetailtForTotalMoneyType()
+                    dataItemLastYear = new ReportDetailtForTotalMoneyType()
                     {
-                        PartnerCode = item.PartnerCode,
-                        PartnerName = item.PartnerName
+                        Year = (year - 1).ToString()
                     };
-                }
-                else
-                {
-                    dataItemConvert.TongDS = dataItemConvert.VND + dataItemConvert.USD + dataItemConvert.EUR + dataItemConvert.CAD + dataItemConvert.AUD + dataItemConvert.GBP;
                 }
 
                 table.Rows.Add(
-                    string.Format("Năm {0}", item.Year)
-                    , dataItem.VND, dataItem.USD, dataItem.EUR, dataItem.CAD, dataItem.AUD, dataItem.GBP
-                    , dataItemConvert.VND, dataItemConvert.USD, dataItemConvert.EUR, dataItemConvert.CAD, dataItemConvert.AUD, dataItemConvert.GBP, dataItemConvert.TongDS
+                     value
+                    , dataItemYear.VND, dataItemLastYear.VND
+                    , dataItemYear.USD, dataItemLastYear.USD
+                    , dataItemYear.EUR, dataItemLastYear.EUR
+                    , dataItemYear.CAD, dataItemLastYear.CAD
+                    , dataItemYear.AUD, dataItemLastYear.AUD
+                    , dataItemYear.GBP, dataItemLastYear.GBP
                 );
             }
-
-            DataRow row = table.NewRow();
-            row["PartnerName"] = "Tổng";
-            row["VND1"] = table.Compute("Sum(VND1)", "");
-            row["USD1"] = table.Compute("Sum(USD1)", "");
-            row["EUR1"] = table.Compute("Sum(EUR1)", "");
-            row["CAD1"] = table.Compute("Sum(CAD1)", "");
-            row["AUD1"] = table.Compute("Sum(AUD1)", "");
-            row["GBP1"] = table.Compute("Sum(GBP1)", "");
-
-
-            row["VND2"] = table.Compute("Sum(VND2)", "");
-            row["USD2"] = table.Compute("Sum(USD2)", "");
-            row["EUR2"] = table.Compute("Sum(EUR2)", "");
-            row["CAD2"] = table.Compute("Sum(CAD2)", "");
-            row["AUD2"] = table.Compute("Sum(AUD2)", "");
-            row["GBP2"] = table.Compute("Sum(GBP2)", "");
-
-            row["TDS2"] = table.Compute("Sum(TDS2)", "");
-            table.Rows.Add(row);
-
-            return Json(listDataGradation.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }
 }
