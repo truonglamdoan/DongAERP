@@ -172,6 +172,50 @@ namespace DongAERP.Areas.Admin.Controllers
             return View();
         }
 
+        public ActionResult ReportDetailtGradationCompare(string gradation, int? year, string reportTypeID)
+        {
+            string nameUrl = "Báo cáo chi tiết/Theo đối tác/Loại tiền chi trả/So sánh - Giai đoạn - Tất cả";
+            ViewBag.NameURL = nameUrl;
+
+            if (!string.IsNullOrEmpty(gradation))
+            {
+                if (int.Parse(gradation) > 0 && year > 0 && reportTypeID != null)
+                {
+                    List<string> listData = new List<string>()
+                {
+                    gradation,
+                    year.ToString(),
+                    reportTypeID
+                };
+
+                    ViewData["listData"] = listData;
+                }
+            }
+            return View();
+        }
+        
+        public ActionResult ReportDetailtGradationCompareForOne(string gradation, int? year, string reportTypeID, string partnerID)
+        {
+            string nameUrl = "Báo cáo chi tiết/Theo đối tác/Loại tiền chi trả/So sánh - Giai đoạn - Từng đối tác";
+            ViewBag.NameURL = nameUrl;
+
+            if (!string.IsNullOrEmpty(gradation))
+            {
+                if (int.Parse(gradation) > 0 && year > 0 && reportTypeID != null && partnerID != null)
+                {
+                    List<string> listData = new List<string>()
+                {
+                    gradation,
+                    year.ToString(),
+                    reportTypeID,
+                    partnerID
+                };
+
+                    ViewData["listData"] = listData;
+                }
+            }
+            return View();
+        }
 
         /// <summary>
         /// Search report day theo ngày nhập vào
@@ -1322,6 +1366,435 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchGridReportForGradation([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataGradation = new ReportBL().ReportDetailtPartnerLTGradationCompareForAll(year, gradation, reportTypeID);
+            
+            // Khởi tạo datatable
+            DataTable table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("STT", typeof(String));
+            table.Columns.Add("PartnerName", typeof(String));
+
+            table.Columns.Add("VND1", typeof(double));
+            table.Columns.Add("VND2", typeof(double));
+            table.Columns.Add("TDS1", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
+            table.Columns.Add("USD2", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
+            table.Columns.Add("EUR2", typeof(double));
+            table.Columns.Add("TDS3", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
+            table.Columns.Add("CAD2", typeof(double));
+            table.Columns.Add("TDS4", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
+            table.Columns.Add("AUD2", typeof(double));
+            table.Columns.Add("TDS5", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
+            table.Columns.Add("GBP2", typeof(double));
+            table.Columns.Add("TDS6", typeof(double));
+
+            int count = 1;
+            List<string> listPartner = new List<string>();
+            foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
+            {
+                // Check trường hợp đã tồn tại đối tác
+                if(listPartner.Contains(item.PartnerCode))
+                {
+                    continue;
+                }
+
+                listPartner.Add(item.PartnerCode);
+
+                // Cùng kì
+                ReportDetailtForTotalMoneyType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
+                ReportDetailtForTotalMoneyType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
+
+                // Last year
+                if(dataItemLastYear == null)
+                {
+                    dataItemLastYear = new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName,
+                        Year = (year - 1).ToString()
+                    };
+                }
+
+                // Year hiện tại
+                if (dataItemYear == null)
+                {
+                    dataItemYear = new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName,
+                        Year = year.ToString()
+                    };
+                }
+
+                double sumVND = dataItemYear.VND - dataItemLastYear.VND;
+                double sumUSD = dataItemYear.USD - dataItemLastYear.USD;
+                double sumEUR = dataItemYear.EUR - dataItemLastYear.EUR;
+                double sumCAD = dataItemYear.CAD - dataItemLastYear.CAD;
+                double sumAUD = dataItemYear.AUD - dataItemLastYear.AUD;
+                double sumGBP = dataItemYear.GBP - dataItemLastYear.GBP;
+
+                table.Rows.Add(
+                    count++, item.PartnerName
+                    , dataItemYear.VND, dataItemLastYear.VND, Math.Round(sumVND, 2, MidpointRounding.ToEven)
+                    , dataItemYear.USD, dataItemLastYear.USD, Math.Round(sumUSD, 2, MidpointRounding.ToEven)
+                    , dataItemYear.EUR, dataItemLastYear.EUR, Math.Round(sumEUR, 2, MidpointRounding.ToEven)
+                    , dataItemYear.CAD, dataItemLastYear.CAD, Math.Round(sumCAD, 2, MidpointRounding.ToEven)
+                    , dataItemYear.AUD, dataItemLastYear.AUD, Math.Round(sumAUD, 2, MidpointRounding.ToEven)
+                    , dataItemYear.GBP, dataItemLastYear.GBP, Math.Round(sumGBP, 2, MidpointRounding.ToEven)
+                );
+            }
+
+            DataRow row = table.NewRow();
+            row["STT"] = "";
+            row["PartnerName"] = "Tổng";
+
+            row["VND1"] = table.Compute("Sum(VND1)", "");
+            row["VND2"] = table.Compute("Sum(VND2)", "");
+            row["TDS1"] = table.Compute("Sum(TDS1)", "");
+
+            row["USD1"] = table.Compute("Sum(USD1)", "");
+            row["USD2"] = table.Compute("Sum(USD2)", "");
+            row["TDS2"] = table.Compute("Sum(TDS2)", "");
+
+            row["EUR1"] = table.Compute("Sum(EUR1)", "");
+            row["EUR2"] = table.Compute("Sum(EUR2)", "");
+            row["TDS3"] = table.Compute("Sum(TDS3)", "");
+
+            row["CAD1"] = table.Compute("Sum(CAD1)", "");
+            row["CAD2"] = table.Compute("Sum(CAD2)", "");
+            row["TDS4"] = table.Compute("Sum(TDS4)", "");
+
+            row["AUD1"] = table.Compute("Sum(AUD1)", "");
+            row["AUD2"] = table.Compute("Sum(AUD2)", "");
+            row["TDS5"] = table.Compute("Sum(TDS5)", "");
+
+            row["GBP1"] = table.Compute("Sum(GBP1)", "");
+            row["GBP2"] = table.Compute("Sum(GBP2)", "");
+            row["TDS6"] = table.Compute("Sum(TDS6)", "");
+
+            table.Rows.Add(row);
+            
+            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchGridReportForGradationConvert([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataGradation = new ReportBL().ReportDetailtPartnerLTGradationCompareForAllConvert(year, gradation, reportTypeID);
+
+            // Khởi tạo datatable
+            DataTable table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("STT", typeof(String));
+            table.Columns.Add("PartnerName", typeof(String));
+
+            table.Columns.Add("VND1", typeof(double));
+            table.Columns.Add("VND2", typeof(double));
+            table.Columns.Add("TDS1", typeof(double));
+
+            table.Columns.Add("USD1", typeof(double));
+            table.Columns.Add("USD2", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
+
+            table.Columns.Add("EUR1", typeof(double));
+            table.Columns.Add("EUR2", typeof(double));
+            table.Columns.Add("TDS3", typeof(double));
+
+            table.Columns.Add("CAD1", typeof(double));
+            table.Columns.Add("CAD2", typeof(double));
+            table.Columns.Add("TDS4", typeof(double));
+
+            table.Columns.Add("AUD1", typeof(double));
+            table.Columns.Add("AUD2", typeof(double));
+            table.Columns.Add("TDS5", typeof(double));
+
+            table.Columns.Add("GBP1", typeof(double));
+            table.Columns.Add("GBP2", typeof(double));
+            table.Columns.Add("TDS6", typeof(double));
+
+            int count = 1;
+            List<string> listPartner = new List<string>();
+            foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
+            {
+                // Check trường hợp đã tồn tại đối tác
+                if (listPartner.Contains(item.PartnerCode))
+                {
+                    continue;
+                }
+
+                listPartner.Add(item.PartnerCode);
+
+                // Cùng kì
+                ReportDetailtForTotalMoneyType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
+                ReportDetailtForTotalMoneyType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
+
+                // Last year
+                if (dataItemLastYear == null)
+                {
+                    dataItemLastYear = new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName,
+                        Year = (year - 1).ToString()
+                    };
+                }
+
+                // Year hiện tại
+                if (dataItemYear == null)
+                {
+                    dataItemYear = new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName,
+                        Year = year.ToString()
+                    };
+                }
+
+                double sumVND = dataItemYear.VND - dataItemLastYear.VND;
+                double sumUSD = dataItemYear.USD - dataItemLastYear.USD;
+                double sumEUR = dataItemYear.EUR - dataItemLastYear.EUR;
+                double sumCAD = dataItemYear.CAD - dataItemLastYear.CAD;
+                double sumAUD = dataItemYear.AUD - dataItemLastYear.AUD;
+                double sumGBP = dataItemYear.GBP - dataItemLastYear.GBP;
+
+                table.Rows.Add(
+                    count++, item.PartnerName
+                    , dataItemYear.VND, dataItemLastYear.VND, Math.Round(sumVND, 2, MidpointRounding.ToEven)
+                    , dataItemYear.USD, dataItemLastYear.USD, Math.Round(sumUSD, 2, MidpointRounding.ToEven)
+                    , dataItemYear.EUR, dataItemLastYear.EUR, Math.Round(sumEUR, 2, MidpointRounding.ToEven)
+                    , dataItemYear.CAD, dataItemLastYear.CAD, Math.Round(sumCAD, 2, MidpointRounding.ToEven)
+                    , dataItemYear.AUD, dataItemLastYear.AUD, Math.Round(sumAUD, 2, MidpointRounding.ToEven)
+                    , dataItemYear.GBP, dataItemLastYear.GBP, Math.Round(sumGBP, 2, MidpointRounding.ToEven)
+                );
+            }
+
+            DataRow row = table.NewRow();
+            row["STT"] = "";
+            row["PartnerName"] = "Tổng";
+
+            row["VND1"] = table.Compute("Sum(VND1)", "");
+            row["VND2"] = table.Compute("Sum(VND2)", "");
+            row["TDS1"] = table.Compute("Sum(TDS1)", "");
+
+            row["USD1"] = table.Compute("Sum(USD1)", "");
+            row["USD2"] = table.Compute("Sum(USD2)", "");
+            row["TDS2"] = table.Compute("Sum(TDS2)", "");
+
+            row["EUR1"] = table.Compute("Sum(EUR1)", "");
+            row["EUR2"] = table.Compute("Sum(EUR2)", "");
+            row["TDS3"] = table.Compute("Sum(TDS3)", "");
+
+            row["CAD1"] = table.Compute("Sum(CAD1)", "");
+            row["CAD2"] = table.Compute("Sum(CAD2)", "");
+            row["TDS4"] = table.Compute("Sum(TDS4)", "");
+
+            row["AUD1"] = table.Compute("Sum(AUD1)", "");
+            row["AUD2"] = table.Compute("Sum(AUD2)", "");
+            row["TDS5"] = table.Compute("Sum(TDS5)", "");
+
+            row["GBP1"] = table.Compute("Sum(GBP1)", "");
+            row["GBP2"] = table.Compute("Sum(GBP2)", "");
+            row["TDS6"] = table.Compute("Sum(TDS6)", "");
+
+            table.Rows.Add(row);
+
+            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchGridReportForGradationForOne([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataGradation = new ReportBL().ReportDetailtPartnerLTGradationCompareForOne(year, gradation, reportTypeID, partnerID);
+            List<ReportDetailtForTotalMoneyType> listDataGradationConvert = new ReportBL().ReportDetailtPartnerLTGradationCompareForOneConvert(year, gradation, reportTypeID, partnerID);
+            List<ReportDetailtForTotalMoneyType> listDataTotal = new List<ReportDetailtForTotalMoneyType>();
+
+            string text = string.Empty;
+
+            switch (gradation)
+            {
+                case 1:
+                    text = "3 tháng";
+                    break;
+                case 2:
+                    text = "6 tháng";
+                    break;
+                case 3:
+                    text = "9 tháng";
+                    break;
+                default:
+                    text = "12 tháng";
+                    break;
+            }
+
+
+            foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
+            {
+                listDataTotal.Add(
+                    new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName,
+                        VND = item.VND,
+                        USD = item.USD,
+                        EUR = item.EUR,
+                        CAD = item.CAD,
+                        AUD = item.AUD,
+                        GBP = item.GBP,
+                        typeID = 0,
+                        Year = item.Year
+                    }
+                );
+            }
+
+            foreach (ReportDetailtForTotalMoneyType item in listDataGradationConvert)
+            {
+                listDataTotal.Add(
+                    new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName,
+                        VND = item.VND,
+                        USD = item.USD,
+                        EUR = item.EUR,
+                        CAD = item.CAD,
+                        AUD = item.AUD,
+                        GBP = item.GBP,
+                        typeID = 1,
+                        Year = item.Year
+                    }
+                );
+            }
+
+
+            // Khởi tạo datatable
+            DataTable table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("PartnerName", typeof(String));
+
+            table.Columns.Add("VND1", typeof(double));
+            table.Columns.Add("USD1", typeof(double));
+            table.Columns.Add("EUR1", typeof(double));
+            table.Columns.Add("CAD1", typeof(double));
+            table.Columns.Add("AUD1", typeof(double));
+            table.Columns.Add("GBP1", typeof(double));
+
+
+            table.Columns.Add("VND2", typeof(double));
+            table.Columns.Add("USD2", typeof(double));
+            table.Columns.Add("EUR2", typeof(double));
+            table.Columns.Add("CAD2", typeof(double));
+            table.Columns.Add("AUD2", typeof(double));
+            table.Columns.Add("GBP2", typeof(double));
+
+            table.Columns.Add("TDS2", typeof(double));
+
+            List<string> listPartner = new List<string>();
+
+            foreach (ReportDetailtForTotalMoneyType item in listDataTotal)
+            {
+                string value = string.Format("{0}/{1}", item.typeID, item.Year);
+                if (listPartner.Contains(value))
+                {
+                    continue;
+                }
+
+                listPartner.Add(value);
+
+                // Nguyên tệ
+                ReportDetailtForTotalMoneyType dataItem = listDataTotal.Find(x => x.Year == item.Year && x.typeID == 0);
+                // Quy USD
+                ReportDetailtForTotalMoneyType dataItemConvert = listDataTotal.Find(x => x.Year == item.Year && x.typeID == 1);
+
+                if (dataItem == null)
+                {
+                    dataItem = new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName
+                    };
+                }
+
+                if (dataItemConvert == null)
+                {
+                    dataItemConvert = new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerCode = item.PartnerCode,
+                        PartnerName = item.PartnerName
+                    };
+                }
+                else
+                {
+                    dataItemConvert.TongDS = dataItemConvert.VND + dataItemConvert.USD + dataItemConvert.EUR + dataItemConvert.CAD + dataItemConvert.AUD + dataItemConvert.GBP;
+                }
+
+                table.Rows.Add(
+                    string.Format("Năm {0}", item.Year)
+                    , dataItem.VND, dataItem.USD, dataItem.EUR, dataItem.CAD, dataItem.AUD, dataItem.GBP
+                    , dataItemConvert.VND, dataItemConvert.USD, dataItemConvert.EUR, dataItemConvert.CAD, dataItemConvert.AUD, dataItemConvert.GBP, dataItemConvert.TongDS
+                );
+            }
+
+            DataRow row = table.NewRow();
+            row["PartnerName"] = "Tổng";
+            row["VND1"] = table.Compute("Sum(VND1)", "");
+            row["USD1"] = table.Compute("Sum(USD1)", "");
+            row["EUR1"] = table.Compute("Sum(EUR1)", "");
+            row["CAD1"] = table.Compute("Sum(CAD1)", "");
+            row["AUD1"] = table.Compute("Sum(AUD1)", "");
+            row["GBP1"] = table.Compute("Sum(GBP1)", "");
+
+
+            row["VND2"] = table.Compute("Sum(VND2)", "");
+            row["USD2"] = table.Compute("Sum(USD2)", "");
+            row["EUR2"] = table.Compute("Sum(EUR2)", "");
+            row["CAD2"] = table.Compute("Sum(CAD2)", "");
+            row["AUD2"] = table.Compute("Sum(AUD2)", "");
+            row["GBP2"] = table.Compute("Sum(GBP2)", "");
+
+            row["TDS2"] = table.Compute("Sum(TDS2)", "");
+            table.Rows.Add(row);
+
+            return Json(listDataGradation.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }
 }
