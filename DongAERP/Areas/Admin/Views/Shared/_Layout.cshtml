@@ -350,7 +350,9 @@
 
         $($('.input_param').parent()).css('height', '174px')
         
-        let value = localStorage.dataAutoComplete;
+        let value = localStorage.dataTypeAutoComplete;
+        let valueTime = localStorage.dataTimeAutoComplete;
+
         let valueReportType = localStorage.reportTypeLS;
         // Get mã thị trường
         let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList');
@@ -366,16 +368,51 @@
 
         if (value != undefined) {
 
-            //let listData = value.split('-');
-            //level0.value(listData[0]);
-            //level1.value(listData[1]);
-            //level2.value(listData[2]);
-            //level3.value(listData[3]);
+            let listData = value.split('-');
+            level0.value(listData[0]);
+            level1.value(listData[1]);
+            level2.value(listData[2]);
+            level3.value(listData[3]);
 
-            // Trường hợp là báo cáo chi tiết
-            if (marketID != null) {
+            // Báo cáo tổng
+            if (listData[0] == 'level0_item1') {
 
-                marketID.value(listData[4]);
+                let listDataTime = valueTime.split('-');
+                // Loại hình chi tiết
+                if (level2 == 'item1') {
+                    switch (level3) {
+                        // Theo ngày
+                        case 'item1':
+
+                            $('#FromDay').data('kendoDatePicker').value();
+                            $('#ToDay').data('kendoDatePicker').value();
+                            break;
+                        // Theo tháng
+                        case 'item2':
+                            $('#FromMonth').data('kendoDatePicker').value();
+                            $('#ToMonth').data('kendoDatePicker').value();
+                            break;
+
+                        default:
+
+                            $('#FromYear').data('kendoDatePicker').value();
+                            $('#ToYear').data('kendoDatePicker').value();
+                            break;
+                    }
+                } else {
+
+                    // Theo giai đoạn
+                    if (level3 == 'item1') {
+
+                        let gradationDicID = $("#gradation").data("kendoComboBox").value();
+                        let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+
+                    } else {
+
+                        year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+                        month = $('#FromMonth').data('kendoDatePicker').value();
+                    }
+                }
             }
         }
 
@@ -2606,8 +2643,7 @@
             onClickReportLevel2(e);
         }
     }
-
-
+    
     // Save localStoregrate
     function saveLocalStorage() {
         // loại đối tác
@@ -2701,6 +2737,12 @@
             // Báo cáo chi tiết
         } else {
 
+            localStorage.removeItem('dataTypeAutoComplete');
+            let dataTypeAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
+            localStorage.dataTypeAutoComplete = dataTypeAutoComplete;
+
+
+            localStorage.removeItem('dataTimeAutoComplete');
             // Thị trường
             if (level1 == 'item1' || level1 == 'item2') {
 
@@ -2710,15 +2752,176 @@
                 let toDateConvert = null;
                 let dataTimeAutoComplete = null;
 
+                // Get giá trị thị trường
+                let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+
                 // Trường loại hình là Tất cả hoặc Từng
-                if (leve2 == 'item1' || leve2 == 'item2') {
+                if (level2 == 'item1' || level2 == 'item2') {
+                    
+                    switch (level3) {
+                        // Theo ngày
+                        case 'item1':
 
+                            fromDate = $('#FromDay').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
 
+                            toDate = $('#ToDay').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                            break;
+                        // Theo tháng
+                        case 'item2':
+                            fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            toDate = $('#ToMonth').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+                            
+                            break;
+
+                        default:
+
+                            fromDate = $('#FromYear').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            toDate = $('#ToYear').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+                            
+                            break;
+                    }
+
+                    dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", fromDateConvert, toDateConvert, marketID);
+                    localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
                 }
 
                 // Trường hợp là So sánh
-                if (leve2 == 'item3') {
+                if (level2 == 'item3') {
+                    let dataTimeAutoComplete = null;
+                    // Theo giai đoạn
+                    if (level3 == 'item1') {
 
+                        let gradationDicID = $("#gradation").data("kendoComboBox").value();
+                        let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+
+                        dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", gradationDicID, toYear, marketID);
+
+                    } else {
+
+                        year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+                        month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+
+                        dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", month, year, marketID);
+                    }
+
+                    localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
+                }
+            }
+
+            // Đối tác
+            if (level1 == 'item3' || level1 == 'item4') {
+
+                let fromDate = null;
+                let fromDateConvert = null;
+                let toDate = null;
+                let toDateConvert = null;
+                let dataTimeAutoComplete = null;
+
+                // Get giá trị thị trường
+                let parnerID = null;
+
+
+                // Trường loại hình là Tất cả hoặc Từng
+                if (level2 == 'item1' || level2 == 'item2') {
+
+                    switch (level3) {
+                        // Theo ngày
+                        case 'item1':
+
+                            fromDate = $('#FromDay').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            toDate = $('#ToDay').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                            break;
+                        // Theo tháng
+                        case 'item2':
+                            fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            toDate = $('#ToMonth').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                            break;
+
+                        default:
+
+                            fromDate = $('#FromYear').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            toDate = $('#ToYear').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                            break;
+                    }
+
+                    dataTimeAutoComplete = kendo.format("{0}-{1}", fromDateConvert, toDateConvert);
+
+                    // Trường hợp từng đối tác
+                    if (level2 == 'item2') {
+
+                        parnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
+                        dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", fromDateConvert, toDateConvert, parnerID);
+                    }
+
+                    localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
+                }
+
+                // Trường hợp là So sánh
+                if (level2 == 'item3') {
+                    let dataTimeAutoComplete = null;
+                    let gradationDicID = null;
+                    let toYear = null;
+                    
+                    switch (level3) {
+
+                        case 'item1':
+                            
+                            gradationDicID = $("#gradation").data("kendoComboBox").value();
+                            toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+
+                            dataTimeAutoComplete = kendo.format("{0}-{1}", gradationDicID, toYear);
+                            break;
+
+                        case 'item2':
+
+                            gradationDicID = $("#gradation").data("kendoComboBox").value();
+                            toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+                            parnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
+
+                            dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", gradationDicID, toYear, parnerID);
+
+                            break;
+
+                        case 'item3':
+
+                            year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+                            month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+
+                            dataTimeAutoComplete = kendo.format("{0}-{1}", month, year);
+                            break;
+
+                        default:
+                            
+                            year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+                            month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+                            parnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
+
+                            dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", month, year, parnerID);
+                            break;
+                    }
+
+                    localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
                 }
             }
         }
