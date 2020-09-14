@@ -173,7 +173,7 @@
                                 })
                                 .Events(events =>
                                 {
-                                    events.Select("onSelectTimeReport");
+                                    events.Select("onSelectCategories_Level3");
                                     events.DataBound("onDataBoundTimeReport");
                                 })
                                 .Enable(false)
@@ -350,71 +350,7 @@
 
         $($('.input_param').parent()).css('height', '174px')
         
-        let value = localStorage.dataTypeAutoComplete;
-        let valueTime = localStorage.dataTimeAutoComplete;
-
-        let valueReportType = localStorage.reportTypeLS;
-        // Get mã thị trường
-        let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList');
-
-        let level0 = $("#categories_Level0").data("kendoDropDownList");
-        // Hình thức báo cáo
-        let level1 = $("#categories_Level1").data("kendoDropDownList");
-        // Loại hình
-        let level2 = $("#categories_Level2").data("kendoDropDownList");
-        // Thời gian
-        let level3 = $("#categories_Level3").data("kendoDropDownList");
-        //let reportType = $("#reportType").data("kendoDropDownList");
-
-        if (value != undefined) {
-
-            let listData = value.split('-');
-            level0.value(listData[0]);
-            level1.value(listData[1]);
-            level2.value(listData[2]);
-            level3.value(listData[3]);
-
-            // Báo cáo tổng
-            if (listData[0] == 'level0_item1') {
-
-                let listDataTime = valueTime.split('-');
-                // Loại hình chi tiết
-                if (level2 == 'item1') {
-                    switch (level3) {
-                        // Theo ngày
-                        case 'item1':
-
-                            $('#FromDay').data('kendoDatePicker').value();
-                            $('#ToDay').data('kendoDatePicker').value();
-                            break;
-                        // Theo tháng
-                        case 'item2':
-                            $('#FromMonth').data('kendoDatePicker').value();
-                            $('#ToMonth').data('kendoDatePicker').value();
-                            break;
-
-                        default:
-
-                            $('#FromYear').data('kendoDatePicker').value();
-                            $('#ToYear').data('kendoDatePicker').value();
-                            break;
-                    }
-                } else {
-
-                    // Theo giai đoạn
-                    if (level3 == 'item1') {
-
-                        let gradationDicID = $("#gradation").data("kendoComboBox").value();
-                        let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
-
-                    } else {
-
-                        year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
-                        month = $('#FromMonth').data('kendoDatePicker').value();
-                    }
-                }
-            }
-        }
+        autoCompelet();
 
         //// Set comboBox đối tác
         //if (!isNullOrEmpty(valueReportType) || valueReportType != undefined) {
@@ -1303,7 +1239,8 @@
         };
     }
 
-    function onSelectTimeReport(e) {
+    function onSelectCategories_Level3(e) {
+
 
         // Xóa ngày tháng
         $(".k-datepicker").remove();
@@ -1323,22 +1260,25 @@
         // Chọn báo cáo chi tiết
         let date = null;
 
-
-        //// Trường hợp tự auto Complete
-        //if (valueData == undefined) {
-        //    valueData = true;
-        //}
+        // Get thông tin localStorage
+        let valueTime = null;
+        let listDataTime = null;
+        
+        let level0 = $("#categories_Level0").data("kendoDropDownList").value();
+        let level1 = $("#categories_Level1").data("kendoDropDownList").value();
+        let level2 = $("#categories_Level2").data("kendoDropDownList").value();
+        let level3 = $("#categories_Level3").data("kendoDropDownList").value();
 
         // Trường hợp chọn giá trị trên comboBox thời gian
         if (jQuery.type(valueData) == "object") {
 
             dataItem = this.dataItem(valueData);
+        } else {
+            dataItem = [];
+            dataItem.PartnerID = level3;
+            valueTime = localStorage.dataTimeAutoComplete;
+            listDataTime = valueTime.split('-');
         }
-
-        let level0 = $("#categories_Level0").data("kendoDropDownList").value();
-        let level1 = $("#categories_Level1").data("kendoDropDownList").value();
-        let level2 = $("#categories_Level2").data("kendoDropDownList").value();
-        let level3 = $("#categories_Level3").data("kendoDropDownList").value();
 
         // Trường hơp chọn Tổng hợp
         if (level0 == 'level0_item1') {
@@ -1353,17 +1293,10 @@
                     $('.timeReport .endTimeName').text("Đến ngày: ");
 
                     // Trường hợp có auto complete time
-                    if (listDataTimeReport != null) {
+                    if (listDataTime != null) {
                         // start time
-                        let timeStartAutoComplete = listDataTimeReport[0];
-                        let timeEndAutoComplete = listDataTimeReport[1];
-
-                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                            timeStartNow = kendo.format("{0}/{1}/{2}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                            timeEndNow = kendo.format("{0}/{1}/{2}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-
-                        }
+                        timeStartNow = listDataTime[0];
+                        timeEndNow = listDataTime[1];
                     }
 
                     if (timeStartNow == null) {
@@ -1395,16 +1328,13 @@
                     $('.timeReport .endTimeName').text("Đến Tháng: ");
 
                     // Trường hợp có auto complete time
-                    if (listDataTimeReport != null) {
+                    if (listDataTime != null) {
                         // start time
-                        let timeStartAutoComplete = listDataTimeReport[0];
-                        let timeEndAutoComplete = listDataTimeReport[1];
+                        let timeStartAutoComplete = listDataTime[0];
+                        let timeEndAutoComplete = listDataTime[1];
 
-                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                            timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                            timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-                        }
+                        timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[2]);
+                        timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[2]);
                     }
 
                     if (timeStartNow == null) {
@@ -1443,16 +1373,13 @@
                     $('.timeReport .endTimeName').text("Đến năm: ");
 
                     // Trường hợp có auto complete time
-                    if (listDataTimeReport != null) {
+                    if (listDataTime != null) {
                         // start time
-                        let timeStartAutoComplete = listDataTimeReport[0];
-                        let timeEndAutoComplete = listDataTimeReport[1];
+                        let timeStartAutoComplete = listDataTime[0];
+                        let timeEndAutoComplete = listDataTime[1];
 
-                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                            timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
-                            timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
-                        }
+                        timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                        timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
                     }
 
                     if (timeStartNow == null) {
@@ -1499,18 +1426,13 @@
                     $('.timeReport .endTimeName').text("Năm: ");
 
                     // Trường hợp có auto complete time
-                    if (listDataTimeReport != null) {
-                        // start time
-                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+                    if (listDataTime != null) {
 
-                            gradationAutoComplete = kendo.parseInt(listDataTimeReport[0]) - 1;
-                            if (gradationAutoComplete > 3) {
-                                gradationAutoComplete = 0;
-                            }
-                            let timeEndAutoComplete = listDataTimeReport[1];
+                        gradationAutoComplete = kendo.parseInt(listDataTime[0]) - 1;
 
-                            timeNow = kendo.format("{0}", timeEndAutoComplete);
-                        }
+                        let timeEndAutoComplete = listDataTime[1];
+
+                        timeNow = kendo.format("{0}", timeEndAutoComplete);
                     }
 
                     $('.timeStart').append(' <input id="gradation" placeholder="Chọn giai đoạn..." style="width: 44%;float: left;"/>');
@@ -1547,12 +1469,9 @@
                     $('.timeReport .endTimeName').text("");
 
                     // Trường hợp có auto complete time
-                    if (listDataTimeReport != null) {
+                    if (listDataTime != null) {
 
-                        if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                            timeNow = kendo.format("{0}/{1}", listDataTimeReport[0], listDataTimeReport[1]);
-                        }
+                        timeNow = kendo.format("{0}/{1}", listDataTime[0], listDataTime[1]);
                     }
 
                     $('.timeStart').append(' <input id="FromMonth" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
@@ -1571,12 +1490,18 @@
         }
         // Trường hợp chọn báo cáo chi tiết
         else {
-
-
+            
             let countItemDetailt = 0;
-
+            
             // Trường hợp hình thức báo cáo là thị trường
             if (level1 == 'item1' || level1 == 'item2') {
+
+                // Trường hợp có auto complete time
+                if (listDataTime != null) {
+
+                    countItemDetailt = listDataTime[2];
+                }
+
                 // Chọn báo cáo loại hình tất cả
                 switch (level2) {
                     
@@ -1618,16 +1543,10 @@
                             $('.timeReport .endTimeName').text("Đến ngày: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
-
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}/{2}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}/{2}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = listDataTime[0];
+                                timeEndNow = listDataTime[1];
                             }
 
                             if (timeStartNow == null) {
@@ -1659,16 +1578,13 @@
                             $('.timeReport .endTimeName').text("Đến Tháng: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -1707,16 +1623,13 @@
                             $('.timeReport .endTimeName').text("Đến năm: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -1790,17 +1703,10 @@
                             $('.timeReport .endTimeName').text("Đến ngày: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
-
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}/{2}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}/{2}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-
-                                }
+                                timeStartNow = listDataTime[0];
+                                timeEndNow = listDataTime[1];
                             }
 
                             if (timeStartNow == null) {
@@ -1832,16 +1738,13 @@
                             $('.timeReport .endTimeName').text("Đến Tháng: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -1880,16 +1783,13 @@
                             $('.timeReport .endTimeName').text("Đến năm: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -1935,6 +1835,12 @@
                         // Giai đoạn tất cả và giai đoạn  từng thị trường
                         if (dataItem.PartnerID == 'item1' || dataItem.PartnerID == 'item2') {
 
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+
+                                gradationAutoComplete = listDataTime[2];
+                            }
+
                             // Trường hợp giai đoạn tất cả
                             if (dataItem.PartnerID == 'item1') {
 
@@ -1961,7 +1867,7 @@
                                         },
                                         //serverFiltering: true
                                     },
-                                    value: countItemDetailt,
+                                    value: gradationAutoComplete,
                                 });
 
                             } else {
@@ -1990,7 +1896,7 @@
                                         //serverFiltering: true
                                     },
                                     //filter: "contains",
-                                    value: countItemDetailt,
+                                    value: gradationAutoComplete,
                                 });
                             }
 
@@ -1998,18 +1904,13 @@
                             $('.timeReport .endTimeName').text("Năm: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
-                                // start time
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+                            if (listDataTime != null) {
 
-                                    gradationAutoComplete = kendo.parseInt(listDataTimeReport[0]) - 1;
-                                    if (gradationAutoComplete > 3) {
-                                        gradationAutoComplete = 0;
-                                    }
-                                    let timeEndAutoComplete = listDataTimeReport[1];
+                                gradationAutoComplete = kendo.parseInt(listDataTime[0]) - 1;
 
-                                    timeNow = kendo.format("{0}", timeEndAutoComplete);
-                                }
+                                let timeEndAutoComplete = listDataTime[1];
+
+                                timeNow = kendo.format("{0}", timeEndAutoComplete);
                             }
 
                             $('.timeStart').append(' <input id="gradation" placeholder="Chọn giai đoạn..." style="width: 44%;float: left;"/>');
@@ -2043,6 +1944,12 @@
                         // So sánh theo tất cả thị trường và từng thị trường
                         if (dataItem.PartnerID == 'item3' || dataItem.PartnerID == 'item4') {
 
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+
+                                gradationAutoComplete = listDataTime[2];
+                            }
+
                             // Trường hợp giai đoạn tất cả
                             if (dataItem.PartnerID == 'item3') {
 
@@ -2069,7 +1976,7 @@
                                         },
                                         //serverFiltering: true
                                     },
-                                    value: countItemDetailt,
+                                    value: gradationAutoComplete,
                                 });
 
                             } else {
@@ -2098,7 +2005,7 @@
                                         //serverFiltering: true
                                     },
                                     //filter: "contains",
-                                    value: countItemDetailt,
+                                    value: gradationAutoComplete,
                                 });
                             }
 
@@ -2108,12 +2015,9 @@
                             $('.timeReport .endTimeName').text("");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeNow = kendo.format("{0}/{1}", listDataTimeReport[0], listDataTimeReport[1]);
-                                }
+                                timeNow = kendo.format("{0}/{1}", listDataTime[0], listDataTime[1]);
                             }
 
                             $('.timeStart').append(' <input id="FromMonth" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
@@ -2157,16 +2061,10 @@
                             $('.timeReport .endTimeName').text("Đến ngày: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
-
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}/{2}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}/{2}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = listDataTime[0];
+                                timeEndNow = listDataTime[1];
                             }
 
                             if (timeStartNow == null) {
@@ -2199,16 +2097,13 @@
                             $('.timeReport .endTimeName').text("Đến Tháng: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -2248,16 +2143,13 @@
                             $('.timeReport .endTimeName').text("Đến năm: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -2296,6 +2188,13 @@
                     case 'item2':
 
                         date = new Date();
+
+                        // Trường hợp có auto complete time
+                        if (listDataTime != null) {
+
+                            partnerID = listDataTime[2];
+                        }
+
                         // Tạo dropdownlist từng thị trường
                         // Loại hình Từng
                         $('.categoriesMarket .categoriesMarketText').text("Đối tác: ");
@@ -2334,17 +2233,10 @@
                             $('.timeReport .endTimeName').text("Đến ngày: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
-
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}/{2}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}/{2}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-
-                                }
+                                timeStartNow = listDataTime[0];
+                                timeEndNow = listDataTime[1];
                             }
 
                             if (timeStartNow == null) {
@@ -2377,16 +2269,13 @@
                             $('.timeReport .endTimeName').text("Đến Tháng: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[0], timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[0], timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -2426,16 +2315,13 @@
                             $('.timeReport .endTimeName').text("Đến năm: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
                                 // start time
-                                let timeStartAutoComplete = listDataTimeReport[0];
-                                let timeEndAutoComplete = listDataTimeReport[1];
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
-                                    timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
-                                }
+                                timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
                             }
 
                             if (timeStartNow == null) {
@@ -2481,8 +2367,14 @@
                         // Giai đoạn tất cả và giai đoạn  từng thị trường
                         if (dataItem.PartnerID == 'item1' || dataItem.PartnerID == 'item2') {
 
-                            // Trường hợp giai đoạn tất cả
+                            // Trường hợp từng
                             if (dataItem.PartnerID == 'item2') {
+
+                                // Trường hợp có auto complete time
+                                if (listDataTime != null) {
+
+                                    partnerID = listDataTime[2];
+                                }
 
                                 // Tạo dropdownlist từng đối tác
                                 // Loại hình Từng
@@ -2520,18 +2412,13 @@
                             $('.timeReport .endTimeName').text("Năm: ");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
-                                // start time
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
+                            if (listDataTime != null) {
 
-                                    gradationAutoComplete = kendo.parseInt(listDataTimeReport[0]) - 1;
-                                    if (gradationAutoComplete > 3) {
-                                        gradationAutoComplete = 0;
-                                    }
-                                    let timeEndAutoComplete = listDataTimeReport[1];
+                                gradationAutoComplete = kendo.parseInt(listDataTime[0]) - 1;
 
-                                    timeNow = kendo.format("{0}", timeEndAutoComplete);
-                                }
+                                let timeEndAutoComplete = listDataTime[1];
+
+                                timeNow = kendo.format("{0}", timeEndAutoComplete);
                             }
 
                             $('.timeStart').append(' <input id="gradation" placeholder="Chọn giai đoạn..." style="width: 44%;float: left;"/>');
@@ -2568,6 +2455,11 @@
                             // Trường hợp giai đoạn tất cả
                             if (dataItem.PartnerID == 'item4') {
 
+                                // Trường hợp có auto complete time
+                                if (listDataTime != null) {
+
+                                    partnerID = listDataTime[2];
+                                }
                                 // Tạo dropdownlist từng đối tác
                                 // Loại hình Từng
                                 $('.categoriesMarket .categoriesMarketText').text("Đối tác: ");
@@ -2606,12 +2498,9 @@
                             $('.timeReport .endTimeName').text("");
 
                             // Trường hợp có auto complete time
-                            if (listDataTimeReport != null) {
+                            if (listDataTime != null) {
 
-                                if (listDataTimeReport[2] == level0 && listDataTimeReport[3] == level2) {
-
-                                    timeNow = kendo.format("{0}/{1}", listDataTimeReport[0], listDataTimeReport[1]);
-                                }
+                                timeNow = kendo.format("{0}/{1}", listDataTime[0], listDataTime[1]);
                             }
 
                             $('.timeStart').append(' <input id="FromMonth" value=' + timeNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
@@ -2626,7 +2515,6 @@
                         }
 
                         break;
-
                 }
             }
         }
@@ -2639,8 +2527,8 @@
         level3 = $("#categories_Level3").data("kendoDropDownList").value();
         if (level3 != '') {
 
-            onSelectTimeReport(e);
-            onClickReportLevel2(e);
+            onSelectCategories_Level3(e);
+            //onClickReportLevel2(e);
         }
     }
     
@@ -2797,15 +2685,16 @@
                 // Trường hợp là So sánh
                 if (level2 == 'item3') {
                     let dataTimeAutoComplete = null;
+
                     // Theo giai đoạn
-                    if (level3 == 'item1') {
+                    if (level3 == 'item1' || level3 == 'item2') {
 
                         let gradationDicID = $("#gradation").data("kendoComboBox").value();
                         let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
                         dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", gradationDicID, toYear, marketID);
-
-                    } else {
+                    }
+                    if (level3 == 'item3' || level3 == 'item4') {
 
                         year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
                         month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
@@ -2922,6 +2811,76 @@
                     }
 
                     localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
+                }
+            }
+        }
+    }
+
+    function autoCompelet() {
+
+        let value = localStorage.dataTypeAutoComplete;
+        let valueTime = localStorage.dataTimeAutoComplete;
+
+        let valueReportType = localStorage.reportTypeLS;
+        // Get mã thị trường
+        let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList');
+
+        let level0 = $("#categories_Level0").data("kendoDropDownList");
+        // Hình thức báo cáo
+        let level1 = $("#categories_Level1").data("kendoDropDownList");
+        // Loại hình
+        let level2 = $("#categories_Level2").data("kendoDropDownList");
+        // Thời gian
+        let level3 = $("#categories_Level3").data("kendoDropDownList");
+        //let reportType = $("#reportType").data("kendoDropDownList");
+
+        if (value != undefined) {
+
+            let listData = value.split('-');
+            level0.value(listData[0]);
+            level1.value(listData[1]);
+            level2.value(listData[2]);
+            level3.value(listData[3]);
+
+            // Báo cáo tổng
+            if (listData[0] == 'level0_item1') {
+
+                let listDataTime = valueTime.split('-');
+                // Loại hình chi tiết
+                if (level2 == 'item1') {
+                    switch (level3) {
+                        // Theo ngày
+                        case 'item1':
+
+                            $('#FromDay').data('kendoDatePicker').value();
+                            $('#ToDay').data('kendoDatePicker').value();
+                            break;
+                        // Theo tháng
+                        case 'item2':
+                            $('#FromMonth').data('kendoDatePicker').value();
+                            $('#ToMonth').data('kendoDatePicker').value();
+                            break;
+
+                        default:
+
+                            $('#FromYear').data('kendoDatePicker').value();
+                            $('#ToYear' ).data('kendoDatePicker').value();
+                            break;
+                    }
+
+                } else {
+
+                    // Theo giai đoạn
+                    if (level3 == 'item1') {
+
+                        let gradationDicID = $("#gradation").data("kendoComboBox").value();
+                        let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+
+                    } else {
+
+                        year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+                        month = $('#FromMonth').data('kendoDatePicker').value();
+                    }
                 }
             }
         }

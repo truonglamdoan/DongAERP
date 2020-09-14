@@ -3674,6 +3674,92 @@ namespace DongA.Bussiness
         }
 
 
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng cho tất cả
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForAll(int toYear, int toMonth, string reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTCompareMonthForAll(toYear, toMonth, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng cho tất cả
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTCompareMonthForAllConvert(toYear, toMonth, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForOne(int toYear, int toMonth, string reportTypeID, string partnerID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTCompareMonthForOne(toYear, toMonth, reportTypeID, partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForOneConvert(int toYear, int toMonth, string reportTypeID, string partnerID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTCompareMonthForOneConvert(toYear, toMonth, reportTypeID, partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
         #endregion
     }
 }

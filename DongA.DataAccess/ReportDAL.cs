@@ -2308,7 +2308,95 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
                 throw DongAException.FromCommand(command, ex);
             }
         }
+        
+        /// <summary>
+        /// List Report cho so sánh theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForAll(int toYear, int toMonth, string reportTypeID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForPartnerLT", "SearchDataReportDetailtCompareMonthForAll", "toYear", toYear, "toMonth", toMonth, "reportTypeID", reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
 
+        /// <summary>
+        /// List Report cho so sánh theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForAllConvert(int toYear, int toMonth, string reportTypeID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForPartnerLT", "SearchDataReportDetailtCompareMonthForAllConvert", "toYear", toYear, "toMonth", toMonth, "reportTypeID", reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+        
+        /// <summary>
+        /// List Report cho so sánh theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForOne(int toYear, int toMonth, string reportTypeID, string partnerID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForPartnerLT", "SearchDataReportDetailtCompareMonthForOne", "toYear", toYear, "toMonth", toMonth, "reportTypeID", reportTypeID, "partnerID", partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForOneConvert(int toYear, int toMonth, string reportTypeID, string partnerID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                result = DongADatabase.ToDataAPIObject<ReportDetailtForTotalMoneyType>("ReportDetailtDataForPartnerLT", "SearchDataReportDetailtCompareMonthForOneConvert", "toYear", toYear, "toMonth", toMonth, "reportTypeID", reportTypeID, "partnerID", partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
         #endregion
     }
 }
