@@ -22,7 +22,7 @@
     }
 }
 <script src="~/Areas/Admin/Scripts/ReportDetailtByMarket.js"></script>
-<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo ngày</h1>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo năm</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
@@ -43,30 +43,62 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<DongA.Entities.ReportDetailtSTMarket>()
-                                    .Name("gridReportDetailtByTotalForYear")
-                                    .HtmlAttributes(new { style = " overflow: auto; " })
-                                    .Columns(columns =>
-                                    {
-                                        columns.Bound(p => p.MarketName).Hidden()
-                                                .ClientGroupHeaderTemplate("#= value #");
-                                        columns.Bound(c => c.ReportID).Title("Thị trường").Width(300).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                                        columns.Bound(c => c.DSChiQuay).Title("Danh sách chi quầy").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                        columns.Bound(c => c.DSChiNha).Title("Danh sách chi nhà").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                        columns.Bound(c => c.DSCK).Title("Danh sách chuyển khoản").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                        columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(200).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                                    })
-                                    .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Group(groups => groups.Add(p => p.MarketName))
-                                            .Read(read => read.Action("SearchMarketForTotalForYear", "ReportDetailtByMarket")
-                                            .Data("onDataReportTypeID")
-                                        )
-                                    //.Read(read => read.Action("SearchReportDay", "Report").Data("DayReport.GetAdditionalData()"))
-                                    )
-                                    .Sortable() // Enable sorting
-                                    .Events(events => events
-                                        .DataBound("onDataBound")
-                                    )
+                    .Name("gridReportDetailtByTotalForYear")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound(p => p.MarketName).Hidden()
+                                .ClientGroupHeaderTemplate("#= value #");
+                        columns.Bound(c => c.ReportID).Title("Thị trường").Width(200)
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .ClientGroupFooterTemplate("Tổng")
+                            .ClientFooterTemplate("Tổng tất cả");
+
+                        columns.Bound(c => c.DSChiQuay).Title("Danh sách chi quầy").Width(100).Format("{0:N2}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+
+                        columns.Bound(c => c.DSChiNha).Title("Danh sách chi nhà").Width(100).Format("{0:N2}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+
+                        columns.Bound(c => c.DSCK).Title("Danh sách chuyển khoản").Width(100).Format("{0:N2}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+
+                        columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(200).Format("{0:N2}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" })
+                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
+                    })
+                    .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .ServerOperation(false)
+                            .Group(groups => groups.Add(p => p.MarketName))
+                            .Aggregates(aggregates =>
+                            {
+                                aggregates.Add(c => c.DSChiQuay).Sum();
+                                aggregates.Add(c => c.DSChiNha).Sum();
+                                aggregates.Add(c => c.DSCK).Sum();
+                                aggregates.Add(c => c.TongDS).Sum();
+                            })
+                            .Read(read => read.Action("SearchMarketForTotalForYear", "ReportDetailtByMarket")
+                            .Data("onDataReportTypeID")
+                        )
+                    //.Read(read => read.Action("SearchReportDay", "Report").Data("DayReport.GetAdditionalData()"))
+                    )
+                    .Sortable() // Enable sorting
+                    .Events(events => events
+                        .DataBound("onDataBound")
+                    )
                 )
             </div>
         </div>

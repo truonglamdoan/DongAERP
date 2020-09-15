@@ -371,7 +371,7 @@
 
 <hr class="sidebar-divider">
 <p class="mb-4"><hr class="sidebar-divider">
-<p class="mb-4">2. THEO TỶ TRỌNG DOANH SỐ ĐỐI TÁC - LOẠI HÌNH DỊCH VỤ</p>
+<p class="mb-4">2. Theo tỉ trọng doanh số đối tác - Loại đối tác</p>
 <div class="row">
     <div class="col-lg-6">
         <!-- Circle Buttons -->
@@ -389,7 +389,7 @@
                         .Legend(legend => legend
                             .Visible(false)
                         )
-                        .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForYear", "ReportDetailtPartner").Data("onDataReportTypeID")))
+                        .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForYear", "ReportDetailtPartnerLT").Data("onDataReportTypeID")))
                         .ChartArea(chart => chart
                             .Background("transparent")
                             )
@@ -423,33 +423,33 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
-                                .Name("chartGradationPercentForLastMonth")
-                                        .Title(title => title
-                                            .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", string.IsNullOrEmpty(toMonth) ? "" : (int.Parse(toMonth) - 1).ToString(), toYear))
-                                            .Position(ChartTitlePosition.Bottom))
-                                .Legend(legend => legend
-                                    .Visible(false)
-                                )
-                                .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForLastMonth", "ReportDetailtPartner").Data("onDataReportTypeID")))
-                                .ChartArea(chart => chart
-                                    .Background("transparent")
-                                    )
-                                //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
-                                .Series(series =>
-                                {
-                                    series.Pie(model => model.value, model => model.category, model => model.color)
-                                    .Labels(labels => labels
-                                        .Template("#= category #: \n #= value#%")
-                                        .Background("transparent")
-                                        .Visible(true)
-                                        .Font("bold 12px sans-serif")
-                                    )
-                                    .StartAngle(50);
-                                })
-                                .Tooltip(tooltip => tooltip
-                                    .Visible(true)
-                                    .Format("{0}%")
-                                )
+                        .Name("chartGradationPercentForLastMonth")
+                                .Title(title => title
+                                    .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", string.IsNullOrEmpty(toMonth) ? "" : (int.Parse(toMonth) - 1).ToString(), toYear))
+                                    .Position(ChartTitlePosition.Bottom))
+                        .Legend(legend => legend
+                            .Visible(false)
+                        )
+                        .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForLastMonth", "ReportDetailtPartnerLT").Data("onDataReportTypeID")))
+                        .ChartArea(chart => chart
+                            .Background("transparent")
+                            )
+                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                        .Series(series =>
+                        {
+                            series.Pie(model => model.value, model => model.category, model => model.color)
+                            .Labels(labels => labels
+                                .Template("#= category #: \n #= value#%")
+                                .Background("transparent")
+                                .Visible(true)
+                                .Font("bold 12px sans-serif")
+                            )
+                            .StartAngle(50);
+                        })
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0}%")
+                        )
                     )
                 </div>
             </div>
@@ -471,7 +471,7 @@
                                 .Legend(legend => legend
                                     .Visible(false)
                                 )
-                                .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForLastYear", "ReportDetailtPartner").Data("onDataReportTypeID")))
+                                .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForLastYear", "ReportDetailtPartnerLT").Data("onDataReportTypeID")))
                                 .ChartArea(chart => chart
                                     .Background("transparent")
                                     )
@@ -502,43 +502,48 @@
                 <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu so sánh chi trả từng thị trường cho tháng hiện tại, tháng trước và cùng kì năm trước (USD)</h6>
             </div>
             <div class="card-body">
-                @(Html.Kendo().Grid<ReportDetailtForPartner>()
-                            .Name("gridCompareMonthForOnePercent")
-                            .HtmlAttributes(new { style = " overflow: auto; " })
-                            .Columns(columns =>
-                            {
-                                columns.Bound(col => col.PartnerName).Title("")
-                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                .HtmlAttributes(new { style = " text-align: center;" });
+                @(Html.Kendo().Grid<dynamic>()
+                    .Name("gridCompareMonthForOnePercent")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound("PartnerName").Title("")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
 
-                                columns.Bound(col => col.DSChiQuay).Title("Doanh số Chi Quầy").Format("{0:N2} %")
-                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                .HtmlAttributes(new { style = " text-align: center;" });
+                        columns.Bound("COL1").Title(month).Format("{0:N2} %")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
 
-                                columns.Bound(col => col.DSChiNha).Title("Doanh số Chi Nhà").Format("{0:N2} %")
-                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                .HtmlAttributes(new { style = " text-align: center;" });
+                        columns.Bound("COL2").Title(lastMonth).Format("{0:N2} %")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
 
-                                columns.Bound(col => col.DSCK).Title("Doanh số Chuyển Khoản").Format("{0:N2} %")
-                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                .HtmlAttributes(new { style = " text-align: center;" });
+                        columns.Bound("COL3").Title(monthLastYear).Format("{0:N2} %")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
 
-                                columns.Bound(col => col.TongDS).Title("Tổng doanh số")
-                                .Format("{0:N2} %").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                        columns.Bound("TDS1").Title("Tăng giảm so với tháng trước (%)")
+                        .Format("{0:N2} %").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
 
-                            })
-                            .Sortable() // Enable sorting
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                //.Batch(true)
-                                //.ServerOperation(false)
-                                .Read(read => read.Action("SearchReportDetailtCompareMonthForOnePercent", "ReportDetailtPartner").Data("onDataReportTypeID"))
 
-                            )
-                            .Events(events => events
-                                .DataBound("onDataBoundGridCompareMonthForOnePercent")
-                            )
+                        columns.Bound("TDS2").Title("Tăng giảm so với cùng kì năm trước (%)")
+                        .Format("{0:N2} %").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+
+                    })
+                    .Sortable() // Enable sorting
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        //.Batch(true)
+                        //.ServerOperation(false)
+                        .Read(read => read.Action("SearchReportDetailtCompareMonthForOnePercent", "ReportDetailtPartnerLT").Data("onDataReportTypeID"))
+
+                    )
+                    .Events(events => events
+                        .DataBound("onDataBoundGridCompareMonthForOnePercent")
+                    )
                 )
             </div>
         </div>
@@ -603,18 +608,18 @@
     // Tô đậm cho Grid
     function onDataBoundGridCompareMonthForOnePercent(arg) {
 
-        let lastRow = $('#gridCompareMonthForOnePercent tbody tr');
-        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
-        $(lastRow[lastRow.length - 2]).css('font-weight', 'bold');
+        //let lastRow = $('#gridCompareMonthForOnePercent tbody tr');
+        //$(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        //$(lastRow[lastRow.length - 2]).css('font-weight', 'bold');
 
         // Tô màu dòng record có tỉ lệ tăng giảm
         let trGrid = $('#gridCompareMonthForOnePercent tbody tr');
-        for (let i = 3; i < trGrid.length; i++) {
+        for (let i = 0; i < trGrid.length; i++) {
 
             let tdGrid = $(trGrid[i]).find('td');
 
             // Theo % thì loại đối tượng tổng ra
-            for (let j = 0; j < tdGrid.length; j++) {
+            for (let j = 1; j < tdGrid.length; j++) {
                 tdCellValue = kendo.parseFloat(tdGrid[j].textContent);
 
                 // Điều kiện nếu td là âm thì tô màu đỏ ngược lại màu Xanh

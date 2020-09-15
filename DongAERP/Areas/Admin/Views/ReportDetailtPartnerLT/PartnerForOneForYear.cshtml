@@ -22,7 +22,7 @@
     }
 }
 <script src="~/Areas/Admin/Scripts/ReportDetailtByMarket.js"></script>
-<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo tháng</h1>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo năm</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
@@ -65,7 +65,7 @@
                             series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
 
                         })
-                        .SeriesColors("#FFBF00", "#40FF00")
+                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
                         .CategoryAxis(axis => axis
                             //.Labels(labels => labels.Format("{0}"))
                             .MajorGridLines(lines => lines.Visible(false))

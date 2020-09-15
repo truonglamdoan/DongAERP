@@ -34,7 +34,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult PartnerForTotal(DateTime? fromDay, DateTime? toDay, string reportTypeID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số theo đối tác/Loại hình dịch vụ/Tất cả/Theo ngày";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số theo đối tác/Loại tiền/Tất cả/Theo ngày";
             ViewBag.NameURL = nameUrl;
 
             if (fromDay != null && toDay != null && reportTypeID != null)
@@ -57,7 +57,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult PartnerForTotalForMonth(DateTime? fromDate, DateTime? toDate, string reportTypeID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số theo đối tác/Loại hình dịch vụ/Tất cả/Theo tháng";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số theo đối tác/Loại tiền/Tất cả/Theo tháng";
             ViewBag.NameURL = nameUrl;
 
             if (fromDate != null && toDate != null && reportTypeID != null)
@@ -80,7 +80,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult PartnerForTotalForYear(DateTime? fromDate, DateTime? toDate, string reportTypeID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số theo đối tác/Loại hình dịch vụ/Tất cả/Theo năm";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số theo đối tác/Loại tiền/Tất cả/Theo năm";
             ViewBag.NameURL = nameUrl;
 
             if (fromDate != null && toDate != null && reportTypeID != null)
@@ -3262,6 +3262,438 @@ namespace DongAERP.Areas.Admin.Controllers
             }
 
             return Json(arrayGradation);
+        }
+
+
+        /// <summary>
+        /// Get data cho báo cáo chi tiết so sánh theo tháng - tháng hiện tại
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchCompareForMonthPieForYear([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtPartnerLTCompareMonthForOneConvert(year, month, reportTypeID, partnerID);
+
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>();
+
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                item.PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year);
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                listDataCompareMonthConvert.Add(
+                    new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year),
+                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        TongDS = 100,
+                        Month = item.Month,
+                        Year = item.Year
+                    }
+                );
+            }
+
+            // # dòng record
+            GradationChartPie[] arrayGradation = new GradationChartPie[1];
+            arrayGradation[0] = new GradationChartPie()
+            {
+                category = "1",
+                value = 0,
+                color = "#9de219"
+
+            };
+
+            int count = 0;
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonthConvert)
+            {
+                if (item.Year == year.ToString() && item.Month == month.ToString())
+                {
+                    // tạo mảng gồm 8 object
+                    arrayGradation = new GradationChartPie[6];
+
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "VND",
+                        value = item.VND,
+                        color = "#FFBF00"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "USD",
+                        value = item.USD,
+                        color = "#40FF00"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "EUR",
+                        value = item.EUR,
+                        color = "#2ECCFA"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "CAD",
+                        value = item.CAD,
+                        color = "#9A2EFE"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "AUD",
+                        value = item.AUD,
+                        color = "#FE2EF7"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "GBP",
+                        value = item.GBP,
+                        color = "#0000FF"
+                    };
+
+                    count++;
+
+                }
+            }
+
+            return Json(arrayGradation);
+        }
+
+
+        /// <summary>
+        /// Get data cho báo cáo chi tiết so sánh theo tháng - tháng hiện tại
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchCompareForMonthPieForLastYear([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtPartnerLTCompareMonthForOneConvert(year, month, reportTypeID, partnerID);
+
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>();
+
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                item.PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year);
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                listDataCompareMonthConvert.Add(
+                    new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year),
+                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        TongDS = 100,
+                        Month = item.Month,
+                        Year = item.Year
+                    }
+                );
+            }
+
+            // # dòng record
+            GradationChartPie[] arrayGradation = new GradationChartPie[1];
+            arrayGradation[0] = new GradationChartPie()
+            {
+                category = "1",
+                value = 0,
+                color = "#9de219"
+
+            };
+
+            int count = 0;
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonthConvert)
+            {
+                if (item.Year == (year - 1).ToString() && item.Month == month.ToString())
+                {
+                    // tạo mảng gồm 8 object
+                    arrayGradation = new GradationChartPie[6];
+
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "VND",
+                        value = item.VND,
+                        color = "#FFBF00"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "USD",
+                        value = item.USD,
+                        color = "#40FF00"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "EUR",
+                        value = item.EUR,
+                        color = "#2ECCFA"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "CAD",
+                        value = item.CAD,
+                        color = "#9A2EFE"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "AUD",
+                        value = item.AUD,
+                        color = "#FE2EF7"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "GBP",
+                        value = item.GBP,
+                        color = "#0000FF"
+                    };
+
+                    count++;
+
+                }
+            }
+
+            return Json(arrayGradation);
+        }
+
+
+        /// <summary>
+        /// Get data cho báo cáo chi tiết so sánh theo tháng - tháng hiện tại
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchCompareForMonthPieForLastMonth([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtPartnerLTCompareMonthForOneConvert(year, month, reportTypeID, partnerID);
+
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>();
+
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                item.PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year);
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                listDataCompareMonthConvert.Add(
+                    new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year),
+                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        TongDS = 100,
+                        Month = item.Month,
+                        Year = item.Year
+                    }
+                );
+            }
+
+            // # dòng record
+            GradationChartPie[] arrayGradation = new GradationChartPie[1];
+            arrayGradation[0] = new GradationChartPie()
+            {
+                category = "1",
+                value = 0,
+                color = "#9de219"
+
+            };
+
+            int count = 0;
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonthConvert)
+            {
+                if (item.Year == year.ToString() && item.Month == (month - 1).ToString())
+                {
+                    // tạo mảng gồm 8 object
+                    arrayGradation = new GradationChartPie[6];
+
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "VND",
+                        value = item.VND,
+                        color = "#FFBF00"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "USD",
+                        value = item.USD,
+                        color = "#40FF00"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "EUR",
+                        value = item.EUR,
+                        color = "#2ECCFA"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "CAD",
+                        value = item.CAD,
+                        color = "#9A2EFE"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "AUD",
+                        value = item.AUD,
+                        color = "#FE2EF7"
+                    };
+
+                    count++;
+
+                    arrayGradation[count] = new GradationChartPie()
+                    {
+                        category = "GBP",
+                        value = item.GBP,
+                        color = "#0000FF"
+                    };
+
+                    count++;
+
+                }
+            }
+
+            return Json(arrayGradation);
+        }
+
+        /// <summary>
+        /// Get data cho báo cáo chi tiết so sánh theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchReportDetailtCompareMonthForOnePercent([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtPartnerLTCompareMonthForOneConvert(year, month, reportTypeID, partnerID);
+            List<ReportDetailtForTotalMoneyType> listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>();
+
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                item.PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year);
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                listDataCompareMonthConvert.Add(
+                    new ReportDetailtForTotalMoneyType()
+                    {
+                        PartnerName = string.Format("Tháng {0}/{1}", item.Month, item.Year),
+                        VND = item.TongDS == 0 ? 0 : Math.Round((item.VND / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        USD = item.TongDS == 0 ? 0 : Math.Round((item.USD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        EUR = item.TongDS == 0 ? 0 : Math.Round((item.EUR / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        CAD = item.TongDS == 0 ? 0 : Math.Round((item.CAD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        AUD = item.TongDS == 0 ? 0 : Math.Round((item.AUD / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        GBP = item.TongDS == 0 ? 0 : Math.Round((item.GBP / item.TongDS) * 100, 2, MidpointRounding.ToEven),
+                        TongDS = 100,
+                        Month = item.Month,
+                        Year = item.Year
+                    }
+                );
+            }
+
+            DataTable table = new DataTable();
+            // Khởi tạo datatable
+            table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("PartnerName", typeof(String));
+
+            table.Columns.Add("COL1", typeof(double));
+            table.Columns.Add("COL2", typeof(double));
+            table.Columns.Add("COL3", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
+
+            string[] listTypeMoney = { "VND", "USD", "EUR", "CAD", "AUD", "GBP" };
+
+            if (listDataCompareMonthConvert.Count > 0)
+            {
+                ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonthConvert.Find(x => x.Month == month.ToString() && x.Year == (year - 1).ToString());
+                ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonthConvert.Find(x => x.Month == month.ToString() && x.Year == year.ToString());
+                ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonthConvert.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString());
+
+                foreach (string item in listTypeMoney)
+                {
+                    // Tháng hiện tại
+                    var propertyInfoYear = dataItemYear.GetType().GetProperty(item);
+                    var valueDataYear = propertyInfoYear.GetValue(dataItemYear, null);
+
+                    // Tháng trước
+                    var propertyInfoLastMonth = dataItemLastMonth.GetType().GetProperty(item);
+                    var valueDataLastMonth = propertyInfoLastMonth.GetValue(dataItemLastMonth, null);
+
+                    //Cùng kì
+                    var propertyInfoLastYear = dataItemLastYear.GetType().GetProperty(item);
+                    var valueDataLastYear = propertyInfoYear.GetValue(dataItemLastYear, null);
+
+                    double sumYear = Math.Round(Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastMonth), 2, MidpointRounding.ToEven);
+                    double sumLastYear = Math.Round(Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastYear), 2, MidpointRounding.ToEven);
+
+                    table.Rows.Add(
+                        item
+                        , valueDataYear, valueDataLastMonth, valueDataLastYear, sumYear, sumLastYear
+                    );
+
+                }
+            }
+
+            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }
 }

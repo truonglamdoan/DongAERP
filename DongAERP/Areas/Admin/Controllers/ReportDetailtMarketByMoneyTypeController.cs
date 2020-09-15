@@ -26,7 +26,11 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult MarketForTotal(DateTime? fromDay, DateTime? toDay, string reportTypeID, string marketID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/Tất cả";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền/Tất cả";
+            if (marketID.Equals("1"))
+            {
+                nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền/Thị trường Châu Á";
+            }
             ViewBag.NameURL = nameUrl;
 
             if (fromDay != null && toDay != null && reportTypeID != null && marketID != null)
@@ -52,7 +56,11 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult MarketForTotalForMonth(DateTime? fromDate, DateTime? toDate, string reportTypeID, string marketID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/Tất cả";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền/Tất cả";
+            if (marketID.Equals("1"))
+            {
+                nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền/Thị trường Châu Á";
+            }
             ViewBag.NameURL = nameUrl;
 
             if (fromDate != null && toDate != null && reportTypeID != null && marketID != null)
@@ -76,7 +84,11 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult MarketForTotalForYear(DateTime? fromDate, DateTime? toDate, string reportTypeID, string marketID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/Tất cả";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền/Tất cả";
+            if (marketID.Equals("1"))
+            {
+                nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền/Thị trường Châu Á";
+            }
             ViewBag.NameURL = nameUrl;
 
             if (fromDate != null && toDate != null && reportTypeID != null && marketID != null)
@@ -125,7 +137,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult MarketForOneForMonth(DateTime? fromDate, DateTime? toDate, string reportTypeID, string marketID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/Từng thị trường";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình tiền/Từng thị trường";
             ViewBag.NameURL = nameUrl;
 
             if (fromDate != null && toDate != null && reportTypeID != null && marketID != null)
@@ -172,6 +184,11 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult ReportDetailtGradationCompare(string gradation, int? year, string reportTypeID, string marketID)
         {
             string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/So sánh - Giai đoạn - Tất cả thị trường";
+            if (marketID.Equals("1"))
+            {
+                nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/So sánh - Giai đoạn - Thị trường Châu Á";
+            }
+            ViewBag.NameURL = nameUrl;
             ViewBag.NameURL = nameUrl;
             // Khởi tạo datatable
             DataTable table = new DataTable();
@@ -271,7 +288,11 @@ namespace DongAERP.Areas.Admin.Controllers
 
         public ActionResult ReportDetailtCompareMonthForAll(int? month, int? year, string reportTypeID, string marketID)
         {
-            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/So sánh - Theo tháng - tất cả thị trường";
+            string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/So sánh - Theo tháng - Tất cả thị trường";
+            if (marketID.Equals("1"))
+            {
+                nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại tiền chi trả/So sánh - Theo tháng - Thị trường Châu Á";
+            }
             ViewBag.NameURL = nameUrl;
             // Khởi tạo datatable
             DataTable table = new DataTable();
@@ -401,10 +422,23 @@ namespace DongAERP.Areas.Admin.Controllers
                 item.ReportID = item.MarketName;
                 if (marketID.Equals("0"))
                 {
-                    item.MarketName = "Tất cả thị trường";
+                    item.MarketName = "";
                 }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
+
+            listData.Add(
+                new ReportDetailtForTotalMoneyType()
+                {
+                    ReportID ="Tổng",
+                    VND = listData.Sum(x => x.VND),
+                    USD = listData.Sum(x => x.USD),
+                    EUR = listData.Sum(x => x.EUR),
+                    CAD = listData.Sum(x => x.CAD),
+                    AUD = listData.Sum(x => x.AUD),
+                    GBP = listData.Sum(x => x.GBP),
+                }
+            );
             
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -425,11 +459,24 @@ namespace DongAERP.Areas.Admin.Controllers
                 item.ReportID = item.MarketName;
                 if (marketID.Equals("0"))
                 {
-                    item.MarketName = "Tất cả thị trường";
+                    item.MarketName = "";
                 }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
-            
+
+            listData.Add(
+                new ReportDetailtForTotalMoneyType()
+                {
+                    ReportID = "Tổng",
+                    VND = listData.Sum(x => x.VND),
+                    USD = listData.Sum(x => x.USD),
+                    EUR = listData.Sum(x => x.EUR),
+                    CAD = listData.Sum(x => x.CAD),
+                    AUD = listData.Sum(x => x.AUD),
+                    GBP = listData.Sum(x => x.GBP),
+                }
+            );
+
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -449,11 +496,24 @@ namespace DongAERP.Areas.Admin.Controllers
                 item.ReportID = item.MarketName;
                 if (marketID.Equals("0"))
                 {
-                    item.MarketName = "Tất cả thị trường";
+                    item.MarketName = "";
                 }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
-            
+
+            listData.Add(
+                new ReportDetailtForTotalMoneyType()
+                {
+                    ReportID = "Tổng",
+                    VND = listData.Sum(x => x.VND),
+                    USD = listData.Sum(x => x.USD),
+                    EUR = listData.Sum(x => x.EUR),
+                    CAD = listData.Sum(x => x.CAD),
+                    AUD = listData.Sum(x => x.AUD),
+                    GBP = listData.Sum(x => x.GBP),
+                }
+            );
+
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -473,7 +533,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 item.ReportID = item.MarketName;
                 if (marketID.Equals("0"))
                 {
-                    item.MarketName = "Tất cả thị trường";
+                    item.MarketName = "";
                 }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
@@ -511,7 +571,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 item.ReportID = item.MarketName;
                 if (marketID.Equals("0"))
                 {
-                    item.MarketName = "Tất cả thị trường";
+                    item.MarketName = "";
                 }
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
@@ -644,6 +704,7 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
+            
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -662,6 +723,7 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
             }
+
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

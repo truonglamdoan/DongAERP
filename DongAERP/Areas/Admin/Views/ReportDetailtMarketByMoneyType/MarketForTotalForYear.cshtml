@@ -22,7 +22,7 @@
     }
 }
 <script src="~/Areas/Admin/Scripts/ReportDetailtMarketByMoneyType.js"></script>
-<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo ngày</h1>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo năm</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
@@ -113,9 +113,9 @@
 <script type="text/javascript">
     function onDataBound(arg) {
 
-        //let lastRow = $('#gridReportDetailtByTotal tbody tr');
-        //$(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
-        //$('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
+        let lastRow = $('#gridReportDetailtByTotal tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        $('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
 
     }
 

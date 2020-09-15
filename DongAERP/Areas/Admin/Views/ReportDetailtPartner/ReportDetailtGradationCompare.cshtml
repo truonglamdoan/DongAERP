@@ -48,7 +48,7 @@
     }
 }
 <script src="~/Areas/Admin/Scripts/ReportDetailtByMarket.js"></script>
-<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Năm</h1>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Giai đoạn</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
@@ -62,7 +62,7 @@
 <hr class="sidebar-divider">
 <p class="mb-4">1. Theo doanh số chi trả loại hình dịch vụ</p>
 <div class="row">
-
+    
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -193,6 +193,9 @@
     function onDataBoundgridGradationCompare(arg) {
         
         let lastRow = $('#gridGradationCompare tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+        
+        lastRow = $('#gridGradationCompare tbody:eq(0) tr');
         $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
 
         // Tô màu dòng record có tỉ lệ tăng giảm

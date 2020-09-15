@@ -1039,7 +1039,7 @@ namespace DongAERP.Areas.Admin.Controllers
             {
 
                 arrayGradation = new GradationCompare[6];
-                string text = " tháng đầu năm";
+                string text = " tháng năm";
                 switch (gradation)
                 {
                     case "1":

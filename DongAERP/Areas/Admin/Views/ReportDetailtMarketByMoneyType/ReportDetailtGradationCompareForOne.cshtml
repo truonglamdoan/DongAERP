@@ -85,7 +85,7 @@
 }
 
 <script src="~/Areas/Admin/Scripts/ReportDetailtMarketByMoneyType.js"></script>
-<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Năm</h1>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Giai đoạn - Từng thị trường</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
@@ -140,13 +140,13 @@
     </ul>
 </div>
 <hr class="sidebar-divider">
-<p class="mb-4">1. Theo doanh số chi trả loại hình dịch vụ</p>
+<p class="mb-4">1. Theo doanh số chi trả từng loại tiền</p>
 <div class="row">
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (VND)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
@@ -256,7 +256,7 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (EUR)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
@@ -311,7 +311,7 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (CAD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
@@ -366,7 +366,7 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (AUD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
@@ -421,7 +421,7 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (GBP)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
@@ -432,9 +432,7 @@
                             .Position(ChartLegendPosition.Top)
                         )
                         .SeriesDefaults(seriesDefaults => seriesDefaults
-                        .Column()
-                        //.Stack(true)
-                            //.Bar().Stack(ChartStackType.Normal)
+                            .Column()
                         )
                         .ChartArea(chartArea =>
                         {
@@ -475,7 +473,7 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số các đối tác trong một thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Tỉ trọng từng dịch vụ từng thị trường (USD)</h6>
             </div>
             <div class="card-body">
                 <div id="chart"></div>
@@ -510,7 +508,7 @@
                         series.Bar(model => model.Valor1)
                                 .Name("#= group.value #");
                     })
-                    .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF")
+                    .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#FE5EF7", "#9AAEFE", "#F56EF7", "#0205FF")
                     .CategoryAxis(axis => axis
                         .Categories(categories => categories.Segmento)
                         .MajorGridLines(lines => lines.Visible(false))
@@ -556,7 +554,7 @@
                             .Hidden()
                             .ClientGroupHeaderTemplate("#= value #");
 
-                        columns.Bound(Model.Columns[0].ColumnName)
+                        columns.Bound(Model.Columns[0].ColumnName).Width(200).Locked(true)
                             .Title("Đối tác")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" })
@@ -567,12 +565,12 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[1].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[1].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                info.Bound(Model.Columns[2].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                info.Bound(Model.Columns[2].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -581,15 +579,15 @@
                         );
                         columns.Group(group => group
                             .Title("USD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[3].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[3].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                info.Bound(Model.Columns[4].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                info.Bound(Model.Columns[4].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -601,12 +599,12 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[5].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[5].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                info.Bound(Model.Columns[6].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                info.Bound(Model.Columns[6].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -615,15 +613,15 @@
                         );
                         columns.Group(group => group
                             .Title("CAD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[7].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[7].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                info.Bound(Model.Columns[8].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                info.Bound(Model.Columns[8].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -635,12 +633,12 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[9].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[9].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                info.Bound(Model.Columns[10].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                info.Bound(Model.Columns[10].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -649,15 +647,15 @@
                         );
                         columns.Group(group => group
                             .Title("GBP")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[11].ColumnName).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[11].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, int.Parse(toYear) - 1)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                info.Bound(Model.Columns[12].ColumnName).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
+                                info.Bound(Model.Columns[12].ColumnName).Width(150).Title(string.Format("{0} {1}", textColumn, toYear)).Format("{0:n2}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -665,6 +663,7 @@
                             })
                         );
                     })
+                    .Scrollable(scrollable => scrollable.Height("auto"))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -730,7 +729,7 @@
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
                                 info.Bound("USD1").Title("USD").Format("{0:n2}")
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
@@ -740,7 +739,7 @@
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
                                 info.Bound("CAD1").Title("CAD").Format("{0:n2}")
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
@@ -750,7 +749,7 @@
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
                                 info.Bound("GBP1").Title("GBP").Format("{0:n2}")
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                                     .HtmlAttributes(new { style = " text-align: right;" })
                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");

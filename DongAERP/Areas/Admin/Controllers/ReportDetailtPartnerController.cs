@@ -386,6 +386,27 @@ namespace DongAERP.Areas.Admin.Controllers
         }
 
         /// <summary>
+        /// Search report day theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchLineChartMarketForOne([DataSourceRequest]DataSourceRequest request, DateTime fromDay, DateTime toDay, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForPartner> listData = new ReportBL().SearchPartnerForOne(fromDay, toDay, reportTypeID, partnerID);
+
+            foreach (ReportDetailtForPartner item in listData)
+            {
+                item.STT = item.CreatedDate.ToString("dd/MM/yyyy");
+                item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+            }
+            
+            return Json(listData);
+        }
+
+        /// <summary>
         /// Search report chi tiết theo ngày cho từng đối tác
         /// </summary>
         /// <returns></returns>
@@ -417,6 +438,27 @@ namespace DongAERP.Areas.Admin.Controllers
         }
 
         /// <summary>
+        /// Search report day theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchLineChartMarketForOneForMonth([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForPartner> listData = new ReportBL().SearchPartnerForOneForMonth(fromDate, toDate, reportTypeID, partnerID);
+
+            foreach (ReportDetailtForPartner item in listData)
+            {
+                item.STT = string.Format("Tháng {0}/{1}", item.Month, item.Year);
+                item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+            }
+
+            return Json(listData);
+        }
+
+        /// <summary>
         /// Search report chi tiết theo ngày cho từng đối tác
         /// </summary>
         /// <returns></returns>
@@ -429,7 +471,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             foreach (ReportDetailtForPartner item in listData)
             {
-                item.STT = string.Format("năm {0}", item.Year);
+                item.STT = string.Format("Năm {0}", item.Year);
                 item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
             }
 
@@ -445,6 +487,27 @@ namespace DongAERP.Areas.Admin.Controllers
             );
 
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Search report day theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchLineChartMarketForOneForYear([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForPartner> listData = new ReportBL().SearchPartnerForOneForYear(fromDate, toDate, reportTypeID, partnerID);
+
+            foreach (ReportDetailtForPartner item in listData)
+            {
+                item.STT = string.Format("Năm {0}", item.Year);
+                item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+            }
+
+            return Json(listData);
         }
 
 
@@ -560,7 +623,88 @@ namespace DongAERP.Areas.Admin.Controllers
             }
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        
+
+        /// <summary>
+        /// Get data cho việc vẽ biểu đồ cột cho so sánh theo tháng và cùng kì năm trước
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchChartReportForGradation([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string partnerID)
+        {
+            List<ReportDetailtForPartner> listDataGradation = new ReportBL().ReportDetailtPartnerGradationCompareForOne(year, gradation, reportTypeID, partnerID);
+            GradationCompare[] arrayGradation = null;
+
+            if (listDataGradation.Any(x => x.Year == year.ToString()) && listDataGradation.Any(x => x.Year == (year - 1).ToString()))
+            {
+
+                arrayGradation = new GradationCompare[6];
+                string text = " tháng năm";
+                switch (gradation)
+                {
+                    case 1:
+                        text = string.Concat("3", text);
+                        break;
+                    case 2:
+                        text = string.Concat("6", text);
+                        break;
+                    case 3:
+                        text = string.Concat("9", text);
+                        break;
+                    default:
+                        text = string.Concat("12", text);
+                        break;
+                }
+
+                int count = 0;
+                foreach (ReportDetailtForPartner item in listDataGradation)
+                {
+                    // tổng doanh số
+                    item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+
+                    // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, item.Year),
+                        amount = item.DSChiQuay,
+                        NameType = "Doanh số \n chi quầy"
+                    };
+
+                    count++;
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, item.Year),
+                        amount = item.DSChiNha,
+                        NameType = "Doanh số \n chi nhà"
+                    };
+
+                    count++;
+                    arrayGradation[count] = new GradationCompare()
+                    {
+                        NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, item.Year),
+                        amount = item.DSCK,
+                        NameType = "Doanh số \n chuyển khoản"
+                    };
+
+                    count++;
+                }
+            }
+            else
+            {
+                arrayGradation = new GradationCompare[1];
+                arrayGradation[0] = new GradationCompare()
+                {
+                    NameGradationCompare = "1",
+                    NameType = ""
+
+                };
+            }
+
+            return Json(arrayGradation);
+        }
+
         /// <summary>
         /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn
         /// </summary>

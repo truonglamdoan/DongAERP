@@ -131,6 +131,10 @@
         let lastRow = $('#gridReportDetailtByTotal tbody tr');
         $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
         $('.k-pager-numbers-wrap .k-pager-numbers').css('display', 'none');
+
+
+        lastRow = $('#gridReportDetailtByTotal tbody:eq(0) tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
     }
 
     function onDataReportTypeID(arg) {
