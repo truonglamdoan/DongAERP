@@ -13,7 +13,7 @@
     string month = string.Format("Tháng {0}/{1}", DateTime.Today.Month, DateTime.Today.Year);
     string lastMonth = string.Format("Tháng {0}/{1}", DateTime.Today.Month - 1, DateTime.Today.Year);
     string monthLastYear = string.Format("Tháng {0}/{1}", DateTime.Today.Month, DateTime.Today.Year - 1);
-    
+
     var listData = (List<string>)ViewData["listData"];
 
     string toMonth = string.Empty;
@@ -29,10 +29,10 @@
         marketID = listData[3];
 
         month = string.Format("Tháng {0}/{1}", toMonth, toYear);
-        lastMonth = string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) : string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
         monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
     }
-    
+
 }
 
 <script src="~/Areas/Admin/Scripts/ReportDetailtMarketByMoneyType.js"></script>
@@ -455,7 +455,7 @@
                         );
                         columns.Group(group => group
                             .Title("USD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .Columns(info =>
                             {
                                 info.Bound("USD1").Width(200).Title(monthLastYear).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
@@ -475,7 +475,7 @@
                         );
                         columns.Group(group => group
                             .Title("CAD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .Columns(info =>
                             {
                                 info.Bound("CAD1").Width(200).Title(monthLastYear).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
@@ -495,7 +495,7 @@
                         );
                         columns.Group(group => group
                             .Title("GBP")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .Columns(info =>
                             {
                                 info.Bound("GBP1").Width(200).Title(monthLastYear).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
@@ -555,7 +555,7 @@
                         );
                         columns.Group(group => group
                             .Title("USD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .HtmlAttributes(new { style = " text-align: center;" })
                             .Columns(info =>
                             {
@@ -575,7 +575,7 @@
                         );
                         columns.Group(group => group
                             .Title("CAD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .HtmlAttributes(new { style = " text-align: center;" })
                             .Columns(info =>
                             {
@@ -595,7 +595,7 @@
                         );
                         columns.Group(group => group
                             .Title("GBP")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
                             .HtmlAttributes(new { style = " text-align: center;" })
                             .Columns(info =>
                             {
