@@ -556,50 +556,6 @@ namespace DongAERP.Areas.Admin.Controllers
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        ///// <summary>
-        ///// Get data cho việc vẽ biểu đồ cột cho so sánh giai đoạn
-        ///// </summary>
-        ///// <returns></returns>
-        ///// <history>
-        /////     [Truong Lam]   Created [10/06/2020]
-        ///// </history>
-        //[HttpPost]
-        //public ActionResult ColumnsChartGradationCompare(string reportTypeID)
-        //{
-        //    // typeID trong sql
-        //    int typeID = 1;
-        //    int toYear = DateTime.Today.Year;
-        //    List<ReportForTotalPayment> listData = new ReportBL().DataReportTPForGradationCompare(toYear, typeID, reportTypeID);
-
-        //    GradationCompare[] arrayGradation = null;
-        //    if (listData.Count.Equals(2))
-        //    {
-        //        arrayGradation = new GradationCompare[2];
-        //        int count = 0;
-        //        foreach (ReportForTotalPayment item in listData)
-        //        {
-        //            // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
-        //            arrayGradation[count] = new GradationCompare()
-        //            {
-        //                NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", item.Year),
-        //                amount = item.Payed,
-        //                NameType = string.Concat("Lũy thừa 3 tháng năm ", item.Year)
-        //            };
-        //            count++;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        arrayGradation = new GradationCompare[1];
-        //        arrayGradation[0] = new GradationCompare()
-        //        {
-        //            NameGradationCompare = "1",
-        //            NameType = ""
-        //        };
-        //    }
-        //    return Json(arrayGradation);
-        //}
-
         /// <summary>
         /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn
         /// </summary>
@@ -643,7 +599,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
                         amount = item.Payed,
-                        NameType = string.Format("Lũy thừa {0} {1}", text, item.Year)
+                        NameType = string.Format("Lũy kề {0} {1}", text, item.Year)
                     };
                     count++;
                 }

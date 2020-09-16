@@ -30,7 +30,7 @@
         reportTypeID = listData[2];
 
         month = string.Format("Tháng {0}/{1}", toMonth, toYear);
-        lastMonth = string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) : string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
         monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
     }
 
@@ -61,7 +61,7 @@
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                             .Name("chartCompareMonth")
-                            .Title(string.Format("Doanh số chi trả theo từng loại tiền trong tháng {0} \n so với tháng trước và cùng kì năm trước", DateTime.Today.Month))
+                            .Title(string.Format("Doanh số chi trả theo từng loại tiền trong \n {0} \n so với tháng trước và cùng kì năm trước", month))
                             .Legend(legend => legend
                                 .Position(ChartLegendPosition.Bottom)
                             )
@@ -394,13 +394,6 @@
                             }
                         }
                     })
-                    //.Pageable(pageable => pageable
-                    //    //.PageSizes(new int[] { 10, 20, 31 })
-                    //    .Messages(message => message
-                    //        .Display("")
-                    //        .ItemsPerPage("")
-                    //    )
-                    //) // Enable paging
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()

@@ -912,7 +912,18 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<Report> listDataGradation = new ReportBL().ListDataLastMonthCompareProportionPercent(year.Value, month.Value, reportTypeID);
             // tháng trước
-            Report listDataGradationMonth = listDataGradation.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString());
+            Report listDataGradationMonth = null;
+
+            // Trường hợp là tháng 1
+            if (month == 1)
+            {
+                listDataGradationMonth = listDataGradation.Find(x => x.Month == "12" && x.Year == (year -1).ToString());
+            }
+            else
+            {
+                listDataGradationMonth = listDataGradation.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString());
+            }
+
             // # dòng record
             GradationChartPie[] arrayGradation = null;
 

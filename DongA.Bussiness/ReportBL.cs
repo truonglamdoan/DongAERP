@@ -1770,75 +1770,227 @@ namespace DongA.Bussiness
                 double sumDSChiNhaLastYear = 0;
                 double sumDSCKLastYear = 0;
 
-                if (result.Count > 0)
+                if(marketID.Equals("0"))
                 {
-                    // Cùng kì năm trước
-                    sumDSChiQuayLastYear = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiQuay);
-                    sumDSChiNhaLastYear = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiNha);
-                    sumDSCKLastYear = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSCK);
+                    if (result.Count > 0)
+                    {
+                        // Cùng kì năm trước
+                        sumDSChiQuayLastYear = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiQuay);
+                        sumDSChiNhaLastYear = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiNha);
+                        sumDSCKLastYear = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSCK);
+
+                        // Tháng hiện tại
+                        sumDSChiQuayYear = result.Where(x => x.Year == toYear.ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiQuay);
+                        sumDSChiNhaYear = result.Where(x => x.Year == toYear.ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiNha);
+                        sumDSCKYear = result.Where(x => x.Year == toYear.ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSCK);
+
+                        // Tháng trước
+                        sumDSChiQuayLastMonth = result.Where(x => x.Year == toYear.ToString() && x.Month == (toMonth - 1).ToString()).Sum(y => y.DSChiQuay);
+                        sumDSChiNhaLastMonth = result.Where(x => x.Year == toYear.ToString() && x.Month == (toMonth - 1).ToString()).Sum(y => y.DSChiNha);
+                        sumDSCKLastMonth = result.Where(x => x.Year == toYear.ToString() && x.Month == (toMonth - 1).ToString()).Sum(y => y.DSCK);
+                        // Trường hợp tháng = 1
+                        if (toMonth == 1)
+                        {
+                            sumDSChiQuayLastMonth = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == "12").Sum(y => y.DSChiQuay);
+                            sumDSChiNhaLastMonth = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == "12").Sum(y => y.DSChiNha);
+                            sumDSCKLastMonth = result.Where(x => x.Year == (toYear - 1).ToString() && x.Month == "12").Sum(y => y.DSCK);
+                        }
+                    }
+
+                    foreach (ReportDetailtSTMarket item in result)
+                    {
+                        item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                        ReportDetailtSTMarket itemDetailtPercent = new ReportDetailtSTMarket();
+
+                        // Cùng kì năm trước
+                        if (item.Year == (toYear - 1).ToString() && item.Month == toMonth.ToString())
+                        {
+                            itemDetailtPercent = new ReportDetailtSTMarket()
+                            {
+                                MarketCode = item.MarketCode,
+                                MarketName = item.MarketName,
+                                DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayLastYear * 100, 2, MidpointRounding.ToEven),
+                                DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaLastYear * 100, 2, MidpointRounding.ToEven),
+                                DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKLastYear * 100, 2, MidpointRounding.ToEven),
+                                Year = item.Year,
+                                Month = item.Month
+                            };
+                        }
+
+                        // Tháng hiện tại
+                        if (item.Year == toYear.ToString() && item.Month == toMonth.ToString())
+                        {
+                            itemDetailtPercent = new ReportDetailtSTMarket()
+                            {
+                                MarketCode = item.MarketCode,
+                                MarketName = item.MarketName,
+                                DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayYear * 100, 2, MidpointRounding.ToEven),
+                                DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaYear * 100, 2, MidpointRounding.ToEven),
+                                DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKYear * 100, 2, MidpointRounding.ToEven),
+                                Year = item.Year,
+                                Month = item.Month
+                            };
+                        }
+
+                        // Tháng trước
+                        if (toMonth == 1)
+                        {
+                            if (item.Year == (toYear - 1).ToString() && item.Month == "12")
+                            {
+                                itemDetailtPercent = new ReportDetailtSTMarket()
+                                {
+                                    MarketCode = item.MarketCode,
+                                    MarketName = item.MarketName,
+                                    DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayLastMonth * 100, 2, MidpointRounding.ToEven),
+                                    DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaLastMonth * 100, 2, MidpointRounding.ToEven),
+                                    DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKLastMonth * 100, 2, MidpointRounding.ToEven),
+                                    Year = item.Year,
+                                    Month = item.Month
+                                };
+                            }
+                        }
+                        else
+                        {
+                            if (item.Year == toYear.ToString() && item.Month == (toMonth - 1).ToString())
+                            {
+                                itemDetailtPercent = new ReportDetailtSTMarket()
+                                {
+                                    MarketCode = item.MarketCode,
+                                    MarketName = item.MarketName,
+                                    DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayLastMonth * 100, 2, MidpointRounding.ToEven),
+                                    DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaLastMonth * 100, 2, MidpointRounding.ToEven),
+                                    DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKLastMonth * 100, 2, MidpointRounding.ToEven),
+                                    Year = item.Year,
+                                    Month = item.Month
+                                };
+                            }
+                        }
+                        resultConvert.Add(itemDetailtPercent);
+                    }
+                }
+                else
+                {
+                    // List các thị trường của châu Á
+                    List<string> listAsianItem = new List<string>();
+                    foreach (ReportDetailtSTMarket item in result)
+                    {
+                        if (!listAsianItem.Contains(item.MarketName))
+                        {
+                            listAsianItem.Add(item.MarketName);
+                        }
+                    }
+
+                    List<ReportDetailtSTMarket> listDataYear = result.Where(x => x.Month == toMonth.ToString() && x.Year == toYear.ToString()).ToList();
+                    List<ReportDetailtSTMarket> listDataLastMonth = result.Where(x => x.Month == (toMonth - 1).ToString() && x.Year == toYear.ToString()).ToList();
+                    // Trường hợp tháng 1
+                    if (toMonth == 1)
+                    {
+                        listDataLastMonth = result.Where(x => x.Month == "12" && x.Year == (toYear - 1).ToString()).ToList();
+                    }
+                    List<ReportDetailtSTMarket> listDataLastYear = result.Where(x => x.Month == toMonth.ToString() && x.Year == (toYear - 1).ToString()).ToList();
 
                     // Tháng hiện tại
-                    sumDSChiQuayYear = result.Where(x => x.Year == toYear.ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiQuay);
-                    sumDSChiNhaYear = result.Where(x => x.Year == toYear.ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSChiNha);
-                    sumDSCKYear = result.Where(x => x.Year == toYear.ToString() && x.Month == toMonth.ToString()).Sum(y => y.DSCK);
+                    double sumDSChiQuayTotalYear = listDataYear.Sum(x => x.DSChiQuay);
+                    double sumDSChiNhaTotalYear = listDataYear.Sum(x => x.DSChiNha);
+                    double sumDSCKTotalYear = listDataYear.Sum(x => x.DSCK);
 
                     // Tháng trước
-                    sumDSChiQuayLastMonth = result.Where(x => x.Year == toYear.ToString() && x.Month == (toMonth - 1).ToString()).Sum(y => y.DSChiQuay);
-                    sumDSChiNhaLastMonth = result.Where(x => x.Year == toYear.ToString() && x.Month == (toMonth - 1).ToString()).Sum(y => y.DSChiNha);
-                    sumDSCKLastMonth = result.Where(x => x.Year == toYear.ToString() && x.Month == (toMonth - 1).ToString()).Sum(y => y.DSCK);
+                    double sumDSChiQuayTotalLastMonth = listDataLastMonth.Sum(x => x.DSChiQuay);
+                    double sumDSChiNhaTotalLastMonth = listDataLastMonth.Sum(x => x.DSChiNha);
+                    double sumDSCKTotalLastMonth = listDataLastMonth.Sum(x => x.DSCK);
+
+                    // Cùng kì
+                    double sumDSChiQuayTotalLastYear = listDataLastYear.Sum(x => x.DSChiQuay);
+                    double sumDSChiNhaTotalLastYear = listDataLastYear.Sum(x => x.DSChiNha);
+                    double sumDSCKTotalLastYear = listDataLastYear.Sum(x => x.DSCK);
+
+                    // Duyệt các thị trường con của Châu Á
+                    foreach (string item in listAsianItem)
+                    {
+                        listDataYear = result.Where(x => x.MarketName == item && x.Month == toMonth.ToString() && x.Year == toYear.ToString()).ToList();
+                        listDataLastMonth = result.Where(x => x.MarketName == item && x.Month == (toMonth - 1).ToString() && x.Year == toYear.ToString()).ToList();
+                        // Trường hợp tháng 1
+                        if (toMonth == 1)
+                        {
+                            listDataLastMonth = result.Where(x => x.MarketName == item && x.Month == "12" && x.Year == (toYear - 1).ToString()).ToList();
+                        }
+
+                        listDataLastYear = result.Where(x => x.MarketName == item && x.Month == toMonth.ToString() && x.Year == (toYear - 1).ToString()).ToList();
+
+                        // Tháng hiện tại
+                        sumDSChiQuayYear = listDataYear.Sum(x => x.DSChiQuay);
+                        sumDSChiNhaYear = listDataYear.Sum(x => x.DSChiNha);
+                        sumDSCKYear = listDataYear.Sum(x => x.DSCK);
+
+                        // Tháng trước
+                        sumDSChiQuayLastMonth = listDataLastMonth.Sum(x => x.DSChiQuay);
+                        sumDSChiNhaLastMonth = listDataLastMonth.Sum(x => x.DSChiNha);
+                        sumDSCKLastMonth = listDataLastMonth.Sum(x => x.DSCK);
+
+                        // Cùng kì
+                        sumDSChiQuayLastYear = listDataLastYear.Sum(x => x.DSChiQuay);
+                        sumDSChiNhaLastYear = listDataLastYear.Sum(x => x.DSChiNha);
+                        sumDSCKLastYear = listDataLastYear.Sum(x => x.DSCK);
+
+                        ReportDetailtSTMarket itemDetailtPercent = new ReportDetailtSTMarket();
+
+                        // Tháng hiện tại
+                        itemDetailtPercent = new ReportDetailtSTMarket()
+                        {
+                            MarketName = item,
+                            DSChiQuay = sumDSChiQuayTotalYear == 0 ? 0 : Math.Round(sumDSChiQuayYear / sumDSChiQuayTotalYear * 100, 2, MidpointRounding.ToEven),
+                            DSChiNha = sumDSChiNhaTotalYear == 0 ? 0 : Math.Round(sumDSChiNhaYear / sumDSChiNhaTotalYear * 100, 2, MidpointRounding.ToEven),
+                            DSCK = sumDSCKTotalYear == 0 ? 0 : Math.Round(sumDSCKYear / sumDSCKTotalYear * 100, 2, MidpointRounding.ToEven),
+                            Year = toYear.ToString(),
+                            Month = toMonth.ToString()
+                        };
+
+                        resultConvert.Add(itemDetailtPercent);
+
+                        // Cùng kì
+                        itemDetailtPercent = new ReportDetailtSTMarket()
+                        {
+                            MarketName = item,
+                            DSChiQuay = sumDSChiQuayTotalLastYear == 0 ? 0 : Math.Round(sumDSChiQuayLastYear / sumDSChiQuayTotalLastYear * 100, 2, MidpointRounding.ToEven),
+                            DSChiNha = sumDSChiNhaTotalLastYear == 0 ? 0 : Math.Round(sumDSChiNhaLastYear / sumDSChiNhaTotalLastYear * 100, 2, MidpointRounding.ToEven),
+                            DSCK = sumDSCKTotalLastYear == 0 ? 0 : Math.Round(sumDSCKLastYear / sumDSCKTotalLastYear * 100, 2, MidpointRounding.ToEven),
+                            Year = (toYear -1).ToString(),
+                            Month = toMonth.ToString()
+                        };
+
+                        resultConvert.Add(itemDetailtPercent);
+
+                        if(toMonth == 1)
+                        {
+                            // Tháng trước
+                            itemDetailtPercent = new ReportDetailtSTMarket()
+                            {
+                                MarketName = item,
+                                DSChiQuay = sumDSChiQuayTotalLastMonth == 0 ? 0 : Math.Round(sumDSChiQuayLastMonth / sumDSChiQuayTotalLastMonth * 100, 2, MidpointRounding.ToEven),
+                                DSChiNha = sumDSChiNhaTotalLastMonth == 0 ? 0 : Math.Round(sumDSChiNhaLastMonth / sumDSChiNhaTotalLastMonth * 100, 2, MidpointRounding.ToEven),
+                                DSCK = sumDSCKTotalLastMonth == 0 ? 0 : Math.Round(sumDSCKLastMonth / sumDSCKTotalLastMonth * 100, 2, MidpointRounding.ToEven),
+                                Year = (toYear - 1).ToString(),
+                                Month = "12"
+                            };
+                        }
+                        else
+                        {
+                            // Tháng trước
+                            itemDetailtPercent = new ReportDetailtSTMarket()
+                            {
+                                MarketName = item,
+                                DSChiQuay = sumDSChiQuayTotalLastMonth == 0 ? 0 : Math.Round(sumDSChiQuayLastMonth / sumDSChiQuayTotalLastMonth * 100, 2, MidpointRounding.ToEven),
+                                DSChiNha = sumDSChiNhaTotalLastMonth == 0 ? 0 : Math.Round(sumDSChiNhaLastMonth / sumDSChiNhaTotalLastMonth * 100, 2, MidpointRounding.ToEven),
+                                DSCK = sumDSCKTotalLastMonth == 0 ? 0 : Math.Round(sumDSCKLastMonth / sumDSCKTotalLastMonth * 100, 2, MidpointRounding.ToEven),
+                                Year = toYear.ToString(),
+                                Month = (toMonth - 1).ToString()
+                            };
+                        }
+                        
+                        resultConvert.Add(itemDetailtPercent);
+                    }
                 }
-
-                foreach (ReportDetailtSTMarket item in result)
-                {
-                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-                    ReportDetailtSTMarket itemDetailtPercent = new ReportDetailtSTMarket();
-
-                    // Cùng kì năm trước
-                    if (item.Year == (toYear - 1).ToString() && item.Month == toMonth.ToString())
-                    {
-                        itemDetailtPercent = new ReportDetailtSTMarket()
-                        {
-                            MarketCode = item.MarketCode,
-                            MarketName = item.MarketName,
-                            DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayLastYear * 100, 2, MidpointRounding.ToEven),
-                            DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaLastYear * 100, 2, MidpointRounding.ToEven),
-                            DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKLastYear * 100, 2, MidpointRounding.ToEven),
-                            Year = item.Year,
-                            Month = item.Month
-                        };
-                    }
-
-                    // Tháng hiện tại
-                    if (item.Year == toYear.ToString() && item.Month == toMonth.ToString())
-                    {
-                        itemDetailtPercent = new ReportDetailtSTMarket()
-                        {
-                            MarketCode = item.MarketCode,
-                            MarketName = item.MarketName,
-                            DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayYear * 100, 2, MidpointRounding.ToEven),
-                            DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaYear * 100, 2, MidpointRounding.ToEven),
-                            DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKYear * 100, 2, MidpointRounding.ToEven),
-                            Year = item.Year,
-                            Month = item.Month
-                        };
-                    }
-
-                    // Tháng trước
-                    if (item.Year == toYear.ToString() && item.Month == (toMonth - 1).ToString())
-                    {
-                        itemDetailtPercent = new ReportDetailtSTMarket()
-                        {
-                            MarketCode = item.MarketCode,
-                            MarketName = item.MarketName,
-                            DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayLastMonth * 100, 2, MidpointRounding.ToEven),
-                            DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaLastMonth * 100, 2, MidpointRounding.ToEven),
-                            DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKLastMonth * 100, 2, MidpointRounding.ToEven),
-                            Year = item.Year,
-                            Month = item.Month
-                        };
-                    }
-                    resultConvert.Add(itemDetailtPercent);
-                }
+                
                 return resultConvert;
             }
             catch (Exception ex)

@@ -27,13 +27,13 @@
         reportTypeID = listData[2];
 
         month = string.Format("Tháng {0}/{1}", toMonth, toYear);
-        lastMonth = string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) :  string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
         monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
     }
 
 }
 <script src="~/Areas/Admin/Scripts/DateReport.js"></script>
-<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Năm</h1>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- So sánh - Theo tháng</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">

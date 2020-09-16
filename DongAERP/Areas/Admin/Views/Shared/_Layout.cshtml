@@ -411,6 +411,7 @@
         let difference_In_Time = null;
         let difference_In_Days = null;
 
+        debugger;
         // Báo cáo tổng hợp
         if (level0 == 'level0_item1') {
             // Hình thức báo cáo
@@ -477,9 +478,9 @@
                         toDate = $('#ToMonth').data('kendoDatePicker').value();
                         toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
-                        // Tính số ngày chênh lệch
+                        // Tính số tháng chênh lệch
                         difference_In_Time = toDate.getTime() - fromDate.getTime();
-                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
 
                         // Chỉ cho phép chọn trong 12 tháng
                         if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
@@ -653,9 +654,9 @@
                             toDate = $('#ToMonth').data('kendoDatePicker').value();
                             toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
-                            // Tính số ngày chênh lệch
+                            // Tính số tháng chênh lệch
                             difference_In_Time = toDate.getTime() - fromDate.getTime();
-                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
 
                             // Chỉ cho phép chọn trong 12 tháng
                             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
@@ -752,9 +753,9 @@
                             toDate = $('#ToMonth').data('kendoDatePicker').value();
                             toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
-                            // Tính số ngày chênh lệch
+                            // Tính số tháng chênh lệch
                             difference_In_Time = toDate.getTime() - fromDate.getTime();
-                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
 
                             // Chỉ cho phép chọn trong 12 tháng
                             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
@@ -923,9 +924,9 @@
                             toDate = $('#ToMonth').data('kendoDatePicker').value();
                             toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
-                            // Tính số ngày chênh lệch
+                            // Tính số tháng chênh lệch
                             difference_In_Time = toDate.getTime() - fromDate.getTime();
-                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
 
                             // Chỉ cho phép chọn trong 12 tháng
                             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
@@ -1029,9 +1030,9 @@
                             toDate = $('#ToMonth').data('kendoDatePicker').value();
                             toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
-                            // Tính số ngày chênh lệch
+                            // Tính số tháng chênh lệch
                             difference_In_Time = toDate.getTime() - fromDate.getTime();
-                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
 
                             // Chỉ cho phép chọn trong 12 tháng
                             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
@@ -2842,47 +2843,47 @@
             level2.value(listData[2]);
             level3.value(listData[3]);
 
-            // Báo cáo tổng
-            if (listData[0] == 'level0_item1') {
+            //// Báo cáo tổng
+            //if (listData[0] == 'level0_item1') {
 
-                let listDataTime = valueTime.split('-');
-                // Loại hình chi tiết
-                if (level2 == 'item1') {
-                    switch (level3) {
-                        // Theo ngày
-                        case 'item1':
+            //    let listDataTime = valueTime.split('-');
+            //    // Loại hình chi tiết
+            //    if (level2 == 'item1') {
+            //        switch (level3) {
+            //            // Theo ngày
+            //            case 'item1':
 
-                            $('#FromDay').data('kendoDatePicker').value();
-                            $('#ToDay').data('kendoDatePicker').value();
-                            break;
-                        // Theo tháng
-                        case 'item2':
-                            $('#FromMonth').data('kendoDatePicker').value();
-                            $('#ToMonth').data('kendoDatePicker').value();
-                            break;
+            //                $('#FromDay').data('kendoDatePicker').value();
+            //                $('#ToDay').data('kendoDatePicker').value();
+            //                break;
+            //            // Theo tháng
+            //            case 'item2':
+            //                $('#FromMonth').data('kendoDatePicker').value();
+            //                $('#ToMonth').data('kendoDatePicker').value();
+            //                break;
 
-                        default:
+            //            default:
 
-                            $('#FromYear').data('kendoDatePicker').value();
-                            $('#ToYear' ).data('kendoDatePicker').value();
-                            break;
-                    }
+            //                $('#FromYear').data('kendoDatePicker').value();
+            //                $('#ToYear' ).data('kendoDatePicker').value();
+            //                break;
+            //        }
 
-                } else {
+            //    } else {
 
-                    // Theo giai đoạn
-                    if (level3 == 'item1') {
+            //        // Theo giai đoạn
+            //        if (level3 == 'item1') {
 
-                        let gradationDicID = $("#gradation").data("kendoComboBox").value();
-                        let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+            //            let gradationDicID = $("#gradation").data("kendoComboBox").value();
+            //            let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-                    } else {
+            //        } else {
 
-                        year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
-                        month = $('#FromMonth').data('kendoDatePicker').value();
-                    }
-                }
-            }
+            //            year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+            //            month = $('#FromMonth').data('kendoDatePicker').value();
+            //        }
+            //    }
+            //}
         }
     }
     // Change radio
