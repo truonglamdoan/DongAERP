@@ -13,16 +13,6 @@ var valueReportType = null;
 $(document).ready(function () {
     // remove telerik của kendo
     $('a[href="http://www.telerik.com/purchase/aspnet-mvc"]').parent().css('display', 'none');
-    //$($('a[href="http://www.telerik.com/purchase/aspnet-mvc"]').parent()).css('display', 'inline');
-    //$($('a[href="http://www.telerik.com/purchase/aspnet-mvc"]')).css('display', 'none');
-    //document.body.innerHTML = document.body.innerHTML.replace("You're using a trial version of Telerik UI for ASP.NET MVC by Progress. Purchase the commercial version now from", "");
-
-    //let el = $('#page-top');
-    //el.html(el.html().replace("You're using a trial version of Telerik UI for ASP.NET MVC by Progress. Purchase the commercial version now from", ""));
-    //$($('a[href="http://www.telerik.com/purchase/aspnet-mvc"]').parent()).css('display', 'inline');
-    //$($('a[href="http://www.telerik.com/purchase/aspnet-mvc"]')).css('display', 'none');
-
-
     // Get value từ localStogra
     valueReportType = localStorage.reportTypeLS;
 
@@ -69,23 +59,23 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            let fromdate = $('#FromDay').data('kendoDatePicker').value();
-            let fromDateConvert = kendo.toString(fromdate, "MM/dd/yyyy");
-            let todate = $('#ToDay').data('kendoDatePicker').value();
-            let toDateConvert = kendo.toString(todate, "MM/dd/yyyy");
+            let fromDate = $('#FromDay').data('kendoDatePicker').value();
+            let fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+            let toDate = $('#ToDay').data('kendoDatePicker').value();
+            let toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
             // Tính số ngày chênh lệch
-            let difference_In_Time = todate.getTime() - fromdate.getTime();
+            let difference_In_Time = toDate.getTime() - fromDate.getTime();
             let difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
 
             // Chỉ cho phép lấy thời gian trong khoản 30 ngày
-            if ((fromdate.getMonth() == todate.getMonth() && fromdate.getFullYear() == todate.getFullYear())
+            if ((fromDate.getMonth() == toDate.getMonth() && fromDate.getFullYear() == toDate.getFullYear())
                 // Trường hợp khác tháng cùng năm
-                || (todate.getMonth() == fromdate.getMonth() + 1 && fromdate.getFullYear() == todate.getFullYear() && difference_In_Days < 30)
+                || (toDate.getMonth() == fromDate.getMonth() + 1 && fromDate.getFullYear() == toDate.getFullYear() && difference_In_Days < 30)
                 // Trường hợp khác năm khác tháng
-                || fromdate.getMonth() == 11 && fromdate.getFullYear() + 1 == todate.getFullYear() && difference_In_Days < 30) {
+                || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
                 
-                window.location = "/ReportDetailtExcelForMarket/CreateExcelForMarket/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -112,20 +102,20 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            let fromDate = $('#FromDay').data('kendoDatePicker').value();
-            let fromDateConvert = kendo.toString(fromdate, "MM/dd/yyyy");
-            let toDate = $('#ToDay').data('kendoDatePicker').value();
-            let toDateConvert = kendo.toString(todate, "MM/dd/yyyy");
+            let fromDate = $('#FromMonth').data('kendoDatePicker').value();
+            let fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+            let toDate = $('#ToMonth').data('kendoDatePicker').value();
+            let toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
             
             // Chỉ cho phép chọn trong 12 tháng
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportDetailtExcelForMarket/CreateExcelForMarket/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
-                    content: "Bạn chỉ được phép in báo cáo trong 30 ngày trở lại"
+                    content: "Bạn chỉ được phép in báo cáo trong 12 tháng trở lại"
                 }).data("kendoAlert").open();
             }
         });
@@ -147,19 +137,21 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            let fromDate = $('#FromDay').data('kendoDatePicker').value();
-            let fromDateConvert = kendo.toString(fromdate, "MM/dd/yyyy");
-            let toDate = $('#ToDay').data('kendoDatePicker').value();
-            let toDateConvert = kendo.toString(todate, "MM/dd/yyyy");
-
+            let fromDate = $('#FromYear').data('kendoDatePicker').value();
+            let fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+            let toDate = $('#ToYear').data('kendoDatePicker').value();
+            let toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+            
+            // Chỉ show dc 5 năm
             if (toDate.getFullYear() - fromDate.getFullYear() > 4) {
 
-                window.location = "/ReportDetailtExcelForMarket/CreateExcelForMarket/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-            } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
-                    content: "Bạn chỉ được phép in báo cáo trong 30 ngày trở lại"
+                    content: "Bạn chỉ được phép in báo cáo trong 5 năm trở lại"
                 }).data("kendoAlert").open();
+            } else {
+
+                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             }
         });
     }
@@ -173,45 +165,7 @@ var Report = new function () {
 
         // For day report
         let urlGrid = "/Admin/ReportDetailtByMarket/SearchMarketForOne?fromDay=";
-
-        //$('ul.search-item .search-grid-MarketOne').click(function () {
-
-        //    // loadding
-        //    displayLoading(document.body);
-
-        //    // Get mã thị trường
-        //    let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
-
-        //    let fromdate = $('#FromDay').data('kendoDatePicker').value();
-        //    let fromDateConvert = kendo.toString(fromdate, "MM/dd/yyyy");
-        //    let todate = $('#ToDay').data('kendoDatePicker').value();
-        //    let toDateConvert = kendo.toString(todate, "MM/dd/yyyy");
-
-        //    // Tính số ngày chênh lệch
-        //    let difference_In_Time = todate.getTime() - fromdate.getTime();
-        //    let difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
-
-        //    if (marketID != '') {
-        //        // Chỉ cho phép lấy thời gian trong khoản 30 ngày
-        //        if ((fromdate.getMonth() == todate.getMonth() && fromdate.getFullYear() == todate.getFullYear())
-        //            // Trường hợp khác tháng cùng năm
-        //            || (todate.getMonth() == fromdate.getMonth() + 1 && fromdate.getFullYear() == todate.getFullYear() && difference_In_Days < 30)
-        //            // Trường hợp khác năm khác tháng
-        //            || fromdate.getMonth() == 11 && fromdate.getFullYear() + 1 == todate.getFullYear() && difference_In_Days < 30) {
-
-        //            let grid = $("#gridReportDetailtByOneMarket").data("kendoGrid");
-        //            grid.dataSource.transport.options.read.url = urlGrid + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
-        //            grid.dataSource.read();
-
-        //        } else {
-        //            $("<div></div>").kendoAlert({
-        //                title: "Cảnh báo!",
-        //                content: "Bạn chỉ được phép tìm kiếm trong 30 ngày trở lại"
-        //            }).data("kendoAlert").open();
-        //        }
-        //    }
-        //});
-
+        
         // PrintExcel for report day
         $('ul.search-item .print-excel-MarketOne').click(function () {
 
@@ -221,24 +175,23 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            let fromdate = $('#FromDay').data('kendoDatePicker').value();
-            let fromDateConvert = kendo.toString(fromdate, "MM/dd/yyyy");
-            let todate = $('#ToDay').data('kendoDatePicker').value();
-            let toDateConvert = kendo.toString(todate, "MM/dd/yyyy");
+            let fromDate = $('#FromDay').data('kendoDatePicker').value();
+            let fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+            let toDate = $('#ToDay').data('kendoDatePicker').value();
+            let toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
 
             // Tính số ngày chênh lệch
-            let difference_In_Time = todate.getTime() - fromdate.getTime();
+            let difference_In_Time = toDate.getTime() - fromDate.getTime();
             let difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
 
             // Chỉ cho phép lấy thời gian trong khoản 30 ngày
-            if ((fromdate.getMonth() == todate.getMonth() && fromdate.getFullYear() == todate.getFullYear())
+            if ((fromDate.getMonth() == toDate.getMonth() && fromDate.getFullYear() == toDate.getFullYear())
                 // Trường hợp khác tháng cùng năm
-                || (todate.getMonth() == fromdate.getMonth() + 1 && fromdate.getFullYear() == todate.getFullYear() && difference_In_Days < 30)
+                || (toDate.getMonth() == fromDate.getMonth() + 1 && fromDate.getFullYear() == toDate.getFullYear() && difference_In_Days < 30)
                 // Trường hợp khác năm khác tháng
-                || fromdate.getMonth() == 11 && fromdate.getFullYear() + 1 == todate.getFullYear() && difference_In_Days < 30) {
+                || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
 
-                // TypeID = 2 để tạo cột dữ liệu cho thị trường
-                window.location = "/ReportDetailtExcelForMarket/CreateExcelMarketForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -281,7 +234,7 @@ var Report = new function () {
                 || fromdate.getMonth() == 11 && fromdate.getFullYear() + 1 == todate.getFullYear() && difference_In_Days < 30) {
 
                 // TypeID = 2 để tạo cột dữ liệu cho thị trường
-                window.location = "/ReportDetailtExcelForMarket/CreateExcelMarketForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByMarket/CreateExcelMarketForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -341,7 +294,7 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            window.location = "/ReportDetailtExcelForMarket/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByMarket/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -434,7 +387,7 @@ var Report = new function () {
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            window.location = "/ReportDetailtExcelForMarket/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByMarket/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -497,7 +450,7 @@ var Report = new function () {
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
             
-            window.location = "/ReportDetailtExcelForMarket/CreateExcelCompareForAll/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByMarket/CreateExcelCompareForAll/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -515,7 +468,7 @@ var Report = new function () {
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-            window.location = "/ReportDetailtExcelForMarket/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByMarket/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 

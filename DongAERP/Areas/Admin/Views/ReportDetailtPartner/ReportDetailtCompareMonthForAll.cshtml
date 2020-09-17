@@ -27,7 +27,7 @@
         reportTypeID = listData[2];
 
         month = string.Format("Tháng {0}/{1}", toMonth, toYear);
-        lastMonth = string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) : string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
         monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
     }
 

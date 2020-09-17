@@ -1258,7 +1258,7 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtSTMarket> SearchReportDetailtForDay(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtSTMarket> SearchMarketForTotalForDay(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             DbCommand command = null;
             try

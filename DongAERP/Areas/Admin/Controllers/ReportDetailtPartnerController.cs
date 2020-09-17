@@ -1080,7 +1080,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtForPartner dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
                 ReportDetailtForPartner dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
                 ReportDetailtForPartner dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
+                // Trường hợp tháng 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == "12" && x.Year == (year - 1).ToString());
+                }
                 // Cung kì
                 if (dataItemLastYear == null)
                 {
@@ -1106,16 +1110,34 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
 
                 // Tháng trước
-                if (dataItemLastMonth == null)
+                // Trường hợp tháng 1
+                if (month == 1)
                 {
-                    dataItemLastMonth = new ReportDetailtForPartner()
+                    if (dataItemLastMonth == null)
                     {
-                        PartnerCode = item.PartnerCode,
-                        PartnerName = item.PartnerName,
-                        Month = (month - 1).ToString(),
-                        Year = year.ToString()
-                    };
+                        dataItemLastMonth = new ReportDetailtForPartner()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = "12",
+                            Year = (year - 1).ToString()
+                        };
+                    }
                 }
+                else
+                {
+                    if (dataItemLastMonth == null)
+                    {
+                        dataItemLastMonth = new ReportDetailtForPartner()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = (month - 1).ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+                }
+                
                 
                 if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null)
                 {
@@ -1207,7 +1229,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtForPartner dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
                 ReportDetailtForPartner dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
                 ReportDetailtForPartner dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
+                // Trường hợp tháng 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == "12" && x.Year == (year - 1).ToString());
+                }
                 // Cung kì
                 if (dataItemLastYear == null)
                 {
@@ -1233,17 +1259,34 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
 
                 // Tháng trước
-                if (dataItemLastMonth == null)
+                // Trường hợp tháng 1
+                if (month == 1)
                 {
-                    dataItemLastMonth = new ReportDetailtForPartner()
+                    if (dataItemLastMonth == null)
                     {
-                        PartnerCode = item.PartnerCode,
-                        PartnerName = item.PartnerName,
-                        Month = (month - 1).ToString(),
-                        Year = year.ToString()
-                    };
+                        dataItemLastMonth = new ReportDetailtForPartner()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = "12",
+                            Year = (year - 1).ToString()
+                        };
+                    }
                 }
-                
+                else
+                {
+                    if (dataItemLastMonth == null)
+                    {
+                        dataItemLastMonth = new ReportDetailtForPartner()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = (month - 1).ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+                }
+
                 if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null)
                 {
                     // So với tháng trước
@@ -1635,9 +1678,21 @@ namespace DongAERP.Areas.Admin.Controllers
             };
 
             int count = 0;
+            int lastYear = 0;
+            int lastMonth = 0;
             foreach (ReportDetailtForPartner item in listDataCompareMonthConvert)
             {
-                if (item.Year == year.ToString() && item.Month == (month - 1).ToString())
+                if(month == 1)
+                {
+                    lastMonth = 12;
+                    lastYear = year - 1;
+                }
+                else
+                {
+                    lastMonth = month - 1;
+                    lastYear = year;
+                }
+                if (item.Year == lastYear.ToString() && item.Month == lastMonth.ToString())
                 {
                     // tạo mảng gồm 8 object
                     arrayGradation = new GradationChartPie[3];

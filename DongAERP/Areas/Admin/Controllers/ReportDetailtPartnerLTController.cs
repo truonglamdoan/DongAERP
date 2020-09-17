@@ -2311,7 +2311,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
                 ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
                 ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
+                // Trường hợp tháng 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == "12" && x.Year == (year - 1).ToString());
+                }
                 // Cung kì
                 if (dataItemLastYear == null)
                 {
@@ -2339,13 +2343,28 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tháng trước
                 if (dataItemLastMonth == null)
                 {
-                    dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                    // Trường hợp tháng 1
+                    if (month == 1)
                     {
-                        PartnerCode = item.PartnerCode,
-                        PartnerName = item.PartnerName,
-                        Month = (month - 1).ToString(),
-                        Year = year.ToString()
-                    };
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = "12",
+                            Year = (year - 1).ToString()
+                        };
+                    }
+                    else
+                    {
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = (month - 1).ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+                    
                 }
 
                 if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null)
@@ -2456,7 +2475,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
                 ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
                 ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
+                // Trường hợp tháng 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == "12" && x.Year == (year - 1).ToString());
+                }
                 // Cung kì
                 if (dataItemLastYear == null)
                 {
@@ -2484,13 +2507,28 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tháng trước
                 if (dataItemLastMonth == null)
                 {
-                    dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                    // Trường hợp tháng 1
+                    if (month == 1)
                     {
-                        PartnerCode = item.PartnerCode,
-                        PartnerName = item.PartnerName,
-                        Month = (month - 1).ToString(),
-                        Year = year.ToString()
-                    };
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = "12",
+                            Year = (year - 1).ToString()
+                        };
+                    }
+                    else
+                    {
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            Month = (month - 1).ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+
                 }
 
                 if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null)
@@ -2940,7 +2978,13 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonthTotal.Find(x => x.Month == month.ToString() && x.Year == (year - 1).ToString() && x.typeID == item.typeID);
                 ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonthTotal.Find(x => x.Month == month.ToString() && x.Year == year.ToString() && x.typeID == item.typeID);
                 ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonthTotal.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString() && x.typeID == item.typeID);
-                
+                // Trường hợp tháng 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonthTotal.Find(x => x.Month == "12" && x.Year == (year - 1).ToString() && x.typeID == item.typeID);
+                }
+
+                // Tháng hiện tại
                 if (dataItemYear == null)
                 {
                     dataItemYear = new ReportDetailtForTotalMoneyType()
@@ -2950,16 +2994,30 @@ namespace DongAERP.Areas.Admin.Controllers
                     };
                 }
 
+                // Tháng trước
                 if (dataItemLastMonth == null)
                 {
-                    dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                    // Trường hợp tháng 1
+                    if (month == 1)
                     {
-                        Month = (month - 1).ToString(),
-                        Year = year.ToString()
-                    };
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            Month = "12",
+                            Year = (year - 1).ToString()
+                        };
+                    }
+                    else
+                    {
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            Month = (month - 1).ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+                    
                 }
 
-
+                // Cùng kì năm trước
                 if (dataItemLastYear == null)
                 {
                     dataItemLastYear = new ReportDetailtForTotalMoneyType()
@@ -3096,7 +3154,13 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonthTotal.Find(x => x.Month == month.ToString() && x.Year == (year - 1).ToString() && x.typeID == item.typeID);
                 ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonthTotal.Find(x => x.Month == month.ToString() && x.Year == year.ToString() && x.typeID == item.typeID);
                 ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonthTotal.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString() && x.typeID == item.typeID);
+                // Trường hợp tháng 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonthTotal.Find(x => x.Month == "12" && x.Year == (year - 1).ToString() && x.typeID == item.typeID);
+                }
 
+                // Tháng hiện tại
                 if (dataItemYear == null)
                 {
                     dataItemYear = new ReportDetailtForTotalMoneyType()
@@ -3106,16 +3170,30 @@ namespace DongAERP.Areas.Admin.Controllers
                     };
                 }
 
+                // Tháng trước
                 if (dataItemLastMonth == null)
                 {
-                    dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                    // Trường hợp tháng 1
+                    if (month == 1)
                     {
-                        Month = (month - 1).ToString(),
-                        Year = year.ToString()
-                    };
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            Month = "12",
+                            Year = (year - 1).ToString()
+                        };
+                    }
+                    else
+                    {
+                        dataItemLastMonth = new ReportDetailtForTotalMoneyType()
+                        {
+                            Month = (month - 1).ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+                    
                 }
 
-
+                // Cùng kì năm trước
                 if (dataItemLastYear == null)
                 {
                     dataItemLastYear = new ReportDetailtForTotalMoneyType()
@@ -3544,9 +3622,21 @@ namespace DongAERP.Areas.Admin.Controllers
             };
 
             int count = 0;
+            int lastMonth = 0;
+            int lastYear = 0;
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonthConvert)
             {
-                if (item.Year == year.ToString() && item.Month == (month - 1).ToString())
+                lastMonth = (month - 1);
+                lastYear = year;
+
+                // Trường hợp thuộc tháng 1
+                if (month == 1)
+                {
+                    lastMonth = 12;
+                    lastYear = year - 1;
+                }
+
+                if (item.Year == lastYear.ToString() && item.Month == lastMonth.ToString())
                 {
                     // tạo mảng gồm 8 object
                     arrayGradation = new GradationChartPie[6];
@@ -3667,6 +3757,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonthConvert.Find(x => x.Month == month.ToString() && x.Year == (year - 1).ToString());
                 ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonthConvert.Find(x => x.Month == month.ToString() && x.Year == year.ToString());
                 ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonthConvert.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString());
+                // Trường hợp tháng 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonthConvert.Find(x => x.Month == "12" && x.Year == (year - 1).ToString());
+                }
 
                 foreach (string item in listTypeMoney)
                 {

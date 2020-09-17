@@ -29,7 +29,7 @@
         partnerID = listData[3];
 
         month = string.Format("Tháng {0}/{1}", toMonth, toYear);
-        lastMonth = string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) : string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
         monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
     }
 
@@ -377,14 +377,14 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Biểu đồ Tỉ trọng từng dịch vụ cùng kì năm trước</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Biểu đồ Tỉ trọng từng dịch vụ tháng hiện tại</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartGradationPercentForYear")
                                 .Title(title => title
-                                    .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", toMonth, toYear))
+                                    .Text(string.Format("Tỷ trọng từng dịch vụ {0}", month))
                                     .Position(ChartTitlePosition.Bottom))
                         .Legend(legend => legend
                             .Visible(false)
@@ -418,14 +418,14 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Biểu đồ Tỉ trọng từng dịch vụ cùng kì năm trước</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Biểu đồ Tỉ trọng từng dịch vụ tháng trước</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartGradationPercentForLastMonth")
                                 .Title(title => title
-                                    .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", string.IsNullOrEmpty(toMonth) ? "" : (int.Parse(toMonth) - 1).ToString(), toYear))
+                                    .Text(string.Format("Tỷ trọng từng dịch vụ {0}", lastMonth))
                                     .Position(ChartTitlePosition.Bottom))
                         .Legend(legend => legend
                             .Visible(false)
@@ -444,7 +444,7 @@
                                 .Visible(true)
                                 .Font("bold 12px sans-serif")
                             )
-                            .StartAngle(50);
+                            .StartAngle(30);
                         })
                         .Tooltip(tooltip => tooltip
                             .Visible(true)
@@ -464,33 +464,33 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
-                                .Name("chartGradationPercentForLastYear")
-                                        .Title(title => title
-                                            .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", toMonth, string.IsNullOrEmpty(toYear) ? "" : (int.Parse(toYear) - 1).ToString()))
-                                            .Position(ChartTitlePosition.Bottom))
-                                .Legend(legend => legend
-                                    .Visible(false)
-                                )
-                                .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForLastYear", "ReportDetailtPartnerLT").Data("onDataReportTypeID")))
-                                .ChartArea(chart => chart
-                                    .Background("transparent")
-                                    )
-                                //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
-                                .Series(series =>
-                                {
-                                    series.Pie(model => model.value, model => model.category, model => model.color)
-                                    .Labels(labels => labels
-                                        .Template("#= category #: \n #= value#%")
-                                        .Background("transparent")
-                                        .Visible(true)
-                                        .Font("bold 12px sans-serif")
-                                    )
-                                    .StartAngle(50);
-                                })
-                                .Tooltip(tooltip => tooltip
-                                    .Visible(true)
-                                    .Format("{0}%")
-                                )
+                        .Name("chartGradationPercentForLastYear")
+                            .Title(title => title
+                            .Text(string.Format("Tỷ trọng từng dịch vụ {0}", monthLastYear))
+                            .Position(ChartTitlePosition.Bottom))
+                        .Legend(legend => legend
+                            .Visible(false)
+                        )
+                        .DataSource(ds => ds.Read(read => read.Action("SearchCompareForMonthPieForLastYear", "ReportDetailtPartnerLT").Data("onDataReportTypeID")))
+                        .ChartArea(chart => chart
+                            .Background("transparent")
+                            )
+                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                        .Series(series =>
+                        {
+                            series.Pie(model => model.value, model => model.category, model => model.color)
+                            .Labels(labels => labels
+                                .Template("#= category #: \n #= value#%")
+                                .Background("transparent")
+                                .Visible(true)
+                                .Font("bold 12px sans-serif")
+                            )
+                            .StartAngle(50);
+                        })
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0}%")
+                        )
                     )
                 </div>
             </div>

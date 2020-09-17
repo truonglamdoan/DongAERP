@@ -1319,12 +1319,12 @@ namespace DongA.Bussiness
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportDetailtSTMarket> SearchReportDetailtForDay(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
+        public List<ReportDetailtSTMarket> SearchMarketForTotalForDay(DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtSTMarket> result = dal.SearchReportDetailtForDay(fromDate, toDate, reportTypeID, marketID);
+                List<ReportDetailtSTMarket> result = dal.SearchMarketForTotalForDay(fromDate, toDate, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -2938,7 +2938,11 @@ namespace DongA.Bussiness
                     ReportDetailtForTotalMoneyType dataItemLastYear = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == (year - 1).ToString());
                     ReportDetailtForTotalMoneyType dataItemYear = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == month.ToString() && x.Year == year.ToString());
                     ReportDetailtForTotalMoneyType dataItemLastMonth = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-
+                    // Trường hợp tháng 1
+                    if (month == 1)
+                    {
+                        dataItemLastMonth = result.Find(x => x.PartnerCode == item.PartnerCode && x.Month == "12" && x.Year == (year - 1).ToString());
+                    }
                     if (!listTemp.Contains(item.PartnerCode))
                     {
                         // Trường hợp năm không có đối tác
@@ -2975,8 +2979,16 @@ namespace DongA.Bussiness
                             dataItemLastMonth.MarketName = item.MarketName;
                             dataItemLastMonth.PartnerCode = item.PartnerCode;
                             dataItemLastMonth.PartnerName = item.PartnerName;
-                            dataItemLastMonth.Year = year.ToString();
-                            dataItemLastMonth.Month = (month - 1).ToString();
+                            if (month == 1)
+                            {
+                                dataItemLastMonth.Year = (year - 1).ToString();
+                                dataItemLastMonth.Month = "12";
+                            }
+                            else
+                            {
+                                dataItemLastMonth.Month = (month - 1).ToString();
+                                dataItemLastMonth.Year = year.ToString();
+                            }
                             result.Add(dataItemLastMonth);
                         }
 

@@ -29,7 +29,7 @@
         partnerID = listData[3];
 
         month = string.Format("Tháng {0}/{1}", toMonth, toYear);
-        lastMonth = string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) : string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
         monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
     }
 
@@ -154,7 +154,7 @@
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartGradationPercentForYear")
                                 .Title(title => title
-                                    .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", toMonth, toYear))
+                                    .Text(string.Format("Tỷ trọng từng dịch vụ {0}", month))
                                     .Position(ChartTitlePosition.Bottom))
                         .Legend(legend => legend
                             .Visible(false)
@@ -195,7 +195,7 @@
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartGradationPercentForLastMonth")
                                 .Title(title => title
-                                    .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", string.IsNullOrEmpty(toMonth) ? "" : (int.Parse(toMonth) - 1).ToString(), toYear))
+                                    .Text(string.Format("Tỷ trọng từng dịch vụ {0}", lastMonth))
                                     .Position(ChartTitlePosition.Bottom))
                         .Legend(legend => legend
                             .Visible(false)
@@ -236,7 +236,7 @@
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartGradationPercentForLastYear")
                                 .Title(title => title
-                                    .Text(string.Format("Tỷ trọng từng dịch vụ tháng {0}/{1}", toMonth, string.IsNullOrEmpty(toYear) ? "" : (int.Parse(toYear) - 1).ToString()))
+                                    .Text(string.Format("Tỷ trọng từng dịch vụ {0}", monthLastYear))
                                     .Position(ChartTitlePosition.Bottom))
                         .Legend(legend => legend
                             .Visible(false)

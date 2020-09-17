@@ -352,21 +352,21 @@
         
         autoCompelet();
 
-        //// Set comboBox đối tác
-        //if (!isNullOrEmpty(valueReportType) || valueReportType != undefined) {
-        //    let reportValue = parseInt(valueReportType);
-        //    switch (reportValue) {
-        //        case 0:
-        //            $('input[name="report"]')[1].checked = true;
-        //            break;
-        //        case 1:
-        //            $('input[name="report"]')[2].checked = true;
-        //            break;
-        //        default:
-        //            $('input[name="report"]')[0].checked = true;
-        //    }
+        // Set comboBox đối tác
+        if (!isNullOrEmpty(valueReportType) || valueReportType != undefined) {
+            let reportValue = parseInt(valueReportType);
+            switch (reportValue) {
+                case 0:
+                    $('input[name="report"]')[1].checked = true;
+                    break;
+                case 1:
+                    $('input[name="report"]')[2].checked = true;
+                    break;
+                default:
+                    $('input[name="report"]')[0].checked = true;
+            }
 
-        //}
+        }
     });
 
     function onClickReport(e) {
@@ -389,10 +389,10 @@
         //let dataAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
         //localStorage.dataAutoComplete = dataAutoComplete;
 
-        //// Lưu giá trị của loại báo cáo
-        //localStorage.removeItem('reportTypeLS');
-        //let reportTypeLS = reportTypeID;
-        //localStorage.reportTypeLS = reportTypeLS;
+        // Lưu giá trị của loại báo cáo
+        localStorage.removeItem('reportTypeLS');
+        let reportTypeLS = reportTypeID;
+        localStorage.reportTypeLS = reportTypeLS;
 
         // Theo ngày
         let fromDate = null;

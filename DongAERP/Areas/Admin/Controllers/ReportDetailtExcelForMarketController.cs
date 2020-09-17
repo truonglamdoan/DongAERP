@@ -69,7 +69,7 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 // Theo ngày
                 case "1":
-                    listReportData = new ReportBL().SearchReportDetailtForDay(fromDate, toDate, reportTypeID, marketID);
+                    listReportData = new ReportBL().SearchMarketForTotalForDay(fromDate, toDate, reportTypeID, marketID);
                     break;
                 // Theo tháng
                 // Theo năm

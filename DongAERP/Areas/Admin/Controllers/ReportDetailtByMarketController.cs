@@ -370,7 +370,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// </history>
         public ActionResult SearchMarketForTotal([DataSourceRequest]DataSourceRequest request, DateTime fromDay, DateTime toDay, string reportTypeID, string marketID)
         {
-            List<ReportDetailtSTMarket> listData = new ReportBL().SearchReportDetailtForDay(fromDay, toDay, reportTypeID, marketID);
+            List<ReportDetailtSTMarket> listData = new ReportBL().SearchMarketForTotalForDay(fromDay, toDay, reportTypeID, marketID);
 
             if (!string.IsNullOrEmpty(marketID))
             {
@@ -385,24 +385,44 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
                 else
                 {
+                    List<string> listAsianChild = new List<string>();
+                    List<ReportDetailtSTMarket> listDataConvert = new List<ReportDetailtSTMarket>();
+
                     foreach (ReportDetailtSTMarket item in listData)
                     {
                         item.ReportID = item.PartnerName;
                         item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+
+                        if(!listAsianChild.Contains(item.MarketName))
+                        {
+                            listAsianChild.Add(item.MarketName);
+                        }
+                    }
+
+                    foreach(string item in listAsianChild)
+                    {
+                        List<ReportDetailtSTMarket> listDataAsianChild = listData.Where(x => x.MarketName == item).ToList();
+
+                        listDataConvert.Add(
+                            new ReportDetailtSTMarket()
+                            {
+                                MarketName = "Châu Á",
+                                ReportID = item,
+                                DSChiQuay = listDataAsianChild.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataAsianChild.Sum(x => x.DSChiNha),
+                                DSCK = listDataAsianChild.Sum(x => x.DSCK),
+                                TongDS = listDataAsianChild.Sum(x => x.TongDS),
+
+                            }
+                        );
+                    }
+
+                    if(listDataConvert.Count > 0)
+                    {
+                        listData = new List<ReportDetailtSTMarket>(listDataConvert);
                     }
                 }
             }
-
-            //ReportDetailtSTMarket dataItem = new ReportDetailtSTMarket()
-            //{
-            //    MarketName = "Tổng",
-            //    DSChiQuay = listData.Sum(x => x.DSChiQuay),
-            //    DSChiNha = listData.Sum(x => x.DSChiNha),
-            //    DSCK = listData.Sum(x => x.DSCK),
-            //    TongDS = listData.Sum(x => x.TongDS)
-            //};
-
-            //listData.Add(dataItem);
 
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -431,24 +451,44 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
                 else
                 {
+                    List<string> listAsianChild = new List<string>();
+                    List<ReportDetailtSTMarket> listDataConvert = new List<ReportDetailtSTMarket>();
+
                     foreach (ReportDetailtSTMarket item in listData)
                     {
                         item.ReportID = item.PartnerName;
                         item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+
+                        if (!listAsianChild.Contains(item.MarketName))
+                        {
+                            listAsianChild.Add(item.MarketName);
+                        }
+                    }
+
+                    foreach (string item in listAsianChild)
+                    {
+                        List<ReportDetailtSTMarket> listDataAsianChild = listData.Where(x => x.MarketName == item).ToList();
+
+                        listDataConvert.Add(
+                            new ReportDetailtSTMarket()
+                            {
+                                MarketName = "Châu Á",
+                                ReportID = item,
+                                DSChiQuay = listDataAsianChild.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataAsianChild.Sum(x => x.DSChiNha),
+                                DSCK = listDataAsianChild.Sum(x => x.DSCK),
+                                TongDS = listDataAsianChild.Sum(x => x.TongDS),
+
+                            }
+                        );
+                    }
+
+                    if (listDataConvert.Count > 0)
+                    {
+                        listData = new List<ReportDetailtSTMarket>(listDataConvert);
                     }
                 }
             }
-
-            //ReportDetailtSTMarket dataItem = new ReportDetailtSTMarket()
-            //{
-            //    MarketName = "Tổng",
-            //    DSChiQuay = listData.Sum(x => x.DSChiQuay),
-            //    DSChiNha = listData.Sum(x => x.DSChiNha),
-            //    DSCK = listData.Sum(x => x.DSCK),
-            //    TongDS = listData.Sum(x => x.TongDS)
-            //};
-
-            //listData.Add(dataItem);
 
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -477,25 +517,44 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
                 else
                 {
+                    List<string> listAsianChild = new List<string>();
+                    List<ReportDetailtSTMarket> listDataConvert = new List<ReportDetailtSTMarket>();
+
                     foreach (ReportDetailtSTMarket item in listData)
                     {
                         item.ReportID = item.PartnerName;
                         item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+
+                        if (!listAsianChild.Contains(item.MarketName))
+                        {
+                            listAsianChild.Add(item.MarketName);
+                        }
+                    }
+
+                    foreach (string item in listAsianChild)
+                    {
+                        List<ReportDetailtSTMarket> listDataAsianChild = listData.Where(x => x.MarketName == item).ToList();
+
+                        listDataConvert.Add(
+                            new ReportDetailtSTMarket()
+                            {
+                                MarketName = "Châu Á",
+                                ReportID = item,
+                                DSChiQuay = listDataAsianChild.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataAsianChild.Sum(x => x.DSChiNha),
+                                DSCK = listDataAsianChild.Sum(x => x.DSCK),
+                                TongDS = listDataAsianChild.Sum(x => x.TongDS),
+
+                            }
+                        );
+                    }
+
+                    if (listDataConvert.Count > 0)
+                    {
+                        listData = new List<ReportDetailtSTMarket>(listDataConvert);
                     }
                 }
             }
-
-            //ReportDetailtSTMarket dataItem = new ReportDetailtSTMarket()
-            //{
-            //    MarketName = "Tổng",
-            //    DSChiQuay = listData.Sum(x => x.DSChiQuay),
-            //    DSChiNha = listData.Sum(x => x.DSChiNha),
-            //    DSCK = listData.Sum(x => x.DSCK),
-            //    TongDS = listData.Sum(x => x.TongDS)
-            //};
-
-            //listData.Add(dataItem);
-
             return Json(listData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
