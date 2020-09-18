@@ -455,6 +455,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Theo ngày
                 case 1:
                     listReportData = new ReportBL().SearchMarketForOne(fromDate, toDate, reportTypeID, marketID);
+                    // Tính tổng doanh số
+                    foreach (ReportDetailtServiceType item in listReportData)
+                    {
+                        item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+                    }
 
                     if (!string.IsNullOrEmpty(marketID))
                     {
@@ -477,19 +482,66 @@ namespace DongAERP.Areas.Admin.Controllers
                         {
                             List<ReportDetailtServiceType> listDataConvert = new List<ReportDetailtServiceType>();
 
+                            //foreach (ReportDetailtServiceType item in listReportData)
+                            //{
+                            //    // Add thêm thị trường vào list
+                            //    if (!listMarket.Contains(item.MarketName))
+                            //    {
+                            //        count = 1;
+                            //        listMarket.Add(item.MarketName);
+                            //    }
+                            //    item.STT = (count++).ToString();
+                            //    item.ReportID = item.PartnerName;
+                            //    item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+                            //}
+
+                            string marketName = string.Empty;
                             foreach (ReportDetailtServiceType item in listReportData)
                             {
+
+                                listDataConvert.Add(
+                                    new ReportDetailtServiceType()
+                                    {
+                                        STT = (count++).ToString(),
+                                        PartnerCode = item.PartnerCode,
+                                        PartnerName = item.PartnerName,
+                                        ReportID = item.PartnerName,
+                                        DSChiQuay = item.DSChiQuay,
+                                        DSChiNha = item.DSChiNha,
+                                        DSCK = item.DSCK,
+                                        TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK
+                                    }
+                                );
+
                                 // Add thêm thị trường vào list
                                 if (!listMarket.Contains(item.MarketName))
                                 {
-                                    count = 1;
+                                    if (count > 2)
+                                    {
+                                        listDataConvert.Add(
+                                            new ReportDetailtServiceType()
+                                            {
+                                                STT = "",
+                                                PartnerCode = "",
+                                                PartnerName = "Tổng",
+                                                ReportID = "Tổng",
+                                                MarketCode = item.MarketCode,
+                                                MarketName = item.MarketName,
+                                                DSChiQuay = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.DSChiQuay),
+                                                DSChiNha = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.DSChiNha),
+                                                DSCK = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.DSCK),
+                                                TongDS = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.TongDS),
+                                            }
+                                        );
+                                        // Set stt lại bằng 1
+                                        count = 1;
+                                    }
                                     listMarket.Add(item.MarketName);
+                                    marketName = item.MarketName;
+
                                 }
-                                item.STT = (count++).ToString();
-                                item.ReportID = item.PartnerName;
-                                item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
-                                
                             }
+                            listReportData = new List<ReportDetailtServiceType>(listDataConvert);
                         }
                     }
 
@@ -637,11 +689,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 ReportDetailtServiceType reportForMaket = new ReportDetailtServiceType()
                 {
                     STT = "",
-                    ReportID = "Tổng",
-                    DSChiQuay = listReportData.Sum(item => item.DSChiQuay),
-                    DSChiNha = listReportData.Sum(item => item.DSChiNha),
-                    DSCK = listReportData.Sum(item => item.DSCK),
-                    TongDS = listReportData.Sum(item => item.TongDS)
+                    ReportID = "Tổng tất cả",
+                    DSChiQuay = listReportData.Where(x=>x.STT == "").Sum(item => item.DSChiQuay),
+                    DSChiNha = listReportData.Where(x => x.STT == "").Sum(item => item.DSChiNha),
+                    DSCK = listReportData.Where(x => x.STT == "").Sum(item => item.DSCK),
+                    TongDS = listReportData.Where(x => x.STT == "").Sum(item => item.TongDS)
                 };
                 listReportData.Add(reportForMaket);
 
@@ -661,11 +713,12 @@ namespace DongAERP.Areas.Admin.Controllers
             style.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
             style.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
             style.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+            
 
             if (dataTable.Rows.Count > 0)
             {
                 // List Duplicate
-                bool check = true;
+                bool valueCheck = true;
                 // listMarket
                 int count = 0;
                 int stepRow = 0;
@@ -674,16 +727,15 @@ namespace DongAERP.Areas.Admin.Controllers
                 int totalRow = dataTable.Rows.Count + 7;
                 // check trùng
                 List<string> listDuplicate = new List<string>();
-
                 // Số dòng của row
                 for (int a = 7; a < totalRow; a++)
                 {
                     string valueOfTable = string.Empty;
 
-                    if (listMarket.Count.Equals(1) && check)
+                    if (listMarket.Count.Equals(1) && valueCheck)
                     {
                         // Cho phép chạy qua 1 lần
-                            check = false;
+                        valueCheck = false;
                         valueOfTable = listMarket[stepRow].ToString();
                         // Insert vào dòng cột xác định trong Excel
                         sheetReport.Cells[a, 1].PutValue(valueOfTable, true);
@@ -703,17 +755,16 @@ namespace DongAERP.Areas.Admin.Controllers
                         continue;
                     }
 
-                    // Trường hợp từ 2 thị trường trở lên
-                    if(count < listMarket.Count && listMarket.Count > 1)
-                    {
-                        if (!listDuplicate.Contains(listMarket[count].ToString()))
-                        {
-                            // Add item vào list trùng để kiểm tra trùng
-                            listDuplicate.Add(listMarket[count].ToString());
+                    // Trường hợp nhiều thị trường
+                    valueOfTable = dataTable.Rows[stepRow][0].ToString();
 
-                            valueOfTable = listMarket[stepRow].ToString();
+                    if (listMarket.Count > 1 && valueOfTable == "1")
+                    {
+                        if (valueCheck && count < listMarket.Count)
+                        {
+                            string valueMarket = listMarket[count].ToString();
                             // Insert vào dòng cột xác định trong Excel
-                            sheetReport.Cells[a, 1].PutValue(valueOfTable, true);
+                            sheetReport.Cells[a, 1].PutValue(valueMarket, true);
                             // Merge cell
                             Cells cells = sheetReport.Cells;
                             cells.Merge(a, 1, 1, 6);
@@ -727,16 +778,26 @@ namespace DongAERP.Areas.Admin.Controllers
                             // Apply the Style to C6 Cell.
                             cells[a, 1].SetStyle(style1);
                             // Tăng tổng số dòng
+                            // Get giá trị trước
+                            // Tăng tổng số dòng
                             totalRow++;
+                            count++;
+                            valueCheck = false;
                             continue;
                         }
+                        else
+                        {
+                            // Thay đổi giá trị của value để có thể truy xuất value 1 lần 2
+                            valueCheck = true;
+                        }
                     }
-                    
+
                     int stepColumn = 0;
                     // Số cột trong báo cáo cần hiển thị
                     // Tổng số cột hiển thị = Số cột hiển thị bắt đầu + tổng số cột cần hiển thị
                     // Số 6 là cột marketName
                     int totalCol = 1 + 6;
+                    
                     for (int b = 1; b < totalCol; b++)
                     {
                         // Giá trị của value trong table
@@ -752,6 +813,16 @@ namespace DongAERP.Areas.Admin.Controllers
                         else
                         {
                             style.Custom = "#,##0.00";
+                        }
+                        
+                        // Trường hợp với cột tổng của mỗi thị trường
+                        if (string.IsNullOrEmpty(dataTable.Rows[stepRow][0].ToString()))
+                        {
+                            style.Font.IsBold = true;
+                        }
+                        else
+                        {
+                            style.Font.IsBold = false;
                         }
 
                         // set border
@@ -2073,8 +2144,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public DataTable ConvertToDataTable<T>(IList<T> data)
         {
-            PropertyDescriptorCollection properties =
-               TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             DataTable table = new DataTable();
             foreach (PropertyDescriptor prop in properties)
                 table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
