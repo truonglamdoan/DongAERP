@@ -33,7 +33,7 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             return View();
         }
-        
+
         /// <summary>
         /// Xuất Excel theo Ngày/Tháng/Năm
         /// </summary>
@@ -360,7 +360,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tăng dòng của table lên
                     stepRow++;
                 }
-                
+
                 //// Group 
                 //// Create a cellarea i.e.., B3:C19
                 //CellArea ca = new CellArea();
@@ -469,7 +469,7 @@ namespace DongAERP.Areas.Admin.Controllers
                             foreach (ReportDetailtServiceType item in listReportData)
                             {
                                 // Add thêm thị trường vào list
-                                if(!listMarket.Contains(item.MarketName))
+                                if (!listMarket.Contains(item.MarketName))
                                 {
                                     listMarket.Add(item.MarketName);
                                 }
@@ -481,43 +481,36 @@ namespace DongAERP.Areas.Admin.Controllers
                         else
                         {
                             List<ReportDetailtServiceType> listDataConvert = new List<ReportDetailtServiceType>();
-
-                            //foreach (ReportDetailtServiceType item in listReportData)
-                            //{
-                            //    // Add thêm thị trường vào list
-                            //    if (!listMarket.Contains(item.MarketName))
-                            //    {
-                            //        count = 1;
-                            //        listMarket.Add(item.MarketName);
-                            //    }
-                            //    item.STT = (count++).ToString();
-                            //    item.ReportID = item.PartnerName;
-                            //    item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
-                            //}
-
                             string marketName = string.Empty;
                             foreach (ReportDetailtServiceType item in listReportData)
                             {
-
-                                listDataConvert.Add(
-                                    new ReportDetailtServiceType()
-                                    {
-                                        STT = (count++).ToString(),
-                                        PartnerCode = item.PartnerCode,
-                                        PartnerName = item.PartnerName,
-                                        ReportID = item.PartnerName,
-                                        DSChiQuay = item.DSChiQuay,
-                                        DSChiNha = item.DSChiNha,
-                                        DSCK = item.DSCK,
-                                        TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK
-                                    }
-                                );
-
                                 // Add thêm thị trường vào list
                                 if (!listMarket.Contains(item.MarketName))
                                 {
-                                    if (count > 2)
+                                    // Dòng đầu tiên
+                                    // Và chỉ có 1 đối tác của 1 thị trường
+                                    if (count == 1)
                                     {
+                                        listDataConvert.Add(
+                                            new ReportDetailtServiceType()
+                                            {
+                                                STT = (count++).ToString(),
+                                                MarketCode = item.MarketCode,
+                                                MarketName = item.MarketName,
+                                                PartnerCode = item.PartnerCode,
+                                                PartnerName = item.PartnerName,
+                                                ReportID = item.PartnerName,
+                                                DSChiQuay = item.DSChiQuay,
+                                                DSChiNha = item.DSChiNha,
+                                                DSCK = item.DSCK,
+                                                TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK
+                                            }
+                                        );
+                                    }
+                                    else
+                                    {
+                                        // Trường hợp thuộc dòng cuối mỗi thị trường
+                                        // Add dòng tổng cho các đôi tác thị trường trước
                                         listDataConvert.Add(
                                             new ReportDetailtServiceType()
                                             {
@@ -525,20 +518,92 @@ namespace DongAERP.Areas.Admin.Controllers
                                                 PartnerCode = "",
                                                 PartnerName = "Tổng",
                                                 ReportID = "Tổng",
-                                                MarketCode = item.MarketCode,
-                                                MarketName = item.MarketName,
-                                                DSChiQuay = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.DSChiQuay),
-                                                DSChiNha = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.DSChiNha),
-                                                DSCK = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.DSCK),
-                                                TongDS = listReportData.Where(x => x.MarketName == marketName).Sum(x =>x.TongDS),
+                                                MarketName = marketName,
+                                                DSChiQuay = listReportData.Where(x => x.MarketName == marketName).Sum(x => x.DSChiQuay),
+                                                DSChiNha = listReportData.Where(x => x.MarketName == marketName).Sum(x => x.DSChiNha),
+                                                DSCK = listReportData.Where(x => x.MarketName == marketName).Sum(x => x.DSCK),
+                                                TongDS = listReportData.Where(x => x.MarketName == marketName).Sum(x => x.TongDS),
                                             }
                                         );
                                         // Set stt lại bằng 1
                                         count = 1;
+
+                                        // Số dòng của Thị trường
+                                        int countList = listReportData.Where(x => x.MarketCode == item.MarketCode).Count();
+                                        if (countList == 1)
+                                        {
+                                            listDataConvert.Add(
+                                                new ReportDetailtServiceType()
+                                                {
+                                                    STT = (count++).ToString(),
+                                                    MarketCode = item.MarketCode,
+                                                    MarketName = item.MarketName,
+                                                    PartnerCode = item.PartnerCode,
+                                                    PartnerName = item.PartnerName,
+                                                    ReportID = item.PartnerName,
+                                                    DSChiQuay = item.DSChiQuay,
+                                                    DSChiNha = item.DSChiNha,
+                                                    DSCK = item.DSCK,
+                                                    TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK
+                                                }
+                                            );
+
+                                            // Add dòng tổng vào
+                                            listDataConvert.Add(
+                                                new ReportDetailtServiceType()
+                                                {
+                                                    STT = "",
+                                                    PartnerCode = "",
+                                                    PartnerName = "Tổng",
+                                                    ReportID = "Tổng",
+                                                    MarketName = item.MarketName,
+                                                    DSChiQuay = listReportData.Where(x => x.MarketName == item.MarketName).Sum(x => x.DSChiQuay),
+                                                    DSChiNha = listReportData.Where(x => x.MarketName == item.MarketName).Sum(x => x.DSChiNha),
+                                                    DSCK = listReportData.Where(x => x.MarketName == item.MarketName).Sum(x => x.DSCK),
+                                                    TongDS = listReportData.Where(x => x.MarketName == item.MarketName).Sum(x => x.TongDS),
+                                                }
+                                            );
+                                        }
+                                        else
+                                        {
+                                            listDataConvert.Add(
+                                                new ReportDetailtServiceType()
+                                                {
+                                                    STT = (count++).ToString(),
+                                                    MarketCode = item.MarketCode,
+                                                    MarketName = item.MarketName,
+                                                    PartnerCode = item.PartnerCode,
+                                                    PartnerName = item.PartnerName,
+                                                    ReportID = item.PartnerName,
+                                                    DSChiQuay = item.DSChiQuay,
+                                                    DSChiNha = item.DSChiNha,
+                                                    DSCK = item.DSCK,
+                                                    TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK
+                                                }
+                                            );
+                                        }
                                     }
                                     listMarket.Add(item.MarketName);
                                     marketName = item.MarketName;
 
+                                }
+                                else
+                                {
+                                    listDataConvert.Add(
+                                        new ReportDetailtServiceType()
+                                        {
+                                            STT = (count++).ToString(),
+                                            MarketCode = item.MarketCode,
+                                            MarketName = item.MarketName,
+                                            PartnerCode = item.PartnerCode,
+                                            PartnerName = item.PartnerName,
+                                            ReportID = item.PartnerName,
+                                            DSChiQuay = item.DSChiQuay,
+                                            DSChiNha = item.DSChiNha,
+                                            DSCK = item.DSCK,
+                                            TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK
+                                        }
+                                    );
                                 }
                             }
                             listReportData = new List<ReportDetailtServiceType>(listDataConvert);
@@ -690,7 +755,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     STT = "",
                     ReportID = "Tổng tất cả",
-                    DSChiQuay = listReportData.Where(x=>x.STT == "").Sum(item => item.DSChiQuay),
+                    DSChiQuay = listReportData.Where(x => x.STT == "").Sum(item => item.DSChiQuay),
                     DSChiNha = listReportData.Where(x => x.STT == "").Sum(item => item.DSChiNha),
                     DSCK = listReportData.Where(x => x.STT == "").Sum(item => item.DSCK),
                     TongDS = listReportData.Where(x => x.STT == "").Sum(item => item.TongDS)
@@ -713,7 +778,7 @@ namespace DongAERP.Areas.Admin.Controllers
             style.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
             style.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
             style.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
-            
+
 
             if (dataTable.Rows.Count > 0)
             {
@@ -797,7 +862,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tổng số cột hiển thị = Số cột hiển thị bắt đầu + tổng số cột cần hiển thị
                     // Số 6 là cột marketName
                     int totalCol = 1 + 6;
-                    
+
                     for (int b = 1; b < totalCol; b++)
                     {
                         // Giá trị của value trong table
@@ -809,12 +874,14 @@ namespace DongAERP.Areas.Admin.Controllers
                         if (b == 1)
                         {
                             style.Custom = "";
+                            style.HorizontalAlignment = TextAlignmentType.Center;
                         }
                         else
                         {
                             style.Custom = "#,##0.00";
+                            style.HorizontalAlignment = TextAlignmentType.General;
                         }
-                        
+
                         // Trường hợp với cột tổng của mỗi thị trường
                         if (string.IsNullOrEmpty(dataTable.Rows[stepRow][0].ToString()))
                         {
