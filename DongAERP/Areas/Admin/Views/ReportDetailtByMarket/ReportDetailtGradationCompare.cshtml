@@ -320,12 +320,12 @@ else
                                             .HtmlAttributes(new { style = " text-align: center;" })
                                             .Columns(info =>
                                             {
-                                                info.Bound(Model.Columns[1].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                                info.Bound("CQ1").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                                info.Bound(Model.Columns[2].ColumnName).Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
+                                                info.Bound("CQ2").Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -338,12 +338,12 @@ else
                                             .HtmlAttributes(new { style = " text-align: center;" })
                                             .Columns(info =>
                                             {
-                                                info.Bound(Model.Columns[1].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                                info.Bound("CN1").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                                info.Bound(Model.Columns[2].ColumnName).Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
+                                                info.Bound("CN2").Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -356,12 +356,12 @@ else
                                             .HtmlAttributes(new { style = " text-align: center;" })
                                             .Columns(info =>
                                             {
-                                                info.Bound(Model.Columns[5].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                                info.Bound("CK1").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                                info.Bound(Model.Columns[6].ColumnName).Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
+                                                info.Bound("CK2").Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
@@ -375,12 +375,12 @@ else
                                             .HtmlAttributes(new { style = " text-align: center;" })
                                             .Columns(info =>
                                             {
-                                                info.Bound(Model.Columns[5].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                                info.Bound("TDS1").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;center;font-weight: 700;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                                                     .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
-                                                info.Bound(Model.Columns[6].ColumnName).Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
+                                                info.Bound("TDS2").Title(string.Format("Năm {0}", toYear)).Format("{0:n2}")
                                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                                     .HtmlAttributes(new { style = " text-align: right;center;font-weight: 700;" })
                                                     .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")

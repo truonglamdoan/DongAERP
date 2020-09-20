@@ -1324,7 +1324,7 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult CreateExcelForGradationCompare(string gradationID, int year, string reportTypeID, string marketID)
         {
             WorkbookDesigner designer = new WorkbookDesigner();
-            string templatePath = "~/Content/Report/ReportDetailtgradationByMakets.xlsx";
+            string templatePath = "~/Content/Report/ReportDetailtGradationByMakets.xlsx";
             // Get đường dẫn
             templatePath = System.Web.HttpContext.Current.Server.MapPath(templatePath);
 
@@ -1377,18 +1377,18 @@ namespace DongAERP.Areas.Admin.Controllers
             //sheetReport.Cells.SetRowHeight(6, 40);
 
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
-            sheetReport.Cells["C44"].PutValue(string.Format("Năm {0} ", year));
-            sheetReport.Cells["D44"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["C44"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["D44"].PutValue(string.Format("Năm {0} ", year));
 
-            sheetReport.Cells["E44"].PutValue(string.Format("Năm {0} ", year));
-            sheetReport.Cells["F44"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["E44"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["F44"].PutValue(string.Format("Năm {0} ", year));
 
-            sheetReport.Cells["G44"].PutValue(string.Format("Năm {0} ", year));
-            sheetReport.Cells["H44"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["G44"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["H44"].PutValue(string.Format("Năm {0} ", year));
 
-            sheetReport.Cells["I44"].PutValue(string.Format("Năm {0} ", year));
-            sheetReport.Cells["J44"].PutValue(string.Format("Năm {0} ", year - 1));
-            
+            sheetReport.Cells["I44"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["J44"].PutValue(string.Format("Năm {0} ", year));
+
             // Create Chart column
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceLine;
@@ -1406,10 +1406,6 @@ namespace DongAERP.Areas.Admin.Controllers
 
             List<ReportDetailtServiceType> listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID, marketID);
           
-            //List<ReportForMaket> listReportDataPercent = new ReportBL().DataReportMaketForGradationComparePercent(year, int.Parse(gradationID), reportTypeID);
-            //// clone Object
-            //List<ReportForMaket> listReportDataPercentClone = new List<ReportForMaket>(listReportDataPercent);
-
             // Khởi tạo datatable
             DataTable table = new DataTable();
 
@@ -1486,13 +1482,31 @@ namespace DongAERP.Areas.Admin.Controllers
                         }
 
                         // add item vào table
-                        table.Rows.Add(dataItemLastYear.MarketName
+                        table.Rows.Add(reportID
                             , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
                             , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
                             , dataItemLastYear.DSCK, dataItemYear.DSCK
                             , dataItemLastYear.TongDS, dataItemYear.TongDS
-                            , reportID);
+                            , dataItemLastYear.MarketName);
                     }
+
+                    DataRow row = table.NewRow();
+                    row["ReportID"] = "Tổng";
+                    row["CQ1"] = table.Compute("Sum(CQ1)", "");
+                    row["CQ2"] = table.Compute("Sum(CQ2)", "");
+
+                    row["CN1"] = table.Compute("Sum(CN1)", "");
+                    row["CN2"] = table.Compute("Sum(CN2)", "");
+
+                    row["CK1"] = table.Compute("Sum(CK1)", "");
+                    row["CK2"] = table.Compute("Sum(CK2)", "");
+
+                    row["TDS1"] = table.Compute("Sum(TDS1)", "");
+                    row["TDS2"] = table.Compute("Sum(TDS2)", "");
+
+                    row["MarketName"] = "";
+                    table.Rows.Add(row);
+
                 }
             }
             // Trường hợp thuộc thị trường Châu Á
@@ -1585,15 +1599,15 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 int stepRow = 0;
                 // total row = row start + số row hiện có
-                int totalRow = table.Rows.Count + 7;
+                int totalRow = table.Rows.Count + 44;
                 // Số dòng của row
-                for (int a = 7; a < totalRow; a++)
+                for (int a = 44; a < totalRow; a++)
                 {
                     int stepColumn = 0;
                     // Số cột trong báo cáo cần hiển thị
                     // Tổng số cột hiển thị = Số cột hiển thị bắt đầu + tổng số cột cần hiển thị
-                    int totalCol = 15 + 5;
-                    for (int b = 15; b < totalCol; b++)
+                    int totalCol = 1 + 9;
+                    for (int b = 1; b < totalCol; b++)
                     {
                         // Giá trị của value trong table
                         string valueOfTable = table.Rows[stepRow][stepColumn].ToString();
