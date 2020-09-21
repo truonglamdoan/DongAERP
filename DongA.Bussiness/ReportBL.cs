@@ -1655,30 +1655,17 @@ namespace DongA.Bussiness
                 ReportDAL dal = new ReportDAL();
                 List<ReportDetailtServiceType> result = dal.ReportDetailtGradationCompareForOne(ToYear, typeID, reportTypeID, marketID);
                 List<ReportDetailtServiceType> resultConvert = new List<ReportDetailtServiceType>();
-                double sumDSChiQuayYear = 0;
-                double sumDSChiNhaYear = 0;
-                double sumDSCKYear = 0;
-
-                double sumDSChiQuayLastYear = 0;
-                double sumDSChiNhaLastYear = 0;
-                double sumDSCKLastYear = 0;
-
-                if (result.Count > 0)
-                {
-                    // Last Year
-                    sumDSChiQuayLastYear = result.Where(x => x.Year == (ToYear - 1).ToString()).Sum(y => y.DSChiQuay);
-                    sumDSChiNhaLastYear = result.Where(x => x.Year == (ToYear - 1).ToString()).Sum(y => y.DSChiNha);
-                    sumDSCKLastYear = result.Where(x => x.Year == (ToYear - 1).ToString()).Sum(y => y.DSCK);
-
-                    // Year hiện tại
-                    sumDSChiQuayYear = result.Where(x => x.Year == ToYear.ToString()).Sum(y => y.DSChiQuay);
-                    sumDSChiNhaYear = result.Where(x => x.Year == ToYear.ToString()).Sum(y => y.DSChiNha);
-                    sumDSCKYear = result.Where(x => x.Year == ToYear.ToString()).Sum(y => y.DSCK);
-                }
 
                 foreach (ReportDetailtServiceType item in result)
                 {
                     item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                }
+
+                double sumTongDSTotalYear = result.Where(x =>x.Year == ToYear.ToString()).Sum(x => x.TongDS);
+                double sumTongDSTotalLastYear = result.Where(x =>x.Year == (ToYear - 1).ToString()).Sum(x => x.TongDS);
+
+                foreach (ReportDetailtServiceType item in result)
+                {
                     ReportDetailtServiceType itemDetailtPercent = new ReportDetailtServiceType();
 
                     // Last year
@@ -1690,9 +1677,7 @@ namespace DongA.Bussiness
                             MarketName = item.MarketName,
                             PartnerCode = item.PartnerCode,
                             PartnerName = item.PartnerName,
-                            DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayLastYear * 100, 2, MidpointRounding.ToEven),
-                            DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaLastYear * 100, 2, MidpointRounding.ToEven),
-                            DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKLastYear * 100, 2, MidpointRounding.ToEven),
+                            TongDS = sumTongDSTotalLastYear == 0 ? 0 : Math.Round(item.TongDS / sumTongDSTotalLastYear * 100, 2, MidpointRounding.ToEven),
                             Year = item.Year
                         };
                     }
@@ -1704,9 +1689,9 @@ namespace DongA.Bussiness
                         {
                             MarketCode = item.MarketCode,
                             MarketName = item.MarketName,
-                            DSChiQuay = item.TongDS == 0 ? 0 : Math.Round(item.DSChiQuay / sumDSChiQuayYear * 100, 2, MidpointRounding.ToEven),
-                            DSChiNha = item.TongDS == 0 ? 0 : Math.Round(item.DSChiNha / sumDSChiNhaYear * 100, 2, MidpointRounding.ToEven),
-                            DSCK = item.TongDS == 0 ? 0 : Math.Round(item.DSCK / sumDSCKYear * 100, 2, MidpointRounding.ToEven),
+                            PartnerCode = item.PartnerCode,
+                            PartnerName = item.PartnerName,
+                            TongDS = sumTongDSTotalYear == 0 ? 0 : Math.Round(item.TongDS / sumTongDSTotalYear * 100, 2, MidpointRounding.ToEven),
                             Year = item.Year
                         };
                     }

@@ -85,7 +85,50 @@
 <div style=" display: flex; ">
     
     <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
-        @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-ForOne" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
+        @if (marketID.Equals("005"))
+        {
+            @(Html.Kendo().DropDownList()
+                    .Name("dropdownlistMarket")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    //.Filter("startswith")
+                    .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() {
+                            Text = "Tất cả", Value = "005"
+                        },
+                        new SelectListItem() {
+                            Text = "Malaysia", Value = "006"
+                        },
+                        new SelectListItem() {
+                            Text = "Hàn Quốc", Value = "007"
+                        },
+                        new SelectListItem() {
+                            Text = "Nhật Bản", Value = "008"
+                        },
+                        new SelectListItem() {
+                            Text = "Đài Loan", Value = "009"
+                        },
+                        new SelectListItem() {
+                            Text = "Singapore", Value = "010"
+                        },
+                        new SelectListItem() {
+                            Text = "Campuchia", Value = "011"
+                        },
+                        new SelectListItem() {
+                            Text = "Hồng Kông", Value = "012"
+                        },
+                        new SelectListItem() {
+                            Text = "Thái Lan", Value = "013"
+                        }
+                    })
+                    .Events(e =>
+                    {
+                        e.Select("Report.onSelectGradationMarketID");
+                    })
+            )
+        }
+
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation-ForOne" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
@@ -390,6 +433,8 @@
 
                         );
                     })
+
+                    .Scrollable(scrollable => scrollable.Height(500))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -430,6 +475,7 @@
                             })
                         );
                     })
+                    .Scrollable(scrollable => scrollable.Height(500))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -527,7 +573,7 @@
                         //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
                         .Series(series =>
                         {
-                            series.Pie(model => model.value, model => model.category, model => model.color)
+                            series.Pie(model => model.value, model => model.category)
                             .Labels(labels => labels
                                 //.Template("#= category #: \n #= value#%")
                                 .Template("#= value#%")
@@ -575,6 +621,7 @@
                             .HtmlAttributes(new { style = " text-align: right;" });
                     })
 
+                    .Scrollable(scrollable => scrollable.Height(500))
                     .DataSource(dataSource => dataSource
                         .Ajax()
                         .Read(read => read

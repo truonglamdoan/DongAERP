@@ -1421,7 +1421,55 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchGridReportForGradationForOne([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+            List<ReportDetailtServiceType> listDataGradationConvert = new List<ReportDetailtServiceType>();
 
+            // List thị trường
+            List<string> listMarket = new List<string>();
+            if (marketID.Equals("005"))
+            {
+                foreach(ReportDetailtServiceType item in listDataGradation)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach(string item in listMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtServiceType> listDataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            DSChiQuay = listDataItemYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemYear.Sum(x => x.DSCK),
+                            Year = year.ToString()
+                        }
+                    );
+
+                    // last year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            DSChiQuay = listDataItemLastYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemLastYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemLastYear.Sum(x => x.DSCK),
+                            Year = (year - 1).ToString()
+                        }
+                    );
+                }
+
+                if (listDataGradationConvert.Count > 0)
+                {
+                    listDataGradation = new List<ReportDetailtServiceType>(listDataGradationConvert);
+                }
+            }
 
             // Khởi tạo datatable
             DataTable table = new DataTable();
@@ -1442,16 +1490,29 @@ namespace DongAERP.Areas.Admin.Controllers
 
             table.Columns.Add("MarketName", typeof(String));
 
-            foreach (ReportDetailtServiceType item in listDataGradation)
+            if (marketID.Equals("005"))
             {
-                item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    item.PartnerName = item.MarketName;
+                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                    item.MarketName = "Thị trường Châu Á";
+                }
+            }
+            else
+            {
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    item.MarketName = "Tất cả thị trường";
+                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                }
             }
 
             foreach (ReportDetailtServiceType item in listDataGradation)
             {
                 // Cùng kì
-                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
-                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
+                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
+                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
 
                 // Trường hợp năm trước có đối tác và năm nay không có
                 if (dataItemLastYear != null && dataItemYear == null)
@@ -1821,17 +1882,10 @@ namespace DongAERP.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult SearchDataGradationComparePieYear([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
-            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOnePercent(year, gradation, reportTypeID, marketID);
             // Get dữ liệu của năm hiện tại
             List<ReportDetailtServiceType> listData = listDataGradation.Where(x => x.Year == year.ToString()).ToList();
-
-            foreach (ReportDetailtServiceType item in listData)
-            {
-                item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-            }
-
-            double sumTongDS = listData.Sum(x => x.TongDS);
-
+            
             GradationChartPie[] arrayGradation = new GradationChartPie[listData.Count()];
             int count = 0;
             List<string> listColor = new List<string>() { "#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#08088A", "#B40431", "#6E6E6E" };
@@ -1842,7 +1896,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 arrayGradation[count] = new GradationChartPie()
                 {
                     category = item.PartnerName,
-                    value = sumTongDS == 0 ? 0 : Math.Round((item.TongDS / sumTongDS) * 100, 2, MidpointRounding.ToEven),
+                    value = item.TongDS,
                     color = listColor[count]
                 };
                 count++;
@@ -1861,7 +1915,7 @@ namespace DongAERP.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult SearchDataGradationComparePieLastYear([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
-            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOnePercent(year, gradation, reportTypeID, marketID);
             // clone Object
             List<ReportDetailtServiceType> listDataGradationClone = new List<ReportDetailtServiceType>(listDataGradation);
 

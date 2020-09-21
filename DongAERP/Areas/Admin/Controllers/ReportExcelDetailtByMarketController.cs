@@ -1315,7 +1315,7 @@ namespace DongAERP.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Tạo mẫu cho Excel cho so sánh theo giai đoạn
+        /// Tạo mẫu cho Excel cho so sánh theo giai đoạn cho tất cả
         /// </summary>
         /// <param name="gradationID"></param>
         /// <param name="year"></param>
@@ -1337,7 +1337,7 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo title
             string typeReport = "So sánh - Theo giai đoạn - Tất cả";
 
-            string text = " tháng năm";
+            string text = string.Format( " tháng năm {0}", year);
             switch (gradationID)
             {
                 case "1":
@@ -1355,240 +1355,191 @@ namespace DongAERP.Areas.Admin.Controllers
             }
 
             // Tạo title
-            CreateTitle("A2", "U2", sheetReport, typeReport, 14);
+            CreateTitle("A2", "K2", sheetReport, typeReport, 14);
 
             // Tạo title detailt
             string titleDetailt = string.Format("Giai đoạn: {0}", text);
-            CreateTitle("A3", "U3", sheetReport, titleDetailt, 12);
-
-            //// Tạo title cho doanh số chi trả theo thị trường
-            //string titleDS = "1. Theo doanh số chi trả theo thị trường";
-            //CreateTitle("A5", "E5", sheetReport, titleDS, 12);
-
-            //// Tạo title chotỷ trọng chi trả theo thị trường
-            //string titleTT = "2. Theo tỷ trọng chi trả theo thị trường";
-            //CreateTitle("A33", "E33", sheetReport, titleTT, 12);
-
-            // Add tên cột cho bảng báo cáo
-            // Set width cho column
-            // Theo doanh số
-            //sheetReport.Cells.SetColumnWidthPixel(15, 80);
-            //sheetReport.Cells["Q7"].PutValue(string.Format("Lũy kế {0} ", year));
-            //sheetReport.Cells.SetRowHeight(6, 40);
+            CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
+            
 
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
-            sheetReport.Cells["C44"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["D44"].PutValue(string.Format("Năm {0} ", year));
+            sheetReport.Cells["C62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["D62"].PutValue(string.Format("Năm {0} ", year));
 
-            sheetReport.Cells["E44"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["F44"].PutValue(string.Format("Năm {0} ", year));
+            sheetReport.Cells["E62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["F62"].PutValue(string.Format("Năm {0} ", year));
 
-            sheetReport.Cells["G44"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["H44"].PutValue(string.Format("Năm {0} ", year));
+            sheetReport.Cells["G62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["H62"].PutValue(string.Format("Năm {0} ", year));
 
-            sheetReport.Cells["I44"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["J44"].PutValue(string.Format("Năm {0} ", year));
+            sheetReport.Cells["I62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["J62"].PutValue(string.Format("Năm {0} ", year));
 
-            // Create Chart column
-            //Chart reference
-            Aspose.Cells.Charts.Chart leadSourceLine;
-            //Add Pie Chart
-            int chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 6, 0, 30, 13);
-            leadSourceLine = sheetReport.Charts[chartIndex];
+            List<ReportDetailtServiceType> listReportData = new List<ReportDetailtServiceType>();
 
-            //// Canh hiển thị CategoryAxis nghiên phù hợp
-            //leadSourceLine.CategoryAxis.TickLabels.RotationAngle = 45;
+            List<string> listMarket = new List<string>();
 
-            //Chart title
-            leadSourceLine.Title.Text = "Doanh số chi trả theo thị trường";
-            leadSourceLine.Title.Font.Color = Color.Silver;
+            // Trường hợp tất cả thị trường
+            if (marketID.Equals("0"))
+            {
+                listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID, marketID);
+                foreach (ReportDetailtServiceType item in listReportData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+            }
+            else
+            {
+                listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID, marketID);
+                List<ReportDetailtServiceType> listReportDataConvert = new List<ReportDetailtServiceType>();
+                foreach(ReportDetailtServiceType item in listReportData)
+                {
+                    if(!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
 
+                foreach(string item in listMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItemYear = listReportData.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtServiceType> listDataItemLastYear = listReportData.Where(x => x.MarketName == item && x.Year == (year -1).ToString()).ToList();
+                    if(listDataItemYear.Count > 0)
+                    {
+                        listReportDataConvert.Add(
+                            new ReportDetailtServiceType()
+                            {
+                                MarketCode = listDataItemYear[0].MarketCode,
+                                MarketName = item,
+                                DSChiQuay = listDataItemYear.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataItemYear.Sum(x => x.DSChiNha),
+                                DSCK = listDataItemYear.Sum(x => x.DSCK),
+                                Year = year.ToString()
+                            }
+                        );
+                    }
+                    // Last year
+                    if (listDataItemLastYear.Count > 0)
+                    {
+                        listReportDataConvert.Add(
+                            new ReportDetailtServiceType()
+                            {
+                                MarketCode = listDataItemLastYear[0].MarketCode,
+                                MarketName = item,
+                                DSChiQuay = listDataItemLastYear.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataItemLastYear.Sum(x => x.DSChiNha),
+                                DSCK = listDataItemLastYear.Sum(x => x.DSCK),
+                                Year = (year - 1).ToString()
+                            }
+                        );
+                    }
+                }
+                if (listReportDataConvert.Count > 0)
+                {
+                    listReportData = new List<ReportDetailtServiceType>(listReportDataConvert);
+                }
+            }
 
-            List<ReportDetailtServiceType> listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID, marketID);
-          
+            List<ReportDetailtServiceType> listReportDataClone = new List<ReportDetailtServiceType>(listReportData);
             // Khởi tạo datatable
             DataTable table = new DataTable();
 
-            // Trường hợp chọn tất cả thị trường
-            if (marketID.Equals("0"))
+            foreach (ReportDetailtServiceType item in listReportData)
             {
-                foreach (ReportDetailtServiceType item in listReportData)
-                {
-                    item.ReportID = item.MarketName;
-                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-                    item.MarketName = "Tất cả thị trường";
-                }
-
-                // Khởi tạo datatable
-                table = new DataTable();
-                // Tạo các cột cho datatable
-                table.Columns.Add("ReportID", typeof(String));
-                table.Columns.Add("CQ1", typeof(double));
-                table.Columns.Add("CQ2", typeof(double));
-
-                table.Columns.Add("CN1", typeof(double));
-                table.Columns.Add("CN2", typeof(double));
-
-                table.Columns.Add("CK1", typeof(double));
-                table.Columns.Add("CK2", typeof(double));
-
-                table.Columns.Add("TDS1", typeof(double));
-                table.Columns.Add("TDS2", typeof(double));
-                table.Columns.Add("MarketName", typeof(String));
-
-
-                // Danh sách mã thị trường của Tất cả
-                List<string> listMarket = new List<string>() { "003", "005", "001", "002", "014", "004" };
-
-                string reportID = string.Empty;
-
-                if (listReportData.Count() > 0)
-                {
-                    foreach (string item in listMarket)
-                    {
-                        // Cùng kì
-                        ReportDetailtServiceType dataItemLastYear = listReportData.Find(x => x.MarketCode == item && x.Year == (year - 1).ToString());
-                        ReportDetailtServiceType dataItemYear = listReportData.Find(x => x.MarketCode == item && x.Year == year.ToString());
-
-                        if (dataItemYear != null && dataItemLastYear != null)
-                        {
-                            reportID = dataItemYear.ReportID;
-                        }
-
-                        // Trường hợp năm không có đối tác
-                        if (dataItemLastYear == null && dataItemYear != null)
-                        {
-                            dataItemLastYear = new ReportDetailtServiceType();
-                            dataItemLastYear.MarketName = dataItemYear.MarketName;
-                            dataItemLastYear.DSChiQuay = 0;
-                            dataItemLastYear.DSChiNha = 0;
-                            dataItemLastYear.DSCK = 0;
-                            dataItemLastYear.Year = (year - 1).ToString();
-
-                            reportID = dataItemYear.ReportID;
-                        }
-
-                        // Trường hợp năm hiện tại không có đối tác
-                        if (dataItemYear == null && dataItemLastYear != null)
-                        {
-                            dataItemYear = new ReportDetailtServiceType();
-                            dataItemYear.MarketName = dataItemLastYear.MarketName;
-                            dataItemYear.DSChiQuay = 0;
-                            dataItemYear.DSChiNha = 0;
-                            dataItemYear.DSCK = 0;
-                            dataItemYear.Year = year.ToString();
-
-                            reportID = dataItemLastYear.ReportID;
-                        }
-
-                        // add item vào table
-                        table.Rows.Add(reportID
-                            , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
-                            , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
-                            , dataItemLastYear.DSCK, dataItemYear.DSCK
-                            , dataItemLastYear.TongDS, dataItemYear.TongDS
-                            , dataItemLastYear.MarketName);
-                    }
-
-                    DataRow row = table.NewRow();
-                    row["ReportID"] = "Tổng";
-                    row["CQ1"] = table.Compute("Sum(CQ1)", "");
-                    row["CQ2"] = table.Compute("Sum(CQ2)", "");
-
-                    row["CN1"] = table.Compute("Sum(CN1)", "");
-                    row["CN2"] = table.Compute("Sum(CN2)", "");
-
-                    row["CK1"] = table.Compute("Sum(CK1)", "");
-                    row["CK2"] = table.Compute("Sum(CK2)", "");
-
-                    row["TDS1"] = table.Compute("Sum(TDS1)", "");
-                    row["TDS2"] = table.Compute("Sum(TDS2)", "");
-
-                    row["MarketName"] = "";
-                    table.Rows.Add(row);
-
-                }
+                item.ReportID = item.MarketName;
+                item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                item.MarketName = "Tất cả thị trường";
             }
-            // Trường hợp thuộc thị trường Châu Á
-            else
+
+            // Khởi tạo datatable
+            table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("ReportID", typeof(String));
+            table.Columns.Add("CQ1", typeof(double));
+            table.Columns.Add("CQ2", typeof(double));
+
+            table.Columns.Add("CN1", typeof(double));
+            table.Columns.Add("CN2", typeof(double));
+
+            table.Columns.Add("CK1", typeof(double));
+            table.Columns.Add("CK2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
+            table.Columns.Add("MarketName", typeof(String));
+            
+            string reportID = string.Empty;
+
+            if (listReportData.Count() > 0)
             {
-                foreach (ReportDetailtServiceType item in listReportData)
-                {
-                    item.ReportID = item.PartnerName;
-                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-                }
-
-                // Khởi tạo datatable
-                table = new DataTable();
-                // Tạo các cột cho datatable
-                table.Columns.Add("MarketName", typeof(String));
-
-                table.Columns.Add("CQ1", typeof(double));
-                table.Columns.Add("CQ2", typeof(double));
-
-                table.Columns.Add("CN1", typeof(double));
-                table.Columns.Add("CN2", typeof(double));
-
-                table.Columns.Add("CK1", typeof(double));
-                table.Columns.Add("CK2", typeof(double));
-
-                table.Columns.Add("TDS1", typeof(double));
-                table.Columns.Add("TDS2", typeof(double)); ;
-
-                table.Columns.Add("ReportID", typeof(String));
-
-                string reportID = string.Empty;
-
-                foreach (ReportDetailtServiceType item in listReportData)
+                foreach (string item in listMarket)
                 {
                     // Cùng kì
-                    ReportDetailtServiceType dataItemLastYear = listReportData.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
-                    ReportDetailtServiceType dataItemYear = listReportData.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
+                    ReportDetailtServiceType dataItemLastYear = listReportData.Find(x => x.ReportID == item && x.Year == (year - 1).ToString());
+                    ReportDetailtServiceType dataItemYear = listReportData.Find(x => x.ReportID == item && x.Year == year.ToString());
 
-                    reportID = item.PartnerName;
+                    if (dataItemYear != null && dataItemLastYear != null)
+                    {
+                        reportID = dataItemYear.ReportID;
+                    }
 
-                    // Trường hợp năm trước có đối tác và năm nay không có
-                    if (dataItemLastYear != null && dataItemYear == null)
+                    // Trường hợp năm không có đối tác
+                    if (dataItemLastYear == null && dataItemYear != null)
+                    {
+                        dataItemLastYear = new ReportDetailtServiceType();
+                        dataItemLastYear.MarketName = dataItemYear.MarketName;
+                        dataItemLastYear.DSChiQuay = 0;
+                        dataItemLastYear.DSChiNha = 0;
+                        dataItemLastYear.DSCK = 0;
+                        dataItemLastYear.Year = (year - 1).ToString();
+
+                        reportID = dataItemYear.ReportID;
+                    }
+
+                    // Trường hợp năm hiện tại không có đối tác
+                    if (dataItemYear == null && dataItemLastYear != null)
                     {
                         dataItemYear = new ReportDetailtServiceType();
-                        dataItemYear.PartnerName = dataItemLastYear.PartnerName;
-                        dataItemYear.ReportID = dataItemLastYear.ReportID;
+                        dataItemYear.MarketName = dataItemLastYear.MarketName;
                         dataItemYear.DSChiQuay = 0;
                         dataItemYear.DSChiNha = 0;
                         dataItemYear.DSCK = 0;
                         dataItemYear.Year = year.ToString();
 
+                        reportID = dataItemLastYear.ReportID;
                     }
 
-                    // Trường hợp năm trước không có đối tác và năm nay có đối tác
-                    if (dataItemYear != null && dataItemLastYear == null)
-                    {
-                        dataItemLastYear = new ReportDetailtServiceType();
-                        dataItemLastYear.PartnerName = dataItemYear.PartnerName;
-                        dataItemLastYear.ReportID = dataItemYear.ReportID;
-                        dataItemLastYear.DSChiQuay = 0;
-                        dataItemLastYear.DSChiNha = 0;
-                        dataItemLastYear.DSCK = 0;
-                        dataItemLastYear.Year = (year - 1).ToString();
-                    }
-
-                    // Check tồn tại của item
-                    string value = string.Format("ReportID='{0}'", reportID);
-                    DataRow[] foundRows = table.Select(value);
-                    if (dataItemLastYear != null && dataItemYear != null && foundRows.Count() == 0)
-                    {
-                        // add item vào table
-                        table.Rows.Add(item.MarketName
-                            , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
-                            , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
-                            , dataItemLastYear.DSCK, dataItemYear.DSCK
-                            , dataItemLastYear.TongDS, dataItemYear.TongDS
-                            , reportID);
-                    }
+                    // add item vào table
+                    table.Rows.Add(reportID
+                        , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
+                        , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
+                        , dataItemLastYear.DSCK, dataItemYear.DSCK
+                        , dataItemLastYear.TongDS, dataItemYear.TongDS
+                        , dataItemLastYear.MarketName);
                 }
+
+                DataRow row = table.NewRow();
+                row["ReportID"] = "Tổng";
+                row["CQ1"] = table.Compute("Sum(CQ1)", "");
+                row["CQ2"] = table.Compute("Sum(CQ2)", "");
+
+                row["CN1"] = table.Compute("Sum(CN1)", "");
+                row["CN2"] = table.Compute("Sum(CN2)", "");
+
+                row["CK1"] = table.Compute("Sum(CK1)", "");
+                row["CK2"] = table.Compute("Sum(CK2)", "");
+
+                row["TDS1"] = table.Compute("Sum(TDS1)", "");
+                row["TDS2"] = table.Compute("Sum(TDS2)", "");
+
+                row["MarketName"] = "";
+                table.Rows.Add(row);
+
             }
-
-
+            
             // Set border
             Style style = new CellsFactory().CreateStyle();
             style.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
@@ -1599,9 +1550,9 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 int stepRow = 0;
                 // total row = row start + số row hiện có
-                int totalRow = table.Rows.Count + 44;
+                int totalRow = table.Rows.Count + 62;
                 // Số dòng của row
-                for (int a = 44; a < totalRow; a++)
+                for (int a = 62; a < totalRow; a++)
                 {
                     int stepColumn = 0;
                     // Số cột trong báo cáo cần hiển thị
@@ -1666,7 +1617,786 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 sheetReport.Cells["D10"].PutValue("Không có dữ liệu");
             }
+
+            // Vẽ biểu đồ cột cho Excel
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumnChiNha;
+            //Add Pie Chart
+            // Chi Nhà
+            int chartIndex = sheetReport.Charts.Add(ChartType.Bar, 25, 0, 40, 7);
+            leadSourceColumnChiNha = sheetReport.Charts[chartIndex];
+
+            //Chart title
+            leadSourceColumnChiNha.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Nhà", text);
+            leadSourceColumnChiNha.Title.Font.Color = Color.Silver;
+
+            // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
+            string totalRowData = string.Format("C63:D{0}", 63 + table.Rows.Count - 2);
+            leadSourceColumnChiNha.NSeries.Add(totalRowData, true);
+
+            // Set the category data covering the range A2:A5.
+            // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
+            string categoryData = "B63:B68";
+            leadSourceColumnChiNha.NSeries.CategoryData = categoryData;
+
+            // Set the names of the chart series taken from cells.
+            leadSourceColumnChiNha.NSeries[0].Name = "=C62";
+            leadSourceColumnChiNha.NSeries[1].Name = "=D62";
+
+            // Set the 1st series fill color.
+            leadSourceColumnChiNha.NSeries[0].Area.ForegroundColor = Color.Orange;
+            leadSourceColumnChiNha.NSeries[0].Area.Formatting = FormattingType.Custom;
+
+            // Set the 2nd series fill color.
+            leadSourceColumnChiNha.NSeries[1].Area.ForegroundColor = Color.Green;
+            leadSourceColumnChiNha.NSeries[1].Area.Formatting = FormattingType.Custom;
+
+
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumnChiNha.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumnChiNha.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumnChiNha.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumnChiNha.ValueAxis.AxisLine.IsVisible = false;
+            //leadSourceColumnChiNha.ValueAxis.IsAutomaticMajorUnit = false;
+            //leadSourceColumnChiNha.ValueAxis.MajorUnit = 10000000;
+            leadSourceColumnChiNha.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumnChiQuay;
+            // Chi Quầy
+            chartIndex = sheetReport.Charts.Add(ChartType.Bar, 25, 8, 40, 15);
+            leadSourceColumnChiQuay = sheetReport.Charts[chartIndex];
+
+            //Chart title
+            leadSourceColumnChiQuay.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Quầy", text);
+            leadSourceColumnChiQuay.Title.Font.Color = Color.Silver;
+
+            // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
+            totalRowData = string.Format("E63:F{0}", 63 + table.Rows.Count - 2);
+            leadSourceColumnChiQuay.NSeries.Add(totalRowData, true);
+
+            // Set the category data covering the range A2:A5.
+            // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
+            categoryData = "B63:B68";
+            leadSourceColumnChiQuay.NSeries.CategoryData = categoryData;
+
+            // Set the names of the chart series taken from cells.
+            leadSourceColumnChiQuay.NSeries[0].Name = "=C62";
+            leadSourceColumnChiQuay.NSeries[1].Name = "=D62";
+
+            // Set the 1st series fill color.
+            leadSourceColumnChiQuay.NSeries[0].Area.ForegroundColor = Color.Orange;
+            leadSourceColumnChiQuay.NSeries[0].Area.Formatting = FormattingType.Custom;
+
+            // Set the 2nd series fill color.
+            leadSourceColumnChiQuay.NSeries[1].Area.ForegroundColor = Color.Green;
+            leadSourceColumnChiQuay.NSeries[1].Area.Formatting = FormattingType.Custom;
+
+
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumnChiQuay.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumnChiQuay.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumnChiQuay.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumnChiQuay.ValueAxis.AxisLine.IsVisible = false;
+            leadSourceColumnChiQuay.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
+
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumnChuyenKhoan;
+            // Chuyển khoản
+            chartIndex = sheetReport.Charts.Add(ChartType.Bar, 41, 0, 56, 7);
+            leadSourceColumnChuyenKhoan = sheetReport.Charts[chartIndex];
+
+            //Chart title
+            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chuyển khoản", text);
+            leadSourceColumnChuyenKhoan.Title.Font.Color = Color.Silver;
+
+            // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
+            totalRowData = string.Format("G63:H{0}", 63 + table.Rows.Count - 2);
+            leadSourceColumnChuyenKhoan.NSeries.Add(totalRowData, true);
+
+            // Set the category data covering the range A2:A5.
+            // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
+            categoryData = "B63:B68";
+            leadSourceColumnChuyenKhoan.NSeries.CategoryData = categoryData;
+
+            // Set the names of the chart series taken from cells.
+            leadSourceColumnChuyenKhoan.NSeries[0].Name = "=C62";
+            leadSourceColumnChuyenKhoan.NSeries[1].Name = "=D62";
+
+            // Set the 1st series fill color.
+            leadSourceColumnChuyenKhoan.NSeries[0].Area.ForegroundColor = Color.Orange;
+            leadSourceColumnChuyenKhoan.NSeries[0].Area.Formatting = FormattingType.Custom;
+
+            // Set the 2nd series fill color.
+            leadSourceColumnChuyenKhoan.NSeries[1].Area.ForegroundColor = Color.Green;
+            leadSourceColumnChuyenKhoan.NSeries[1].Area.Formatting = FormattingType.Custom;
+
+
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumnChuyenKhoan.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumnChuyenKhoan.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumnChuyenKhoan.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumnChuyenKhoan.ValueAxis.AxisLine.IsVisible = false;
+            leadSourceColumnChuyenKhoan.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
+
+            // Tạo chart cột tỉ trọng cho các thị trường
+            //Add Pie Chart
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumn;
+            chartIndex = sheetReport.Charts.Add(ChartType.Column3DStacked, 6, 0, 24, 13);
+            leadSourceColumn = sheetReport.Charts[chartIndex];
+
+
+            //Chart title
+            leadSourceColumn.Title.Text = string.Format("Tỉ trọng từng thị trường \n Giai đoạn: {0} \n", text);
+            leadSourceColumn.Title.Font.Color = Color.Silver;
+
+            // count cho 3 loại: chi Quầy, Chi nhà, Chuyển khoản
+            // list thị trường
+
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForAllPercent(year, int.Parse(gradationID), reportTypeID, marketID);
+
+            List<string> listMarketCurrent = new List<string>();
+            foreach(ReportDetailtServiceType item in listDataGradation)
+            {
+                if (!listMarketCurrent.Contains(item.MarketName))
+                {
+                    listMarketCurrent.Add(item.MarketName);
+                }
+            }
+
+            // List dữ liệu dataRow
+            string[] listTotalRowData = new string[listMarketCurrent.Count];
+            int i = 0;
+            foreach (string item in listMarketCurrent)
+            {
+                // Năm trước
+                List<ReportDetailtServiceType> dataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+                List<ReportDetailtServiceType> dataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+
+
+                listTotalRowData[i++] = string.Concat("{"
+                    , string.Format("{0}, {1}, {2}, {3}, {4}, {5}"
+                    , dataItemYear.Sum(x =>x.DSChiQuay), dataItemLastYear.Sum(x => x.DSChiQuay)
+                    , dataItemYear.Sum(x => x.DSChiNha), dataItemLastYear.Sum(x => x.DSChiNha)
+                    , dataItemYear.Sum(x => x.DSCK), dataItemLastYear.Sum(x => x.DSCK))
+                    , "}");
+            }
+
+            int count = 0;
+            string yearCurent = string.Format("Năm {0}", year);
+            string lastYear = string.Format("Năm {0}", year - 1);
+            foreach (string item in listTotalRowData)
+            {
+                totalRowData = item;
+                leadSourceColumn.NSeries.Add(totalRowData, true);
+
+                categoryData = string.Concat("{",string.Format("Chi Quầy {0}, Chi Quầy {1}, Chi Nhà {0}, Chi Nhà {1}, Chuyển Khoản {0},  Chuyển Khoản {1}", yearCurent, lastYear), "}");
+                leadSourceColumn.NSeries.CategoryData = categoryData;
+
+                leadSourceColumn.NSeries[count].Name = listMarketCurrent[count];
+                
+                switch(count)
+                {
+                    case 0:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Orange;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 1:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Green;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 2:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Blue;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 3:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Yellow;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 4:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Brown;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 5:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Olive;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    default:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Pink;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                }
+                count++;
+            }
             
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumn.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumn.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumn.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumn.ValueAxis.MaxValue = 100;
+            leadSourceColumn.ValueAxis.AxisLine.IsVisible = false;
+            leadSourceColumn.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
+            // Chạy process
+            designer.Process();
+            return ExportReport("ReportGradationCompare", designer);
+        }
+
+        /// <summary>
+        /// Tạo mẫu cho Excel cho so sánh theo giai đoạn cho tất cả
+        /// </summary>
+        /// <param name="gradationID"></param>
+        /// <param name="year"></param>
+        /// <param name="typeID"></param>
+        /// <returns></returns>
+        public ActionResult CreateExcelForGradationCompareForOne(string gradationID, int year, string reportTypeID, string marketID)
+        {
+            WorkbookDesigner designer = new WorkbookDesigner();
+            string templatePath = "~/Content/Report/ReportDetailtGradationByMakets.xlsx";
+            // Get đường dẫn
+            templatePath = System.Web.HttpContext.Current.Server.MapPath(templatePath);
+
+            designer.Workbook = new DongA.Core.DongAExcel().OpenExcelFile(templatePath);
+            designer.Workbook.CalculateFormula();
+
+            WorksheetCollection workSheets = designer.Workbook.Worksheets;
+            Worksheet sheetReport = designer.Workbook.Worksheets[0];
+
+            // Tạo title
+            string typeReport = "So sánh - Theo giai đoạn - Tất cả";
+
+            string text = string.Format(" tháng năm {0}", year);
+            switch (gradationID)
+            {
+                case "1":
+                    text = string.Concat("3", text);
+                    break;
+                case "2":
+                    text = string.Concat("6", text);
+                    break;
+                case "3":
+                    text = string.Concat("9", text);
+                    break;
+                default:
+                    text = string.Concat("12", text);
+                    break;
+            }
+
+            // Tạo title
+            CreateTitle("A2", "K2", sheetReport, typeReport, 14);
+
+            // Tạo title detailt
+            string titleDetailt = string.Format("Giai đoạn: {0}", text);
+            CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
+            
+            titleDetailt = "1. Theo doanh số chi trả theo thị trường - loại hình chi trả";
+            CreateTitle("B6", "E6", sheetReport, titleDetailt, 12);
+
+            // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
+            sheetReport.Cells["C62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["D62"].PutValue(string.Format("Năm {0} ", year));
+
+            sheetReport.Cells["E62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["F62"].PutValue(string.Format("Năm {0} ", year));
+
+            sheetReport.Cells["G62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["H62"].PutValue(string.Format("Năm {0} ", year));
+
+            sheetReport.Cells["I62"].PutValue(string.Format("Năm {0} ", year - 1));
+            sheetReport.Cells["J62"].PutValue(string.Format("Năm {0} ", year));
+
+            List<ReportDetailtServiceType> listReportData = new List<ReportDetailtServiceType>();
+
+            List<string> listMarket = new List<string>();
+
+            // Trường hợp tất cả thị trường
+            if (marketID.Equals("0"))
+            {
+                listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID, marketID);
+                foreach (ReportDetailtServiceType item in listReportData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+            }
+            else
+            {
+                listReportData = new ReportBL().ReportDetailtGradationCompareForAll(year, int.Parse(gradationID), reportTypeID, marketID);
+                List<ReportDetailtServiceType> listReportDataConvert = new List<ReportDetailtServiceType>();
+                foreach (ReportDetailtServiceType item in listReportData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItemYear = listReportData.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtServiceType> listDataItemLastYear = listReportData.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+                    if (listDataItemYear.Count > 0)
+                    {
+                        listReportDataConvert.Add(
+                            new ReportDetailtServiceType()
+                            {
+                                MarketCode = listDataItemYear[0].MarketCode,
+                                MarketName = item,
+                                DSChiQuay = listDataItemYear.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataItemYear.Sum(x => x.DSChiNha),
+                                DSCK = listDataItemYear.Sum(x => x.DSCK),
+                                Year = year.ToString()
+                            }
+                        );
+                    }
+                    // Last year
+                    if (listDataItemLastYear.Count > 0)
+                    {
+                        listReportDataConvert.Add(
+                            new ReportDetailtServiceType()
+                            {
+                                MarketCode = listDataItemLastYear[0].MarketCode,
+                                MarketName = item,
+                                DSChiQuay = listDataItemLastYear.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataItemLastYear.Sum(x => x.DSChiNha),
+                                DSCK = listDataItemLastYear.Sum(x => x.DSCK),
+                                Year = (year - 1).ToString()
+                            }
+                        );
+                    }
+                }
+                if (listReportDataConvert.Count > 0)
+                {
+                    listReportData = new List<ReportDetailtServiceType>(listReportDataConvert);
+                }
+            }
+
+            List<ReportDetailtServiceType> listReportDataClone = new List<ReportDetailtServiceType>(listReportData);
+            // Khởi tạo datatable
+            DataTable table = new DataTable();
+
+            foreach (ReportDetailtServiceType item in listReportData)
+            {
+                item.ReportID = item.MarketName;
+                item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                item.MarketName = "Tất cả thị trường";
+            }
+
+            // Khởi tạo datatable
+            table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("ReportID", typeof(String));
+            table.Columns.Add("CQ1", typeof(double));
+            table.Columns.Add("CQ2", typeof(double));
+
+            table.Columns.Add("CN1", typeof(double));
+            table.Columns.Add("CN2", typeof(double));
+
+            table.Columns.Add("CK1", typeof(double));
+            table.Columns.Add("CK2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
+            table.Columns.Add("MarketName", typeof(String));
+
+            string reportID = string.Empty;
+
+            if (listReportData.Count() > 0)
+            {
+                foreach (string item in listMarket)
+                {
+                    // Cùng kì
+                    ReportDetailtServiceType dataItemLastYear = listReportData.Find(x => x.ReportID == item && x.Year == (year - 1).ToString());
+                    ReportDetailtServiceType dataItemYear = listReportData.Find(x => x.ReportID == item && x.Year == year.ToString());
+
+                    if (dataItemYear != null && dataItemLastYear != null)
+                    {
+                        reportID = dataItemYear.ReportID;
+                    }
+
+                    // Trường hợp năm không có đối tác
+                    if (dataItemLastYear == null && dataItemYear != null)
+                    {
+                        dataItemLastYear = new ReportDetailtServiceType();
+                        dataItemLastYear.MarketName = dataItemYear.MarketName;
+                        dataItemLastYear.DSChiQuay = 0;
+                        dataItemLastYear.DSChiNha = 0;
+                        dataItemLastYear.DSCK = 0;
+                        dataItemLastYear.Year = (year - 1).ToString();
+
+                        reportID = dataItemYear.ReportID;
+                    }
+
+                    // Trường hợp năm hiện tại không có đối tác
+                    if (dataItemYear == null && dataItemLastYear != null)
+                    {
+                        dataItemYear = new ReportDetailtServiceType();
+                        dataItemYear.MarketName = dataItemLastYear.MarketName;
+                        dataItemYear.DSChiQuay = 0;
+                        dataItemYear.DSChiNha = 0;
+                        dataItemYear.DSCK = 0;
+                        dataItemYear.Year = year.ToString();
+
+                        reportID = dataItemLastYear.ReportID;
+                    }
+
+                    // add item vào table
+                    table.Rows.Add(reportID
+                        , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
+                        , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
+                        , dataItemLastYear.DSCK, dataItemYear.DSCK
+                        , dataItemLastYear.TongDS, dataItemYear.TongDS
+                        , dataItemLastYear.MarketName);
+                }
+
+                DataRow row = table.NewRow();
+                row["ReportID"] = "Tổng";
+                row["CQ1"] = table.Compute("Sum(CQ1)", "");
+                row["CQ2"] = table.Compute("Sum(CQ2)", "");
+
+                row["CN1"] = table.Compute("Sum(CN1)", "");
+                row["CN2"] = table.Compute("Sum(CN2)", "");
+
+                row["CK1"] = table.Compute("Sum(CK1)", "");
+                row["CK2"] = table.Compute("Sum(CK2)", "");
+
+                row["TDS1"] = table.Compute("Sum(TDS1)", "");
+                row["TDS2"] = table.Compute("Sum(TDS2)", "");
+
+                row["MarketName"] = "";
+                table.Rows.Add(row);
+
+            }
+
+            // Set border
+            Style style = new CellsFactory().CreateStyle();
+            style.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
+            style.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
+            style.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+
+            if (table.Rows.Count > 0)
+            {
+                int stepRow = 0;
+                // total row = row start + số row hiện có
+                int totalRow = table.Rows.Count + 62;
+                // Số dòng của row
+                for (int a = 62; a < totalRow; a++)
+                {
+                    int stepColumn = 0;
+                    // Số cột trong báo cáo cần hiển thị
+                    // Tổng số cột hiển thị = Số cột hiển thị bắt đầu + tổng số cột cần hiển thị
+                    int totalCol = 1 + 9;
+                    for (int b = 1; b < totalCol; b++)
+                    {
+                        // Giá trị của value trong table
+                        string valueOfTable = table.Rows[stepRow][stepColumn].ToString();
+
+                        // Tô màu cho các dòng có giá trị tăng giảm
+                        if (b >= 18)
+                        {
+                            decimal tryParseValue = 0;
+                            decimal.TryParse(valueOfTable, out tryParseValue);
+                            style.Font.Color = Color.Green;
+
+                            if (tryParseValue < 0)
+                            {
+                                style.Font.Color = Color.Red;
+                            }
+                        }
+
+                        // Insert vào dòng cột xác định trong Excel
+                        sheetReport.Cells[a, b].PutValue(valueOfTable, true);
+
+                        // set style cho number
+                        style.Custom = "#,##0.00";
+
+                        // set border
+                        sheetReport.Cells[a, b].SetStyle(style);
+
+                        // Cột tổng cộng
+                        if (b.Equals(totalCol - 1))
+                        {
+                            sheetReport.Cells[a, b].PutValue(valueOfTable, true, true);
+                            style.Font.IsBold = true;
+                            sheetReport.Cells[a, b].SetStyle(style);
+                        }
+
+                        // Trường hợp thuộc 2 dòng cuối
+                        if (a.Equals(totalRow - 1))
+                        {
+                            sheetReport.Cells[a, b].PutValue(valueOfTable, true, true);
+                            style.Font.IsBold = true;
+                            sheetReport.Cells[a, b].SetStyle(style);
+                        }
+
+                        // Set lại giá trị mặt định
+                        style.Font.IsBold = false;
+                        // Tăng cột theo dòng của table
+                        stepColumn++;
+                    }
+                    // Tăng dòng của table lên
+                    stepRow++;
+
+                    // Set lại color cho dòng hiện tại 
+                    style.Font.Color = Color.Black;
+                }
+            }
+            else
+            {
+                sheetReport.Cells["D10"].PutValue("Không có dữ liệu");
+            }
+
+            // Vẽ biểu đồ cột cho Excel
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumnChiNha;
+            //Add Pie Chart
+            // Chi Nhà
+            int chartIndex = sheetReport.Charts.Add(ChartType.Bar, 25, 0, 40, 7);
+            leadSourceColumnChiNha = sheetReport.Charts[chartIndex];
+
+            //Chart title
+            leadSourceColumnChiNha.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Nhà", text);
+            leadSourceColumnChiNha.Title.Font.Color = Color.Silver;
+
+            // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
+            string totalRowData = string.Format("C63:D{0}", 63 + table.Rows.Count - 2);
+            leadSourceColumnChiNha.NSeries.Add(totalRowData, true);
+
+            // Set the category data covering the range A2:A5.
+            // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
+            string categoryData = "B63:B68";
+            leadSourceColumnChiNha.NSeries.CategoryData = categoryData;
+
+            // Set the names of the chart series taken from cells.
+            leadSourceColumnChiNha.NSeries[0].Name = "=C62";
+            leadSourceColumnChiNha.NSeries[1].Name = "=D62";
+
+            // Set the 1st series fill color.
+            leadSourceColumnChiNha.NSeries[0].Area.ForegroundColor = Color.Orange;
+            leadSourceColumnChiNha.NSeries[0].Area.Formatting = FormattingType.Custom;
+
+            // Set the 2nd series fill color.
+            leadSourceColumnChiNha.NSeries[1].Area.ForegroundColor = Color.Green;
+            leadSourceColumnChiNha.NSeries[1].Area.Formatting = FormattingType.Custom;
+
+
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumnChiNha.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumnChiNha.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumnChiNha.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumnChiNha.ValueAxis.AxisLine.IsVisible = false;
+            //leadSourceColumnChiNha.ValueAxis.IsAutomaticMajorUnit = false;
+            //leadSourceColumnChiNha.ValueAxis.MajorUnit = 10000000;
+            leadSourceColumnChiNha.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumnChiQuay;
+            // Chi Quầy
+            chartIndex = sheetReport.Charts.Add(ChartType.Bar, 25, 8, 40, 15);
+            leadSourceColumnChiQuay = sheetReport.Charts[chartIndex];
+
+            //Chart title
+            leadSourceColumnChiQuay.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Quầy", text);
+            leadSourceColumnChiQuay.Title.Font.Color = Color.Silver;
+
+            // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
+            totalRowData = string.Format("E63:F{0}", 63 + table.Rows.Count - 2);
+            leadSourceColumnChiQuay.NSeries.Add(totalRowData, true);
+
+            // Set the category data covering the range A2:A5.
+            // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
+            categoryData = "B63:B68";
+            leadSourceColumnChiQuay.NSeries.CategoryData = categoryData;
+
+            // Set the names of the chart series taken from cells.
+            leadSourceColumnChiQuay.NSeries[0].Name = "=C62";
+            leadSourceColumnChiQuay.NSeries[1].Name = "=D62";
+
+            // Set the 1st series fill color.
+            leadSourceColumnChiQuay.NSeries[0].Area.ForegroundColor = Color.Orange;
+            leadSourceColumnChiQuay.NSeries[0].Area.Formatting = FormattingType.Custom;
+
+            // Set the 2nd series fill color.
+            leadSourceColumnChiQuay.NSeries[1].Area.ForegroundColor = Color.Green;
+            leadSourceColumnChiQuay.NSeries[1].Area.Formatting = FormattingType.Custom;
+
+
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumnChiQuay.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumnChiQuay.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumnChiQuay.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumnChiQuay.ValueAxis.AxisLine.IsVisible = false;
+            leadSourceColumnChiQuay.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
+
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumnChuyenKhoan;
+            // Chuyển khoản
+            chartIndex = sheetReport.Charts.Add(ChartType.Bar, 41, 0, 56, 7);
+            leadSourceColumnChuyenKhoan = sheetReport.Charts[chartIndex];
+
+            //Chart title
+            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chuyển khoản", text);
+            leadSourceColumnChuyenKhoan.Title.Font.Color = Color.Silver;
+
+            // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
+            totalRowData = string.Format("G63:H{0}", 63 + table.Rows.Count - 2);
+            leadSourceColumnChuyenKhoan.NSeries.Add(totalRowData, true);
+
+            // Set the category data covering the range A2:A5.
+            // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
+            categoryData = "B63:B68";
+            leadSourceColumnChuyenKhoan.NSeries.CategoryData = categoryData;
+
+            // Set the names of the chart series taken from cells.
+            leadSourceColumnChuyenKhoan.NSeries[0].Name = "=C62";
+            leadSourceColumnChuyenKhoan.NSeries[1].Name = "=D62";
+
+            // Set the 1st series fill color.
+            leadSourceColumnChuyenKhoan.NSeries[0].Area.ForegroundColor = Color.Orange;
+            leadSourceColumnChuyenKhoan.NSeries[0].Area.Formatting = FormattingType.Custom;
+
+            // Set the 2nd series fill color.
+            leadSourceColumnChuyenKhoan.NSeries[1].Area.ForegroundColor = Color.Green;
+            leadSourceColumnChuyenKhoan.NSeries[1].Area.Formatting = FormattingType.Custom;
+
+
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumnChuyenKhoan.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumnChuyenKhoan.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumnChuyenKhoan.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumnChuyenKhoan.ValueAxis.AxisLine.IsVisible = false;
+            leadSourceColumnChuyenKhoan.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
+
+            // Tạo chart cột tỉ trọng cho các thị trường
+            //Add Pie Chart
+            //Chart reference
+            Aspose.Cells.Charts.Chart leadSourceColumn;
+            chartIndex = sheetReport.Charts.Add(ChartType.Column3DStacked, 6, 0, 24, 13);
+            leadSourceColumn = sheetReport.Charts[chartIndex];
+
+
+            //Chart title
+            leadSourceColumn.Title.Text = string.Format("Tỉ trọng từng thị trường \n Giai đoạn: {0} \n", text);
+            leadSourceColumn.Title.Font.Color = Color.Silver;
+
+            // count cho 3 loại: chi Quầy, Chi nhà, Chuyển khoản
+            // list thị trường
+
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForAllPercent(year, int.Parse(gradationID), reportTypeID, marketID);
+
+            List<string> listMarketCurrent = new List<string>();
+            foreach (ReportDetailtServiceType item in listDataGradation)
+            {
+                if (!listMarketCurrent.Contains(item.MarketName))
+                {
+                    listMarketCurrent.Add(item.MarketName);
+                }
+            }
+
+            // List dữ liệu dataRow
+            string[] listTotalRowData = new string[listMarketCurrent.Count];
+            int i = 0;
+            foreach (string item in listMarketCurrent)
+            {
+                // Năm trước
+                List<ReportDetailtServiceType> dataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+                List<ReportDetailtServiceType> dataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+
+
+                listTotalRowData[i++] = string.Concat("{"
+                    , string.Format("{0}, {1}, {2}, {3}, {4}, {5}"
+                    , dataItemYear.Sum(x => x.DSChiQuay), dataItemLastYear.Sum(x => x.DSChiQuay)
+                    , dataItemYear.Sum(x => x.DSChiNha), dataItemLastYear.Sum(x => x.DSChiNha)
+                    , dataItemYear.Sum(x => x.DSCK), dataItemLastYear.Sum(x => x.DSCK))
+                    , "}");
+            }
+
+            int count = 0;
+            string yearCurent = string.Format("Năm {0}", year);
+            string lastYear = string.Format("Năm {0}", year - 1);
+            foreach (string item in listTotalRowData)
+            {
+                totalRowData = item;
+                leadSourceColumn.NSeries.Add(totalRowData, true);
+
+                categoryData = string.Concat("{", string.Format("Chi Quầy {0}, Chi Quầy {1}, Chi Nhà {0}, Chi Nhà {1}, Chuyển Khoản {0},  Chuyển Khoản {1}", yearCurent, lastYear), "}");
+                leadSourceColumn.NSeries.CategoryData = categoryData;
+
+                leadSourceColumn.NSeries[count].Name = listMarketCurrent[count];
+
+                switch (count)
+                {
+                    case 0:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Orange;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 1:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Green;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 2:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Blue;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 3:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Yellow;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 4:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Brown;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    case 5:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Olive;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                    default:
+                        leadSourceColumn.NSeries[count].Area.ForegroundColor = Color.Pink;
+                        leadSourceColumn.NSeries[count].Area.Formatting = FormattingType.Custom;
+                        break;
+                }
+                count++;
+            }
+
+            // Set plot area formatting as none and hide its border.
+            leadSourceColumn.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceColumn.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceColumn.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceColumn.ValueAxis.MaxValue = 100;
+            leadSourceColumn.ValueAxis.AxisLine.IsVisible = false;
+            leadSourceColumn.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
             // Chạy process
             designer.Process();
             return ExportReport("ReportGradationCompare", designer);
