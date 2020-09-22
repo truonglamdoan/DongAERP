@@ -30,7 +30,7 @@
         reportTypeID = listData[2];
         marketID = listData[3];
 
-        text = " tháng đầu năm";
+        text = " tháng năm";
         switch (gradation)
         {
             case "1":
@@ -459,7 +459,7 @@
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
-                        columns.Bound("PartnerName").Title("Đối tác")
+                        columns.Bound("PartnerName").Title("")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" });
                         columns.Group(group => group
@@ -608,7 +608,7 @@
                         //columns.Bound("STT").Title("STT")
                         //    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                         //    .HtmlAttributes(new { style = " text-align: center;" });
-                        columns.Bound("PartnerName").Title("Đối tác")
+                        columns.Bound("PartnerName").Title("")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" });
                         columns.Bound("LK1").Title("Lũy kế 3 tháng năm 2020")

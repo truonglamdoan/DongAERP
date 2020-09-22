@@ -1582,7 +1582,94 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchColumnsChartGradationCompareForOneForDSChiQuay([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+            if (marketID.Contains("005"))
+            {
+                List<ReportDetailtServiceType> listDataGradationConvert = new List<ReportDetailtServiceType>();
+                List<string> listMarket = new List<string>();
 
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtServiceType> listDataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemYear.Sum(x => x.TongDS),
+                            Year = year.ToString()
+                        }
+                    );
+
+                    // Last Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemLastYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemLastYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemLastYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemLastYear.Sum(x => x.TongDS),
+                            Year = (year - 1).ToString()
+                        }
+                    );
+                }
+
+                if (listDataGradationConvert.Count > 0)
+                {
+                    listDataGradation = new List<ReportDetailtServiceType>(listDataGradationConvert);
+                }
+            }
+
+            foreach (ReportDetailtServiceType item in listDataGradation)
+            {
+                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
+                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
+
+                // Trường hợp năm trước có đối tác và năm nay không có
+                if (dataItemLastYear != null && dataItemYear == null)
+                {
+                    dataItemYear = new ReportDetailtServiceType();
+                    dataItemYear.PartnerCode = dataItemLastYear.PartnerCode;
+                    dataItemYear.PartnerName = dataItemLastYear.PartnerName;
+                    dataItemYear.DSChiQuay = 0;
+                    dataItemYear.DSChiNha = 0;
+                    dataItemYear.DSCK = 0;
+                    dataItemYear.Year = year.ToString();
+
+                    // Add item thiếu vào
+                    listDataGradation.Add(dataItemYear);
+                }
+
+                // Trường hợp năm trước không có đối tác và năm nay có đối tác
+                if (dataItemYear != null && dataItemLastYear == null)
+                {
+                    dataItemLastYear = new ReportDetailtServiceType();
+                    dataItemLastYear.PartnerCode = dataItemYear.PartnerCode;
+                    dataItemLastYear.PartnerName = dataItemYear.PartnerName;
+                    dataItemLastYear.DSChiQuay = 0;
+                    dataItemLastYear.DSChiNha = 0;
+                    dataItemLastYear.DSCK = 0;
+                    dataItemLastYear.Year = (year - 1).ToString();
+
+                    // Add item thiếu vào
+                    listDataGradation.Add(dataItemLastYear);
+                }
+            }
             // Số record của mảng
             int countArray = 1;
             GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
@@ -1626,7 +1713,94 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchColumnsChartGradationCompareForOneForDSChiNha([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+            if (marketID.Contains("005"))
+            {
+                List<ReportDetailtServiceType> listDataGradationConvert = new List<ReportDetailtServiceType>();
+                List<string> listMarket = new List<string>();
 
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtServiceType> listDataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemYear.Sum(x => x.TongDS),
+                            Year = year.ToString()
+                        }
+                    );
+
+                    // Last Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemLastYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemLastYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemLastYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemLastYear.Sum(x => x.TongDS),
+                            Year = (year - 1).ToString()
+                        }
+                    );
+                }
+
+                if (listDataGradationConvert.Count > 0)
+                {
+                    listDataGradation = new List<ReportDetailtServiceType>(listDataGradationConvert);
+                }
+            }
+
+            foreach (ReportDetailtServiceType item in listDataGradation)
+            {
+                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
+                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
+
+                // Trường hợp năm trước có đối tác và năm nay không có
+                if (dataItemLastYear != null && dataItemYear == null)
+                {
+                    dataItemYear = new ReportDetailtServiceType();
+                    dataItemYear.PartnerCode = dataItemLastYear.PartnerCode;
+                    dataItemYear.PartnerName = dataItemLastYear.PartnerName;
+                    dataItemYear.DSChiQuay = 0;
+                    dataItemYear.DSChiNha = 0;
+                    dataItemYear.DSCK = 0;
+                    dataItemYear.Year = year.ToString();
+
+                    // Add item thiếu vào
+                    listDataGradation.Add(dataItemYear);
+                }
+
+                // Trường hợp năm trước không có đối tác và năm nay có đối tác
+                if (dataItemYear != null && dataItemLastYear == null)
+                {
+                    dataItemLastYear = new ReportDetailtServiceType();
+                    dataItemLastYear.PartnerCode = dataItemYear.PartnerCode;
+                    dataItemLastYear.PartnerName = dataItemYear.PartnerName;
+                    dataItemLastYear.DSChiQuay = 0;
+                    dataItemLastYear.DSChiNha = 0;
+                    dataItemLastYear.DSCK = 0;
+                    dataItemLastYear.Year = (year - 1).ToString();
+
+                    // Add item thiếu vào
+                    listDataGradation.Add(dataItemLastYear);
+                }
+            }
             // Số record của mảng
             int countArray = 1;
             GradationCompare[] arrayGradation = new GradationCompare[countArray * listDataGradation.Count];
@@ -1670,6 +1844,95 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchColumnsChartGradationCompareForOneForDSCK([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
+            // Trường hợp thuộc châu Á
+            if (marketID.Contains("005"))
+            {
+                List<ReportDetailtServiceType> listDataGradationConvert = new List<ReportDetailtServiceType>();
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtServiceType> listDataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemYear.Sum(x => x.TongDS),
+                            Year = year.ToString()
+                        }
+                    );
+
+                    // Last Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemLastYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemLastYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemLastYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemLastYear.Sum(x => x.TongDS),
+                            Year = (year - 1).ToString()
+                        }
+                    );
+                }
+
+                if (listDataGradationConvert.Count > 0)
+                {
+                    listDataGradation = new List<ReportDetailtServiceType>(listDataGradationConvert);
+                }
+            }
+
+            foreach (ReportDetailtServiceType item in listDataGradation)
+            {
+                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
+                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
+
+                // Trường hợp năm trước có đối tác và năm nay không có
+                if (dataItemLastYear != null && dataItemYear == null)
+                {
+                    dataItemYear = new ReportDetailtServiceType();
+                    dataItemYear.PartnerCode = dataItemLastYear.PartnerCode;
+                    dataItemYear.PartnerName = dataItemLastYear.PartnerName;
+                    dataItemYear.DSChiQuay = 0;
+                    dataItemYear.DSChiNha = 0;
+                    dataItemYear.DSCK = 0;
+                    dataItemYear.Year = year.ToString();
+
+                    // Add item thiếu vào
+                    listDataGradation.Add(dataItemYear);
+                }
+
+                // Trường hợp năm trước không có đối tác và năm nay có đối tác
+                if (dataItemYear != null && dataItemLastYear == null)
+                {
+                    dataItemLastYear = new ReportDetailtServiceType();
+                    dataItemLastYear.PartnerCode = dataItemYear.PartnerCode;
+                    dataItemLastYear.PartnerName = dataItemYear.PartnerName;
+                    dataItemLastYear.DSChiQuay = 0;
+                    dataItemLastYear.DSChiNha = 0;
+                    dataItemLastYear.DSCK = 0;
+                    dataItemLastYear.Year = (year - 1).ToString();
+
+                    // Add item thiếu vào
+                    listDataGradation.Add(dataItemLastYear);
+                }
+            }
 
             // Số record của mảng
             int countArray = 1;
@@ -1715,12 +1978,64 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchColumnChartGradationCompareStackForOne([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOne(year, gradation, reportTypeID, marketID);
-            List<ReportDetailtServiceType> listDataGradationClone = new List<ReportDetailtServiceType>(listDataGradation);
 
-            foreach (ReportDetailtServiceType item in listDataGradationClone)
+            if(marketID.Contains("005"))
             {
-                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
-                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
+                List<ReportDetailtServiceType> listDataGradationConvert = new List<ReportDetailtServiceType>();
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtServiceType item in listDataGradation)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtServiceType> listDataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemYear.Sum(x => x.TongDS),
+                            Year = year.ToString()
+                        }
+                    );
+
+                    // Last Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            MarketName = item,
+                            PartnerName = item,
+                            DSChiQuay = listDataItemLastYear.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItemLastYear.Sum(x => x.DSChiNha),
+                            DSCK = listDataItemLastYear.Sum(x => x.DSCK),
+                            TongDS = listDataItemLastYear.Sum(x => x.TongDS),
+                            Year = (year - 1).ToString()
+                        }
+                    );
+                }
+
+                if (listDataGradationConvert.Count > 0)
+                {
+                    listDataGradation = new List<ReportDetailtServiceType>(listDataGradationConvert);
+                }
+            }
+
+            foreach (ReportDetailtServiceType item in listDataGradation)
+            {
+                ReportDetailtServiceType dataItemYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
+                ReportDetailtServiceType dataItemLastYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
 
                 // Trường hợp năm trước có đối tác và năm nay không có
                 if (dataItemLastYear != null && dataItemYear == null)
@@ -2187,8 +2502,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 if (listDataYear != null && listDataLastYear != null && foundRows.Count() == 0)
                 {
-                    double valueYear = Math.Round((listDataYear.TongDS / sumTongDSYear) * 100, 2, MidpointRounding.ToEven);
-                    double valueLastYear = Math.Round((listDataLastYear.TongDS / sumTongDSLastYear) * 100, 2, MidpointRounding.ToEven);
+                    double valueYear = Math.Round(listDataYear.TongDS, 2, MidpointRounding.ToEven);
+                    double valueLastYear = Math.Round(listDataLastYear.TongDS, 2, MidpointRounding.ToEven);
                     table.Rows.Add(count, listDataYear.PartnerName, valueYear, valueLastYear);
                 }
 
