@@ -2612,6 +2612,7 @@
     <Content Include="Areas\Admin\Views\ReportDetailtPartnerLT\ReportDetailtCompareMonthForOne.cshtml" />
     <Content Include="Content\Report\ReportDetailtByMakets.xlsx" />
     <Content Include="Content\Report\ReportDetailtGradationByMakets.xlsx" />
+    <Content Include="Content\Report\ReportDetailtCompareMonthByMakets.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

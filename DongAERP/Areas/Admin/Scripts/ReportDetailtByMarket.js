@@ -301,6 +301,12 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
+            let marketDetailtID = $('#dropdownlistMarket').data('kendoDropDownList').value();
+
+            if (marketID == '005') {
+                marketID = marketDetailtID;
+            }
+
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
@@ -309,53 +315,7 @@ var Report = new function () {
     }
 
     this.CompareMonthForAll = function () {
-
-        //$('ul.search-item .search-grid-comparemonth-forAll').click(function () {
-            
-        //    let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
-        //    let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
-
-        //    let monthYear = kendo.format("Tháng {0}/{1}", month, year);
-        //    let lastYear = kendo.format("Tháng {0}/{1}", month, year - 1);
-        //    let lastMonth = kendo.format("Tháng {0}/{1}", month - 1, year);
-
-
-        //    // grid doanh số
-        //    let urlGridDS = "/Admin/ReportDetailtByMarket/SearchReportDetailtCompareMonthForAll?month=";
-        //    let grid = $("#gridCompareMonthForAll").data("kendoGrid");
-        //    grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-
-        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[1]).find('.k-link').html(monthYear);
-        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[2]).find('.k-link').html(lastMonth);
-        //    $($("#gridCompareMonthForAll thead tr:eq(0) th")[3]).find('.k-link').html(lastYear);
-            
-        //    grid.dataSource.read();
-
-        //    // grid doanh số
-        //    urlGridDS = "/Admin/ReportDetailtByMarket/SearchReportDetailtCompareMonthForAllCompare?month=";
-        //    grid = $("#gridCompareMonthForAllCompare").data("kendoGrid");
-            
-        //    grid.dataSource.transport.options.read.url = urlGridDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-        //    grid.dataSource.read();
-
-        //    // Biểu đồ cột doanh số theo phần trăm
-        //    let chart = $("#ColumnChartStackCompareMonthForAllPercent").data("kendoChart");
-        //    let urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnChartStackCompareMonthForAll?month=";
-        //    chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-        //    chart.options.title.text = kendo.format("Tỉ trọng từng thị trường từng loại dịch vụ \n {0}", monthYear);
-        //    chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-        //    chart.dataSource.read();
-
-        //    // Biểu đồ cột doanh số
-        //    chart = $("#chartGradationCompare").data("kendoChart");
-        //    urlChartDS = "/Admin/ReportDetailtByMarket/SearchColumnsChartCompareMonthForAll?month=";
-        //    chart.dataSource.transport.options.read.url = urlChartDS + month + "&year=" + year + "&reportTypeID=" + valueReportType;
-        //    chart.options.title.text = kendo.format("Doanh số từng thị trường từng loại dịch vụ \n {0}", monthYear);
-        //    chart.options.categoryAxis[1].categories = [lastYear, lastMonth, monthYear];
-        //    chart.dataSource.read();
-            
-        //});
-
+        
         // PrintExcel for report month
         // Trường hợp in Excel cho loại hình dịch vụ so sánh theo giao đoạn có type.
         // Trong đó type = 1: Loại hình dịch vụ so sánh theo giai đoạn
@@ -367,7 +327,7 @@ var Report = new function () {
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
             
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelCompareForAll/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByMarket/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
