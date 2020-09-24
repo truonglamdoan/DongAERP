@@ -301,9 +301,9 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            let marketDetailtID = $('#dropdownlistMarket').data('kendoDropDownList').value();
-
             if (marketID == '005') {
+
+                let marketDetailtID = $('#dropdownlistMarket').data('kendoDropDownList').value();
                 marketID = marketDetailtID;
             }
 
@@ -344,6 +344,12 @@ var Report = new function () {
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+            
+            if (marketID == '005') {
+
+                let marketDetailtID = $('#dropdownlistMarket').data('kendoDropDownList').value();
+                marketID = marketDetailtID;
+            }
 
             window.location = "/ReportExcelDetailtByMarket/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });

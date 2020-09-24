@@ -397,7 +397,7 @@
 
                         );
                     })
-                    .Scrollable(scrollable => scrollable.Height(410))
+                    .Scrollable(scrollable => scrollable.Height("auto"))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -513,7 +513,7 @@
                             })
                         );
                     })
-                    .Scrollable(scrollable => scrollable.Height(410))
+                    .Scrollable(scrollable => scrollable.Height("auto"))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()

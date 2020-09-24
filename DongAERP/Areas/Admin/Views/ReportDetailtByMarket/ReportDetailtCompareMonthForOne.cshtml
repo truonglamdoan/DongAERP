@@ -432,7 +432,7 @@
 
                         );
                     })
-                    .Scrollable(scrollable => scrollable.Height(500))
+                    .Scrollable(scrollable => scrollable.Height("auto"))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -550,7 +550,7 @@
                         );
                     })
 
-                    .Scrollable(scrollable => scrollable.Height(500))
+                    .Scrollable(scrollable => scrollable.Height("auto"))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -767,22 +767,22 @@
                             .Format("{0:n2}%")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" })
-                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0.00')# %</div>")
+                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0.0')# %</div>")
                             .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00')# %</div>");
                         columns.Bound("LK2").Title(lastMonth)
                             .Format("{0:n2}%")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" })
-                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0.00')# %</div>")
+                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0.0')# %</div>")
                             .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00')# %</div>");
                         columns.Bound("LK3").Title(monthLastYear)
                             .Format("{0:n2}%")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" })
-                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0.00')# %</div>")
+                            .ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0.0')# %</div>")
                             .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00')# %</div>");
                     })
-                    .Scrollable(scrollable => scrollable.Height(410))
+                    .Scrollable(scrollable => scrollable.Height("auto"))
                     .DataSource(dataSource => dataSource
                         .Ajax()
                         .ServerOperation(false)
