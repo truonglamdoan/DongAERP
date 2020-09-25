@@ -4458,7 +4458,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            string categoryData = "B63:B68";
+            string categoryData = string.Format("B63:B{0}", totalRowTable1 - 1);
             leadSourceColumnChiQuay.NSeries.CategoryData = categoryData;
 
             // Set the names of the chart series taken from cells.
@@ -4507,7 +4507,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            categoryData = "B63:B68";
+            categoryData = string.Format("B63:B{0}", totalRowTable1 - 1);
             leadSourceColumnChiNha.NSeries.CategoryData = categoryData;
 
             // Set the names of the chart series taken from cells.
@@ -4554,7 +4554,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            categoryData = "B63:B68";
+            categoryData = string.Format("B63:B{0}", totalRowTable1 - 1);
             leadSourceColumnChuyenKhoan.NSeries.CategoryData = categoryData;
 
             // Set the names of the chart series taken from cells.
