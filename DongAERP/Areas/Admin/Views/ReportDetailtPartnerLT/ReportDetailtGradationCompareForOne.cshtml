@@ -154,7 +154,7 @@
 
                         columns.Group(group => group
                             .Title("USD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700; " })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange; " })
                             .Columns(info =>
                             {
                                 info.Bound("USD1").Title(string.Format("{0} {1}", textValue, year)).Format("{0:n2}").Width(200)
@@ -182,7 +182,7 @@
 
                         columns.Group(group => group
                             .Title("CAD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700; " })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange; " })
                             .Columns(info =>
                             {
                                 info.Bound("CAD1").Title(string.Format("{0} {1}", textValue, year)).Format("{0:n2}").Width(200)
@@ -210,7 +210,7 @@
 
                         columns.Group(group => group
                             .Title("GBP")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700; " })
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange; " })
                             .Columns(info =>
                             {
                                 info.Bound("GBP1").Title(string.Format("{0} {1}", textValue, year)).Format("{0:n2}").Width(200)

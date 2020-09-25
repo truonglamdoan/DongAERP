@@ -24,48 +24,10 @@
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DABReportBody").Value(0).HtmlAttributes(new { @name = "reportDate" }).Label("DAB"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
-</div>
-<hr class="sidebar-divider">
 <div style=" display: flex; ">
-    <ul style="width: 30%;position: absolute;display: block;">
-        <span style="float: left;margin-right: 30px;margin-top: 5px;">Từ năm: </span>
-        <span>
-            @(Html.Kendo().DatePicker()
-                                                      .Name("FromYear")
-                                                      .Start(CalendarView.Decade)
-                                                      .Depth(CalendarView.Decade)
-                                                      .Format("yyyy")
-                                                      .Value(DateTime.Today)
-                                                      .DateInput()
-                                                      .HtmlAttributes(new { style = "width: 70%;float: left;", title = "monthpicker" })
-            )
-        </span>
-    </ul>
-    <ul style=" margin-left: 35%; ">
-        <span style="margin-left: 0%;margin-right: 30px;display: inline;">Đến năm: </span>
-        <span style=" display: inline-flex; ">
-            @(Html.Kendo().DatePicker()
-                                                    .Name("ToYear")
-                                                    .Start(CalendarView.Decade)
-                                                    .Depth(CalendarView.Decade)
-                                                    .Format("yyyy")
-                                                    .Value(DateTime.Today)
-                                                    .DateInput()
-                                                      .HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
-            )
-        </span>
-    </ul>
-    @*<ul style="display: inline; " class="search-item">*@
+
     <ul class="search-item" style=" width: 27%;margin-top: 5px; ">
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-year" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
+        @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-year" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-year" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>

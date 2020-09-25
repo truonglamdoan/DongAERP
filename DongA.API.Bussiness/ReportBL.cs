@@ -474,7 +474,12 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportForTotalMoneyType> result = dal.SearchReportForYear(fromDate, toDate, reportTypeID);
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+                List<ReportForTotalMoneyType> result = dal.SearchReportForYear(fromDateRecent, toDateRecent, reportTypeID);
                 return result;
             }
             catch (Exception ex)
@@ -495,7 +500,12 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportForTotalMoneyType> result = dal.SearchReportForYearConvert(fromDate, toDate, reportTypeID);
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+                List<ReportForTotalMoneyType> result = dal.SearchReportForYearConvert(fromDateRecent, toDateRecent, reportTypeID);
                 return result;
             }
             catch (Exception ex)
@@ -714,7 +724,12 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportForTotalPayment> result = dal.SearchReportTPForYear(fromDate, toDate, reportTypeID);
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+                List<ReportForTotalPayment> result = dal.SearchReportTPForYear(fromDateRecent, toDateRecent, reportTypeID);
                 return result;
             }
             catch (Exception ex)
@@ -870,6 +885,7 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
+
                 List<ReportForMaket> result = dal.GetListReportMaketForYear(now, reportTypeID);
                 return result;
             }
@@ -891,7 +907,12 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportForMaket> result = dal.SearchReportMaketForYear(fromDate, toDate, reportTypeID);
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+                List<ReportForMaket> result = dal.SearchReportMaketForYear(fromDateRecent, toDateRecent, reportTypeID);
                 return result;
             }
             catch (Exception ex)
@@ -1566,7 +1587,14 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForTotalMoneyType> result = dal.SearchDataReportDetailtMTForOneConvert(fromDate, toDate, reportTypeID, marketID);
+                // get first day in fromMonth
+                DateTime fromDateRecent = new DateTime(fromDate.Year, fromDate.Month, 1);
+
+                // get last day in toMonth
+                int lastDayInToDate = DateTime.DaysInMonth(toDate.Year, toDate.Month);
+                DateTime toDateRecent = new DateTime(toDate.Year, toDate.Month, lastDayInToDate);
+
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchDataReportDetailtMTForOneConvert(fromDateRecent, toDateRecent, reportTypeID, marketID);
                 return result;
             }
             catch (Exception ex)
@@ -1801,7 +1829,14 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForPartner> result = dal.SearchDataDetailtForOnePartnerForMonth(fromDate, toDate, reportTypeID, partnerID);
+                // get first day in fromMonth
+                DateTime fromDateRecent = new DateTime(fromDate.Year, fromDate.Month, 1);
+
+                // get last day in toMonth
+                int lastDayInToDate = DateTime.DaysInMonth(toDate.Year, toDate.Month);
+                DateTime toDateRecent = new DateTime(toDate.Year, toDate.Month, lastDayInToDate);
+
+                List<ReportDetailtForPartner> result = dal.SearchDataDetailtForOnePartnerForMonth(fromDateRecent, toDateRecent, reportTypeID, partnerID);
                 return result;
             }
             catch (Exception ex)
@@ -1822,7 +1857,12 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportDetailtForPartner> result = dal.SearchDataDetailtForOnePartnerForYear(fromDate, toDate, reportTypeID, partnerID);
+                // get first year
+                DateTime fromDateRecent = new DateTime(fromDate.Year, 1, 1);
+
+                // Ngày cuối năm
+                DateTime toDateRecent = new DateTime(toDate.Year, 12, 31);
+                List<ReportDetailtForPartner> result = dal.SearchDataDetailtForOnePartnerForYear(fromDateRecent, toDateRecent, reportTypeID, partnerID);
                 return result;
             }
             catch (Exception ex)

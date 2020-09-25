@@ -643,6 +643,45 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForOne(fromDay, toDay, reportTypeID, marketID);
 
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in listData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                }
+
+                List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            MarketName = "Thị trường Châu Á",
+                            PartnerName = item,
+                            VND = listDataItem.Sum(x => x.VND),
+                            USD = listDataItem.Sum(x => x.USD),
+                            EUR = listDataItem.Sum(x => x.EUR),
+                            CAD = listDataItem.Sum(x => x.CAD),
+                            AUD = listDataItem.Sum(x => x.AUD),
+                            GBP = listDataItem.Sum(x => x.GBP),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                }
+            }
+            
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
@@ -661,6 +700,44 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchMarketForOneForMonth([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForOneForMonth(fromDate, toDate, reportTypeID, marketID);
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in listData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                }
+
+                List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            MarketName = "Thị trường Châu Á",
+                            PartnerName = item,
+                            VND = listDataItem.Sum(x => x.VND),
+                            USD = listDataItem.Sum(x => x.USD),
+                            EUR = listDataItem.Sum(x => x.EUR),
+                            CAD = listDataItem.Sum(x => x.CAD),
+                            AUD = listDataItem.Sum(x => x.AUD),
+                            GBP = listDataItem.Sum(x => x.GBP),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                }
+            }
 
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
@@ -681,6 +758,45 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForOneForYear(fromDate, toDate, reportTypeID, marketID);
 
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in listData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                }
+
+                List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            MarketName = "Thị trường Châu Á",
+                            PartnerName = item,
+                            VND = listDataItem.Sum(x => x.VND),
+                            USD = listDataItem.Sum(x => x.USD),
+                            EUR = listDataItem.Sum(x => x.EUR),
+                            CAD = listDataItem.Sum(x => x.CAD),
+                            AUD = listDataItem.Sum(x => x.AUD),
+                            GBP = listDataItem.Sum(x => x.GBP),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                }
+            }
+
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
@@ -699,6 +815,45 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchMarketForOneConvert([DataSourceRequest]DataSourceRequest request, DateTime fromDay, DateTime toDay, string reportTypeID, string marketID)
         {
             List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForOneConvert(fromDay, toDay, reportTypeID, marketID);
+
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in listData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                }
+
+                List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            MarketName = "Thị trường Châu Á",
+                            PartnerName = item,
+                            VND = listDataItem.Sum(x => x.VND),
+                            USD = listDataItem.Sum(x => x.USD),
+                            EUR = listDataItem.Sum(x => x.EUR),
+                            CAD = listDataItem.Sum(x => x.CAD),
+                            AUD = listDataItem.Sum(x => x.AUD),
+                            GBP = listDataItem.Sum(x => x.GBP),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                }
+            }
 
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
@@ -719,6 +874,45 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForOneForMonthConvert(fromDate, toDate, reportTypeID, marketID);
 
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in listData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                }
+
+                List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            MarketName = "Thị trường Châu Á",
+                            PartnerName = item,
+                            VND = listDataItem.Sum(x => x.VND),
+                            USD = listDataItem.Sum(x => x.USD),
+                            EUR = listDataItem.Sum(x => x.EUR),
+                            CAD = listDataItem.Sum(x => x.CAD),
+                            AUD = listDataItem.Sum(x => x.AUD),
+                            GBP = listDataItem.Sum(x => x.GBP),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                }
+            }
+
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
@@ -737,6 +931,45 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchMarketForOneForYearConvert([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string marketID)
         {
             List<ReportDetailtForTotalMoneyType> listData = new ReportBL().SearchReportDetailtMTForOneForYearConvert(fromDate, toDate, reportTypeID, marketID);
+
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+
+                foreach (ReportDetailtForTotalMoneyType item in listData)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                }
+
+                List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            MarketName = "Thị trường Châu Á",
+                            PartnerName = item,
+                            VND = listDataItem.Sum(x => x.VND),
+                            USD = listDataItem.Sum(x => x.USD),
+                            EUR = listDataItem.Sum(x => x.EUR),
+                            CAD = listDataItem.Sum(x => x.CAD),
+                            AUD = listDataItem.Sum(x => x.AUD),
+                            GBP = listDataItem.Sum(x => x.GBP),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                }
+            }
 
             foreach (ReportDetailtForTotalMoneyType item in listData)
             {
@@ -1777,6 +2010,63 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<ReportDetailtForTotalMoneyType> listDataGradation = new ReportBL().ReportDetailtMTGradationCompareForOneConvert(year, gradation, reportTypeID, marketID);
 
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+                List<ReportDetailtForTotalMoneyType> listDataGradationConvert = new List<ReportDetailtForTotalMoneyType>();
+
+                foreach(ReportDetailtForTotalMoneyType item in listDataGradation)
+                {
+                    if(!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach(string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtForTotalMoneyType> listDataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerName = item,
+                            MarketName = "Thị trường Châu Á",
+                            VND = listDataItemYear.Sum(x => x.VND),
+                            USD = listDataItemYear.Sum(x => x.USD),
+                            EUR = listDataItemYear.Sum(x => x.EUR),
+                            CAD = listDataItemYear.Sum(x => x.CAD),
+                            AUD = listDataItemYear.Sum(x => x.AUD),
+                            GBP = listDataItemYear.Sum(x => x.GBP),
+                            Year = year.ToString()
+                        }
+                    );
+
+                    // Last Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerName = item,
+                            MarketName = "Thị trường Châu Á",
+                            VND = listDataItemLastYear.Sum(x => x.VND),
+                            USD = listDataItemLastYear.Sum(x => x.USD),
+                            EUR = listDataItemLastYear.Sum(x => x.EUR),
+                            CAD = listDataItemLastYear.Sum(x => x.CAD),
+                            AUD = listDataItemLastYear.Sum(x => x.AUD),
+                            GBP = listDataItemLastYear.Sum(x => x.GBP),
+                            Year = (year - 1).ToString()
+                        }
+                    );
+                }
+
+                if (listDataGradationConvert.Count > 0)
+                {
+                    listDataGradation = new List<ReportDetailtForTotalMoneyType>(listDataGradationConvert);
+                }
+            }
+
             foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
@@ -1814,14 +2104,13 @@ namespace DongAERP.Areas.Admin.Controllers
             {
 
                 // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
+                ReportDetailtForTotalMoneyType dataItemLastYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
+                ReportDetailtForTotalMoneyType dataItemYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
 
                 // Trường hợp năm trước có đối tác và năm nay không có
                 if (dataItemLastYear != null && dataItemYear == null)
                 {
                     dataItemYear = new ReportDetailtForTotalMoneyType();
-                    dataItemYear.PartnerCode = dataItemLastYear.PartnerCode;
                     dataItemYear.PartnerName = dataItemLastYear.PartnerName;
                     dataItemYear.Year = year.ToString();
                 }
@@ -1830,7 +2119,6 @@ namespace DongAERP.Areas.Admin.Controllers
                 if (dataItemYear != null && dataItemLastYear == null)
                 {
                     dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                    dataItemLastYear.PartnerCode = dataItemYear.PartnerCode;
                     dataItemLastYear.PartnerName = dataItemYear.PartnerName;
                     dataItemLastYear.Year = (year - 1).ToString();
                 }
@@ -1866,6 +2154,63 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<ReportDetailtForTotalMoneyType> listDataGradation = new ReportBL().ReportDetailtMTGradationCompareForOneConvert(year, gradation, reportTypeID, marketID);
 
+            if (marketID.Contains("005"))
+            {
+                List<string> listMarket = new List<string>();
+                List<ReportDetailtForTotalMoneyType> listDataGradationConvert = new List<ReportDetailtForTotalMoneyType>();
+
+                foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listMarket)
+                {
+                    List<ReportDetailtForTotalMoneyType> listDataItemYear = listDataGradation.Where(x => x.MarketName == item && x.Year == year.ToString()).ToList();
+                    List<ReportDetailtForTotalMoneyType> listDataItemLastYear = listDataGradation.Where(x => x.MarketName == item && x.Year == (year - 1).ToString()).ToList();
+
+                    // Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerName = item,
+                            MarketName = "Thị trường Châu Á",
+                            VND = listDataItemYear.Sum(x => x.VND),
+                            USD = listDataItemYear.Sum(x => x.USD),
+                            EUR = listDataItemYear.Sum(x => x.EUR),
+                            CAD = listDataItemYear.Sum(x => x.CAD),
+                            AUD = listDataItemYear.Sum(x => x.AUD),
+                            GBP = listDataItemYear.Sum(x => x.GBP),
+                            Year = year.ToString()
+                        }
+                    );
+
+                    // Last Year
+                    listDataGradationConvert.Add(
+                        new ReportDetailtForTotalMoneyType()
+                        {
+                            PartnerName = item,
+                            MarketName = "Thị trường Châu Á",
+                            VND = listDataItemLastYear.Sum(x => x.VND),
+                            USD = listDataItemLastYear.Sum(x => x.USD),
+                            EUR = listDataItemLastYear.Sum(x => x.EUR),
+                            CAD = listDataItemLastYear.Sum(x => x.CAD),
+                            AUD = listDataItemLastYear.Sum(x => x.AUD),
+                            GBP = listDataItemLastYear.Sum(x => x.GBP),
+                            Year = (year - 1).ToString()
+                        }
+                    );
+                }
+
+                if (listDataGradationConvert.Count > 0)
+                {
+                    listDataGradation = new List<ReportDetailtForTotalMoneyType>(listDataGradationConvert);
+                }
+            }
+
             foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
             {
                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
@@ -1889,14 +2234,13 @@ namespace DongAERP.Areas.Admin.Controllers
             {
 
                 // Cùng kì
-                ReportDetailtForTotalMoneyType dataItemLastYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == (year - 1).ToString());
-                ReportDetailtForTotalMoneyType dataItemYear = listDataGradation.Find(x => x.PartnerCode == item.PartnerCode && x.Year == year.ToString());
+                ReportDetailtForTotalMoneyType dataItemLastYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
+                ReportDetailtForTotalMoneyType dataItemYear = listDataGradation.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
 
                 // Trường hợp năm trước có đối tác và năm nay không có
                 if (dataItemLastYear != null && dataItemYear == null)
                 {
                     dataItemYear = new ReportDetailtForTotalMoneyType();
-                    dataItemYear.PartnerCode = dataItemLastYear.PartnerCode;
                     dataItemYear.PartnerName = dataItemLastYear.PartnerName;
                     dataItemYear.Year = year.ToString();
                 }
@@ -1905,7 +2249,6 @@ namespace DongAERP.Areas.Admin.Controllers
                 if (dataItemYear != null && dataItemLastYear == null)
                 {
                     dataItemLastYear = new ReportDetailtForTotalMoneyType();
-                    dataItemLastYear.PartnerCode = dataItemYear.PartnerCode;
                     dataItemLastYear.PartnerName = dataItemYear.PartnerName;
                     dataItemLastYear.Year = (year - 1).ToString();
                 }
@@ -3677,13 +4020,13 @@ namespace DongAERP.Areas.Admin.Controllers
             
             List<string> listTemp = new List<string>();
 
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
+
             if (!marketID.Contains("005"))
             {
-                foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-                {
-                    item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
-                }
-
                 foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
                 {
                     // Cùng kì

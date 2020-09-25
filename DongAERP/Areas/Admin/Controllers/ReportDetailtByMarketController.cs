@@ -182,7 +182,7 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult ReportDetailtGradationCompare(string gradation, int? year, string reportTypeID, string marketID)
         {
             string nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/So Sánh/Giai đoạn - Tất cả";
-            if (marketID.Equals("1"))
+            if (marketID.Contains("1"))
             {
                 nameUrl = "Báo cáo chi tiết/Theo doanh số chi trả/Theo thị trường/Loại hình dịch vụ/So Sánh/Giai đoạn - Thị trường Châu Á";
             }
@@ -624,8 +624,40 @@ namespace DongAERP.Areas.Admin.Controllers
             int count = 1;
             List<string> listDataMarket = new List<string>();
 
-            string marketName = string.Empty;
+            if (marketID.Contains("005"))
+            {
+                List<ReportDetailtServiceType> listDataConvert = new List<ReportDetailtServiceType>();
 
+                foreach (ReportDetailtServiceType item in listData)
+                {
+                    if (!listDataMarket.Contains(item.MarketName))
+                    {
+                        listDataMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listDataMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            PartnerName = item,
+                            MarketName = "Thị trường Châu Á",
+                            DSChiQuay = listDataItem.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItem.Sum(x => x.DSChiNha),
+                            DSCK = listDataItem.Sum(x => x.DSCK),
+                        }
+                    );
+                }
+
+                if(listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtServiceType>(listDataConvert);
+                }
+            }
+            
             foreach (ReportDetailtServiceType item in listData)
             {
 
@@ -659,6 +691,42 @@ namespace DongAERP.Areas.Admin.Controllers
             List<ReportDetailtServiceType> listData = new ReportBL().SearchMarketForOneForMonth(fromDate, toDate, reportTypeID, marketID);
             int count = 1;
 
+            List<string> listDataMarket = new List<string>();
+
+            if (marketID.Contains("005"))
+            {
+                List<ReportDetailtServiceType> listDataConvert = new List<ReportDetailtServiceType>();
+
+                foreach (ReportDetailtServiceType item in listData)
+                {
+                    if (!listDataMarket.Contains(item.MarketName))
+                    {
+                        listDataMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listDataMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            PartnerName = item,
+                            MarketName = "Thị trường Châu Á",
+                            DSChiQuay = listDataItem.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItem.Sum(x => x.DSChiNha),
+                            DSCK = listDataItem.Sum(x => x.DSCK),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtServiceType>(listDataConvert);
+                }
+            }
+
             foreach (ReportDetailtServiceType item in listData)
             {
                 if (string.IsNullOrEmpty(item.MarketName))
@@ -684,6 +752,41 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<ReportDetailtServiceType> listData = new ReportBL().SearchMarketForOneForYear(fromDate, toDate, reportTypeID, marketID);
             int count = 1;
+            List<string> listDataMarket = new List<string>();
+
+            if (marketID.Contains("005"))
+            {
+                List<ReportDetailtServiceType> listDataConvert = new List<ReportDetailtServiceType>();
+
+                foreach (ReportDetailtServiceType item in listData)
+                {
+                    if (!listDataMarket.Contains(item.MarketName))
+                    {
+                        listDataMarket.Add(item.MarketName);
+                    }
+                }
+
+                foreach (string item in listDataMarket)
+                {
+                    List<ReportDetailtServiceType> listDataItem = listData.Where(x => x.MarketName == item).ToList();
+
+                    listDataConvert.Add(
+                        new ReportDetailtServiceType()
+                        {
+                            PartnerName = item,
+                            MarketName = "Thị trường Châu Á",
+                            DSChiQuay = listDataItem.Sum(x => x.DSChiQuay),
+                            DSChiNha = listDataItem.Sum(x => x.DSChiNha),
+                            DSCK = listDataItem.Sum(x => x.DSCK),
+                        }
+                    );
+                }
+
+                if (listDataConvert.Count > 0)
+                {
+                    listData = new List<ReportDetailtServiceType>(listDataConvert);
+                }
+            }
 
             foreach (ReportDetailtServiceType item in listData)
             {

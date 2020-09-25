@@ -508,7 +508,6 @@ var Report = new function () {
     };
 
 
-
     /// Call select item khi chọn item từ thị trường con của thị trường Châu Á
     this.onSelectGradationMarketID = function (e) {
         debugger;
@@ -640,7 +639,128 @@ var Report = new function () {
         }
     };
 
+    /// Call select item khi chọn item từ thị trường con của thị trường Châu Á
+    this.onSelectMarketForOne = function (e) {
+        debugger;
+        let dataItem = null;
+        // Khi chọn dữ liệu từ các thị trường con của Thị trường Châu Á
+        if (e.item) {
 
+            dataItem = e.dataItem;
+        }
+
+        if (dataItem != null) {
+
+            let fromDate = $('#FromDay').data('kendoDatePicker').value();
+            let fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+            let toDate = $('#ToDay').data('kendoDatePicker').value();
+            let toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+            // Tính số ngày chênh lệch
+            let difference_In_Time = toDate.getTime() - fromDate.getTime();
+            let difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+            // Grid hiển thị
+
+            // Chỉ cho phép lấy thời gian trong khoản 30 ngày
+            if ((fromDate.getMonth() == toDate.getMonth() && fromDate.getFullYear() == toDate.getFullYear())
+                // Trường hợp khác tháng cùng năm
+                || (toDate.getMonth() == fromDate.getMonth() + 1 && fromDate.getFullYear() == toDate.getFullYear() && difference_In_Days < 30)
+                // Trường hợp khác năm khác tháng
+                || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
+
+                let grid = $("#gridReportDetailtByOneMarket").data("kendoGrid");
+                let urlGrid = "/Admin/ReportDetailtByMarket/SearchMarketForOne?fromDay=";
+                grid.dataSource.transport.options.read.data = '';
+                grid.dataSource.transport.options.read.url = urlGrid + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+
+                grid.dataSource.read();
+
+            } else {
+                $("<div></div>").kendoAlert({
+                    title: "Cảnh báo!",
+                    content: "Bạn chỉ được phép in báo cáo trong 30 ngày trở lại"
+                }).data("kendoAlert").open();
+            }
+        }
+    };
+
+
+    /// Call select item khi chọn item từ thị trường con của thị trường Châu Á
+    this.onSelectMarketForOneForMonth = function (e) {
+        debugger;
+        let dataItem = null;
+        // Khi chọn dữ liệu từ các thị trường con của Thị trường Châu Á
+        if (e.item) {
+
+            dataItem = e.dataItem;
+        }
+
+        if (dataItem != null) {
+
+            let fromDate = $('#FromMonth').data('kendoDatePicker').value();
+            let fromMonthConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+            let toDate = $('#ToMonth').data('kendoDatePicker').value();
+            let toMonthConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+            // Tính số tháng chênh lệch
+            let difference_In_Time = toDate.getTime() - fromDate.getTime();
+            let difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
+
+            // Chỉ cho phép chọn trong 12 tháng
+            if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
+                || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
+
+                let grid = $("#gridReportDetailtByOneMarketForMonth").data("kendoGrid");
+                let urlGrid = "/Admin/ReportDetailtByMarket/SearchMarketForOneForMonth?fromDate=";
+                grid.dataSource.transport.options.read.data = '';
+                grid.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+
+                grid.dataSource.read();
+
+            } else {
+                $("<div></div>").kendoAlert({
+                    title: "Cảnh báo!",
+                    content: "Bạn chỉ được phép in báo cáo trong 12 tháng trở lại"
+                }).data("kendoAlert").open();
+            }
+        }
+    };
+
+    /// Call select item khi chọn item từ thị trường con của thị trường Châu Á
+    this.onSelectMarketForOneForYear = function (e) {
+        debugger;
+        let dataItem = null;
+        // Khi chọn dữ liệu từ các thị trường con của Thị trường Châu Á
+        if (e.item) {
+
+            dataItem = e.dataItem;
+        }
+
+        if (dataItem != null) {
+
+            let fromYear = $('#FromYear').data('kendoDatePicker').value();
+            let fromYearConvert = kendo.toString(fromYear, "MM/dd/yyyy");
+            let toYear = $('#ToYear').data('kendoDatePicker').value();
+            let toYearConvert = kendo.toString(toYear, "MM/dd/yyyy");
+
+            // Chỉ show dc 5 năm
+            if (toYear.getFullYear() - fromYear.getFullYear() <= 4) {
+
+                let grid = $("#gridReportDetailtByOneMarketForYear").data("kendoGrid");
+                let urlGrid = "/Admin/ReportDetailtByMarket/SearchMarketForOneForYear?fromDate=";
+                grid.dataSource.transport.options.read.data = '';
+                grid.dataSource.transport.options.read.url = urlGrid + fromYearConvert + "&toDate=" + toYearConvert + "&reportTypeID=" + valueReportType + "&marketID=" + dataItem.Value;
+
+                grid.dataSource.read();
+
+            } else {
+                $("<div></div>").kendoAlert({
+                    title: "Cảnh báo!",
+                    content: "Bạn chỉ được phép in báo cáo trong 5 năm trở lại"
+                }).data("kendoAlert").open();
+            }
+        }
+    };
 }
 
 // Loading

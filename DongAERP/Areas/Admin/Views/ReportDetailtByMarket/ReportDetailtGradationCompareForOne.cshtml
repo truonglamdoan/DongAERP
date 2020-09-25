@@ -375,7 +375,7 @@
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
-                        columns.Bound(Model.Columns[0].ColumnName)
+                        columns.Bound(Model.Columns[0].ColumnName).Locked(true).Width(200)
                             .Title("Đối tác")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" });
@@ -384,10 +384,10 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[1].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[1].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[2].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}")
+                                info.Bound(Model.Columns[2].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
                             })
@@ -397,10 +397,10 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[3].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[3].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[4].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}")
+                                info.Bound(Model.Columns[4].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
                             })
@@ -410,10 +410,10 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[5].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[5].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound(Model.Columns[6].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}")
+                                info.Bound(Model.Columns[6].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
                             })
@@ -423,10 +423,10 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
-                                info.Bound(Model.Columns[7].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}")
+                                info.Bound(Model.Columns[7].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                                info.Bound(Model.Columns[8].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}")
+                                info.Bound(Model.Columns[8].ColumnName).Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear))).Format("{0:n2}").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                             })

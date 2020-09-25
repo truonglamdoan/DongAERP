@@ -881,7 +881,7 @@ namespace DongAERP.Areas.Admin.Controllers
             if (listData.Count.Equals(3))
             {
                 // Tổng số cột là 18, 3 cột tổng
-                arrayGradation = new GradationCompare[21];
+                arrayGradation = new GradationCompare[18];
                 int count = 0;
 
                 foreach (ReportForMaket item in listData)
@@ -936,15 +936,6 @@ namespace DongAERP.Areas.Admin.Controllers
                         NameType = "Úc"
                     };
 
-                    count++;
-                    arrayGradation[count] = new GradationCompare()
-                    {
-                        NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
-                        amount = item.TongDS,
-                        NameType = "Tổng"
-                    };
-
-                    // Tăng count lên 1 đơn vị
                     count++;
                 }
             }
