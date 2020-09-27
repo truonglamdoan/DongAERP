@@ -86,7 +86,8 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Theo ngày
                 case 1:
                     listReportData = new ReportBL().SearchReportDetailtMTForAll(fromDate, toDate, reportTypeID, marketID);
-
+                    listReportDataConvertUSD = new ReportBL().SearchReportDetailtMTForAllConvert(fromDate, toDate, reportTypeID, marketID);
+                    
                     if (!string.IsNullOrEmpty(marketID))
                     {
                         if (marketID == "0")
@@ -96,11 +97,21 @@ namespace DongAERP.Areas.Admin.Controllers
                                 item.ReportID = item.MarketName;
                                 item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
                             }
+
+                            // Quy USD
+                            foreach (ReportDetailtForTotalMoneyType item in listReportDataConvertUSD)
+                            {
+                                item.ReportID = item.MarketName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                            }
+
                         }
                         else
                         {
                             List<string> listAsianChild = new List<string>();
+                            List<string> listAsianChildConvertUSD = new List<string>();
                             List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                            List<ReportDetailtForTotalMoneyType> listDataConvertUSD = new List<ReportDetailtForTotalMoneyType>();
 
                             foreach (ReportDetailtForTotalMoneyType item in listReportData)
                             {
@@ -137,6 +148,43 @@ namespace DongAERP.Areas.Admin.Controllers
                             {
                                 listReportData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
                             }
+
+                            // Quy USD
+                            foreach (ReportDetailtForTotalMoneyType item in listReportDataConvertUSD)
+                            {
+                                item.ReportID = item.PartnerName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                                if (!listAsianChildConvertUSD.Contains(item.MarketName))
+                                {
+                                    listAsianChildConvertUSD.Add(item.MarketName);
+                                }
+                            }
+
+                            foreach (string item in listAsianChildConvertUSD)
+                            {
+                                List<ReportDetailtForTotalMoneyType> listDataAsianChild = listReportDataConvertUSD.Where(x => x.MarketName == item).ToList();
+
+                                listDataConvertUSD.Add(
+                                    new ReportDetailtForTotalMoneyType()
+                                    {
+                                        MarketName = "Châu Á",
+                                        ReportID = item,
+                                        VND = listDataAsianChild.Sum(x => x.VND),
+                                        USD = listDataAsianChild.Sum(x => x.USD),
+                                        EUR = listDataAsianChild.Sum(x => x.EUR),
+                                        CAD = listDataAsianChild.Sum(x => x.CAD),
+                                        AUD = listDataAsianChild.Sum(x => x.AUD),
+                                        GBP = listDataAsianChild.Sum(x => x.GBP),
+                                        TongDS = listDataAsianChild.Sum(x => x.TongDS)
+                                    }
+                                );
+                            }
+
+                            if (listDataConvertUSD.Count > 0)
+                            {
+                                listReportDataConvertUSD = new List<ReportDetailtForTotalMoneyType>(listDataConvertUSD);
+                            }
                         }
                     }
 
@@ -147,126 +195,220 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Theo tháng
                 case 2:
 
-                    //listReportData = new ReportBL().SearchMarketForTotalForMonth(fromDate, toDate, reportTypeID, marketID);
+                    listReportData = new ReportBL().SearchReportDetailtMTForAllForMonth(fromDate, toDate, reportTypeID, marketID);
+                    listReportDataConvertUSD = new ReportBL().SearchReportDetailtMTForAllForMonthConvert(fromDate, toDate, reportTypeID, marketID);
 
-                    //if (!string.IsNullOrEmpty(marketID))
-                    //{
-                    //    int count = 1;
-                    //    if (marketID == "0")
-                    //    {
-                    //        foreach (ReportDetailtSTMarket item in listReportData)
-                    //        {
-                    //            item.STT = (count++).ToString();
-                    //            item.ReportID = item.MarketName;
-                    //            item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        List<string> listAsianChild = new List<string>();
-                    //        List<ReportDetailtSTMarket> listDataConvert = new List<ReportDetailtSTMarket>();
+                    if (!string.IsNullOrEmpty(marketID))
+                    {
+                        if (marketID == "0")
+                        {
+                            foreach (ReportDetailtForTotalMoneyType item in listReportData)
+                            {
+                                item.ReportID = item.MarketName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                            }
 
-                    //        foreach (ReportDetailtSTMarket item in listReportData)
-                    //        {
-                    //            item.ReportID = item.PartnerName;
-                    //            item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+                            // Quy USD
+                            foreach (ReportDetailtForTotalMoneyType item in listReportDataConvertUSD)
+                            {
+                                item.ReportID = item.MarketName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                            }
 
-                    //            if (!listAsianChild.Contains(item.MarketName))
-                    //            {
-                    //                listAsianChild.Add(item.MarketName);
-                    //            }
-                    //        }
+                        }
+                        else
+                        {
+                            List<string> listAsianChild = new List<string>();
+                            List<string> listAsianChildConvertUSD = new List<string>();
+                            List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                            List<ReportDetailtForTotalMoneyType> listDataConvertUSD = new List<ReportDetailtForTotalMoneyType>();
 
-                    //        foreach (string item in listAsianChild)
-                    //        {
-                    //            List<ReportDetailtSTMarket> listDataAsianChild = listReportData.Where(x => x.MarketName == item).ToList();
+                            foreach (ReportDetailtForTotalMoneyType item in listReportData)
+                            {
+                                item.ReportID = item.PartnerName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
 
-                    //            listDataConvert.Add(
-                    //                new ReportDetailtSTMarket()
-                    //                {
-                    //                    STT = (count++).ToString(),
-                    //                    MarketName = "Châu Á",
-                    //                    ReportID = item,
-                    //                    DSChiQuay = listDataAsianChild.Sum(x => x.DSChiQuay),
-                    //                    DSChiNha = listDataAsianChild.Sum(x => x.DSChiNha),
-                    //                    DSCK = listDataAsianChild.Sum(x => x.DSCK),
-                    //                    TongDS = listDataAsianChild.Sum(x => x.TongDS),
+                                if (!listAsianChild.Contains(item.MarketName))
+                                {
+                                    listAsianChild.Add(item.MarketName);
+                                }
+                            }
 
-                    //                }
-                    //            );
-                    //        }
+                            foreach (string item in listAsianChild)
+                            {
+                                List<ReportDetailtForTotalMoneyType> listDataAsianChild = listReportData.Where(x => x.MarketName == item).ToList();
 
-                    //        if (listDataConvert.Count > 0)
-                    //        {
-                    //            listReportData = new List<ReportDetailtSTMarket>(listDataConvert);
-                    //        }
-                    //    }
-                    //}
-                    //// Set from day and to day
-                    //sheetReport.Cells["E4"].PutValue(string.Format("{0}/{1}", fromDate.Month, fromDate.Year));
-                    //sheetReport.Cells["H4"].PutValue(string.Format("{0}/{1}", toDate.Month, toDate.Year));
+                                listDataConvert.Add(
+                                    new ReportDetailtForTotalMoneyType()
+                                    {
+                                        MarketName = "Châu Á",
+                                        ReportID = item,
+                                        VND = listDataAsianChild.Sum(x => x.VND),
+                                        USD = listDataAsianChild.Sum(x => x.USD),
+                                        EUR = listDataAsianChild.Sum(x => x.EUR),
+                                        CAD = listDataAsianChild.Sum(x => x.CAD),
+                                        AUD = listDataAsianChild.Sum(x => x.AUD),
+                                        GBP = listDataAsianChild.Sum(x => x.GBP),
+                                        TongDS = listDataAsianChild.Sum(x => x.TongDS)
+                                    }
+                                );
+                            }
+
+                            if (listDataConvert.Count > 0)
+                            {
+                                listReportData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                            }
+
+                            // Quy USD
+                            foreach (ReportDetailtForTotalMoneyType item in listReportDataConvertUSD)
+                            {
+                                item.ReportID = item.PartnerName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                                if (!listAsianChildConvertUSD.Contains(item.MarketName))
+                                {
+                                    listAsianChildConvertUSD.Add(item.MarketName);
+                                }
+                            }
+
+                            foreach (string item in listAsianChildConvertUSD)
+                            {
+                                List<ReportDetailtForTotalMoneyType> listDataAsianChild = listReportDataConvertUSD.Where(x => x.MarketName == item).ToList();
+
+                                listDataConvertUSD.Add(
+                                    new ReportDetailtForTotalMoneyType()
+                                    {
+                                        MarketName = "Châu Á",
+                                        ReportID = item,
+                                        VND = listDataAsianChild.Sum(x => x.VND),
+                                        USD = listDataAsianChild.Sum(x => x.USD),
+                                        EUR = listDataAsianChild.Sum(x => x.EUR),
+                                        CAD = listDataAsianChild.Sum(x => x.CAD),
+                                        AUD = listDataAsianChild.Sum(x => x.AUD),
+                                        GBP = listDataAsianChild.Sum(x => x.GBP),
+                                        TongDS = listDataAsianChild.Sum(x => x.TongDS)
+                                    }
+                                );
+                            }
+
+                            if (listDataConvertUSD.Count > 0)
+                            {
+                                listReportDataConvertUSD = new List<ReportDetailtForTotalMoneyType>(listDataConvertUSD);
+                            }
+                        }
+                    }
+                    // Set from day and to day
+                    sheetReport.Cells["E4"].PutValue(string.Format("{0}/{1}", fromDate.Month, fromDate.Year));
+                    sheetReport.Cells["H4"].PutValue(string.Format("{0}/{1}", toDate.Month, toDate.Year));
                     break;
                 // Theo năm
                 default:
 
-                    //listReportData = new ReportBL().SearchMarketForTotalForYear(fromDate, toDate, reportTypeID, marketID);
+                    listReportData = new ReportBL().SearchReportDetailtMTForAllForYear(fromDate, toDate, reportTypeID, marketID);
+                    listReportDataConvertUSD = new ReportBL().SearchReportDetailtMTForAllForYearConvert(fromDate, toDate, reportTypeID, marketID);
 
-                    //if (!string.IsNullOrEmpty(marketID))
-                    //{
-                    //    int count = 1;
-                    //    if (marketID == "0")
-                    //    {
-                    //        foreach (ReportDetailtSTMarket item in listReportData)
-                    //        {
-                    //            item.STT = (count++).ToString();
-                    //            item.ReportID = item.MarketName;
-                    //            item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        List<string> listAsianChild = new List<string>();
-                    //        List<ReportDetailtSTMarket> listDataConvert = new List<ReportDetailtSTMarket>();
+                    if (!string.IsNullOrEmpty(marketID))
+                    {
+                        if (marketID == "0")
+                        {
+                            foreach (ReportDetailtForTotalMoneyType item in listReportData)
+                            {
+                                item.ReportID = item.MarketName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                            }
 
-                    //        foreach (ReportDetailtSTMarket item in listReportData)
-                    //        {
-                    //            item.ReportID = item.PartnerName;
-                    //            item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+                            // Quy USD
+                            foreach (ReportDetailtForTotalMoneyType item in listReportDataConvertUSD)
+                            {
+                                item.ReportID = item.MarketName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+                            }
 
-                    //            if (!listAsianChild.Contains(item.MarketName))
-                    //            {
-                    //                listAsianChild.Add(item.MarketName);
-                    //            }
-                    //        }
+                        }
+                        else
+                        {
+                            List<string> listAsianChild = new List<string>();
+                            List<string> listAsianChildConvertUSD = new List<string>();
+                            List<ReportDetailtForTotalMoneyType> listDataConvert = new List<ReportDetailtForTotalMoneyType>();
+                            List<ReportDetailtForTotalMoneyType> listDataConvertUSD = new List<ReportDetailtForTotalMoneyType>();
 
-                    //        foreach (string item in listAsianChild)
-                    //        {
-                    //            List<ReportDetailtSTMarket> listDataAsianChild = listReportData.Where(x => x.MarketName == item).ToList();
+                            foreach (ReportDetailtForTotalMoneyType item in listReportData)
+                            {
+                                item.ReportID = item.PartnerName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
 
-                    //            listDataConvert.Add(
-                    //                new ReportDetailtSTMarket()
-                    //                {
-                    //                    STT = (count++).ToString(),
-                    //                    MarketName = "Châu Á",
-                    //                    ReportID = item,
-                    //                    DSChiQuay = listDataAsianChild.Sum(x => x.DSChiQuay),
-                    //                    DSChiNha = listDataAsianChild.Sum(x => x.DSChiNha),
-                    //                    DSCK = listDataAsianChild.Sum(x => x.DSCK),
-                    //                    TongDS = listDataAsianChild.Sum(x => x.TongDS),
+                                if (!listAsianChild.Contains(item.MarketName))
+                                {
+                                    listAsianChild.Add(item.MarketName);
+                                }
+                            }
 
-                    //                }
-                    //            );
-                    //        }
+                            foreach (string item in listAsianChild)
+                            {
+                                List<ReportDetailtForTotalMoneyType> listDataAsianChild = listReportData.Where(x => x.MarketName == item).ToList();
 
-                    //        if (listDataConvert.Count > 0)
-                    //        {
-                    //            listReportData = new List<ReportDetailtSTMarket>(listDataConvert);
-                    //        }
-                    //    }
-                    //}
-                    //// Set from day and to day
-                    //sheetReport.Cells["E4"].PutValue(fromDate.Year.ToString());
-                    //sheetReport.Cells["H4"].PutValue(toDate.Year.ToString());
+                                listDataConvert.Add(
+                                    new ReportDetailtForTotalMoneyType()
+                                    {
+                                        MarketName = "Châu Á",
+                                        ReportID = item,
+                                        VND = listDataAsianChild.Sum(x => x.VND),
+                                        USD = listDataAsianChild.Sum(x => x.USD),
+                                        EUR = listDataAsianChild.Sum(x => x.EUR),
+                                        CAD = listDataAsianChild.Sum(x => x.CAD),
+                                        AUD = listDataAsianChild.Sum(x => x.AUD),
+                                        GBP = listDataAsianChild.Sum(x => x.GBP),
+                                        TongDS = listDataAsianChild.Sum(x => x.TongDS)
+                                    }
+                                );
+                            }
+
+                            if (listDataConvert.Count > 0)
+                            {
+                                listReportData = new List<ReportDetailtForTotalMoneyType>(listDataConvert);
+                            }
+
+                            // Quy USD
+                            foreach (ReportDetailtForTotalMoneyType item in listReportDataConvertUSD)
+                            {
+                                item.ReportID = item.PartnerName;
+                                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+
+                                if (!listAsianChildConvertUSD.Contains(item.MarketName))
+                                {
+                                    listAsianChildConvertUSD.Add(item.MarketName);
+                                }
+                            }
+
+                            foreach (string item in listAsianChildConvertUSD)
+                            {
+                                List<ReportDetailtForTotalMoneyType> listDataAsianChild = listReportDataConvertUSD.Where(x => x.MarketName == item).ToList();
+
+                                listDataConvertUSD.Add(
+                                    new ReportDetailtForTotalMoneyType()
+                                    {
+                                        MarketName = "Châu Á",
+                                        ReportID = item,
+                                        VND = listDataAsianChild.Sum(x => x.VND),
+                                        USD = listDataAsianChild.Sum(x => x.USD),
+                                        EUR = listDataAsianChild.Sum(x => x.EUR),
+                                        CAD = listDataAsianChild.Sum(x => x.CAD),
+                                        AUD = listDataAsianChild.Sum(x => x.AUD),
+                                        GBP = listDataAsianChild.Sum(x => x.GBP),
+                                        TongDS = listDataAsianChild.Sum(x => x.TongDS)
+                                    }
+                                );
+                            }
+
+                            if (listDataConvertUSD.Count > 0)
+                            {
+                                listReportDataConvertUSD = new List<ReportDetailtForTotalMoneyType>(listDataConvertUSD);
+                            }
+                        }
+                    }
+                    // Set from day and to day
+                    sheetReport.Cells["E4"].PutValue(fromDate.Year.ToString());
+                    sheetReport.Cells["H4"].PutValue(toDate.Year.ToString());
                     break;
             }
 
@@ -298,17 +440,32 @@ namespace DongAERP.Areas.Admin.Controllers
                 FillData(dataReport.Tables[0], dataTable);
             }
 
+
+
+            // Tạo cột hearder cho Quy đô
+            string title = "Đơn vị";
+            CreateTitle("G6", "G6", sheetReport, title, 12);
+
+
+            // Tạo cột hearder cho Quy đô
+            title = "Nguyên tệ";
+            CreateTitle("H6", "H6", sheetReport, title, 12);
+
             // Set border
             Style style = new CellsFactory().CreateStyle();
             style.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
             style.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
             style.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+            style.SetBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+
+            int totalRowTable1 = 0;
 
             if (dataTable.Rows.Count > 0)
             {
                 int stepRow = 0;
                 // total row = row start + số row hiện có
                 int totalRow = dataTable.Rows.Count + 7;
+                totalRowTable1 = totalRow;
                 // Số dòng của row
                 for (int a = 7; a < totalRow; a++)
                 {
@@ -362,19 +519,133 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tăng dòng của table lên
                     stepRow++;
                 }
+            }
+            else
+            {
+                sheetReport.Cells["D10"].PutValue("Không có dữ liệu");
+            }
 
-                //// Group 
-                //// Create a cellarea i.e.., B3:C19
-                //CellArea ca = new CellArea();
-                //ca.StartRow = 7;
-                //ca.StartColumn = 2;
-                //ca.EndRow = dataTable.Rows.Count + 7;
-                //ca.EndColumn = 7;
+            // Quy USD
+            dataTable = new DataTable();
 
-                //// Second column (C) in the list
-                //// Group by column index
-                //// số cột được tí từ start column
-                //sheetReport.Cells.Subtotal(ca, 5, ConsolidationFunction.Sum, new int[] { 1,2,3,4 });
+            if (listReportDataConvertUSD.Count > 0)
+            {
+                // Add dòng tổng vào list danh sách
+                ReportDetailtForTotalMoneyType reportForMaket = new ReportDetailtForTotalMoneyType()
+                {
+                    ReportID = "Tổng",
+                    VND = listReportDataConvertUSD.Sum(x => x.VND),
+                    USD = listReportDataConvertUSD.Sum(x => x.USD),
+                    EUR = listReportDataConvertUSD.Sum(x => x.EUR),
+                    CAD = listReportDataConvertUSD.Sum(x => x.CAD),
+                    AUD = listReportDataConvertUSD.Sum(x => x.AUD),
+                    GBP = listReportDataConvertUSD.Sum(x => x.GBP),
+                    TongDS = listReportDataConvertUSD.Sum(x => x.TongDS),
+                };
+                listReportDataConvertUSD.Add(reportForMaket);
+
+                // Tạo các col cho table
+                dataTable = CreateDataTableFormart(true);
+
+                // Danh sách dataSet của báo cáo ngày
+                DataSet dataReport = ConvertListObjectToDataSet(listReportDataConvertUSD);
+
+                // Đổ data vào datatble mới
+                FillData(dataReport.Tables[0], dataTable, true);
+            }
+
+            // Tạo cột hearder cho Quy đô
+            title = "Thị trường";
+            CreateTitle(string.Format("B{0}", totalRowTable1 + 4), string.Format("B{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            title = "VND";
+            CreateTitle(string.Format("C{0}", totalRowTable1 + 4), string.Format("C{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            title = "USD";
+            CreateTitle(string.Format("D{0}", totalRowTable1 + 4), string.Format("D{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            title = "EUR";
+            CreateTitle(string.Format("E{0}", totalRowTable1 + 4), string.Format("E{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            title = "CAD";
+            CreateTitle(string.Format("F{0}", totalRowTable1 + 4), string.Format("F{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            title = "AUD";
+            CreateTitle(string.Format("G{0}", totalRowTable1 + 4), string.Format("G{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            title = "GBP";
+            CreateTitle(string.Format("H{0}", totalRowTable1 + 4), string.Format("H{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            title = "Tổng";
+            CreateTitle(string.Format("I{0}", totalRowTable1 + 4), string.Format("I{0}", totalRowTable1 + 4), sheetReport, title, 12, true);
+
+            // Tạo cột hearder cho Quy đô
+            title = "Đơn vị";
+            CreateTitle(string.Format("H{0}", totalRowTable1 + 3), string.Format("H{0}", totalRowTable1 + 3), sheetReport, title, 12);
+
+
+            // Tạo cột hearder cho Quy đô
+            title = "Quy USD";
+            CreateTitle(string.Format("I{0}", totalRowTable1 + 3), string.Format("I{0}", totalRowTable1 + 3), sheetReport, title, 12);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                int stepRow = 0;
+                // total row = row start + số row hiện có
+                int totalRow = dataTable.Rows.Count + 4 + totalRowTable1;
+                // Số dòng của row
+                for (int a = totalRowTable1 + 4; a < totalRow; a++)
+                {
+                    int stepColumn = 0;
+                    // Số cột trong báo cáo cần hiển thị
+                    // Tổng số cột hiển thị = Số cột hiển thị bắt đầu + tổng số cột cần hiển thị
+                    // Số 6 là cột marketName
+                    int totalCol = 1 + 8;
+                    for (int b = 1; b < totalCol; b++)
+                    {
+                        // Giá trị của value trong table
+                        string valueOfTable = dataTable.Rows[stepRow][stepColumn].ToString();
+
+                        // Insert vào dòng cột xác định trong Excel
+                        sheetReport.Cells[a, b].PutValue(valueOfTable, true);
+
+                        // set style cho number
+                        if (b == 1)
+                        {
+                            style.Custom = "";
+                        }
+                        else
+                        {
+                            style.Custom = "#,##0.00";
+                        }
+
+                        // set border
+                        sheetReport.Cells[a, b].SetStyle(style);
+
+                        // Cột tổng cộng
+                        if (b.Equals(totalCol - 1))
+                        {
+                            sheetReport.Cells[a, b].PutValue(valueOfTable, true, true);
+                            style.Font.IsBold = true;
+                            sheetReport.Cells[a, b].SetStyle(style);
+                        }
+
+                        // Trường hợp thuộc dòng cuối Tổng
+                        if (a.Equals(totalRow - 1))
+                        {
+                            sheetReport.Cells[a, b].PutValue(valueOfTable, true, true);
+                            style.Font.IsBold = true;
+                            sheetReport.Cells[a, b].SetStyle(style);
+                        }
+
+                        // Set lại giá trị mặt định
+                        style.Font.IsBold = false;
+                        // Tăng cột theo dòng của table
+                        stepColumn++;
+                    }
+                    // Tăng dòng của table lên
+                    stepRow++;
+                }
             }
             else
             {

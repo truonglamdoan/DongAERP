@@ -113,7 +113,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByPartner/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -153,7 +153,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByPartner/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             }
         });
     }
@@ -193,7 +193,7 @@ var Report = new function () {
                 // Trường hợp khác năm khác tháng
                 || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByPartner/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -232,7 +232,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByPartner/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -272,7 +272,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportExcelDetailtByPartner/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             }
         });
     }
@@ -286,7 +286,7 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByPartner/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -310,7 +310,7 @@ var Report = new function () {
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByPartner/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -327,7 +327,7 @@ var Report = new function () {
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByPartner/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -351,7 +351,7 @@ var Report = new function () {
                 marketID = marketDetailtID;
             }
 
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportExcelDetailtByPartner/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
