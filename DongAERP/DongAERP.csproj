@@ -178,6 +178,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportDetailtPartnerLTController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelCompareController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelDetailtByMarketController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportExcelDetailtByPartnerController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalMoneyTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalPaymentController.cs" />
@@ -2613,6 +2614,7 @@
     <Content Include="Content\Report\ReportDetailtByMakets.xlsx" />
     <Content Include="Content\Report\ReportDetailtGradationByMakets.xlsx" />
     <Content Include="Content\Report\ReportDetailtCompareMonthByMakets.xlsx" />
+    <Content Include="Content\Report\ReportDetailtByPartner.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4749,6 +4751,7 @@
     <Folder Include="Areas\Admin\Views\ReportDetailtExcelForMarket\" />
     <Folder Include="Areas\Admin\Views\ReportDetailtForOneMarket\" />
     <Folder Include="Areas\Admin\Views\ReportExcelDetailtByMarket\" />
+    <Folder Include="Areas\Admin\Views\ReportExcelDetailtByPartner\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
