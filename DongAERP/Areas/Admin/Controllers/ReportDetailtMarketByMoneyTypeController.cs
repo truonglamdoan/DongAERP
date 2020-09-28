@@ -989,7 +989,6 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchGridReportForGradation([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtForTotalMoneyType> listDataGradation = new ReportBL().ReportDetailtMTGradationCompareForAllConvert(year, gradation, reportTypeID, marketID);
-            List<ReportDetailtForTotalMoneyType> listDataGradationConvert = new List<ReportDetailtForTotalMoneyType>();
 
             // Khởi tạo datatable
             DataTable table = new DataTable();
