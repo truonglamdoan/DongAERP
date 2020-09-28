@@ -2960,8 +2960,10 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            string categoryData = "A83:A88";
+            string categoryData = "A83:A89";
             leadSourceColumnVND.NSeries.CategoryData = categoryData;
+            // In nghiên cho title
+            leadSourceColumnVND.CategoryAxis.TickLabels.RotationAngle = 15;
 
             // Set the names of the chart series taken from cells.
             leadSourceColumnVND.NSeries[0].Name = "=B82";
@@ -3004,8 +3006,11 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            categoryData = "A83:A88";
+            categoryData = "A83:A89";
             leadSourceColumnUSD.NSeries.CategoryData = categoryData;
+            
+            // In nghiên cho title
+            leadSourceColumnUSD.CategoryAxis.TickLabels.RotationAngle = 15;
 
             // Set the names of the chart series taken from cells.
             leadSourceColumnUSD.NSeries[0].Name = "=B82";
@@ -3048,8 +3053,11 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            categoryData = "A83:A88";
+            categoryData = "A83:A89";
             leadSourceColumnEUR.NSeries.CategoryData = categoryData;
+
+            // In nghiên cho title
+            leadSourceColumnEUR.CategoryAxis.TickLabels.RotationAngle = 15;
 
             // Set the names of the chart series taken from cells.
             leadSourceColumnEUR.NSeries[0].Name = "=B82";
@@ -3092,8 +3100,11 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            categoryData = "A83:A88";
+            categoryData = "A83:A89";
             leadSourceColumnCAD.NSeries.CategoryData = categoryData;
+
+            // In nghiên cho title
+            leadSourceColumnCAD.CategoryAxis.TickLabels.RotationAngle = 15;
 
             // Set the names of the chart series taken from cells.
             leadSourceColumnCAD.NSeries[0].Name = "=B82";
@@ -3136,8 +3147,11 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            categoryData = "A83:A88";
+            categoryData = "A83:A89";
             leadSourceColumnAUD.NSeries.CategoryData = categoryData;
+
+            // In nghiên cho title
+            leadSourceColumnAUD.CategoryAxis.TickLabels.RotationAngle = 15;
 
             // Set the names of the chart series taken from cells.
             leadSourceColumnAUD.NSeries[0].Name = "=B82";
@@ -3180,8 +3194,11 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the category data covering the range A2:A5.
             // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            categoryData = "A83:A88";
+            categoryData = "A83:A89";
             leadSourceColumnGBP.NSeries.CategoryData = categoryData;
+
+            // In nghiên cho title
+            leadSourceColumnGBP.CategoryAxis.TickLabels.RotationAngle = 15;
 
             // Set the names of the chart series taken from cells.
             leadSourceColumnGBP.NSeries[0].Name = "=B82";
