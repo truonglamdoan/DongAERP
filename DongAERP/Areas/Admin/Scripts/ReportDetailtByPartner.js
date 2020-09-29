@@ -74,7 +74,7 @@ var Report = new function () {
                 // Trường hợp khác năm khác tháng
                 || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
 
-                window.location = "/ReportDetailtExcelForPartner/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType;
+                window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -107,7 +107,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportDetailtExcelForPartner/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType;
+                window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -144,7 +144,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportDetailtExcelForPartner/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType;
+                window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType;
             }
         });
     }
@@ -181,7 +181,7 @@ var Report = new function () {
                 // Trường hợp khác năm khác tháng
                 || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
 
-                window.location = "/ReportDetailtExcelForPartner/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+                window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -220,7 +220,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportDetailtExcelForPartner/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+                window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -260,7 +260,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportDetailtExcelForPartner/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+                window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
             }
         });
     }
@@ -272,7 +272,7 @@ var Report = new function () {
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            window.location = "/ReportDetailtExcelForPartner/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType;
+            window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType;
         });
     }
 
@@ -285,18 +285,12 @@ var Report = new function () {
         $('ul.search-item .print-excel-gradation-ForOne').click(function () {
 
             // Get mã thị trường
-            let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
-
-            if (marketID == '005') {
-
-                let marketDetailtID = $('#dropdownlistMarket').data('kendoDropDownList').value();
-                marketID = marketDetailtID;
-            }
-
+            let partnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
+            
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            window.location = "/ReportExcelDetailtByPartner/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
         });
     }
 

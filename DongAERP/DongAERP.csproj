@@ -173,7 +173,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtByMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtExcelForMarketController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ReportDetailtExcelForPartnerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportDetailtExcelForPartnerLHController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtMarketByMoneyTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtPartnerController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtPartnerLTController.cs" />

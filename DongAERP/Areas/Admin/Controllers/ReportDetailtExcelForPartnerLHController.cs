@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace DongAERP.Areas.Admin.Controllers
 {
-    public class ReportDetailtExcelForPartnerController : Controller
+    public class ReportDetailtExcelForPartnerLHController : Controller
     {
         /// <summary>
         /// Content Type - Excel 2007 trở lên
@@ -814,10 +814,10 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <param name="year"></param>
         /// <param name="typeID"></param>
         /// <returns></returns>
-        public ActionResult CreateExcelGradationCompareForOne(string gradationID, int year, string reportTypeID, string marketID)
+        public ActionResult CreateExcelGradationCompareForOne(string gradationID, int year, string reportTypeID, string partnerID)
         {
             WorkbookDesigner designer = new WorkbookDesigner();
-            string templatePath = "~/Content/Report/ReportDetailtGradationByMakets.xlsx";
+            string templatePath = "~/Content/Report/ReportDetailtByPartnerLHForOne.xlsx";
             // Get đường dẫn
             templatePath = System.Web.HttpContext.Current.Server.MapPath(templatePath);
 
@@ -828,7 +828,7 @@ namespace DongAERP.Areas.Admin.Controllers
             Worksheet sheetReport = designer.Workbook.Worksheets[0];
 
             // Tạo title
-            string typeReport = "So sánh - Theo giai đoạn - Tất cả";
+            string typeReport = "So sánh - Theo giai đoạn - Từng thị trường";
 
             string text = string.Format(" tháng năm {0}", year);
             switch (gradationID)
@@ -854,12 +854,12 @@ namespace DongAERP.Areas.Admin.Controllers
             string titleDetailt = string.Format("Giai đoạn: {0}", text);
             CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
 
-            List<ReportDetailtServiceType> listReportData = new ReportBL().ReportDetailtGradationCompareForOne(year, int.Parse(gradationID), reportTypeID, marketID);
+            List<ReportDetailtServiceType> listReportData = new ReportBL().ReportDetailtGradationCompareForOne(year, int.Parse(gradationID), reportTypeID, partnerID);
 
             List<string> listMarket = new List<string>();
 
             // Trường hợp tất cả thị trường
-            if (marketID.Equals("005"))
+            if (partnerID.Equals("005"))
             {
                 // List data
                 List<ReportDetailtServiceType> listReportDataConvert = new List<ReportDetailtServiceType>();
@@ -916,86 +916,13 @@ namespace DongAERP.Areas.Admin.Controllers
             // Khởi tạo datatable
             DataTable table = new DataTable();
             // Tạo các cột cho datatable
-            table.Columns.Add("PartnerName", typeof(String));
+            table.Columns.Add("STT", typeof(String));
 
             table.Columns.Add("CQ1", typeof(double));
-            table.Columns.Add("CQ2", typeof(double));
-
             table.Columns.Add("CN1", typeof(double));
-            table.Columns.Add("CN2", typeof(double));
-
             table.Columns.Add("CK1", typeof(double));
-            table.Columns.Add("CK2", typeof(double));
-
             table.Columns.Add("TDS1", typeof(double));
-            table.Columns.Add("TDS2", typeof(double));
-
-            table.Columns.Add("MarketName", typeof(String));
-
-            if (marketID.Equals("005"))
-            {
-                foreach (ReportDetailtServiceType item in listReportData)
-                {
-                    item.PartnerName = item.MarketName;
-                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-                    item.MarketName = "Thị trường Châu Á";
-                }
-            }
-            else
-            {
-                foreach (ReportDetailtServiceType item in listReportData)
-                {
-                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-                }
-            }
-
-            string reportID = string.Empty;
-
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
-            foreach (ReportDetailtServiceType item in listReportData)
-            {
-                // Cùng kì
-                ReportDetailtServiceType dataItemLastYear = listReportData.Find(x => x.PartnerName == item.PartnerName && x.Year == (year - 1).ToString());
-                ReportDetailtServiceType dataItemYear = listReportData.Find(x => x.PartnerName == item.PartnerName && x.Year == year.ToString());
-
-                // Trường hợp năm trước có đối tác và năm nay không có
-                if (dataItemLastYear != null && dataItemYear == null)
-                {
-                    dataItemYear = new ReportDetailtServiceType();
-                    dataItemYear.PartnerName = dataItemLastYear.PartnerName;
-                    dataItemYear.MarketName = dataItemLastYear.MarketName;
-                    dataItemYear.DSChiQuay = 0;
-                    dataItemYear.DSChiNha = 0;
-                    dataItemYear.DSCK = 0;
-                    dataItemYear.Year = year.ToString();
-                }
-
-                // Trường hợp năm trước không có đối tác và năm nay có đối tác
-                if (dataItemYear != null && dataItemLastYear == null)
-                {
-                    dataItemLastYear = new ReportDetailtServiceType();
-                    dataItemLastYear.PartnerName = dataItemYear.PartnerName;
-                    dataItemLastYear.MarketName = dataItemYear.MarketName;
-                    dataItemLastYear.DSChiQuay = 0;
-                    dataItemLastYear.DSChiNha = 0;
-                    dataItemLastYear.DSCK = 0;
-                    dataItemLastYear.Year = (year - 1).ToString();
-                }
-
-                // Check tồn tại của item
-                string value = string.Format("PartnerName='{0}'", item.PartnerName);
-                DataRow[] foundRows = table.Select(value);
-                if (dataItemLastYear != null && dataItemYear != null && foundRows.Count() == 0)
-                {
-                    // add item vào table
-                    table.Rows.Add(dataItemLastYear.PartnerName
-                        , dataItemLastYear.DSChiQuay, dataItemYear.DSChiQuay
-                        , dataItemLastYear.DSChiNha, dataItemYear.DSChiNha
-                        , dataItemLastYear.DSCK, dataItemYear.DSCK
-                        , dataItemLastYear.TongDS, dataItemYear.TongDS
-                        , dataItemLastYear.MarketName);
-                }
-            }
+            
 
             DataRow row = table.NewRow();
             row["PartnerName"] = "Tổng";
@@ -1163,7 +1090,7 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo title hearder cho table tăng giảm
             // Title cho thị trường
             string title = "Đối tác";
-            if (marketID.Contains("005"))
+            if (partnerID.Contains("005"))
             {
                 title = "Thị trường";
             }
@@ -1501,7 +1428,7 @@ namespace DongAERP.Areas.Admin.Controllers
             CreateTitle(string.Format("B{0}", totalRowTable2 + 25), string.Format("B{0}", totalRowTable2 + 25), sheetReport, title, 12, true);
 
             title = "Đối tác";
-            if (marketID.Contains("005"))
+            if (partnerID.Contains("005"))
             {
                 title = "Thị trường";
             }
@@ -1514,9 +1441,9 @@ namespace DongAERP.Areas.Admin.Controllers
             CreateTitle(string.Format("E{0}", totalRowTable2 + 25), string.Format("E{0}", totalRowTable2 + 25), sheetReport, title, 12, true);
 
             // Tạo bảng cho tỉ trọng theo phần trăm của Loại hình dịch vụ
-            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOnePercent(year, int.Parse(gradationID), reportTypeID, marketID);
+            List<ReportDetailtServiceType> listDataGradation = new ReportBL().ReportDetailtGradationCompareForOnePercent(year, int.Parse(gradationID), reportTypeID, partnerID);
 
-            if (marketID.Contains("005"))
+            if (partnerID.Contains("005"))
             {
                 List<ReportDetailtServiceType> listDataGradationConvert = new List<ReportDetailtServiceType>();
                 listMarket = new List<string>();
