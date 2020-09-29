@@ -173,6 +173,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtByMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtExcelForMarketController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportDetailtExcelForPartnerController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtMarketByMoneyTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtPartnerController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportDetailtPartnerLTController.cs" />
@@ -2616,6 +2617,10 @@
     <Content Include="Content\Report\ReportDetailtCompareMonthByMakets.xlsx" />
     <Content Include="Content\Report\ReportDetailtByPartner.xlsx" />
     <Content Include="Content\Report\ReportDetailPartnerForGaration.xlsx" />
+    <Content Include="Content\Report\ReportDetailPartnerCompareForMonth.xlsx" />
+    <Content Include="Content\Report\ReportDetailtByPartnerLH.xlsx" />
+    <Content Include="Content\Report\ReportDetailtByPartnerLHForOne.xlsx" />
+    <Content Include="Content\Report\ReportDetailtByPartnerLHForGradationCompare.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4750,6 +4755,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\ReportDetailtExcelForMarket\" />
+    <Folder Include="Areas\Admin\Views\ReportDetailtExcelForPartner\" />
     <Folder Include="Areas\Admin\Views\ReportDetailtForOneMarket\" />
     <Folder Include="Areas\Admin\Views\ReportExcelDetailtByMarket\" />
     <Folder Include="Areas\Admin\Views\ReportExcelDetailtByPartner\" />

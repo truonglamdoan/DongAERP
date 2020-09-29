@@ -65,7 +65,7 @@
 }
 
 <script src="~/Areas/Admin/Scripts/ReportDetailtMarketByMoneyType.js"></script>
-<h1 class="h3 mb-4 text-gray-800">Chi tiết- So sánh - Từng thị trường</h1>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- So sánh - Từng Thị trường</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
@@ -111,7 +111,7 @@
                 })
                 .Events(e =>
                 {
-                    e.Select("Report.onSelectMarketID");
+                    e.Select("Report.onCompareForMonthSelectMarketID");
                 })
             )
         }
@@ -126,13 +126,13 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (VND)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng Thị trường (VND)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartColumnsChartCompareMonthForOneVND")
-                        .Title(string.Format("Doanh số đối tác theo loại tiền - VND \n thị trường {0}", marketName))
+                        .Title(string.Format("Doanh số đối tác theo loại tiền - VND \n Thị trường {0}", marketName))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
@@ -180,13 +180,13 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng Thị trường (USD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartColumnsChartCompareMonthForOneUSD")
-                        .Title(string.Format("Doanh số đối tác theo loại tiền - USD \n thị trường {0}", marketName))
+                        .Title(string.Format("Doanh số đối tác theo loại tiền - USD \n Thị trường {0}", marketName))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
@@ -234,13 +234,13 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (EUR)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng Thị trường (EUR)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartColumnsChartCompareMonthForOneEUR")
-                        .Title(string.Format("Doanh số đối tác theo loại tiền - EUR \n thị trường {0}", marketName))
+                        .Title(string.Format("Doanh số đối tác theo loại tiền - EUR \n Thị trường {0}", marketName))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
@@ -288,13 +288,13 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (CAD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng Thị trường (CAD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartColumnsChartCompareMonthForOneCAD")
-                        .Title(string.Format("Doanh số đối tác theo loại tiền - CAD \n thị trường {0}", marketName))
+                        .Title(string.Format("Doanh số đối tác theo loại tiền - CAD \n Thị trường {0}", marketName))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
@@ -342,13 +342,13 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (AUD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng Thị trường (AUD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartColumnsChartCompareMonthForOneAUD")
-                        .Title(string.Format("Doanh số đối tác theo loại tiền - AUD \n thị trường {0}", marketName))
+                        .Title(string.Format("Doanh số đối tác theo loại tiền - AUD \n Thị trường {0}", marketName))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
@@ -396,13 +396,13 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường (GBP)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng Thị trường (GBP)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartColumnsChartCompareMonthForOneGBP")
-                        .Title(string.Format("Doanh số đối tác theo loại tiền - GBP \n thị trường {0}", marketName))
+                        .Title(string.Format("Doanh số đối tác theo loại tiền - GBP \n Thị trường {0}", marketName))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
@@ -448,13 +448,13 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số các đối tác trong một thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số các đối tác trong một Thị trường (USD)</h6>
             </div>
             <div class="card-body">
                 <div id="chart"></div>
                 @(Html.Kendo().Chart<DongA.Entities.GradationCharColumn>()
                     .Name("chartColumnChartCompareMonthStackForOne")
-                        .Title(string.Format("Doanh số đối tác theo loại tiền \n thị trường {0}", marketName))
+                        .Title(string.Format("Doanh số đối tác theo loại tiền \n Thị trường {0}", marketName))
                     .Legend(legend => legend
                         .Position(ChartLegendPosition.Top)
                     //.Orientation(ChartLegendOrientation.Horizontal)
@@ -487,7 +487,7 @@
                         series.Bar(model => model.Valor1)
                                 .Name("#= group.value #");
                     })
-                    .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#F5A9F2", "#D0FA58", "#F5DA81", "#F5BCA9", "#FA5882")
+                    //.SeriesColors("#FFBF00", "#40FF00", "#2ECCFA", "#9A2EFE", "#FE2EF7", "#0000FF", "#F5A9F2", "#D0FA58", "#F5DA81", "#F5BCA9", "#FA5882")
                     .CategoryAxis(axis => axis
                         .Categories(categories => categories.Serie)
                         .MajorGridLines(lines => lines.Visible(false))
@@ -523,7 +523,7 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Doanh số đối tác theo từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Doanh số đối tác theo từng Thị trường (USD)</h6>
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<dynamic>()
@@ -748,7 +748,7 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Tăng giảm so với tháng trước và cùng kì theo từng thị trường (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Tăng giảm so với tháng trước và cùng kì theo từng Thị trường (USD)</h6>
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<dynamic>()
@@ -983,7 +983,7 @@
     // In đậm cho Grid
     function onDataBoundCompareMonthForOne(arg) {
 
-        @*// Xóa dòng tổng với trường hợp chỉ có 1 thị trường
+        @*// Xóa dòng tổng với trường hợp chỉ có 1 Thị trường
         if ('@marketID' != '005') {
 
             $('#gridCompareMonthForOne tr.k-group-footer').css('display', 'none');

@@ -4716,6 +4716,90 @@ namespace DongAERP.Areas.Admin.Controllers
             }
             else
             {
+                foreach(ReportDetailtForTotalMoneyType item in listDataCommpareMonthClone)
+                {
+                    ReportDetailtForTotalMoneyType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == (year - 1).ToString());
+                    ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == year.ToString());
+                    ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == (month - 1).ToString() && x.Year == year.ToString());
+
+                    // Tháng hiện tại
+                    if (dataItemYear == null)
+                    {
+                        listDataCompareMonth.Add(
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                PartnerName = item.PartnerName,
+                                Month = month.ToString(),
+                                Year = year.ToString(),
+                                VND = item.VND,
+                                USD = item.USD,
+                                EUR = item.EUR,
+                                CAD = item.CAD,
+                                AUD = item.AUD,
+                                GBP = item.GBP,
+                            }
+                        );
+                    }
+
+                    // Tháng trước
+                    if (dataItemLastMonth == null)
+                    {
+                        if (month == 1)
+                        {
+                            listDataCompareMonth.Add(
+                                new ReportDetailtForTotalMoneyType()
+                                {
+                                    PartnerName = item.PartnerName,
+                                    Month = "12",
+                                    Year = (year - 1).ToString(),
+                                    VND = item.VND,
+                                    USD = item.USD,
+                                    EUR = item.EUR,
+                                    CAD = item.CAD,
+                                    AUD = item.AUD,
+                                    GBP = item.GBP,
+                                }
+                            );
+                        }
+                        else
+                        {
+                            listDataCompareMonth.Add(
+                                new ReportDetailtForTotalMoneyType()
+                                {
+                                    PartnerName = item.PartnerName,
+                                    Month = (month - 1).ToString(),
+                                    Year = year.ToString(),
+                                    VND = item.VND,
+                                    USD = item.USD,
+                                    EUR = item.EUR,
+                                    CAD = item.CAD,
+                                    AUD = item.AUD,
+                                    GBP = item.GBP,
+                                }
+                            );
+                        }
+                    }
+
+                    // Cùng kì
+                    if (dataItemLastYear == null)
+                    {
+                        listDataCompareMonth.Add(
+                            new ReportDetailtForTotalMoneyType()
+                            {
+                                PartnerName = item.PartnerName,
+                                Month = month.ToString(),
+                                Year = (year - 1).ToString(),
+                                VND = item.VND,
+                                USD = item.USD,
+                                EUR = item.EUR,
+                                CAD = item.CAD,
+                                AUD = item.AUD,
+                                GBP = item.GBP,
+                            }
+                        );
+                    }
+                }
+                
                 listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>(listDataCompareMonth);
             }
             
