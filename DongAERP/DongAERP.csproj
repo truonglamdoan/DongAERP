@@ -2621,6 +2621,7 @@
     <Content Include="Content\Report\ReportDetailtByPartnerLH.xlsx" />
     <Content Include="Content\Report\ReportDetailtByPartnerLHForOne.xlsx" />
     <Content Include="Content\Report\ReportDetailtByPartnerLHForGradationCompare.xlsx" />
+    <Content Include="Content\Report\ReportDetailtByPartnerLHGradationForOne.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

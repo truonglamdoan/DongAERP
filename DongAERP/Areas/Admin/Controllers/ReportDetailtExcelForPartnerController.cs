@@ -854,22 +854,6 @@ namespace DongAERP.Areas.Admin.Controllers
             string titleDetailt = string.Format("Giai đoạn: {0}", text);
             CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
 
-            titleDetailt = "1. Theo doanh số chi trả theo thị trường - loại hình chi trả";
-            CreateTitle("B6", "E6", sheetReport, titleDetailt, 12);
-
-            // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
-            sheetReport.Cells["C62"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["D62"].PutValue(string.Format("Năm {0} ", year));
-
-            sheetReport.Cells["E62"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["F62"].PutValue(string.Format("Năm {0} ", year));
-
-            sheetReport.Cells["G62"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["H62"].PutValue(string.Format("Năm {0} ", year));
-
-            sheetReport.Cells["I62"].PutValue(string.Format("Năm {0} ", year - 1));
-            sheetReport.Cells["J62"].PutValue(string.Format("Năm {0} ", year));
-
             List<ReportDetailtServiceType> listReportData = new ReportBL().ReportDetailtGradationCompareForOne(year, int.Parse(gradationID), reportTypeID, marketID);
 
             List<string> listMarket = new List<string>();
