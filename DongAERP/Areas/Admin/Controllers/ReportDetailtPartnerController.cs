@@ -844,9 +844,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     new ReportDetailtForPartner()
                     {
                         PartnerName = string.Format("Tăng giảm so với cùng kì {0}", year - 1),
-                        DSChiQuay = listDataGradation[0].DSChiQuay == 0 ? 0 : Math.Round((sumDSChiQuay / listDataGradation[0].DSChiQuay) * 100, 2, MidpointRounding.ToEven),
-                        DSChiNha = listDataGradation[0].DSChiNha == 0 ? 0 : Math.Round((sumDSChiNha/ listDataGradation[0].DSChiNha) * 100, 2, MidpointRounding.ToEven),
-                        DSCK = listDataGradation[0].DSCK == 0 ? 0 : Math.Round((sumDSCK/ listDataGradation[0].DSCK) * 100, 2, MidpointRounding.ToEven),
+                        DSChiQuay = listDataGradationConvert[1].DSChiQuay == 0 ? 0 : Math.Round((listDataGradationConvert[0].DSChiQuay - listDataGradationConvert[1].DSChiQuay) * 100, 2, MidpointRounding.ToEven),
+                        DSChiNha = listDataGradationConvert[1].DSChiNha == 0 ? 0 : Math.Round((listDataGradationConvert[0].DSChiNha - listDataGradationConvert[1].DSChiNha) * 100, 2, MidpointRounding.ToEven),
+                        DSCK = listDataGradationConvert[1].DSCK == 0 ? 0 : Math.Round((listDataGradationConvert[0].DSCK - listDataGradationConvert[1].DSCK) * 100, 2, MidpointRounding.ToEven),
                     }
                 );
             }
@@ -1342,6 +1342,7 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchReportDetailtCompareMonthForOne([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string partnerID)
         {
             List<ReportDetailtForPartner> listDataCompareMonth = new ReportBL().ReportDetailtPartnerCompareMonthForOne(year, month, reportTypeID, partnerID);
+            List<ReportDetailtForPartner> listDataCompareMonthConvert = new List<ReportDetailtForPartner>();
 
             foreach (ReportDetailtForPartner item in listDataCompareMonth)
             {
@@ -1349,69 +1350,154 @@ namespace DongAERP.Areas.Admin.Controllers
                 item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
             }
 
-            if (listDataCompareMonth.Count().Equals(3))
+            if (listDataCompareMonth.Count > 0)
             {
-                // so với tháng trước
-                double sumDSChiQuayYear = listDataCompareMonth[2].DSChiQuay - listDataCompareMonth[1].DSChiQuay;
-                double sumDSChiNhaYear = listDataCompareMonth[2].DSChiNha - listDataCompareMonth[1].DSChiNha;
-                double sumDSCKYear = listDataCompareMonth[2].DSCK - listDataCompareMonth[1].DSCK;
-                double sumTongDSYear = listDataCompareMonth[2].TongDS - listDataCompareMonth[1].TongDS;
+                // Month
+                ReportDetailtForPartner dataItemMonth = listDataCompareMonth.Find(x => x.Month == month.ToString() && x.Year == year.ToString());
+                // Last month
+                ReportDetailtForPartner dataItemLastMonth = listDataCompareMonth.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString());
+                // month == 1
+                if (month == 1)
+                {
+                    dataItemLastMonth = listDataCompareMonth.Find(x => x.Month == "12" && x.Year == (year - 1).ToString());
+                }
 
-                // so với cùng kì
-                double sumDSChiQuayLastYear = listDataCompareMonth[2].DSChiQuay - listDataCompareMonth[0].DSChiQuay;
-                double sumDSChiNhaLastYear = listDataCompareMonth[2].DSChiNha - listDataCompareMonth[0].DSChiNha;
-                double sumDSCKLastYear = listDataCompareMonth[2].DSCK - listDataCompareMonth[0].DSCK;
-                double sumTongDSLastYear = listDataCompareMonth[2].TongDS - listDataCompareMonth[0].TongDS;
+                // Month last Year
+
+                ReportDetailtForPartner dataItemMonthLastYear = listDataCompareMonth.Find(x => x.Month == month.ToString() && x.Year == (year - 1).ToString());
+
+                // month
+                if (dataItemMonth == null)
+                {
+                    dataItemMonth = new ReportDetailtForPartner()
+                    {
+                        Month = month.ToString(),
+                        Year = year.ToString()
+                    };
+                }
+
+                // last month
+                if (dataItemLastMonth == null)
+                {
+                    if (month == 1)
+                    {
+                        dataItemLastMonth = new ReportDetailtForPartner()
+                        {
+                            Month = "12",
+                            Year = (year - 1).ToString()
+                        };
+                    }
+                    else
+                    {
+                        dataItemLastMonth = new ReportDetailtForPartner()
+                        {
+                            Month = (month - 1).ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+                    
+                }
+
+                // month last year
+                if (dataItemMonthLastYear == null)
+                {
+                    dataItemMonthLastYear = new ReportDetailtForPartner()
+                    {
+                        Month = month.ToString(),
+                        Year = (year - 1).ToString()
+                    };
+                }
+
+                // Tháng hiện tại
+                listDataCompareMonthConvert.Add(
+                    new ReportDetailtForPartner()
+                    {
+                        PartnerName = dataItemMonth.PartnerName,
+                        DSChiQuay = dataItemMonth.DSChiQuay,
+                        DSChiNha = dataItemMonth.DSChiNha,
+                        DSCK = dataItemMonth.DSCK,
+                        TongDS = dataItemMonth.TongDS,
+                    }
+                );
+
+                // Tháng trước
+                listDataCompareMonthConvert.Add(
+                    new ReportDetailtForPartner()
+                    {
+                        PartnerName = dataItemLastMonth.PartnerName,
+                        DSChiQuay = dataItemLastMonth.DSChiQuay,
+                        DSChiNha = dataItemLastMonth.DSChiNha,
+                        DSCK = dataItemLastMonth.DSCK,
+                        TongDS = dataItemLastMonth.TongDS,
+                    }
+                );
+
+                // Cùng kì năm trước
+                listDataCompareMonthConvert.Add(
+                    new ReportDetailtForPartner()
+                    {
+                        PartnerName = dataItemMonthLastYear.PartnerName,
+                        DSChiQuay = dataItemMonthLastYear.DSChiQuay,
+                        DSChiNha = dataItemMonthLastYear.DSChiNha,
+                        DSCK = dataItemMonthLastYear.DSCK,
+                        TongDS = dataItemMonthLastYear.TongDS,
+                    }
+                );
 
                 // Tăng giảm so với tháng trước (+/-)
-                listDataCompareMonth.Add(
+                listDataCompareMonthConvert.Add(
                     new ReportDetailtForPartner()
                     {
                         PartnerName = "Tăng giảm so với tháng trước (+/-)",
-                        DSChiQuay = sumDSChiQuayYear,
-                        DSChiNha = sumDSChiNhaYear,
-                        DSCK = sumDSCKYear,
-                        TongDS = sumTongDSYear
+                        DSChiQuay = dataItemMonth.DSChiQuay - dataItemLastMonth.DSChiQuay,
+                        DSChiNha = dataItemMonth.DSChiNha - dataItemLastMonth.DSChiNha,
+                        DSCK = dataItemMonth.DSCK - dataItemLastMonth.DSCK,
+                        TongDS = dataItemMonth.TongDS - dataItemLastMonth.TongDS,
                     }
                 );
 
                 // Tăng giảm so với tháng trước (%)
-                listDataCompareMonth.Add(
+                listDataCompareMonthConvert.Add(
                     new ReportDetailtForPartner()
                     {
                         PartnerName = "Tăng giảm so với tháng trước (%)",
-                        DSChiQuay = listDataCompareMonth[1].DSChiQuay == 0 ? 0 : Math.Round((sumDSChiQuayYear/ listDataCompareMonth[1].DSChiQuay) / 100, 2, MidpointRounding.ToEven),
-                        DSChiNha = listDataCompareMonth[1].DSChiNha == 0 ? 0 : Math.Round((sumDSChiNhaYear / listDataCompareMonth[1].DSChiNha) / 100, 2, MidpointRounding.ToEven),
-                        DSCK = listDataCompareMonth[1].DSCK == 0 ? 0 : Math.Round((sumDSCKYear / listDataCompareMonth[1].DSCK) / 100, 2, MidpointRounding.ToEven),
-                        TongDS = listDataCompareMonth[1].TongDS == 0 ? 0 : Math.Round((sumTongDSYear / listDataCompareMonth[1].TongDS) / 100, 2, MidpointRounding.ToEven),
+                        DSChiQuay = dataItemLastMonth.DSChiQuay == 0 ? 0 : Math.Round(((dataItemMonth.DSChiQuay - dataItemLastMonth.DSChiQuay) / dataItemLastMonth.DSChiQuay) * 100, 2, MidpointRounding.ToEven),
+                        DSChiNha = dataItemLastMonth.DSChiNha == 0 ? 0 : Math.Round(((dataItemMonth.DSChiNha - dataItemLastMonth.DSChiNha) / dataItemLastMonth.DSChiNha) * 100, 2, MidpointRounding.ToEven),
+                        DSCK = dataItemLastMonth.DSCK == 0 ? 0 : Math.Round(((dataItemMonth.DSCK - dataItemLastMonth.DSCK) / dataItemLastMonth.DSCK) * 100, 2, MidpointRounding.ToEven),
+                        TongDS = dataItemLastMonth.TongDS == 0 ? 0 : Math.Round(((dataItemMonth.TongDS - dataItemLastMonth.TongDS) / dataItemLastMonth.TongDS) * 100, 2, MidpointRounding.ToEven),
                     }
                 );
 
                 // Tăng giảm so với cùng kì năm trước (+/-)
-                listDataCompareMonth.Add(
+                listDataCompareMonthConvert.Add(
                     new ReportDetailtForPartner()
                     {
-                        PartnerName = "Tăng giảm so với tháng trước (+/-)",
-                        DSChiQuay = sumDSChiQuayLastYear,
-                        DSChiNha = sumDSChiNhaLastYear,
-                        DSCK = sumDSCKLastYear,
-                        TongDS = sumTongDSLastYear
+                        PartnerName = "Tăng giảm so với cùng kì năm trước (+/-)",
+                        DSChiQuay = dataItemMonth.DSChiQuay - dataItemMonthLastYear.DSChiQuay,
+                        DSChiNha = dataItemMonth.DSChiNha - dataItemMonthLastYear.DSChiNha,
+                        DSCK = dataItemMonth.DSCK - dataItemMonthLastYear.DSCK,
+                        TongDS = dataItemMonth.TongDS - dataItemMonthLastYear.TongDS,
                     }
                 );
 
                 // Tăng giảm so với cùng kì năm trước (%)
-                listDataCompareMonth.Add(
+                listDataCompareMonthConvert.Add(
                     new ReportDetailtForPartner()
                     {
                         PartnerName = "Tăng giảm so với cùng kì năm trước (%)",
-                        DSChiQuay = listDataCompareMonth[0].DSChiQuay == 0 ? 0 : Math.Round((sumDSChiQuayLastYear / listDataCompareMonth[0].DSChiQuay) / 100, 2, MidpointRounding.ToEven),
-                        DSChiNha = listDataCompareMonth[0].DSChiNha == 0 ? 0 : Math.Round((sumDSChiNhaLastYear / listDataCompareMonth[0].DSChiNha) / 100, 2, MidpointRounding.ToEven),
-                        DSCK = listDataCompareMonth[0].DSCK == 0 ? 0 : Math.Round((sumDSCKLastYear / listDataCompareMonth[0].DSCK) / 100, 2, MidpointRounding.ToEven),
-                        TongDS = listDataCompareMonth[0].TongDS == 0 ? 0 : Math.Round((sumTongDSLastYear / listDataCompareMonth[0].TongDS) / 100, 2, MidpointRounding.ToEven),
+                        DSChiQuay = dataItemMonthLastYear.DSChiQuay == 0 ? 0 : Math.Round(((dataItemMonth.DSChiQuay - dataItemMonthLastYear.DSChiQuay) / dataItemMonthLastYear.DSChiQuay) * 100, 2, MidpointRounding.ToEven),
+                        DSChiNha = dataItemMonthLastYear.DSChiNha == 0 ? 0 : Math.Round(((dataItemMonth.DSChiNha - dataItemMonthLastYear.DSChiNha) / dataItemMonthLastYear.DSChiNha) * 100, 2, MidpointRounding.ToEven),
+                        DSCK = dataItemMonthLastYear.DSCK == 0 ? 0 : Math.Round(((dataItemMonth.DSCK - dataItemMonthLastYear.DSCK) / dataItemMonthLastYear.DSCK) * 100, 2, MidpointRounding.ToEven),
+                        TongDS = dataItemMonthLastYear.TongDS == 0 ? 0 : Math.Round(((dataItemMonth.TongDS - dataItemMonthLastYear.TongDS) / dataItemMonthLastYear.TongDS) * 100, 2, MidpointRounding.ToEven),
                     }
                 );
-            }
 
+                if(listDataCompareMonthConvert.Count > 0)
+                {
+                    listDataCompareMonth = new List<ReportDetailtForPartner>(listDataCompareMonthConvert);
+                }
+            }
+            
             
             return Json(listDataCompareMonth.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }

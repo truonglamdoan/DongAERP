@@ -284,7 +284,7 @@ var Report = new function () {
         // Trong đó type = 2: Loại hình dịch vụ so sánh theo tháng
         $('ul.search-item .print-excel-gradation-ForOne').click(function () {
 
-            // Get mã thị trường
+            // Get mã đối tác
             let partnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
             
             let gradationID = $("#gradation").data("kendoComboBox").value();
@@ -301,13 +301,10 @@ var Report = new function () {
         // Trong đó type = 1: Loại hình dịch vụ so sánh theo giai đoạn
         // Trong đó type = 2: Loại hình dịch vụ so sánh theo tháng
         $('ul.search-item .print-grid-comparemonth-forAll').click(function () {
-            // Get mã thị trường
-            let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
-
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-            window.location = "/ReportExcelDetailtByPartner/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType;
         });
     }
 
@@ -320,18 +317,13 @@ var Report = new function () {
         // Trong đó type = 2: Loại hình dịch vụ so sánh theo tháng
         $('ul.search-item .print-grid-comparemonth-forOne').click(function () {
 
-            // Get mã thị trường
-            let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+            // Get mã đối tác
+            let partnerID = $('#categoriesDetaitPartner').data('kendoDropDownList').value();
+
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
-
-            if (marketID == '005') {
-
-                let marketDetailtID = $('#dropdownlistMarket').data('kendoDropDownList').value();
-                marketID = marketDetailtID;
-            }
-
-            window.location = "/ReportExcelDetailtByPartner/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            
+            window.location = "/ReportDetailtExcelForPartnerLH/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
         });
     }
 
