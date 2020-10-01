@@ -1759,21 +1759,27 @@ namespace DongAERP.Areas.Admin.Controllers
 
             table.Columns.Add("VND1", typeof(double));
             table.Columns.Add("VND2", typeof(double));
+            table.Columns.Add("VND3", typeof(double));
 
             table.Columns.Add("USD1", typeof(double));
             table.Columns.Add("USD2", typeof(double));
+            table.Columns.Add("USD3", typeof(double));
 
             table.Columns.Add("EUR1", typeof(double));
             table.Columns.Add("EUR2", typeof(double));
+            table.Columns.Add("EUR3", typeof(double));
 
             table.Columns.Add("CAD1", typeof(double));
             table.Columns.Add("CAD2", typeof(double));
+            table.Columns.Add("CAD3", typeof(double));
 
             table.Columns.Add("AUD1", typeof(double));
             table.Columns.Add("AUD2", typeof(double));
+            table.Columns.Add("AUD3", typeof(double));
 
             table.Columns.Add("GBP1", typeof(double));
             table.Columns.Add("GBP2", typeof(double));
+            table.Columns.Add("GBP3", typeof(double));
 
             List<int> listPartner = new List<int>();
             string value = string.Empty;
@@ -1815,12 +1821,12 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 table.Rows.Add(
                      value
-                    , dataItemYear.VND, dataItemLastYear.VND
-                    , dataItemYear.USD, dataItemLastYear.USD
-                    , dataItemYear.EUR, dataItemLastYear.EUR
-                    , dataItemYear.CAD, dataItemLastYear.CAD
-                    , dataItemYear.AUD, dataItemLastYear.AUD
-                    , dataItemYear.GBP, dataItemLastYear.GBP
+                    , dataItemYear.VND, dataItemLastYear.VND, dataItemYear.VND - dataItemLastYear.VND
+                    , dataItemYear.USD, dataItemLastYear.USD, dataItemYear.USD - dataItemLastYear.USD
+                    , dataItemYear.EUR, dataItemLastYear.EUR, dataItemYear.EUR - dataItemLastYear.EUR
+                    , dataItemYear.CAD, dataItemLastYear.CAD, dataItemYear.CAD - dataItemLastYear.CAD
+                    , dataItemYear.AUD, dataItemLastYear.AUD, dataItemYear.AUD - dataItemLastYear.AUD
+                    , dataItemYear.GBP, dataItemLastYear.GBP, dataItemYear.GBP - dataItemLastYear.GBP
                 );
             }
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
