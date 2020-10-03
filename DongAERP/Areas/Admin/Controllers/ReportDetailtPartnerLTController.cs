@@ -3794,6 +3794,15 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
             }
 
+            DataRow row = table.NewRow();
+            row["PartnerName"] = "Tổng";
+            row["COL1"] = 100;
+            row["COL2"] = 100;
+            row["COL3"] = 100;
+
+            row["TDS1"] = table.Compute("Sum(TDS1)", "");
+            row["TDS2"] = table.Compute("Sum(TDS2)", "");
+
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }

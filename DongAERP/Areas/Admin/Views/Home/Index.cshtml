@@ -3,42 +3,6 @@
     //ViewBag.Title = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h2>Kendo UI Grid</h2>
-    @(Html.Kendo().Grid<DongA.Entities.ReportDetailtServiceType>()
-                                                                .Name("gridReportDetailtByOneMarket")
-                                                                .HtmlAttributes(new { style = " overflow: auto; " })
-                                                                .Columns(columns =>
-                                                                {
-                                                                    //columns.Bound(p => p.STT).Title("STT");
-                                                                    columns.Bound(p => p.PartnerName).Title("Đối tác");
-                                                                    columns.Bound(p => p.DSChiQuay).Title("Danh sách chi quầy");
-                                                                    columns.Bound(p => p.DSChiNha).Title("Danh sách chi nhà");
-                                                                    columns.Bound(p => p.DSCK).Title("Danh sách chuyển khoản");
-                                                                    columns.Bound(p => p.TongDS).Title("Tổng doanh số");
-                                                                    columns.Bound(p => p.MarketName).Title("MarketCode")
-                                                                        .ClientGroupHeaderTemplate("#= value #")
-                                                                        //.ClientFooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>")
-                                                                    ;
-                                                                })
-                                                                .DataSource(dataSource => dataSource
-                                                                    .Ajax()
-                                                                    //.Aggregates(aggregates =>
-                                                                    //{
-                                                                    //    aggregates.Add(p => p.Type).Count().Min().Max();
-                                                                    //    aggregates.Add(p => p.PartnerName).Count();
-                                                                    //})
-                                                                    .Group(groups => groups.Add(p => p.MarketName))
-                                                                    .Read(read => read.Action("MarketForOne", "ReportDetailtByMarket")
-                                                                    //.Data("onDataReportTypeID")
-                                                                    )
-                                                                )
-                                                                .Sortable() // Enable sorting
-                                                                            //.Events(events => events
-                                                                            //    .DataBound("onDataBound")
-                                                                            //)
-    )
-</div>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>

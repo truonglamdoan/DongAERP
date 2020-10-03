@@ -2630,6 +2630,7 @@
     <Content Include="Content\Report\ReportDetailtByPartnerLTForGradationCompare.xlsx" />
     <Content Include="Content\Report\ReportDetailtByPartnerLTForGradationForOne.xlsx" />
     <Content Include="Content\Report\ReportDetailtByPartnerLTForCompareMonth.xlsx" />
+    <Content Include="Content\Report\ReportDetailtByPartnerLTForCompareMonthForOne.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
