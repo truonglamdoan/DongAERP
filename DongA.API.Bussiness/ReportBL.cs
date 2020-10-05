@@ -2327,5 +2327,10 @@ namespace DongA.API.Bussiness
             }
         }
         #endregion
+
+        #region Báo cáo hồ sơ
+
+
+        #endregion
     }
 }

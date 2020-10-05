@@ -50,60 +50,123 @@ namespace DongAERP.Areas.Admin.Controllers
         /// Theo Doanh số tổng hợp
         /// </summary>
         /// <returns></returns>
-        public JsonResult CategoryLevelOne(string levelZeroID)
+        public JsonResult CategoryLevelZero(string levelID)
         {
             List<Partner> list = new List<Partner>();
-            if (levelZeroID.Equals("level0_item1"))
+            if (levelID.Equals("1"))
             {
                 list.Add(new Partner()
                 {
-                    PartnerID = "item1",
-                    PartnerName = "Tổng doanh số chi trả"
+                    PartnerID = "level0_item1",
+                    PartnerName = "Tổng hợp"
                 });
 
                 list.Add(new Partner()
                 {
-                    PartnerID = "item2",
-                    PartnerName = "Theo loại hình dịch vụ"
-                });
-
-                list.Add(new Partner()
-                {
-                    PartnerID = "item3",
-                    PartnerName = "Theo thị trường"
-                });
-
-                list.Add(new Partner()
-                {
-                    PartnerID = "item4",
-                    PartnerName = "Theo loại tiền chi trả"
+                    PartnerID = "level0_item2",
+                    PartnerName = "Chi tiết"
                 });
             }
             else
             {
                 list.Add(new Partner()
                 {
-                    PartnerID = "item1",
-                    PartnerName = "Thị trường - Loại hình"
+                    PartnerID = "level0_item3",
+                    PartnerName = "Hồ sơ"
                 });
+            }
 
-                list.Add(new Partner()
-                {
-                    PartnerID = "item2",
-                    PartnerName = "Thị trường - Loại tiền"
-                });
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
 
-                list.Add(new Partner()
-                {
-                    PartnerID = "item3",
-                    PartnerName = "Đối tác - Loại hình"
-                });
+        /// <summary>
+        /// Theo Doanh số tổng hợp
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult CategoryLevelOne(string levelZeroID)
+        {
+            List<Partner> list = new List<Partner>();
+            switch (levelZeroID)
+            {
+                case "level0_item1":
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Tổng doanh số chi trả"
+                    });
 
-                list.Add(new Partner()
-                {
-                    PartnerID = "item4",
-                    PartnerName = "Đối tác - Loại tiền"
-                });
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "Theo loại hình dịch vụ"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item3",
+                        PartnerName = "Theo thị trường"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item4",
+                        PartnerName = "Theo loại tiền chi trả"
+                    });
+
+                    break;
+                case "level0_item2":
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Thị trường - Loại hình"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "Thị trường - Loại tiền"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item3",
+                        PartnerName = "Đối tác - Loại hình"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item4",
+                        PartnerName = "Đối tác - Loại tiền"
+                    });
+                    break;
+
+                default:
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "HS-TH Loại hình"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "HS-TH Loại tiền"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item3",
+                        PartnerName = "HS-TH Thị trường"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item4",
+                        PartnerName = "HS-TH Tổng hồ sơ"
+                    });
+                    break;
             }
             
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -112,7 +175,9 @@ namespace DongAERP.Areas.Admin.Controllers
         public JsonResult CategoryLevelTwo(string levelOneID)
         {
             List<Partner> list = new List<Partner>();
-            if (levelOneID.Equals("level0_item1"))
+            // 05/10/2020
+            // Thêm vào Hồ sơ
+            if (levelOneID.Equals("level0_item1") || levelOneID.Equals("level0_item3"))
             {
                 list.Add(new Partner()
                 {
@@ -126,7 +191,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     PartnerName = "So Sánh"
                 });
             }
-            else
+
+
+            if (levelOneID.Equals("level0_item2"))
             {
                 list.Add(new Partner()
                 {
@@ -154,7 +221,8 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<Partner> list = new List<Partner>();
             // Tổng hợp
-            if (levelZeroID.Equals("level0_item1"))
+            // 05/10/2020 Thêm vào Hồ sơ với levelZeroID.Equals("level0_item1")
+            if (levelZeroID.Equals("level0_item1") || levelZeroID.Equals("level0_item3"))
             {
                 if(levelTwoID == "item1")
                 {

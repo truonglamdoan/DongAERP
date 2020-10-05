@@ -73,7 +73,7 @@
                             @(Html.Kendo().RadioButton().Name("DAMReport").Value(1).HtmlAttributes(new { @name = "report" }).Label("DAMTC"))
                         </div>
 
-                        <div class="armchair" style="width: 15%;position: absolute;">
+                        @*<div class="armchair" style="width: 15%;position: absolute;">
 
                             <h4 style="margin-top: 4%;font-size: 1rem;">Loại báo cáo:</h4>
                             @(Html.Kendo().DropDownList()
@@ -94,6 +94,42 @@
                                     }
 
                                 )
+                                .Events(events =>
+                                {
+                                    events.Select("onClickReportLevel0");
+                                })
+                            )
+
+                        </div>*@
+                        <div class="armchair" style="width: 15%;position: absolute;">
+
+                            <h4 style="margin-top: 4%;font-size: 1rem;">Loại báo cáo:</h4>
+                            @(Html.Kendo().DropDownList()
+                                .Name("categories_Level0")
+                                .HtmlAttributes(new { style = "width:100%" })
+                                .OptionLabel("Loại báo cáo...")
+                                .DataTextField("PartnerName")
+                                .DataValueField("PartnerID")
+                                //.DataSource(source => {
+                                //     source.Read(read => {
+                                //         read.Action("Categories", "Home");
+                                //     });
+                                //})
+                                //.BindTo(new List<Partner>()
+                                //    {
+                                //        new Partner(){PartnerID ="level0_item1", PartnerName ="Tổng hợp"},
+                                //        new Partner(){PartnerID ="level0_item2", PartnerName ="Chi tiết"},
+                                //    }
+
+                                //)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("CategoryLevelZero", "Home").Data("dataLevel0");
+                                    })
+                                    .ServerFiltering(true);
+                                })
                                 .Events(events =>
                                 {
                                     events.Select("onClickReportLevel0");
@@ -351,7 +387,7 @@
         $($('.input_param').parent()).css('height', '174px')
         
         autoCompelet();
-
+        let valueReportType = localStorage.valueReportType;
         // Set comboBox đối tác
         if (!isNullOrEmpty(valueReportType) || valueReportType != undefined) {
             let reportValue = parseInt(valueReportType);
@@ -372,6 +408,7 @@
     function onClickReport(e) {
 
         saveLocalStorage();
+        
         // loại đối tác
         let reportTypeID = $('input[name="report"]:checked').val();
 
@@ -383,11 +420,7 @@
         let level2 = $("#categories_Level2").data("kendoDropDownList").value();
         // Thời gian
         let level3 = $("#categories_Level3").data("kendoDropDownList").value();
-        
-        //// Lưu giá trị vào localStogare
-        //localStorage.removeItem('dataAutoComplete');
-        //let dataAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
-        //localStorage.dataAutoComplete = dataAutoComplete;
+
 
         // Lưu giá trị của loại báo cáo
         localStorage.removeItem('reportTypeLS');
@@ -1185,6 +1218,167 @@
                 window.location = url;
             }
         }
+
+        // 05/10/2020
+        // Thêm vào báo cáo Hồ sơ
+        debugger;
+        if (level0 == 'level0_item3') {
+            // Hình thức báo cáo
+            let categoryText = null;
+            switch (level1) {
+                case 'item1':
+                    categoryText = 'ReportHSType';
+                    break;
+                case 'item2':
+                    categoryText = 'Report';
+                    break;
+                case 'item3':
+                    categoryText = 'ReportForMakets';
+                    break;
+                default:
+                    categoryText = 'ReportTotalMoneyType';
+            }
+
+            // thời gian
+            let reportText = null;
+            if (level2 == 'item1') {
+
+                switch (level3) {
+                    case 'item1':
+                        reportText = 'ReportDay';
+
+                        fromDate = $('#FromDay').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                        toDate = $('#ToDay').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
+                        if ((fromDate.getMonth() == toDate.getMonth() && fromDate.getFullYear() == toDate.getFullYear())
+                            // Trường hợp khác tháng cùng năm
+                            || (toDate.getMonth() == fromDate.getMonth() + 1 && fromDate.getFullYear() == toDate.getFullYear() && difference_In_Days < 30)
+                            // Trường hợp khác năm khác tháng
+                            || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
+
+                            // Tạo url cho link
+                            url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+
+                        } else {
+                            $("<div></div>").kendoAlert({
+                                title: "Cảnh báo!",
+                                content: "Bạn chỉ được phép tìm kiếm trong 30 ngày trở lại"
+                            }).data("kendoAlert").open();
+                        }
+                        break;
+                    case 'item2':
+
+                        reportText = 'ReportMonth';
+
+                        fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                        toDate = $('#ToMonth').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                        // Tính số tháng chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
+
+                        // Chỉ cho phép chọn trong 12 tháng
+                        if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
+                            || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
+
+                            // Tạo url cho link
+                            url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+
+                        } else {
+                            $("<div></div>").kendoAlert({
+                                title: "Cảnh báo!",
+                                content: "Bạn chỉ được phép tìm kiếm trong 12 tháng trở lại"
+                            }).data("kendoAlert").open();
+                        }
+                        break;
+                    default:
+                        reportText = 'ReportYear';
+
+                        fromDate = $('#FromYear').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                        toDate = $('#ToYear').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
+                        if (toDate.getFullYear() - fromDate.getFullYear() > 4) {
+
+                            $("<div></div>").kendoAlert({
+                                title: "Cảnh báo!",
+                                content: "Bạn chỉ được phép tìm kiếm trong 5 năm trở lại"
+                            }).data("kendoAlert").open();
+                        } else {
+
+                            url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+                        }
+                }
+
+            } else {
+                // So sánh
+                if (level3 == 'item1') {
+                    reportText = 'ReportGradationCompare';
+
+                    gradationDicID = $("#gradation").data("kendoComboBox");
+                    toDate = $('#ToYear').data('kendoDatePicker').value().getFullYear();
+
+                    url = kendo.format("/Admin/{0}/{1}?gradation={2}&year={3}&reportTypeID={4}", categoryText, reportText, gradationDicID.value(), toDate, reportTypeID);
+
+                    // Set giá trị cho param1 và 2
+                    param1 = gradationDicID.value();
+                    param2 = toDate;
+                }
+
+                if (level3 == 'item2') {
+
+                    reportText = 'ReportCompareForMonth';
+
+                    let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
+                    let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
+
+                    url = kendo.format("/Admin/{0}/{1}?month={2}&year={3}&reportTypeID={4}", categoryText, reportText, month, year, reportTypeID);
+
+                    // Set giá trị cho param1 và 2
+                    param1 = month;
+                    param2 = year;
+                }
+            }
+
+            if (url != null) {
+
+                // Lưu giá trị vào local storage
+                localStorage.removeItem('timeReport');
+                let timeReport = kendo.format("{0}-{1}-{2}-{3}", param1, param2, level0, level2);
+                localStorage.timeReport = timeReport;
+
+                window.location = url;
+
+            }
+
+        }
     }
     
     // Sự kiện click vào dropdownlist level1
@@ -1282,7 +1476,8 @@
         }
 
         // Trường hơp chọn Tổng hợp
-        if (level0 == 'level0_item1') {
+        // 05/10/2020 thêm vào hồ sơ level0 == 'level0_item3'
+        if (level0 == 'level0_item1' || level0 == 'level0_item3') {
 
             date = new Date();
             // Trường hợp chọn báo cáo chi tiết
@@ -2548,7 +2743,8 @@
         let level3 = $("#categories_Level3").data("kendoDropDownList").value();
 
         // Trường hợp là báo cáo Tổng hợp
-        if (level0 == 'level0_item1') {
+        // 05/10/2020 Thêm vào Hồ sơ
+        if (level0 == 'level0_item1' || level0 == 'level0_item3') {
 
             localStorage.removeItem('dataTypeAutoComplete');
             let dataTypeAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
@@ -2624,7 +2820,9 @@
             }
 
             // Báo cáo chi tiết
-        } else {
+        }
+
+        if (level0 == 'level0_item2') {
 
             localStorage.removeItem('dataTypeAutoComplete');
             let dataTypeAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
@@ -2842,48 +3040,7 @@
             level1.value(listData[1]);
             level2.value(listData[2]);
             level3.value(listData[3]);
-
-            //// Báo cáo tổng
-            //if (listData[0] == 'level0_item1') {
-
-            //    let listDataTime = valueTime.split('-');
-            //    // Loại hình chi tiết
-            //    if (level2 == 'item1') {
-            //        switch (level3) {
-            //            // Theo ngày
-            //            case 'item1':
-
-            //                $('#FromDay').data('kendoDatePicker').value();
-            //                $('#ToDay').data('kendoDatePicker').value();
-            //                break;
-            //            // Theo tháng
-            //            case 'item2':
-            //                $('#FromMonth').data('kendoDatePicker').value();
-            //                $('#ToMonth').data('kendoDatePicker').value();
-            //                break;
-
-            //            default:
-
-            //                $('#FromYear').data('kendoDatePicker').value();
-            //                $('#ToYear' ).data('kendoDatePicker').value();
-            //                break;
-            //        }
-
-            //    } else {
-
-            //        // Theo giai đoạn
-            //        if (level3 == 'item1') {
-
-            //            let gradationDicID = $("#gradation").data("kendoComboBox").value();
-            //            let toYear = $('#ToYear').data('kendoDatePicker').value().getFullYear();
-
-            //        } else {
-
-            //            year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
-            //            month = $('#FromMonth').data('kendoDatePicker').value();
-            //        }
-            //    }
-            //}
+            
         }
     }
     // Change radio
@@ -2894,6 +3051,15 @@
         localStorage.reportTypeLS = reportTypeLS;
         // Do something interesting here
     });
+
+    // 05/10/2020 [Trường Lãm] Begin Add
+    function dataLevel0() {
+
+        return {
+            levelID: $('input[name="engine"]:checked').val()
+        };
+    }
+    // 05/10/2020 [Trường Lãm] Begin Add
 </script>
 
 <style>

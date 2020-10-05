@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonBL.cs" />
+    <Compile Include="HSReportBL.cs" />
     <Compile Include="MarKetBL.cs" />
     <Compile Include="PartnerBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

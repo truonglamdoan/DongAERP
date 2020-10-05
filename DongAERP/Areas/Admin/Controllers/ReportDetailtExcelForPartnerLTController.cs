@@ -4069,7 +4069,7 @@ namespace DongAERP.Areas.Admin.Controllers
             //Add Pie Chart
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceColumn;
-            int chartIndex = sheetReport.Charts.Add(ChartType.Column3DStacked, 7, 1, 27, 9);
+            int chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 7, 1, 27, 9);
             leadSourceColumn = sheetReport.Charts[chartIndex];
 
 
@@ -4078,45 +4078,47 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumn.Title.Font.Color = Color.Silver;
 
             // List dữ liệu dataRow
-            string[] listTotalRowData = new string[listDataCompareMonth.Count];
             int i = 0;
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonthConvert)
             {
-                listTotalRowData[i++] = string.Concat("{"
-                    , string.Format("{0}, {1}, {2}, {3}, {4}, {5}"
-                    , item.VND, item.USD, item.EUR, item.CAD, item.AUD, item.GBP
-                    )
-                    , "}");
-            }
-            
-            foreach (string item in listTotalRowData)
-            {
-                string totalRowData = item;
+
+                string totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}, {3}, {4}, {5}", item.VND, item.USD, item.EUR, item.CAD, item.AUD, item.GBP), "}");
                 leadSourceColumn.NSeries.Add(totalRowData, true);
-            }
 
-            i = 0;
-            foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
-            {
-                leadSourceColumn.NSeries[i++].Name = string.Format("Tháng {0}/{1}", month, year);
-            }
 
-            string categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
-            leadSourceColumn.NSeries.CategoryData = categoryData;
-            
+                string categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
+                leadSourceColumn.NSeries.CategoryData = categoryData;
+
+                leadSourceColumn.NSeries[i].Name = string.Format("Tháng {0}/{1}", item.Month, item.Year);
+
+                // Set the 2nd series fill color.
+                leadSourceColumn.NSeries[i].Area.ForegroundColor = Color.Orange;
+                leadSourceColumn.NSeries[i].Area.Formatting = FormattingType.Custom;
+
+                if (i.Equals(1))
+                {
+                    // Set the 1st series fill color.
+                    leadSourceColumn.NSeries[i].Area.ForegroundColor = Color.Green;
+                    leadSourceColumn.NSeries[i].Area.Formatting = FormattingType.Custom;
+                }
+
+                if (i.Equals(2))
+                {
+                    // Set the 1st series fill color.
+                    leadSourceColumn.NSeries[i].Area.ForegroundColor = Color.Blue;
+                    leadSourceColumn.NSeries[i].Area.Formatting = FormattingType.Custom;
+                }
+
+                i++;
+            }
 
             // Set plot area formatting as none and hide its border.
             leadSourceColumn.PlotArea.Area.FillFormat.FillType = FillType.None;
             leadSourceColumn.PlotArea.Border.IsVisible = false;
 
-            // Format chart percent number
-            leadSourceColumn.ValueAxis.TickLabels.NumberFormat = "0.00%";
-
-
             // Set value axis major tick mark as none and hide axis line. 
             // Also set the color of value axis major grid lines.
             leadSourceColumn.ValueAxis.MajorTickMark = TickMarkType.None;
-            leadSourceColumn.ValueAxis.MaxValue = 100;
             leadSourceColumn.ValueAxis.AxisLine.IsVisible = false;
             leadSourceColumn.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
 
@@ -4558,7 +4560,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 string totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}, {3}, {4}, {5}", dataPieMonth.VND, dataPieMonth.USD, dataPieMonth.EUR, dataPieMonth.CAD, dataPieMonth.AUD, dataPieMonth.GBP), "}");
                 leadSourcePie.NSeries.Add(totalRowData, true);
 
-                categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
+                string categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
                 leadSourcePie.NSeries.CategoryData = categoryData;
 
                 leadSourcePie.NSeries.IsColorVaried = true;
@@ -4602,7 +4604,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 string totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}, {3}, {4}, {5}", dataPieLastMonth.VND, dataPieLastMonth.USD, dataPieLastMonth.EUR, dataPieLastMonth.CAD, dataPieLastMonth.AUD, dataPieLastMonth.GBP), "}");
                 leadSourcePie.NSeries.Add(totalRowData, true);
 
-                categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
+                string categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
                 leadSourcePie.NSeries.CategoryData = categoryData;
 
                 leadSourcePie.NSeries.IsColorVaried = true;
@@ -4644,7 +4646,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 string totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}, {3}, {4}, {5}", dataPieMonthLastYear.VND, dataPieMonthLastYear.USD, dataPieMonthLastYear.EUR, dataPieMonthLastYear.CAD, dataPieMonthLastYear.AUD, dataPieMonthLastYear.GBP), "}");
                 leadSourcePie.NSeries.Add(totalRowData, true);
 
-                categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
+                string categoryData = "{VND, USD, EUR, CAD, AUD, GBP}";
                 leadSourcePie.NSeries.CategoryData = categoryData;
 
                 leadSourcePie.NSeries.IsColorVaried = true;

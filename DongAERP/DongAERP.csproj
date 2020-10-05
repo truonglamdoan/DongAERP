@@ -186,6 +186,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportLayoutController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportMonthExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportTotalMoneyTypeController.cs" />
@@ -2631,6 +2632,11 @@
     <Content Include="Content\Report\ReportDetailtByPartnerLTForGradationForOne.xlsx" />
     <Content Include="Content\Report\ReportDetailtByPartnerLTForCompareMonth.xlsx" />
     <Content Include="Content\Report\ReportDetailtByPartnerLTForCompareMonthForOne.xlsx" />
+    <Content Include="Areas\Admin\Views\ReportHSType\ReportDay.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSType\ReportMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSType\ReportYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSType\ReportGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSType\ReportCompareForMonth.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

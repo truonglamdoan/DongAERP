@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonDAL.cs" />
+    <Compile Include="HSReportDAL.cs" />
     <Compile Include="MarKetDetailDAL.cs" />
     <Compile Include="PartnerDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
