@@ -175,6 +175,9 @@
     <Compile Include="Controllers\ReportDetailtDataForMarketController.cs" />
     <Compile Include="Controllers\ReportDetailtDataForPartnerController.cs" />
     <Compile Include="Controllers\ReportDetailtDataForPartnerLTController.cs" />
+    <Compile Include="Controllers\ReportHSMarketController.cs" />
+    <Compile Include="Controllers\ReportHSMoneyTypeController.cs" />
+    <Compile Include="Controllers\ReportHSTotalHSController.cs" />
     <Compile Include="Controllers\ReportHSTypeController.cs" />
     <Compile Include="Controllers\ReportMaketDataController.cs" />
     <Compile Include="Controllers\ReportTMTDataController.cs" />

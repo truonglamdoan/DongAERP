@@ -72,7 +72,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 list.Add(new Partner()
                 {
                     PartnerID = "level0_item3",
-                    PartnerName = "Hồ sơ"
+                    PartnerName = "Tổng hợp"
+                });
+                list.Add(new Partner()
+                {
+                    PartnerID = "level0_item4",
+                    PartnerName = "Chi tiết"
                 });
             }
 

@@ -526,7 +526,7 @@ namespace DongA.API.Bussiness
             try
             {
                 ReportDAL dal = new ReportDAL();
-                List<ReportForTotalMoneyType> result = dal.DataReportypeForGradationCompare(year, typeID, reportTypeID);
+                List<ReportForTotalMoneyType> result = dal.SearchForGradationCompare(year, typeID, reportTypeID);
                 return result;
             }
             catch (Exception ex)

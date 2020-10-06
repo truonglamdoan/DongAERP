@@ -186,10 +186,14 @@
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSMarketController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSMoneyTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSTotalHSController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportLayoutController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportMonthExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportTotalMoneyTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSTypeExcelController.cs" />
     <Compile Include="Areas\Admin\Models\LoginModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -208,6 +212,7 @@
     <Content Include="Areas\Admin\Scripts\ReportForMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalPayment.js" />
+    <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSType.js" />
     <Content Include="Assets\Admin\css\main.css" />
     <Content Include="Assets\Admin\css\sb-admin-2.css" />
     <Content Include="Assets\Admin\css\sb-admin-2.min.css" />
@@ -2637,6 +2642,23 @@
     <Content Include="Areas\Admin\Views\ReportHSType\ReportYear.cshtml" />
     <Content Include="Areas\Admin\Views\ReportHSType\ReportGradationCompare.cshtml" />
     <Content Include="Areas\Admin\Views\ReportHSType\ReportCompareForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMoneyType\ReportDay.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMoneyType\ReportMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMoneyType\ReportYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMoneyType\ReportGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMoneyType\ReportCompareForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMarket\ReportDay.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMarket\ReportMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMarket\ReportYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMarket\ReportGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSMarket\ReportCompareForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSTotalHS\ReportDay.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSTotalHS\ReportMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSTotalHS\ReportYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSTotalHS\ReportGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSTotalHS\ReportCompareForMonth.cshtml" />
+    <Content Include="Content\Report\ReportHS\ReportHSForDMY.xlsx" />
+    <Content Include="Content\Report\ReportHS\ReportHSCompare.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4776,6 +4798,7 @@
     <Folder Include="Areas\Admin\Views\ReportDetailtForOneMarket\" />
     <Folder Include="Areas\Admin\Views\ReportExcelDetailtByMarket\" />
     <Folder Include="Areas\Admin\Views\ReportExcelDetailtByPartner\" />
+    <Folder Include="Areas\Admin\Views\RepportHSTypeExcel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

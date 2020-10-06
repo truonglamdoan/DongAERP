@@ -809,7 +809,7 @@ where created_date ='05-MAR-20' AND PARTNER_CODE = 20100 and VND_CNV_AMOUNT = 20
         /// <history>
         ///     [Truong Lam]   Created [10/06/2020]
         /// </history>
-        public List<ReportForTotalMoneyType> DataReportypeForGradationCompare(int year, int typeID, string reportTypeID)
+        public List<ReportForTotalMoneyType> SearchForGradationCompare(int year, int typeID, string reportTypeID)
         {
             OracleCommand command = null;
             try

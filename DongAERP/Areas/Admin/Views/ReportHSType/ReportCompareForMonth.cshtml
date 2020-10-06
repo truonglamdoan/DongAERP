@@ -27,12 +27,12 @@
         reportTypeID = listData[2];
 
         month = string.Format("Tháng {0}/{1}", toMonth, toYear);
-        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) :  string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) : string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
         monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
     }
 
 }
-<script src="~/Areas/Admin/Scripts/DateReport.js"></script>
+<script src="~/Areas/Admin/Scripts/ReportHS/ReportHSType.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- So sánh - Theo tháng</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
@@ -42,7 +42,7 @@
 
     <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
         @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation-month" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation-month" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
+        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-compare-month" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
 <hr class="sidebar-divider">
@@ -52,44 +52,44 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Biểu đồ cột Loại hình dịch vụ (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Biểu đồ cột Loại hình dịch vụ</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
-                        .Name("chartCompareMonth")
-                        .Title("Doanh số theo loại hình dịch vụ")
-                        .Legend(legend => legend
-                            .Position(ChartLegendPosition.Bottom)
-                        )
-                        .DataSource(ds => ds
-                            .Read(read => read.Action("SearchDataChartCompareMonth", "ReportHSType").Data("onDataReportTypeID"))
-                            .Group(group => group.Add(model => model.NameGradationCompare))
-                            )
+                                .Name("chartCompareMonth")
+                                .Title("Doanh số theo loại hình dịch vụ")
+                                .Legend(legend => legend
+                                    .Position(ChartLegendPosition.Bottom)
+                                )
+                                .DataSource(ds => ds
+                                    .Read(read => read.Action("SearchDataChartCompareMonth", "ReportHSType").Data("onDataReportTypeID"))
+                                    .Group(group => group.Add(model => model.NameGradationCompare))
+                                    )
 
-                        .Series(series =>
-                        {
-                            series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
+                                .Series(series =>
+                                {
+                                    series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
 
-                        })
-                        .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA")
-                        .CategoryAxis(axis => axis
-                            //.Labels(labels => labels.Format("{0}"))
-                            .MajorGridLines(lines => lines.Visible(false))
-                        )
-                        .ValueAxis(axis => axis
-                            .Numeric()
-                            .Labels(labels => labels.Format("{0:N2}"))
-                            .Line(line => line.Visible(false))
-                        )
-                        .Tooltip(tooltip => tooltip
-                            .Visible(true)
-                            .Format("{0:N2}")
-                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
-                        )
-                        .Events(events => events
-                            .DataBound("Report.gradationChartDataBound")
-                        )
+                                })
+                                .SeriesColors("#FFBF00", "#40FF00", "#2ECCFA")
+                                .CategoryAxis(axis => axis
+                                    //.Labels(labels => labels.Format("{0}"))
+                                    .MajorGridLines(lines => lines.Visible(false))
+                                )
+                                .ValueAxis(axis => axis
+                                    .Numeric()
+                                    .Labels(labels => labels.Format("{0:N2}"))
+                                    .Line(line => line.Visible(false))
+                                )
+                                .Tooltip(tooltip => tooltip
+                                    .Visible(true)
+                                    .Format("{0:N2}")
+                                    .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                                )
+                                .Events(events => events
+                                    .DataBound("Report.gradationChartDataBound")
+                                )
                     )
                 </div>
             </div>
@@ -98,31 +98,31 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Loại hình dịch vụ (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Loại hình dịch vụ</h6>
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<DongA.Entities.Report>()
-                    .Name("gridGradationCompare")
-                    .HtmlAttributes(new { style = " overflow: auto; " })
-                    .Columns(columns =>
-                    {
-                        columns.Bound(c => c.GradationID).Title("Giai đoạn").Width(250).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                        columns.Bound(c => c.DSChiQuay).Title("DS chi quầy").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.DSChiNha).Title("DS chi nhà").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.DSCK).Title("DS chuyển khoản").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(150).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                    })
-                    .DataSource(dataSource => dataSource
-                        .Ajax()
-                        //.Data("DayReport.GetAdditionalData")
-                        //.PageSize(31)
-                        .Read(read => read.Action("SearchDataGridCompareMonth", "ReportHSType").Data("onDataReportTypeID"))
-                    //.Read(read => read.Action("SearchReportDay", "Report").Data("DayReport.GetAdditionalData()"))
-                    )
-                    .Sortable() // Enable sorting
-                    .Events(events => events
-                        .DataBound("onDataBound")
-                    )
+                            .Name("gridGradationCompare")
+                            .HtmlAttributes(new { style = " overflow: auto; " })
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.GradationID).Title("Giai đoạn").Width(250).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                                columns.Bound(c => c.DSChiQuay).Title("DS chi quầy").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.DSChiNha).Title("DS chi nhà").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.DSCK).Title("DS chuyển khoản").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(150).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                            })
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                //.Data("DayReport.GetAdditionalData")
+                                //.PageSize(31)
+                                .Read(read => read.Action("SearchDataGridCompareMonth", "ReportHSType").Data("onDataReportTypeID"))
+                            //.Read(read => read.Action("SearchReportDay", "Report").Data("DayReport.GetAdditionalData()"))
+                            )
+                            .Sortable() // Enable sorting
+                            .Events(events => events
+                                .DataBound("onDataBound")
+                            )
                 )
             </div>
         </div>
@@ -141,34 +141,34 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
-                            .Name("chartGradationCompareMonth")
-                                    .Title(title => title
-                                        .Text(month)
-                                        .Position(ChartTitlePosition.Bottom))
-                            .Legend(legend => legend
-                                .Visible(false)
-                            )
-                            .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthCompareProportion", "ReportHSType").Data("onDataReportTypeID")))
-                            .ChartArea(chart => chart
-                                .Background("transparent")
-                                )
-                            //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
-                            .Series(series =>
-                            {
-                                series.Pie(model => model.value, model => model.category, model => model.color)
-                                .Labels(labels => labels
-                                    .Template("#= category #: \n #= value#%")
-                                    .Background("transparent")
-                                    .Visible(true)
-                                    .Font("bold 12px sans-serif")
-                                )
-                                //.StartAngle(150)
-                                ;
-                            })
-                            .Tooltip(tooltip => tooltip
-                                .Visible(true)
-                                .Format("{0}%")
-                            )
+                                    .Name("chartGradationCompareMonth")
+                                            .Title(title => title
+                                                .Text(month)
+                                                .Position(ChartTitlePosition.Bottom))
+                                    .Legend(legend => legend
+                                        .Visible(false)
+                                    )
+                                    .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthCompareProportion", "ReportHSType").Data("onDataReportTypeID")))
+                                    .ChartArea(chart => chart
+                                        .Background("transparent")
+                                        )
+                                    //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                                    .Series(series =>
+                                    {
+                                        series.Pie(model => model.value, model => model.category, model => model.color)
+                                        .Labels(labels => labels
+                                            .Template("#= category #: \n #= value#%")
+                                            .Background("transparent")
+                                            .Visible(true)
+                                            .Font("bold 12px sans-serif")
+                                        )
+                                        //.StartAngle(150)
+                                        ;
+                                    })
+                                    .Tooltip(tooltip => tooltip
+                                        .Visible(true)
+                                        .Format("{0}%")
+                                    )
                     )
                 </div>
             </div>
@@ -183,33 +183,33 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
-                        .Name("chartGradationCompareLastMonth")
-                                .Title(title => title
-                                    .Text(lastMonth)
-                                    .Position(ChartTitlePosition.Bottom))
-                        .Legend(legend => legend
-                            .Visible(false)
-                        )
-                        .DataSource(ds => ds.Read(read => read.Action("SearchPieLastMonthCompareProportion", "ReportHSType").Data("onDataReportTypeID")))
-                        .ChartArea(chart => chart
-                            .Background("transparent")
-                            )
-                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
-                        .Series(series =>
-                        {
-                            series.Pie(model => model.value, model => model.category, model => model.color)
-                            .Labels(labels => labels
-                                .Template("#= category #: \n #= value#%")
-                                .Background("transparent")
-                                .Visible(true)
-                                .Font("bold 12px sans-serif")
-                            );
-                            //.StartAngle(150)
-                        })
-                        .Tooltip(tooltip => tooltip
-                            .Visible(true)
-                            .Format("{0}%")
-                        )
+                                .Name("chartGradationCompareLastMonth")
+                                        .Title(title => title
+                                            .Text(lastMonth)
+                                            .Position(ChartTitlePosition.Bottom))
+                                .Legend(legend => legend
+                                    .Visible(false)
+                                )
+                                .DataSource(ds => ds.Read(read => read.Action("SearchPieLastMonthCompareProportion", "ReportHSType").Data("onDataReportTypeID")))
+                                .ChartArea(chart => chart
+                                    .Background("transparent")
+                                    )
+                                //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                                .Series(series =>
+                                {
+                                    series.Pie(model => model.value, model => model.category, model => model.color)
+                                    .Labels(labels => labels
+                                        .Template("#= category #: \n #= value#%")
+                                        .Background("transparent")
+                                        .Visible(true)
+                                        .Font("bold 12px sans-serif")
+                                    );
+                                        //.StartAngle(150)
+                                    })
+                                .Tooltip(tooltip => tooltip
+                                    .Visible(true)
+                                    .Format("{0}%")
+                                )
                     )
                 </div>
             </div>
@@ -225,33 +225,33 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
-                        .Name("chartGradationCompareMonthLastYear")
-                                .Title(title => title
-                                    .Text(monthLastYear)
-                                    .Position(ChartTitlePosition.Bottom))
-                        .Legend(legend => legend
-                            .Visible(false)
-                        )
-                        .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthLastYearCompareProportion", "ReportHSType").Data("onDataReportTypeID")))
-                        .ChartArea(chart => chart
-                            .Background("transparent")
-                            )
-                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
-                        .Series(series =>
-                        {
-                            series.Pie(model => model.value, model => model.category, model => model.color)
-                            .Labels(labels => labels
-                                .Template("#= category #: \n #= value#%")
-                                .Background("transparent")
-                                .Visible(true)
-                                .Font("bold 12px sans-serif")
-                            );
-                            //.StartAngle(150)
-                        })
-                        .Tooltip(tooltip => tooltip
-                            .Visible(true)
-                            .Format("{0}%")
-                        )
+                                .Name("chartGradationCompareMonthLastYear")
+                                        .Title(title => title
+                                            .Text(monthLastYear)
+                                            .Position(ChartTitlePosition.Bottom))
+                                .Legend(legend => legend
+                                    .Visible(false)
+                                )
+                                .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthLastYearCompareProportion", "ReportHSType").Data("onDataReportTypeID")))
+                                .ChartArea(chart => chart
+                                    .Background("transparent")
+                                    )
+                                //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                                .Series(series =>
+                                {
+                                    series.Pie(model => model.value, model => model.category, model => model.color)
+                                    .Labels(labels => labels
+                                        .Template("#= category #: \n #= value#%")
+                                        .Background("transparent")
+                                        .Visible(true)
+                                        .Font("bold 12px sans-serif")
+                                    );
+                                        //.StartAngle(150)
+                                    })
+                                .Tooltip(tooltip => tooltip
+                                    .Visible(true)
+                                    .Format("{0}%")
+                                )
                     )
                 </div>
             </div>
@@ -265,27 +265,27 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<DongA.Entities.Report>()
-                    .Name("gridGradationCompareProportion")
-                    .HtmlAttributes(new { style = " overflow: auto; " })
-                    .Columns(columns =>
-                    {
-                        columns.Bound(c => c.GradationID).Title("Giai đoạn").Width(150).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                        columns.Bound(c => c.DSChiQuay).Title("DS chi quầy(%)").Format("{0:N2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.DSChiNha).Title("DS chi nhà(%)").Format("{0:N2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.DSCK).Title("DS chuyển khoản(%)").Format("{0:N2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.TongDS).Title("Tổng doanh số(%)").Width(200).Format("{0:N0} %").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                    })
-                    .DataSource(dataSource => dataSource
-                        .Ajax()
-                        //.Data("DayReport.GetAdditionalData")
-                        //.PageSize(30)
-                        .Read(read => read.Action("SearchGridMonthCompareProportion", "ReportHSType").Data("onDataReportTypeID"))
-                    )
-                    //.Pageable() // Enable paging
-                    .Sortable() // Enable sorting
-                    .Events(events => events
-                        .DataBound("onDataBoundPercent")
-                    )
+                            .Name("gridGradationCompareProportion")
+                            .HtmlAttributes(new { style = " overflow: auto; " })
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.GradationID).Title("Giai đoạn").Width(150).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
+                                columns.Bound(c => c.DSChiQuay).Title("DS chi quầy(%)").Format("{0:N2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.DSChiNha).Title("DS chi nhà(%)").Format("{0:N2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.DSCK).Title("DS chuyển khoản(%)").Format("{0:N2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.TongDS).Title("Tổng doanh số(%)").Width(200).Format("{0:N0} %").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                            })
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                //.Data("DayReport.GetAdditionalData")
+                                //.PageSize(30)
+                                .Read(read => read.Action("SearchGridMonthCompareProportion", "ReportHSType").Data("onDataReportTypeID"))
+                            )
+                            //.Pageable() // Enable paging
+                            .Sortable() // Enable sorting
+                            .Events(events => events
+                                .DataBound("onDataBoundPercent")
+                            )
                 )
             </div>
         </div>
@@ -293,10 +293,10 @@
 </div>
 
 @*<style>
-    tr.k-grouping-row {
-        display: none;
-    }
-</style>*@
+        tr.k-grouping-row {
+            display: none;
+        }
+    </style>*@
 
 <script type="text/javascript">
 
