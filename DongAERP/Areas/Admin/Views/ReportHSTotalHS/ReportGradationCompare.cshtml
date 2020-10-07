@@ -54,21 +54,11 @@
     }
 
 }
-<script src="~/Areas/Admin/Scripts/ReportForTotalPayment.js"></script>
+<script src="~/Areas/Admin/Scripts/ReportHS/ReportHSTotalHS.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- So sánh theo giai đoạn</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
-@*<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("TotalReportBody").Checked(true).Value(2).HtmlAttributes(new { @name = "reportDate" }).Label("Tổng hợp"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DABReportBody").Value(0).HtmlAttributes(new { @name = "reportDate" }).Label("DAB"))
-</div>
-<div style=" display: inline; margin-right: 10%; ">
-    @(Html.Kendo().RadioButton().Name("DAMReportBody").Value(1).HtmlAttributes(new { @name = "reportDate" }).Label("DAMTC"))
-</div>
-<hr class="sidebar-divider">*@
 <div style=" display: flex; ">
 
     <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
@@ -110,14 +100,14 @@
                         )
                         .ValueAxis(axis => axis
                             .Numeric()
-                            .Labels(labels => labels.Format("{0:N2}"))
+                            .Labels(labels => labels.Format("{0:N0}"))
                             //.Line(line => line.Visible(false))
                             .Min(0)
                         )
                         .Tooltip(tooltip => tooltip
                             .Visible(true)
-                            .Format("{0:N2}")
-                            .Template("#= series.name #: #= kendo.format('{0:N2}', value) #")
+                            .Format("{0:N0}")
+                            .Template("#= series.name #: #= kendo.format('{0:N0}', value) #")
                         )
                     )
                 </div>

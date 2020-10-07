@@ -187,8 +187,11 @@
     <Compile Include="Areas\Admin\Controllers\ReportForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSMarketExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMoneyTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSMoneyTypeExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSTotalHSController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSTotalHSExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportLayoutController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportMonthExcelController.cs" />
@@ -212,6 +215,9 @@
     <Content Include="Areas\Admin\Scripts\ReportForMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalPayment.js" />
+    <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSTotalHS.js" />
+    <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSMakets.js" />
+    <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSType.js" />
     <Content Include="Assets\Admin\css\main.css" />
     <Content Include="Assets\Admin\css\sb-admin-2.css" />
@@ -2659,6 +2665,11 @@
     <Content Include="Areas\Admin\Views\ReportHSTotalHS\ReportCompareForMonth.cshtml" />
     <Content Include="Content\Report\ReportHS\ReportHSForDMY.xlsx" />
     <Content Include="Content\Report\ReportHS\ReportHSCompare.xlsx" />
+    <Content Include="Content\Report\ReportHS\ReportHSTotalMoneyType.xlsx" />
+    <Content Include="Content\Report\ReportHS\ReportHSTotalMoneyTypeGradation.xlsx" />
+    <Content Include="Content\Report\ReportHS\ReportHSMakets.xlsx" />
+    <Content Include="Content\Report\ReportHS\ReportHSMaketGradationCompare.xlsx" />
+    <Content Include="Content\Report\ReportHS\ReportHSTotalHS.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4798,6 +4809,9 @@
     <Folder Include="Areas\Admin\Views\ReportDetailtForOneMarket\" />
     <Folder Include="Areas\Admin\Views\ReportExcelDetailtByMarket\" />
     <Folder Include="Areas\Admin\Views\ReportExcelDetailtByPartner\" />
+    <Folder Include="Areas\Admin\Views\ReportHSMarketExcel\" />
+    <Folder Include="Areas\Admin\Views\ReportHSMoneyTypeExcel\" />
+    <Folder Include="Areas\Admin\Views\ReportHSTotalHSExcel\" />
     <Folder Include="Areas\Admin\Views\RepportHSTypeExcel\" />
   </ItemGroup>
   <ItemGroup>

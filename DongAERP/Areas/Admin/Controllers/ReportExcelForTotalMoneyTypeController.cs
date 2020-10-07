@@ -1642,24 +1642,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     , listReportData[1].GBP == 0 ? listReportData[1].GBP : Math.Round(GBPCompareMonth / listReportData[1].GBP * 100, 2, MidpointRounding.ToEven)
                     , GBPCompareMonthLastYear
                     , listReportData[2].GBP == 0 ? listReportData[2].GBP : Math.Round(GBPCompareMonthLastYear / listReportData[2].GBP * 100, 2, MidpointRounding.ToEven));
-
-                //DataRow row = dataTable.NewRow();
-                //row["ReportID"] = "Tổng";
-                //row["AccumulateID1"] = dataTable.Compute("Sum(AccumulateID1)", "");
-                //row["AccumulateID2"] = dataTable.Compute("Sum(AccumulateID2)", "");
-                //row["AccumulateID3"] = dataTable.Compute("Sum(AccumulateID3)", "");
-
-                //// Sum row tổng compare month
-                //double sumCompareMonth = (double)row["AccumulateID1"] - (double)row["AccumulateID2"];
-                //double sumCompareMonthLastYear = (double)row["AccumulateID1"] - (double)row["AccumulateID3"];
-                //// tính tăng giảm so với tháng trước theo (+/-) và %
-                //row["CompareToMonth"] = Math.Round(sumCompareMonth, 2, MidpointRounding.ToEven);
-                //row["CompareToMonthPercent"] = (double)row["AccumulateID2"]== 0 ? (double)row["AccumulateID2"] : Math.Round(sumCompareMonth / (double)row["AccumulateID2"] * 100, 2, MidpointRounding.ToEven);
-                //// tính tăng giảm so với cùng kì năm trước (+/-) và %
-                //row["CompareToMonthLastYear"] = Math.Round(sumCompareMonthLastYear, 2, MidpointRounding.ToEven);
-                //row["CompareToMonthLastYearPercent"] = (double)row["AccumulateID3"] == 0 ? (double)row["AccumulateID3"] : Math.Round(sumCompareMonthLastYear / (double)row["AccumulateID3"] * 100, 2, MidpointRounding.ToEven);
-
-                //dataTable.Rows.Add(row);
+                
                 
                 // Set border
                 Style style = new CellsFactory().CreateStyle();

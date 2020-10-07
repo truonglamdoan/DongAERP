@@ -50,14 +50,14 @@
     }
 
 }
-<script src="~/Areas/Admin/Scripts/ReportForTotalMoneyType.js"></script>
+<script src="~/Areas/Admin/Scripts/ReportHS/ReportHSTotalMoneyType.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- So sánh theo giai đoạn</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
 <hr class="sidebar-divider">
 
 <div style=" display: flex; ">
-    
+
     <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
         @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-gradation" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-gradation" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
@@ -75,41 +75,41 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
-                            .Name("chartGradationCompare")
-                            .Title("Hồ sơ theo từng loại tiền (Quy USD) \n Giai đoạn: 3 tháng đầu năm")
-                            .Legend(legend => legend
-                                .Position(ChartLegendPosition.Bottom)
-                            )
-                            .ChartArea(chartArea =>
-                                {
-                                    chartArea.Height(550);
-                                })
-                            .DataSource(ds => ds
-                                .Read(read => read.Action("SearchColumnChartReportForGradation", "ReportHSMoneyType").Data("onDataReportTypeID"))
-                                .Group(group => group.Add(model => model.NameGradationCompare))
-                                )
-
-                            .Series(series =>
-                            {
-                                series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
-
-                            })
-                            .SeriesColors("#FFBF00", "#40FF00")
-                            .CategoryAxis(axis => axis
-                                //.Labels(labels => labels.Format("{0}"))
-                                .MajorGridLines(lines => lines.Visible(false))
-                            )
-                            .ValueAxis(axis => axis
-                                .Numeric()
-                                .Labels(labels => labels.Format("{0:N0}"))
-                                .Line(line => line.Visible(false))
-                            )
-                            .Tooltip(tooltip => tooltip
-                                .Visible(true)
-                                .Format("{0:N0}")
-                                .Template("#= series.name #: #= kendo.format('{0:N0}', value) #")
-                            )
+                        .Name("chartGradationCompare")
+                        .Title("Hồ sơ theo từng loại tiền (Quy USD) \n Giai đoạn: 3 tháng đầu năm")
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Bottom)
                         )
+                        .ChartArea(chartArea =>
+                            {
+                                chartArea.Height(550);
+                            })
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("SearchColumnChartReportForGradation", "ReportHSMoneyType").Data("onDataReportTypeID"))
+                            .Group(group => group.Add(model => model.NameGradationCompare))
+                            )
+
+                        .Series(series =>
+                        {
+                            series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
+
+                        })
+                        .SeriesColors("#FFBF00", "#40FF00")
+                        .CategoryAxis(axis => axis
+                            //.Labels(labels => labels.Format("{0}"))
+                            .MajorGridLines(lines => lines.Visible(false))
+                        )
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Labels(labels => labels.Format("{0:N0}"))
+                            .Line(line => line.Visible(false))
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N0}")
+                            .Template("#= series.name #: #= kendo.format('{0:N0}', value) #")
+                        )
+                    )
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
                         listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                         listName.Add("CompareToID", string.Format("Tăng giảm </br> so với cùng kì {0} (+/-)", year - 1));
                         // List danh sach in đậm
-                        string[] listBoldArray = { "CompareToIDPercent", "CompareToID"};
+                        string[] listBoldArray = { "CompareToIDPercent", "CompareToID" };
                         foreach (DataColumn col in Model.Columns)
                         {
                             if (listName.ContainsKey(col.ColumnName))
@@ -155,7 +155,7 @@
                                     {
                                         columns.Bound(col.ColumnName).Title(listName[col.ColumnName]).Format("{0:n0}").HtmlAttributes(new { style = " font-weight: 700;text-align: right; " }).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" });
                                     }
-                                            
+
                                 }
                             }
                         }
@@ -323,10 +323,10 @@
 </div>
 
 @*<style>
-    tr.k-grouping-row {
-        display: none;
-    }
-</style>*@
+        tr.k-grouping-row {
+            display: none;
+        }
+    </style>*@
 
 <script type="text/javascript">
 

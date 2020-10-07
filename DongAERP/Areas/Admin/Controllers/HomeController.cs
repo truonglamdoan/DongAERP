@@ -146,7 +146,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     });
                     break;
 
-                default:
+                case "level0_item3":
 
                     list.Add(new Partner()
                     {
@@ -170,6 +170,32 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         PartnerID = "item4",
                         PartnerName = "HS-TH Tổng hồ sơ"
+                    });
+                    break;
+                default:
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "HS- Thị trường - Loại hình"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "HS- Thị trường - Loại tiền"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item3",
+                        PartnerName = "HS- Đối tác - Loại hình"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item4",
+                        PartnerName = "HS- Đối tác - Loại tiền"
                     });
                     break;
             }
@@ -198,7 +224,7 @@ namespace DongAERP.Areas.Admin.Controllers
             }
 
 
-            if (levelOneID.Equals("level0_item2"))
+            if (levelOneID.Equals("level0_item2") || levelOneID.Equals("level0_item4"))
             {
                 list.Add(new Partner()
                 {
@@ -266,7 +292,7 @@ namespace DongAERP.Areas.Admin.Controllers
             }
 
             // Chi tiết
-            if (levelZeroID.Equals("level0_item2"))
+            if (levelZeroID.Equals("level0_item2") || levelZeroID.Equals("level0_item4"))
             {
                 if (levelTwoID == "item1" || levelTwoID == "item2")
                 {

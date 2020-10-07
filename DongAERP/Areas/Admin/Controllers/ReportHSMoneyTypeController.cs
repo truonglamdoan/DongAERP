@@ -100,7 +100,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
         public ActionResult ReportMonth(DateTime? fromDate, DateTime? toDate, string reportTypeID)
         {
-            string nameUrl = "Doanh số/Loại tiền/Chi tiết/Theo Tháng";
+            string nameUrl = "Hồ sơ/Loại tiền/Chi tiết/Theo Tháng";
             ViewBag.NameURL = nameUrl;
 
             if (fromDate != null && toDate != null && reportTypeID != null)
@@ -257,7 +257,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
         public ActionResult ReportGradationCompare(string gradation, int? year, string reportTypeID)
         {
-            string nameUrl = "Doanh số/Loại tiền/So sánh/Theo giai đoạn";
+            string nameUrl = "Hồ sơ/Loại tiền/So sánh/Theo giai đoạn";
             ViewBag.NameURL = nameUrl;
 
             //int typeID = 7;
@@ -301,6 +301,10 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchReportGradationCompare([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID)
         {
             List<ReportForTotalMoneyType> listData = new HSReportBL().SearchReportHSTotalMoneyTypeForGradationCompare(year, gradation, reportTypeID);
+            foreach(ReportForTotalMoneyType item in listData)
+            {
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
 
             // Khởi tạo datatable
             DataTable table = new DataTable();
@@ -311,7 +315,7 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("CompareToIDPercent", typeof(double));
             table.Columns.Add("CompareToID", typeof(double));
 
-            string[] str = { "VND", "USD", "EUR", "CAD", "AUD", "GBP" };
+            string[] str = { "VND", "USD", "EUR", "CAD", "AUD", "GBP", "Tổng" };
 
             if (listData.Count.Equals(2))
             {
@@ -322,6 +326,8 @@ namespace DongAERP.Areas.Admin.Controllers
                 double AUDCompare = listData[0].AUD - listData[1].AUD;
                 double GBPCompare = listData[0].GBP - listData[1].GBP;
 
+                double TongDSCompare = listData[0].TongDS - listData[1].TongDS;
+
                 // add row vào table
                 table.Rows.Add(str[0], listData[0].VND, listData[1].VND, Math.Round(VNDCompare / listData[1].VND * 100, 2, MidpointRounding.ToEven), VNDCompare);
                 table.Rows.Add(str[1], listData[0].USD, listData[1].USD, Math.Round(USDCompare / listData[1].USD * 100, 2, MidpointRounding.ToEven), USDCompare);
@@ -330,13 +336,8 @@ namespace DongAERP.Areas.Admin.Controllers
                 table.Rows.Add(str[4], listData[0].AUD, listData[1].AUD, Math.Round(AUDCompare / listData[1].AUD * 100, 2, MidpointRounding.ToEven), AUDCompare);
                 table.Rows.Add(str[5], listData[0].GBP, listData[1].GBP, Math.Round(GBPCompare / listData[1].GBP * 100, 2, MidpointRounding.ToEven), GBPCompare);
 
-                DataRow row = table.NewRow();
-                row["ReportID"] = "Tổng";
-                row["AccumulateID1"] = table.Compute("Sum(AccumulateID1)", "");
-                row["AccumulateID2"] = table.Compute("Sum(AccumulateID2)", "");
-                row["CompareToIDPercent"] = Math.Round((double)table.Compute("AVG(CompareToIDPercent)", ""), 2, MidpointRounding.ToEven);
-                row["CompareToID"] = table.Compute("Sum(CompareToID)", "");
-                table.Rows.Add(row);
+                table.Rows.Add(str[6], listData[0].TongDS, listData[1].TongDS, Math.Round(TongDSCompare / listData[1].TongDS * 100, 2, MidpointRounding.ToEven), TongDSCompare);
+                
             }
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -663,7 +664,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
         public ActionResult ReportCompareForMonth(int? month, int? year, string reportTypeID)
         {
-            string nameUrl = "Doanh số/Loại tiền/So sánh/Theo tháng";
+            string nameUrl = "Hồ sơ/Loại tiền/So sánh/Theo tháng";
             ViewBag.NameURL = nameUrl;
 
             DataTable table = new DataTable();
@@ -705,6 +706,10 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchReportCompareForMonth([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID)
         {
             List<ReportForTotalMoneyType> listData = new HSReportBL().SearchReportHSTotalMoneyTypeForCompareMonth(year, month, reportTypeID);
+            foreach(ReportForTotalMoneyType item in listData)
+            {
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
 
             DataTable table = new DataTable();
             table.Columns.Add("ReportID", typeof(String));
@@ -717,7 +722,7 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("CompareToMonthLastYearPercent", typeof(double));
             table.PrimaryKey = new DataColumn[] { table.Columns["ReportID"] };
 
-            string[] str = { "VND", "USD", "EUR", "CAD", "AUD", "GBP" };
+            string[] str = { "VND", "USD", "EUR", "CAD", "AUD", "GBP", "Tổng" };
 
             if (listData.Count.Equals(3))
             {
@@ -729,6 +734,8 @@ namespace DongAERP.Areas.Admin.Controllers
                 double AUDCompareMonth = listData[0].AUD - listData[1].AUD;
                 double GBPCompareMonth = listData[0].GBP - listData[1].GBP;
 
+                double TongDSCompareMonth = listData[0].TongDS - listData[1].TongDS;
+
                 // tháng cùng kì năm trước
                 double VNDCompareLastMonth = listData[0].VND - listData[2].VND;
                 double USDCompareLastMonth = listData[0].USD - listData[2].USD;
@@ -737,45 +744,39 @@ namespace DongAERP.Areas.Admin.Controllers
                 double AUDCompareLastMonth = listData[0].AUD - listData[2].AUD;
                 double GBPCompareLastMonth = listData[0].GBP - listData[2].GBP;
 
+                double TongDSCompareLastMonth = listData[0].TongDS - listData[2].TongDS;
+
                 // add row vào table
                 table.Rows.Add(str[0], listData[0].VND, listData[1].VND, listData[2].VND
-                    , listData[1].VND, Math.Round(VNDCompareMonth / listData[1].VND * 100, 2, MidpointRounding.ToEven)
-                    , listData[2].VND, Math.Round(VNDCompareLastMonth / listData[2].VND * 100, 2, MidpointRounding.ToEven));
+                    , VNDCompareMonth, listData[1].VND == 0 ? 0 : Math.Round(VNDCompareMonth / listData[1].VND * 100, 2, MidpointRounding.ToEven)
+                    , VNDCompareLastMonth, listData[2].VND == 0 ? 0 : Math.Round(VNDCompareLastMonth / listData[2].VND * 100, 2, MidpointRounding.ToEven));
 
                 table.Rows.Add(str[1], listData[0].USD, listData[1].USD, listData[2].USD
-                    , listData[1].USD, Math.Round(USDCompareMonth / listData[1].USD * 100, 2, MidpointRounding.ToEven)
-                    , listData[2].USD, Math.Round(USDCompareLastMonth / listData[2].USD * 100, 2, MidpointRounding.ToEven));
+                    , USDCompareMonth, listData[1].USD == 0 ? 0 : Math.Round(USDCompareMonth / listData[1].USD * 100, 2, MidpointRounding.ToEven)
+                    , USDCompareLastMonth, listData[2].USD == 0 ? 0 : Math.Round(USDCompareLastMonth / listData[2].USD * 100, 2, MidpointRounding.ToEven));
 
                 table.Rows.Add(str[2], listData[0].EUR, listData[1].EUR, listData[2].EUR
-                    , listData[1].EUR, Math.Round(EURCompareMonth / listData[1].EUR * 100, 2, MidpointRounding.ToEven)
-                    , listData[2].EUR, Math.Round(EURCompareLastMonth / listData[2].EUR * 100, 2, MidpointRounding.ToEven));
+                    , EURCompareMonth, listData[1].EUR == 0 ? 0 : Math.Round(EURCompareMonth / listData[1].EUR * 100, 2, MidpointRounding.ToEven)
+                    , EURCompareLastMonth, listData[2].EUR == 0 ? 0 : Math.Round(EURCompareLastMonth / listData[2].EUR * 100, 2, MidpointRounding.ToEven));
 
                 table.Rows.Add(str[3], listData[0].CAD, listData[1].CAD, listData[2].CAD
-                    , listData[1].CAD, Math.Round(CADCompareMonth / listData[1].CAD * 100, 2, MidpointRounding.ToEven)
-                    , listData[2].CAD, Math.Round(CADCompareLastMonth / listData[2].CAD * 100, 2, MidpointRounding.ToEven));
+                    , CADCompareMonth, listData[1].CAD == 0 ? 0 : Math.Round(CADCompareMonth / listData[1].CAD * 100, 2, MidpointRounding.ToEven)
+                    , CADCompareLastMonth, listData[2].CAD == 0 ? 0 : Math.Round(CADCompareLastMonth / listData[2].CAD * 100, 2, MidpointRounding.ToEven));
 
                 table.Rows.Add(str[4], listData[0].AUD, listData[1].AUD, listData[2].AUD
-                    , listData[1].AUD, Math.Round(AUDCompareMonth / listData[1].AUD * 100, 2, MidpointRounding.ToEven)
-                    , listData[2].AUD, Math.Round(AUDCompareLastMonth / listData[2].AUD * 100, 2, MidpointRounding.ToEven));
+                    , AUDCompareMonth, listData[1].AUD == 0 ? 0 : Math.Round(AUDCompareMonth / listData[1].AUD * 100, 2, MidpointRounding.ToEven)
+                    , AUDCompareLastMonth, listData[2].AUD == 0 ? 0 : Math.Round(AUDCompareLastMonth / listData[2].AUD * 100, 2, MidpointRounding.ToEven));
 
                 table.Rows.Add(str[5], listData[0].GBP, listData[1].GBP, listData[2].GBP
-                    , listData[1].GBP, Math.Round(GBPCompareMonth / listData[1].GBP * 100, 2, MidpointRounding.ToEven)
-                    , listData[2].GBP, Math.Round(GBPCompareLastMonth / listData[2].GBP * 100, 2, MidpointRounding.ToEven));
+                    , GBPCompareMonth, listData[1].GBP == 0 ? 0 : Math.Round(GBPCompareMonth / listData[1].GBP * 100, 2, MidpointRounding.ToEven)
+                    , GBPCompareLastMonth, listData[2].GBP == 0 ? 0 : Math.Round(GBPCompareLastMonth / listData[2].GBP * 100, 2, MidpointRounding.ToEven));
 
+                table.Rows.Add(str[6], listData[0].TongDS, listData[1].TongDS, listData[2].TongDS
+                    , TongDSCompareMonth, listData[1].TongDS == 0 ? 0 : Math.Round(TongDSCompareMonth / listData[1].TongDS * 100, 2, MidpointRounding.ToEven)
+                    , TongDSCompareLastMonth, listData[2].TongDS == 0 ? 0 : Math.Round(TongDSCompareLastMonth / listData[2].TongDS * 100, 2, MidpointRounding.ToEven));
+                
             }
-
-            DataRow row = table.NewRow();
-            row["ReportID"] = "Tổng";
-            row["AccumulateID1"] = table.Compute("Sum(AccumulateID1)", "");
-            row["AccumulateID2"] = table.Compute("Sum(AccumulateID2)", "");
-            row["AccumulateID3"] = table.Compute("Sum(AccumulateID3)", "");
-
-            row["CompareToMonth"] = table.Compute("Sum(CompareToMonth)", "");
-            row["CompareToMonthPercent"] = table.Compute("Sum(CompareToMonthPercent)", "");
-            row["CompareToMonthLastYear"] = table.Compute("Sum(CompareToMonthLastYear)", "");
-            row["CompareToMonthLastYearPercent"] = table.Compute("Sum(CompareToMonthLastYearPercent)", "");
             
-            table.Rows.Add(row);
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -802,7 +803,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 foreach (ReportForTotalMoneyType item in listData)
                 {
-                    // Tính tổng doanh số
+                    // Tính tổng Hồ sơ
                     item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
