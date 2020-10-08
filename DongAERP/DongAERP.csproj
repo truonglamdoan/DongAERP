@@ -186,6 +186,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLHTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMoneyTypeController.cs" />
@@ -215,6 +216,7 @@
     <Content Include="Areas\Admin\Scripts\ReportForMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalPayment.js" />
+    <Content Include="Areas\Admin\Scripts\ReportHSDetailt\ReportHSDetailtLH.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSTotalHS.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSTotalMoneyType.js" />
@@ -2670,6 +2672,16 @@
     <Content Include="Content\Report\ReportHS\ReportHSMakets.xlsx" />
     <Content Include="Content\Report\ReportHS\ReportHSMaketGradationCompare.xlsx" />
     <Content Include="Content\Report\ReportHS\ReportHSTotalHS.xlsx" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\MarketForTotal.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\MarketForTotalForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\MarketForTotalForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\MarketForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\MarketForOneForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\MarketForOneForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\ReportDetailtGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\ReportDetailtGradationCompareForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\ReportDetailtCompareMonthForAll.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\ReportDetailtCompareMonthForOne.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4803,16 +4815,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\ReportDetailtExcelForMarket\" />
-    <Folder Include="Areas\Admin\Views\ReportDetailtExcelForPartnerLT\" />
-    <Folder Include="Areas\Admin\Views\ReportDetailtExcelForPartner\" />
-    <Folder Include="Areas\Admin\Views\ReportDetailtForOneMarket\" />
-    <Folder Include="Areas\Admin\Views\ReportExcelDetailtByMarket\" />
-    <Folder Include="Areas\Admin\Views\ReportExcelDetailtByPartner\" />
-    <Folder Include="Areas\Admin\Views\ReportHSMarketExcel\" />
-    <Folder Include="Areas\Admin\Views\ReportHSMoneyTypeExcel\" />
-    <Folder Include="Areas\Admin\Views\ReportHSTotalHSExcel\" />
-    <Folder Include="Areas\Admin\Views\RepportHSTypeExcel\" />
+    <Folder Include="Content\Report\ReportHSDetailt\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

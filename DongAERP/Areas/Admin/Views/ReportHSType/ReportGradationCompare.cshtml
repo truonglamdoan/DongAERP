@@ -58,7 +58,7 @@
     </ul>
 </div>
 <hr class="sidebar-divider">
-<p class="mb-4">1. Theo doanh số chi trả loại hình dịch vụ</p>
+<p class="mb-4">1. Theo hồ sơ chi trả loại hình dịch vụ</p>
 <div class="row">
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <!-- Circle Buttons -->
@@ -70,7 +70,7 @@
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                                 .Name("chartGradationCompare")
-                                .Title("Doanh số theo loại hình dịch vụ")
+                                .Title("hồ sơ theo loại hình dịch vụ")
                                 .Legend(legend => legend
                                     .Position(ChartLegendPosition.Bottom)
                                 )
@@ -122,7 +122,7 @@
                                 columns.Bound(c => c.DSChiQuay).Title("DS chi quầy").Width(100).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 columns.Bound(c => c.DSChiNha).Title("DS chi nhà").Width(100).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                                 columns.Bound(c => c.DSCK).Title("DS chuyển khoản").Width(100).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(200).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                columns.Bound(c => c.TongDS).Title("Tổng hồ sơ").Width(200).Format("{0:n2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                             })
                             .DataSource(dataSource => dataSource
                                 .Ajax()
@@ -239,10 +239,10 @@
                             .Columns(columns =>
                             {
                                 columns.Bound(c => c.GradationID).Title("Giai đoạn").Width(250).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                                columns.Bound(c => c.DSChiQuay).Title("DS chi quầy(%)").Format("{0:n2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound(c => c.DSChiNha).Title("DS chi nhà(%)").Format("{0:n2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound(c => c.DSCK).Title("DS chuyển khoản(%)").Format("{0:n2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound(c => c.TongDS).Title("Tổng doanh số(%)").Format("{0:n0} %").Width(200).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                columns.Bound(c => c.DSChiQuay).Title("HS chi quầy(%)").Format("{0:n2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.DSChiNha).Title("HS chi nhà(%)").Format("{0:n2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.DSCK).Title("HS chuyển khoản(%)").Format("{0:n2} %").Width(100).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound(c => c.TongDS).Title("Tổng hồ sơ(%)").Format("{0:n0} %").Width(200).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                             })
                             .DataSource(dataSource => dataSource
                                 .Ajax()

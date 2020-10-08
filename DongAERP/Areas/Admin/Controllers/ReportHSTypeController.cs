@@ -393,7 +393,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, year),
                         amount = item.DSChiQuay,
-                        NameType = "Doanh số \n chi quầy"
+                        NameType = "Hồ sơ \n chi quầy"
                     };
 
                     count++;
@@ -401,7 +401,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, year),
                         amount = item.DSChiNha,
-                        NameType = "Doanh số \n chi nhà"
+                        NameType = "Hồ sơ \n chi nhà"
                     };
 
                     count++;
@@ -409,7 +409,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, year),
                         amount = item.DSCK,
-                        NameType = "Doanh số \n chuyển khoản"
+                        NameType = "Hồ sơ \n chuyển khoản"
                     };
                     count++;
                     year = year - 1;
@@ -522,7 +522,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                         arrayGradation[count] = new GradationChartPie()
                         {
-                            category = "Doanh số \n chi quầy",
+                            category = "Hồ sơ \n chi quầy",
                             value = item.DSChiQuay,
                             color = "#FFBF00"
                         };
@@ -530,7 +530,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         count++;
                         arrayGradation[count] = new GradationChartPie()
                         {
-                            category = "Doanh số \n chi nhà",
+                            category = "Hồ sơ \n chi nhà",
                             value = item.DSChiNha,
                             color = "#40FF00"
                         };
@@ -538,7 +538,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         count++;
                         arrayGradation[count] = new GradationChartPie()
                         {
-                            category = "Doanh số \n chuyển khoản",
+                            category = "Hồ sơ \n chuyển khoản",
                             value = item.DSCK,
                             color = "#2ECCFA"
                         };
@@ -586,7 +586,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                         arrayGradation[count] = new GradationChartPie()
                         {
-                            category = "Doanh số \n chi quầy",
+                            category = "Hồ sơ \n chi quầy",
                             value = item.DSChiQuay,
                             color = "#FFBF00"
                         };
@@ -594,7 +594,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         count++;
                         arrayGradation[count] = new GradationChartPie()
                         {
-                            category = "Doanh số \n chi nhà",
+                            category = "Hồ sơ \n chi nhà",
                             value = item.DSChiNha,
                             color = "#40FF00"
                         };
@@ -602,7 +602,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         count++;
                         arrayGradation[count] = new GradationChartPie()
                         {
-                            category = "Doanh số \n chuyển khoản",
+                            category = "Hồ sơ \n chuyển khoản",
                             value = item.DSCK,
                             color = "#2ECCFA"
                         };
@@ -756,7 +756,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 int count = 0;
                 foreach (Report item in listDataGradation)
                 {
-                    // tổng doanh số
+                    // tổng Hồ sơ
                     item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
 
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
@@ -764,7 +764,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
                         amount = item.DSChiQuay,
-                        NameType = "Doanh số \n chi quầy"
+                        NameType = "Hồ sơ \n chi quầy"
                     };
 
                     count++;
@@ -772,7 +772,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
                         amount = item.DSChiNha,
-                        NameType = "Doanh số \n chi nhà"
+                        NameType = "Hồ sơ \n chi nhà"
                     };
 
                     count++;
@@ -780,7 +780,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
                         amount = item.DSCK,
-                        NameType = "Doanh số \n chuyển khoản"
+                        NameType = "Hồ sơ \n chuyển khoản"
                     };
 
                     //count++;
@@ -788,7 +788,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     //{
                     //    NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
                     //    amount = item.TongDS,
-                    //    NameType = "Tổng doanh số"
+                    //    NameType = "Tổng Hồ sơ"
                     //};
                     // Tăng count lên 1 đơn vị
                     count++;
@@ -843,7 +843,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chi quầy",
+                    category = "Hồ sơ \n chi quầy",
                     value = listDataGradationMonth.DSChiQuay,
                     color = "#FFBF00"
                 };
@@ -851,7 +851,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 count++;
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chi nhà",
+                    category = "Hồ sơ \n chi nhà",
                     value = listDataGradationMonth.DSChiNha,
                     color = "#40FF00"
                 };
@@ -859,7 +859,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 count++;
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chuyển khoản",
+                    category = "Hồ sơ \n chuyển khoản",
                     value = listDataGradationMonth.DSCK,
                     color = "#2ECCFA"
                 };
@@ -904,7 +904,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chi quầy",
+                    category = "Hồ sơ \n chi quầy",
                     value = listDataGradationMonth.DSChiQuay,
                     color = "#FFBF00"
                 };
@@ -912,7 +912,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 count++;
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chi nhà",
+                    category = "Hồ sơ \n chi nhà",
                     value = listDataGradationMonth.DSChiNha,
                     color = "#40FF00"
                 };
@@ -920,7 +920,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 count++;
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chuyển khoản",
+                    category = "Hồ sơ \n chuyển khoản",
                     value = listDataGradationMonth.DSCK,
                     color = "#2ECCFA"
                 };
@@ -1031,7 +1031,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chi quầy",
+                    category = "Hồ sơ \n chi quầy",
                     value = listDataGradationMonth.DSChiQuay,
                     color = "#FFBF00"
                 };
@@ -1039,7 +1039,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 count++;
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chi nhà",
+                    category = "Hồ sơ \n chi nhà",
                     value = listDataGradationMonth.DSChiNha,
                     color = "#40FF00"
                 };
@@ -1047,7 +1047,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 count++;
                 arrayGradation[count] = new GradationChartPie()
                 {
-                    category = "Doanh số \n chuyển khoản",
+                    category = "Hồ sơ \n chuyển khoản",
                     value = listDataGradationMonth.DSCK,
                     color = "#2ECCFA"
                 };

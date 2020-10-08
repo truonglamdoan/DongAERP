@@ -444,7 +444,7 @@
         let difference_In_Time = null;
         let difference_In_Days = null;
 
-        debugger;
+
         // Báo cáo tổng hợp
         if (level0 == 'level0_item1') {
             // Hình thức báo cáo
@@ -1392,7 +1392,7 @@
             let categoryText = null;
             switch (level1) {
                 case 'item1':
-                    categoryText = 'ReportDetailtByMarket';
+                    categoryText = 'ReportHSDetailtLHType';
                     break;
                 case 'item2':
                     categoryText = 'ReportDetailtMarketByMoneyType';
@@ -3437,7 +3437,7 @@
             // Báo cáo chi tiết
         }
 
-        if (level0 == 'level0_item2') {
+        if (level0 == 'level0_item2' || level0 == 'level0_item4') {
 
             localStorage.removeItem('dataTypeAutoComplete');
             let dataTypeAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
