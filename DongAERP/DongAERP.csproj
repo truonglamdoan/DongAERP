@@ -187,6 +187,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLHTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSDetailtMarketLTController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMoneyTypeController.cs" />
@@ -216,6 +217,7 @@
     <Content Include="Areas\Admin\Scripts\ReportForMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportForTotalPayment.js" />
+    <Content Include="Areas\Admin\Scripts\ReportHSDetailt\ReportHSDetailtMarketLT.js" />
     <Content Include="Areas\Admin\Scripts\ReportHSDetailt\ReportHSDetailtLH.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSTotalHS.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSMakets.js" />
@@ -2682,6 +2684,16 @@
     <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\ReportDetailtGradationCompareForOne.cshtml" />
     <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\ReportDetailtCompareMonthForAll.cshtml" />
     <Content Include="Areas\Admin\Views\ReportHSDetailtLHType\ReportDetailtCompareMonthForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\MarketForTotal.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\MarketForTotalForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\MarketForTotalForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\MarketForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\MarketForOneForMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\MarketForOneForYear.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\ReportDetailtGradationCompare.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\ReportDetailtGradationCompareForOne.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\ReportDetailtCompareMonthForAll.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportHSDetailtMarketLT\ReportDetailtCompareMonthForOne.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

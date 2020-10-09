@@ -1,0 +1,195 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string NameUrl = ViewBag.NameURL;
+
+    var listData = (List<string>)ViewData["listData"];
+
+    string fromDate = string.Empty;
+    string toDate = string.Empty;
+    string reportTypeID = string.Empty;
+    string marketID = string.Empty;
+
+    if (listData != null)
+    {
+        fromDate = listData[0];
+        toDate = listData[1];
+        reportTypeID = listData[2];
+        marketID = listData[3];
+
+    }
+}
+<script src="~/Areas/Admin/Scripts/ReportHSDetailt/ReportHSDetailtMarketLT.js"></script>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo ngày</h1>
+
+<h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
+<hr class="sidebar-divider">
+<div style=" display: flex; ">
+
+    <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
+        @if (marketID.Equals("005"))
+        {
+            @(Html.Kendo().DropDownList()
+                .Name("dropdownlistMarket")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                //.Filter("startswith")
+                .BindTo(new List<SelectListItem>()
+                {
+                    new SelectListItem() {
+                        Text = "Tất cả", Value = "005"
+                    },
+                    new SelectListItem() {
+                        Text = "Malaysia", Value = "006"
+                    },
+                    new SelectListItem() {
+                        Text = "Hàn Quốc", Value = "007"
+                    },
+                    new SelectListItem() {
+                        Text = "Nhật Bản", Value = "008"
+                    },
+                    new SelectListItem() {
+                        Text = "Đài Loan", Value = "009"
+                    },
+                    new SelectListItem() {
+                        Text = "Singapore", Value = "010"
+                    },
+                    new SelectListItem() {
+                        Text = "Campuchia", Value = "011"
+                    },
+                    new SelectListItem() {
+                        Text = "Hồng Kông", Value = "012"
+                    },
+                    new SelectListItem() {
+                        Text = "Thái Lan", Value = "013"
+                    }
+                })
+                .Events(e =>
+                {
+                    e.Select("Report.onSelectMarketForOne");
+                })
+            )
+        }
+        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-MarketOne" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
+    </ul>
+</div>
+<hr class="sidebar-divider" style=" margin-top: 0px; margin-bottom: 15px; ">
+<div class="row">
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh sách loại tiền chi trả</h6>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Grid<DongA.Entities.ReportDetailtForTotalMoneyType>()
+                    .Name("gridReportDetailtByOneMarket")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        //columns.Bound(p => p.STT).Title("STT");
+                        columns.Bound(p => p.PartnerName).Title("Đối tác").Width(200)
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            //.ClientGroupFooterTemplate("Tổng")
+                            .ClientFooterTemplate("Tổng tất cả");
+                        columns.Bound(c => c.VND).Title("VND").Width(100).Format("{0:N0}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>");
+                        columns.Bound(c => c.USD).Title("USD").Width(100).Format("{0:N0}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>");
+                        columns.Bound(c => c.EUR).Title("EUR").Width(100).Format("{0:N0}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>");
+                        columns.Bound(c => c.CAD).Title("CAD").Width(100).Format("{0:N0}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>");
+                        columns.Bound(c => c.AUD).Title("AUD").Width(100).Format("{0:N0}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>");
+                        columns.Bound(c => c.GBP).Title("GBP").Width(100).Format("{0:N0}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right;" })
+                            //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>")
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>");
+                        columns.Bound(p => p.TongDS).Title("Tổng").Width(200).Format("{0:N0}")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" })
+                            .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,',0')#</div>");
+                        columns.Bound(p => p.MarketName).Hidden()
+                            .ClientGroupHeaderTemplate("#= value #")
+                        //.ClientFooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>")
+                        ;
+                    })
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Aggregates(aggregates =>
+                        {
+                            aggregates.Add(p => p.VND).Sum();
+                            aggregates.Add(p => p.USD).Sum();
+                            aggregates.Add(p => p.EUR).Sum();
+                            aggregates.Add(p => p.CAD).Sum();
+                            aggregates.Add(p => p.AUD).Sum();
+                            aggregates.Add(p => p.GBP).Sum();
+                            aggregates.Add(p => p.TongDS).Sum();
+                        })
+                        .Group(groups => groups.Add(p => p.MarketName))
+                        .Read(read => read.Action("SearchMarketForOne", "ReportHSDetailtMarketLT")
+                        .Data("onDataReportTypeID")
+                        )
+                    )
+                    .Sortable() // Enable sorting
+                    .Events(events => events
+                        .DataBound("onDataBound")
+                    )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onDataBound(arg) {
+
+        // Xóa dòng tổng với trường hợp chỉ có 1 thị trường
+        if ('@marketID' != '005') {
+
+            $('#gridReportDetailtByOneMarket tr.k-group-footer').css('display', 'none');
+        } else {
+
+            $('#gridReportDetailtByOneMarket tr.k-group-footer').css('display', '');
+        }
+
+    }
+
+    function onDataReportTypeID(arg) {
+
+        return {
+            fromDay: "@fromDate",
+            toDay: "@toDate",
+            reportTypeID: "@reportTypeID",
+            marketID: "@marketID"
+        };
+    }
+
+    // Change radio
+    $("input[name='reportDate']").change(function () {
+
+        localStorage.removeItem('reportTypeLS');
+        let reportTypeLS = $('input[name="reportDate"]:checked').val();
+        localStorage.reportTypeLS = reportTypeLS;
+        // Do something interesting here
+    });
+
+</script>
