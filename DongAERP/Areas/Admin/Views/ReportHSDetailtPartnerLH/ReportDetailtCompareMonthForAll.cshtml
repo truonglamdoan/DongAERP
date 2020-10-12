@@ -1,0 +1,317 @@
+﻿@using Kendo.Mvc.UI
+@using System.Collections.Generic;
+@using System.Web.Mvc;
+@using DongA.Entities;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string NameUrl = ViewBag.NameURL;
+
+    string monthYear = string.Concat(DateTime.Today.ToString("MMMM"), " ", DateTime.Today.ToString("yyyy"));
+
+    string month = string.Format("Tháng {0}/{1}", DateTime.Today.Month, DateTime.Today.Year);
+    string lastMonth = string.Format("Tháng {0}/{1}", DateTime.Today.Month - 1, DateTime.Today.Year);
+    string monthLastYear = string.Format("Tháng {0}/{1}", DateTime.Today.Month, DateTime.Today.Year - 1);
+
+    var listData = (List<string>)ViewData["listData"];
+
+    string toMonth = string.Empty;
+    string toYear = string.Empty;
+    string reportTypeID = string.Empty;
+
+    if (listData != null)
+    {
+        toMonth = listData[0];
+        toYear = listData[1];
+        reportTypeID = listData[2];
+
+        month = string.Format("Tháng {0}/{1}", toMonth, toYear);
+        lastMonth = int.Parse(toMonth) == 1 ? string.Format("Tháng {0}/{1}", 12, int.Parse(toYear) - 1) : string.Format("Tháng {0}/{1}", int.Parse(toMonth) - 1, toYear);
+        monthLastYear = string.Format("Tháng {0}/{1}", toMonth, int.Parse(toYear) - 1);
+    }
+
+}
+
+<script src="~/Areas/Admin/Scripts/ReportHSDetailt/ReportHSDetailtPartnerLH.js"></script>
+<h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo tháng</h1>
+
+<h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
+<hr class="sidebar-divider">
+
+<div style=" display: flex; ">
+
+    <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
+        @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid-comparemonth-forAll" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
+        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-grid-comparemonth-forAll" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
+    </ul>
+</div>
+<hr class="sidebar-divider">
+<p class="mb-4">1.Báo cáo chi tiết - Hồ sơ theo đối tác - Loại hình chi trả</p>
+<div class="row">
+
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu so sánh chi trả từng thị trường cho tháng hiện tại, tháng trước và cùng kì năm trước </h6>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Grid<dynamic>()
+                            .Name("gridCompareMonthForAll")
+                            .HtmlAttributes(new { style = " overflow: auto; " })
+                            .Columns(columns =>
+                            {
+                                columns.Bound("STT").Title("STT").Width(100).Locked(true)
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" });
+
+                                columns.Bound("PartnerName").Title("Đối tác").Width(200).Locked(true)
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" });
+
+                                columns.Group(group => group
+                                    .Title("Chi Quầy")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("CQ1").Title(month).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CQ2").Title(lastMonth).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CQ3").Title(monthLastYear).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                    })
+                                );
+                                columns.Group(group => group
+                                    .Title("Chi Nhà")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("CN1").Title(month).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CN2").Title(lastMonth).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CN3").Title(monthLastYear).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                    })
+                                );
+                                columns.Group(group => group
+                                    .Title("Chuyển Khoản")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("CK1").Title(month).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CK2").Title(lastMonth).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CK3").Title(monthLastYear).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                    })
+                                );
+                                columns.Group(group => group
+                                    .Title("Tổng")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("TDS1").Title(month).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                        info.Bound("TDS2").Title(lastMonth).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                        info.Bound("TDS3").Title(monthLastYear).Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+
+                                );
+                            })
+                            .Scrollable(scrollable => scrollable.Height(500))
+                            .Sortable() // Enable sorting
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .ServerOperation(false)
+                                .Read(read => read.Action("SearchReportDetailtCompareMonthForAll", "ReportHSDetailtPartnerLH").Data("onDataReportTypeID"))
+                            )
+                            .Events(events => events
+                                .DataBound("onDataBoundGridCompareMonthForAll")
+                            )
+                )
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6" style=" flex: none; max-width: none; ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Tăng giảm so với cùng kì theo từng thị trường </h6>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Grid<dynamic>()
+                            .Name("gridCompareMonthForAllCompare")
+                            .HtmlAttributes(new { style = " overflow: auto; " })
+                            .Columns(columns =>
+                            {
+                                columns.Bound("STT").Title("STT").Width(100).Locked(true)
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" });
+
+                                columns.Bound("PartnerName").Title("Đối tác").Width(200).Locked(true)
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" });
+
+                                columns.Group(group => group
+                                    .Title("Chi Quầy")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("CQ1").Title("So với tháng trước").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CQ2").Title("So với cùng kì").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                    })
+                                );
+                                columns.Group(group => group
+                                    .Title("Chi Nhà")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("CN1").Title("So với tháng trước").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CN2").Title("So với cùng kì").Format("{0:n0}").Width(150)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                    })
+                                );
+                                columns.Group(group => group
+                                    .Title("Chuyển Khoản")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("CK1").Title("So với tháng trước").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CK2").Title("So với cùng kì").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                    })
+                                );
+                                columns.Group(group => group
+                                    .Title("Tổng")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("TDS1").Title("So với tháng trước").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                        info.Bound("TDS2").Title("So với cùng kì").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+
+                                );
+                            })
+                            .Scrollable(scrollable => scrollable.Height(500))
+                            .Sortable() // Enable sorting
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .ServerOperation(false)
+                                .Read(read => read.Action("SearchReportDetailtCompareMonthForAllCompare", "ReportHSDetailtPartnerLH").Data("onDataReportTypeID"))
+                            )
+                            .Events(events => events
+                                .DataBound("onDataBoundGridCompareMonthForAllCompare")
+                            )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<style>
+        tr.k-grouping-row {
+            display: none;
+        }
+    </style>*@
+
+<script type="text/javascript">
+
+    function GradationCompareDSGrid() {
+
+        let gradationDic = $("#gradation").data("kendoComboBox").value() + "," + $("#gradation").data("kendoComboBox").text();
+        return {
+            Gradation: gradationDic,
+            ToYear: $('#ToYear').data('kendoDatePicker').value().getFullYear(),
+        };
+    }
+
+    // Tô đậm cho Grid
+    function onDataBoundGridCompareMonthForAll(arg) {
+
+        let lastRow = $('#gridCompareMonthForAll tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+
+        lastRow = $('#gridCompareMonthForAll tbody:eq(0) tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+
+    }
+
+    // Tô đậm cho Grid
+    function onDataBoundGridCompareMonthForAllCompare(arg) {
+
+        let lastRow = $('#gridCompareMonthForAllCompare tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+
+        lastRow = $('#gridCompareMonthForAllCompare tbody:eq(0) tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold');
+
+        // Tô màu dòng record có tỉ lệ tăng giảm
+        let trGrid = $('#gridCompareMonthForAllCompare tbody[role="rowgroup"] tr');
+        for (let i = 0; i < trGrid.length; i++) {
+
+            let tdGrid = $(trGrid[i]).find('td');
+
+            // Theo % thì loại đối tượng tổng ra
+            for (let j = 0; j < tdGrid.length; j++) {
+                tdCellValue = kendo.parseFloat(tdGrid[j].textContent);
+
+                // Điều kiện nếu td là âm thì tô màu đỏ ngược lại màu Xanh
+                if (tdCellValue != null) {
+                    $(tdGrid[j]).css('color', 'red');
+                    if (tdCellValue > 0) {
+                        $(tdGrid[j]).css('color', 'green');
+                    }
+                }
+            }
+        }
+    }
+
+    function onDataReportTypeID(arg) {
+
+        return {
+            month: "@toMonth",
+            year: "@toYear",
+            reportTypeID: "@reportTypeID"
+        };
+    }
+
+    // Change radio
+    $("input[name='reportDate']").change(function () {
+
+        localStorage.removeItem('reportTypeLS');
+        let reportTypeLS = $('input[name="reportDate"]:checked').val();
+        localStorage.reportTypeLS = reportTypeLS;
+        // Do something interesting here
+    });
+</script>

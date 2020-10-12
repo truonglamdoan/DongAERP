@@ -1378,5 +1378,615 @@ namespace DongA.API.DataAccess
         }
 
         #endregion
+
+        #region Get dữ liệu cho đối tác loại hình
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataDetailtForPartnerForAll(DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.SEARCH_REPORT_FOR_PARTNER"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataDetailtForOnePartnerForDay(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.SEARCH_FOR_ONE_PARTNER_DAY"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataDetailtForOnePartnerForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.SEARCH_FOR_ONE_PARTNER_MONTH"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataDetailtForOnePartnerForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.SEARCH_FOR_ONE_PARTNER_YEAR"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataReportDetailtGradationForPartnerForAll(int ToYear, int typeID, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.REPORT_GRADATION_FOR_ALL"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataReportDetailtGradationForPartnerForOne(int ToYear, int typeID, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.REPORT_GRADATION_FOR_ONE"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, partnerID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report detailt của tất cả thị trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataReportDetailtCompareMonthForPartnerForAll(int ToYear, int ToMonth, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.COMPARE_FOR_MONTH_ALL"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, ToMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report detailt của từng trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForPartner> SearchDataReportDetailtCompareMonthForPartnerForOne(int toYear, int toMonth, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForPartner>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_TYPE.COMPARE_FOR_MONTH_ONE"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, toMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, toYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForPartner>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+        #endregion
+
+        #region API cho báo cáo chi tiết hồ sơ theo đối tác loại tiền
+        /// <summary>
+        /// List Report theo ngày Nguyên tệ
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataDetailtForPartnerLTForAll(DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.SEARCH_REPORT_D_M_Y"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataDetailtForOnePartnerLTForDay(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.SEARCH_ONE_PARTNER_D"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataDetailtForOnePartnerLTForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.SEARCH_ONE_PARTNER_M"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataDetailtForOnePartnerLTForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.SEARCH_ONE_PARTNER_Y"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pParentCode", OracleDbType.Int32, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtGradationForPartnerLTForAll(int ToYear, int typeID, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.REPORT_GRADATION"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtGradationForPartnerLTForOne(int ToYear, int typeID, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.REPORT_GRADATION_ONE"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pGradation", OracleDbType.Int32, ParameterDirection.Input, typeID);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, partnerID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report detailt của tất cả thị trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtCompareMonthForPartnerLTForAll(int ToYear, int ToMonth, string reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.REPORT_COMPARE_MONTH"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, ToMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, ToYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    // Cursor
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report detailt của từng trường theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/08/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchDataReportDetailtCompareMonthForPartnerLTForOne(int toYear, int toMonth, string reportTypeID, string partnerID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtForTotalMoneyType>();
+                using (command = DongADatabase.GetStoredProcCommandOracle("HS_DETAILT_PAR_MT.REPORT_COMPARE_MONTH_ONE"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pToMonth", OracleDbType.Int32, ParameterDirection.Input, toMonth);
+                    DongADatabase.AddInOracleParameter(command, "pToYear", OracleDbType.Int32, ParameterDirection.Input, toYear);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+                    DongADatabase.AddInOracleParameter(command, "pPartnerCode", OracleDbType.Varchar2, ParameterDirection.Input, partnerID);
+
+                    DongADatabase.AddInOracleParameterCursor(command, "p_cur", OracleDbType.RefCursor, ParameterDirection.Output);
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtForTotalMoneyType>(reader);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        #endregion
     }
 }
