@@ -1546,8 +1546,7 @@ namespace DongAERP.Areas.Admin.Controllers
             
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
-
+        
 
         /// <summary>
         /// Get data cho việc vẽ biểu đồ cột cho so sánh theo giai đoạn

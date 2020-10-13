@@ -187,6 +187,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLHTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLHTypeExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtMarketLTController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLHController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLTController.cs" />
@@ -2718,6 +2719,9 @@
     <Content Include="Areas\Admin\Views\ReportHSDetailtPartnerLT\ReportDetailtGradationCompareForOne.cshtml" />
     <Content Include="Areas\Admin\Views\ReportHSDetailtPartnerLT\ReportDetailtCompareMonthForAll.cshtml" />
     <Content Include="Areas\Admin\Views\ReportHSDetailtPartnerLT\ReportDetailtCompareMonthForOne.cshtml" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLHType.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLHTypeGradation.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLHTypeCompareMonth.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4851,7 +4855,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Report\ReportHSDetailt\" />
+    <Folder Include="Areas\Admin\Views\ReportHSDetailtLHTypeExcel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

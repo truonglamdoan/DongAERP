@@ -77,7 +77,7 @@ var Report = new function () {
                 // Trường hợp khác năm khác tháng
                 || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
                 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -113,7 +113,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -153,7 +153,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             }
         });
     }
@@ -164,9 +164,6 @@ var Report = new function () {
      * @since[Trường Lãm] created on [15/06/2020]
      */
     this.MarketForOne = function () {
-
-        // For day report
-        let urlGrid = "/Admin/ReportHSDetailtLHType/SearchMarketForOne?fromDay=";
         
         // PrintExcel for report day
         $('ul.search-item .print-excel-MarketOne').click(function () {
@@ -176,6 +173,10 @@ var Report = new function () {
 
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+
+            if (marketID == '005') {
+                marketID = $('#dropdownlistMarket').data('kendoDropDownList').value();
+            }
 
             let fromDate = $('#FromDay').data('kendoDatePicker').value();
             let fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
@@ -193,7 +194,7 @@ var Report = new function () {
                 // Trường hợp khác năm khác tháng
                 || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -219,6 +220,10 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
+            if (marketID == '005') {
+                marketID = $('#dropdownlistMarket').data('kendoDropDownList').value();
+            }
+
             let fromDate = $('#FromMonth').data('kendoDatePicker').value();
             let fromMonthConvert = kendo.toString(fromDate, "MM/dd/yyyy");
             let toDate = $('#ToMonth').data('kendoDatePicker').value();
@@ -232,7 +237,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -257,6 +262,10 @@ var Report = new function () {
 
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+            
+            if (marketID == '005') {
+                marketID = $('#dropdownlistMarket').data('kendoDropDownList').value();
+            }
 
             let fromYear = $('#FromYear').data('kendoDatePicker').value();
             let fromYearConvert = kendo.toString(fromYear, "MM/dd/yyyy");
@@ -272,7 +281,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportExcelDetailtByMarket/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+                window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
             }
         });
     }
@@ -286,7 +295,7 @@ var Report = new function () {
             // Get mã thị trường
             let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
 
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -310,7 +319,7 @@ var Report = new function () {
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -327,7 +336,7 @@ var Report = new function () {
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
             
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 
@@ -351,7 +360,7 @@ var Report = new function () {
                 marketID = marketDetailtID;
             }
 
-            window.location = "/ReportExcelDetailtByMarket/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
+            window.location = "/ReportHSDetailtLHTypeExcel/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&marketID=" + marketID;
         });
     }
 

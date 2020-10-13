@@ -2646,6 +2646,157 @@ namespace DongA.Bussiness
             }
         }
 
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchPartnerLTForOne(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            try
+            {
+                HSReportDAL dal = new HSReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchPartnerLTForOne(fromDate, toDate, reportTypeID, partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchPartnerLTForOneForMonth(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            try
+            {
+                HSReportDAL dal = new HSReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchPartnerLTForOneForMonth(fromDate, toDate, reportTypeID, partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// List Report
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> SearchPartnerLTForOneForYear(DateTime fromDate, DateTime toDate, string reportTypeID, string partnerID)
+        {
+            try
+            {
+                HSReportDAL dal = new HSReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.SearchPartnerLTForOneForYear(fromDate, toDate, reportTypeID, partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTGradationCompareForAll(int ToYear, int typeID, string reportTypeID)
+        {
+            try
+            {
+                HSReportDAL dal = new HSReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTGradationCompareForAll(ToYear, typeID, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report cho so sánh giai đoạn theo báo cáo chi tiết - Theo từng đối tác
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTGradationCompareForOne(int ToYear, int typeID, string reportTypeID, string partnerID)
+        {
+            try
+            {
+                HSReportDAL dal = new HSReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTGradationCompareForOne(ToYear, typeID, reportTypeID, partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng cho tất cả
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForAll(int toYear, int toMonth, string reportTypeID)
+        {
+            try
+            {
+                HSReportDAL dal = new HSReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTCompareMonthForAll(toYear, toMonth, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report chi tiết cho báo cáo theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtForTotalMoneyType> ReportDetailtPartnerLTCompareMonthForOne(int toYear, int toMonth, string reportTypeID, string partnerID)
+        {
+            try
+            {
+                HSReportDAL dal = new HSReportDAL();
+                List<ReportDetailtForTotalMoneyType> result = dal.ReportDetailtPartnerLTCompareMonthForOne(toYear, toMonth, reportTypeID, partnerID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
         #endregion
     }
 }
