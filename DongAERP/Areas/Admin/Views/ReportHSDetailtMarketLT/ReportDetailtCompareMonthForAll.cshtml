@@ -415,15 +415,15 @@
                                 )
                                 .ValueAxis(axis => axis
                                     .Numeric()
-                                    .Labels(labels => labels.Format("{0:N0}"))
+                                    .Labels(labels => labels.Format("{0:N2}"))
                                     .Line(line => line.Visible(false))
                                     .Max(100)
 
                                 )
                                 .Tooltip(tooltip => tooltip
                                     .Visible(true)
-                                    .Format("{0:N0} %")
-                                    .Template("#= series.name#: #= kendo.format('{0:N0} %', value) #")
+                                    .Format("{0:N2} %")
+                                    .Template("#= series.name#: #= kendo.format('{0:N2} %', value) #")
                                 )
                 )
             </div>

@@ -188,8 +188,10 @@
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLHTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLHTypeExcelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLTMoneyTypeExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtMarketLTController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLHController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLHExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLTController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketExcelController.cs" />
@@ -2722,6 +2724,15 @@
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLHType.xlsx" />
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLHTypeGradation.xlsx" />
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLHTypeCompareMonth.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLTMoneyType.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailLTGradationForGaration.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtLHMoneyTypeCompare.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLH.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHForOne.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHForGradation.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHForGradationOne.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHForCompare.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHCompareForOne.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4856,6 +4867,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\ReportHSDetailtLHTypeExcel\" />
+    <Folder Include="Areas\Admin\Views\ReportHSDetailtLTMoneyTypeExcel\" />
+    <Folder Include="Areas\Admin\Views\ReportHSDetailtPartnerLHExcel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

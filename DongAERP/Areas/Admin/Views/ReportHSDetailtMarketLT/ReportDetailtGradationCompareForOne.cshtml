@@ -95,12 +95,12 @@
         @if (marketID.Equals("005"))
         {
             @(Html.Kendo().DropDownList()
-                                    .Name("dropdownlistMarket")
-                                    .DataTextField("Text")
-                                    .DataValueField("Value")
-                                    //.Filter("startswith")
-                                    .BindTo(new List<SelectListItem>()
-                                    {
+                    .Name("dropdownlistMarket")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    //.Filter("startswith")
+                    .BindTo(new List<SelectListItem>()
+                    {
                         new SelectListItem() {
                             Text = "Tất cả", Value = "005"
                         },
@@ -128,11 +128,11 @@
                         new SelectListItem() {
                             Text = "Thái Lan", Value = "013"
                         }
-                                    })
-                                    .Events(e =>
-                                    {
-                                        e.Select("Report.onSelectGradationMarketID");
-                                    })
+                    })
+                    .Events(e =>
+                    {
+                        e.Select("Report.onSelectGradationMarketID");
+                    })
             )
         }
 
@@ -524,15 +524,15 @@
                                     .ValueAxis(axis => axis
                                         .Numeric()
                                         .Labels(labels => labels
-                                            .Format("{0:n0}")
+                                            .Format("{0:n2}")
                                         )
                                         .Line(line => line.Visible(false))
                                         .Max(100)
                                     )
                                     .Tooltip(tooltip => tooltip
                                         .Visible(true)
-                                        .Format("{0:n0}")
-                                        .Template("#= series.name#: #= kendo.format('{0:n0} %', value) #")
+                                        .Format("{0:n2}")
+                                        .Template("#= series.name#: #= kendo.format('{0:n2} %', value) #")
                                     )
                 )
             </div>

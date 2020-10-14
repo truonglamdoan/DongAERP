@@ -327,7 +327,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         }
                         else
                         {
-                            style.Custom = "#,##";
+                            style.Custom = "#,##0";
                         }
 
                         // set border
@@ -762,7 +762,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         }
                         else
                         {
-                            style.Custom = "#,##";
+                            style.Custom = "#,##0";
                             style.HorizontalAlignment = TextAlignmentType.General;
                         }
 
@@ -1123,7 +1123,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
                         // set style cho number
-                        style.Custom = "#,##";
+                        style.Custom = "#,##0";
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -1656,7 +1656,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
                         // set style cho number
-                        style.Custom = "#,##";
+                        style.Custom = "#,##0";
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -1820,7 +1820,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
                         // set style cho number
-                        style.Custom = "#,##";
+                        style.Custom = "#,##0";
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -2691,7 +2691,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
                         // set style cho number
-                        style.Custom = "#,##";
+                        style.Custom = "#,##0";
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -2999,7 +2999,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
                         // set style cho number
-                        style.Custom = "#,##";
+                        style.Custom = "#,##0";
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -3695,7 +3695,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
                         // set style cho number
-                        style.Custom = "#,##";
+                        style.Custom = "#,##0";
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -4089,7 +4089,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
                         // set style cho number
-                        style.Custom = "#,##";
+                        style.Custom = "#,##0";
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
