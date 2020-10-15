@@ -817,14 +817,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 table.Rows.Add(str[3], listData[0].CAD, listData[1].CAD, Math.Round(CADCompare / listData[1].CAD * 100, 2, MidpointRounding.ToEven), CADCompare);
                 table.Rows.Add(str[4], listData[0].AUD, listData[1].AUD, Math.Round(AUDCompare / listData[1].AUD * 100, 2, MidpointRounding.ToEven), AUDCompare);
                 table.Rows.Add(str[5], listData[0].GBP, listData[1].GBP, Math.Round(GBPCompare / listData[1].GBP * 100, 2, MidpointRounding.ToEven), GBPCompare);
-
-                DataRow row = table.NewRow();
-                row["ReportID"] = "Tổng";
-                row["AccumulateID1"] = table.Compute("Sum(AccumulateID1)", "");
-                row["AccumulateID2"] = table.Compute("Sum(AccumulateID2)", "");
-                row["CompareToIDPercent"] = Math.Round((double)table.Compute("AVG(CompareToIDPercent)", ""), 2, MidpointRounding.ToEven);
-                row["CompareToID"] = table.Compute("Sum(CompareToID)", "");
-                table.Rows.Add(row);
+                
             }
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);

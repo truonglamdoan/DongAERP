@@ -28,7 +28,7 @@
         toYear = listData[1];
         reportTypeID = listData[2];
 
-        string text = " tháng đầu năm";
+        string text = " tháng năm";
         switch (gradation)
         {
             case "1":
@@ -45,8 +45,8 @@
                 break;
         }
 
-        titleGradatonYear = string.Format("Lũy kế {0} {1}", text, toYear);
-        titleGradatonLastYear = string.Format("Lũy kế {0} {1}", text, int.Parse(toYear) - 1);
+        titleGradatonYear = string.Format("Lũy kế </br> {0} {1}", text, toYear);
+        titleGradatonLastYear = string.Format("Lũy kế </br> {0} {1}", text, int.Parse(toYear) - 1);
     }
 
 }
@@ -127,8 +127,8 @@
                     {
                         Dictionary<string, string> listName = new Dictionary<string, string>();
                         listName.Add("ReportID", "Loại tiền");
-                        listName.Add("AccumulateID1", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year));
-                        listName.Add("AccumulateID2", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year - 1));
+                        listName.Add("AccumulateID1", titleGradatonYear);
+                        listName.Add("AccumulateID2", titleGradatonLastYear);
                         listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                         listName.Add("CompareToID", string.Format("Tăng giảm </br> so với cùng kì {0} (+/-)", year - 1));
                         // List danh sach in đậm
@@ -193,8 +193,8 @@
                     {
                         Dictionary<string, string> listName = new Dictionary<string, string>();
                         listName.Add("ReportID", "Loại tiền (Quy USD)");
-                        listName.Add("AccumulateID1", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year));
-                        listName.Add("AccumulateID2", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year - 1));
+                        listName.Add("AccumulateID1", titleGradatonYear);
+                        listName.Add("AccumulateID2", titleGradatonLastYear);
                         listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                         listName.Add("CompareToID", string.Format("Tăng giảm </br> so với cùng kì {0} (+/-)", year - 1));
                         // List danh sach in đậm
@@ -346,8 +346,8 @@
                     {
                         Dictionary<string, string> listName = new Dictionary<string, string>();
                         listName.Add("ReportID", "Loại tiền");
-                        listName.Add("AccumulateID1", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year));
-                        listName.Add("AccumulateID2", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year - 1));
+                        listName.Add("AccumulateID1", titleGradatonYear);
+                        listName.Add("AccumulateID2", titleGradatonLastYear);
                         listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                         // List danh sach in đậm
                         string[] listBoldArray = { "CompareToIDPercent", "CompareToID" };
@@ -402,8 +402,8 @@
 <script type="text/javascript">
 
     function onDataBoundGradationCompare(e) {
-        let listRows = $('#gridGradationCompare tbody tr');
-        $(listRows[listRows.length - 1]).css('font-weight', 'bold');
+        //let listRows = $('#gridGradationCompare tbody tr');
+        //$(listRows[listRows.length - 1]).css('font-weight', 'bold');
 
         // Tô màu dòng record có tỉ lệ tăng giảm
         let trGrid = $('#gridGradationCompare tbody tr');

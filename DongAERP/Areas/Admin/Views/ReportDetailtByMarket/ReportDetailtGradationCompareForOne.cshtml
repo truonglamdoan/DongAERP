@@ -139,13 +139,13 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường Danh sách Chi Quầy (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường Danh số Chi Quầy (USD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartGradationCompareForOneForDSChiQuay")
-                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: {0}", text))
+                        .Title(string.Format("Doanh số theo từng dịch vụ của các đối tác trong thị trường \n Giai đoạn: {0}", text))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Top)
                         )
@@ -163,7 +163,7 @@
 
                         .Series(series =>
                         {
-                            series.Column(model => model.amount).Name("#= group.value #");
+                            series.Bar(model => model.amount).Name("#= group.value #");
                             //.CategoryField("NameType");
 
                         })
@@ -171,7 +171,7 @@
                         .CategoryAxis(axis => axis
                             .Categories(categories => categories.NameType)
                             .MajorGridLines(lines => lines.Visible(false))
-                            .Labels(label => label.Rotation(-15))
+                            //.Labels(label => label.Rotation(-15))
                         //.MajorGridLines(lines => lines.Visible(true))
                         )
                         //.CategoryAxis(axis => axis
@@ -199,7 +199,7 @@
         <!-- Circle Buttons -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường theo Danh sách Chi Nhà (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Doanh số từng dịch vụ từng thị trường theo Danh số Chi Nhà (USD)</h6>
             </div>
             <div class="card-body">
                 <div class="demo-section k-content wide">
@@ -223,7 +223,7 @@
 
                         .Series(series =>
                         {
-                            series.Column(model => model.amount).Name("#= group.value #");
+                            series.Bar(model => model.amount).Name("#= group.value #");
                             //.CategoryField("NameType");
 
                         })
@@ -231,7 +231,7 @@
                         .CategoryAxis(axis => axis
                             .Categories(categories => categories.NameType)
                             .MajorGridLines(lines => lines.Visible(false))
-                            .Labels(label => label.Rotation(-15))
+                            //.Labels(label => label.Rotation(-15))
                         //.MajorGridLines(lines => lines.Visible(true))
                         )
                         .ValueAxis(axis => axis
@@ -277,7 +277,7 @@
 
                         .Series(series =>
                         {
-                            series.Column(model => model.amount).Name("#= group.value #");
+                            series.Bar(model => model.amount).Name("#= group.value #");
                             //.CategoryField("NameType");
 
                         })
@@ -285,7 +285,7 @@
                         .CategoryAxis(axis => axis
                             .Categories(categories => categories.NameType)
                             .MajorGridLines(lines => lines.Visible(false))
-                            .Labels(label => label.Rotation(-15))
+                            //.Labels(label => label.Rotation(-15))
                         //.MajorGridLines(lines => lines.Visible(true))
                         )
                         .ValueAxis(axis => axis
@@ -312,7 +312,7 @@
                 <div id="chart"></div>
                 @(Html.Kendo().Chart<DongA.Entities.GradationCharColumn>()
                     .Name("ColumnchartForYearPercentForOne")
-                    .Title(string.Format("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: {0}", text))
+                    .Title(string.Format("Tỉ trọng doanh số chi trả của các đối tác trong thị trường \n Giai đoạn: {0}", text))
                     .Legend(legend => legend
                         .Position(ChartLegendPosition.Top)
                     )
@@ -380,7 +380,7 @@
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" });
                         columns.Group(group => group
-                            .Title("Danh sách Chi Quầy")
+                            .Title("Danh số Chi Quầy")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
@@ -393,7 +393,7 @@
                             })
                         );
                         columns.Group(group => group
-                            .Title("Danh sách Chi Nhà")
+                            .Title("Danh số Chi Nhà")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
@@ -406,7 +406,7 @@
                             })
                         );
                         columns.Group(group => group
-                            .Title("Danh sách Chuyển Khoản")
+                            .Title("Danh số Chuyển Khoản")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .Columns(info =>
                             {
@@ -522,9 +522,10 @@
                         //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
                         .Series(series =>
                         {
-                            series.Pie(model => model.value, model => model.category, model => model.color)
+                            //series.Pie(model => model.value, model => model.category, model => model.color)
+                            series.Pie(model => model.value, model => model.category)
                             .Labels(labels => labels
-                                        
+
                                 //.Template("#= category #: \n #= value#%")
                                 .Template("#= value#%")
                                 .Background("transparent")
@@ -569,8 +570,7 @@
                         )
                         .ChartArea(chart => chart
                             .Background("transparent")
-                            )
-                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                        )
                         .Series(series =>
                         {
                             series.Pie(model => model.value, model => model.category)
@@ -611,11 +611,11 @@
                         columns.Bound("PartnerName").Title("")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: center;" });
-                        columns.Bound("LK1").Title("Lũy kế 3 tháng năm 2020")
+                        columns.Bound("LK1").Title(titleGradatonYear)
                             .Format("{0:n2}%")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound("LK2").Title("Lũy kế 3 tháng năm 2019")
+                        columns.Bound("LK2").Title(titleGradatonLastYear)
                             .Format("{0:n2}%")
                             .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" });

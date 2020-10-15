@@ -73,7 +73,7 @@ var Report = new function () {
                 // Trường hợp khác năm khác tháng
                 || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
 
-                window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType;
+                window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -106,7 +106,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType;
+                window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=2" + "&reportTypeID=" + valueReportType;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -143,7 +143,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType;
+                window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForDayMonthYear/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=3" + "&reportTypeID=" + valueReportType;
             }
         });
     }
@@ -180,7 +180,7 @@ var Report = new function () {
                 // Trường hợp khác năm khác tháng
                 || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
 
-                window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+                window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForDayMonthYearForOne/?fromDate=" + fromDateConvert + "&toDate=" + toDateConvert + "&typeID=1" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -219,7 +219,7 @@ var Report = new function () {
             if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
                 || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
 
-                window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+                window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForDayMonthYearForOne/?fromDate=" + fromMonthConvert + "&toDate=" + toMonthConvert + "&typeID=2" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -259,7 +259,7 @@ var Report = new function () {
                 }).data("kendoAlert").open();
             } else {
 
-                window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+                window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForDayMonthYearForOne/?fromDate=" + fromYearConvert + "&toDate=" + toYearConvert + "&typeID=3" + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
             }
         });
     }
@@ -271,7 +271,7 @@ var Report = new function () {
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType;
+            window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForGradationCompare/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType;
         });
     }
 
@@ -289,7 +289,7 @@ var Report = new function () {
             let gradationID = $("#gradation").data("kendoComboBox").value();
             let year = $('#ToYear').data('kendoDatePicker').value().getFullYear();
 
-            window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+            window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForGradationCompareForOne/?gradationID=" + gradationID + "&year=" + year + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
         });
     }
 
@@ -303,7 +303,7 @@ var Report = new function () {
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-            window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType;
+            window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelForCompareForMonth/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType;
         });
     }
 
@@ -322,7 +322,7 @@ var Report = new function () {
             let year = $('#FromMonth').data('kendoDatePicker').value().getFullYear();
             let month = $('#FromMonth').data('kendoDatePicker').value().getMonth() + 1;
 
-            window.location = "/ReportDetailtExcelForPartnerLT/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
+            window.location = "/ReportHSDetailtPartnerLTExcel/CreateExcelCompareMonthForOne/?year=" + year + "&month=" + month + "&reportTypeID=" + valueReportType + "&partnerID=" + partnerID;
         });
     }
 

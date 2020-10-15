@@ -82,7 +82,7 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh sách chi trả theo đối tác (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh số chi trả theo đối tác (USD)</h6>
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<DongA.Entities.ReportDetailtServiceType>()
@@ -97,19 +97,19 @@
                             //.ClientGroupFooterTemplate("Tổng")
                             .ClientFooterTemplate("Tổng tất cả");
 
-                        columns.Bound(p => p.DSChiQuay).Title("Danh sách chi quầy").Width(100)
+                        columns.Bound(p => p.DSChiQuay).Title("Danh số chi quầy").Width(100)
                             .Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" })
                             //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                             .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
 
-                        columns.Bound(p => p.DSChiNha).Title("Danh sách chi nhà").Width(100)
+                        columns.Bound(p => p.DSChiNha).Title("Danh số chi nhà").Width(100)
                             .Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" })
                             //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")
                             .ClientFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>");
 
-                        columns.Bound(p => p.DSCK).Title("Danh sách chuyển khoản")
+                        columns.Bound(p => p.DSCK).Title("Danh số chuyển khoản")
                             .Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                             .HtmlAttributes(new { style = " text-align: right;" })
                             //.ClientGroupFooterTemplate("<div style='float: right;'>#= kendo.toString(sum,'0,00.00')#</div>")

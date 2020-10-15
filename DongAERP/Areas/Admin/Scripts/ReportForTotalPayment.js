@@ -41,48 +41,7 @@ var Report = new function () {
      * @since[Trường Lãm] created on [15/06/2020]
      */
     this.ReportTotalPaymentForDay = function () {
-
-        // For day report
-        let urlGrid = "/Admin/ReportForTotalPayment/SearchReportTotalPaymentForDay?fromDay=";
-        let urlChart = "/Admin/ReportForTotalPayment/SearchLineChartTotalPaymentForReport?fromDay=";
-
-        $('ul.search-item .search-grid-day').click(function () {
-
-            let fromdate = $('#FromDay').data('kendoDatePicker').value();
-            let fromDateConvert = kendo.toString(fromdate, "MM/dd/yyyy");
-            let todate = $('#ToDay').data('kendoDatePicker').value();
-            let toDateConvert = kendo.toString(todate, "MM/dd/yyyy");
-            // Tính số ngày chênh lệch
-            let difference_In_Time = todate.getTime() - fromdate.getTime();
-            let difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
-
-            // loadding
-            displayLoading(document.body);
-
-            // Chỉ cho phép lấy thời gian trong khoản 30 ngày
-            if ((fromdate.getMonth() == todate.getMonth() && fromdate.getFullYear() == todate.getFullYear())
-                // Trường hợp khác tháng cùng năm
-                || (todate.getMonth() == fromdate.getMonth() + 1 && fromdate.getFullYear() == todate.getFullYear() && difference_In_Days < 30)
-                // Trường hợp khác năm khác tháng
-                || fromdate.getMonth() == 11 && fromdate.getFullYear() + 1 == todate.getFullYear() && difference_In_Days < 30) {
-
-
-                let grid = $("#gridReportTotalPaymentForDay").data("kendoGrid");
-                grid.dataSource.transport.options.read.url = urlGrid + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType;                
-                grid.dataSource.read();
-
-                let chart = $("#lineChartReportTotalPaymentForDay").data("kendoChart");
-                chart.dataSource.transport.options.read.url = urlChart + fromDateConvert + "&toDay=" + toDateConvert + "&reportTypeID=" + valueReportType;
-                chart.options.title.text = "Doanh số chi trả theo tổng doanh số chi trả";
-                chart.dataSource.read();
-            } else {
-                $("<div></div>").kendoAlert({
-                    title: "Cảnh báo!",
-                    content: "Bạn chỉ được phép tìm kiếm trong 30 ngày trở lại"
-                }).data("kendoAlert").open();
-            }
-        });
-
+        
         // PrintExcel for report day
         $('ul.search-item .print-excel-day').click(function () {
 

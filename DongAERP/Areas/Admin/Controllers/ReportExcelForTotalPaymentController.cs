@@ -518,41 +518,13 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 // Đổ data vào datatble mới
                 FillData(dataReport.Tables[0], dataTable);
-
-                // get data
-                string totalRowData = "Q8:Q9";
-                leadSourceLine.NSeries.Add(totalRowData, true);
-
-                // Get row
-                string categoryData = "P8:P9";
-                leadSourceLine.NSeries.CategoryData = categoryData;
-                // Set the names of the chart series taken from cells.
-                leadSourceLine.NSeries[0].Name = "=Q7";
-
-                // Set the 1st series fill color.
-                leadSourceLine.NSeries[0].Border.Color = Color.Orange;
-                leadSourceLine.NSeries[0].Area.Formatting = FormattingType.Custom;
-
-                // Set the 2nd series fill color.
-                leadSourceLine.NSeries[1].Border.Color = Color.Green;
-                leadSourceLine.NSeries[1].Area.Formatting = FormattingType.Custom;
-
-                // Set plot area formatting as none and hide its border.
-                leadSourceLine.PlotArea.Area.FillFormat.FillType = FillType.None;
-                leadSourceLine.PlotArea.Border.IsVisible = false;
-
-                // Set value axis major tick mark as none and hide axis line. 
-                // Also set the color of value axis major grid lines.
-                leadSourceLine.ValueAxis.MajorTickMark = TickMarkType.None;
-                leadSourceLine.ValueAxis.AxisLine.IsVisible = false;
-                leadSourceLine.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
-
+                
                 // Set border
                 Style style = new CellsFactory().CreateStyle();
                 style.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
                 style.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
                 style.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
-
+                
                 if (dataTable.Rows.Count > 0)
                 {
                     int stepRow = 0;
@@ -625,6 +597,34 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     sheetReport.Cells["D10"].PutValue("Không có dữ liệu");
                 }
+
+                // get data
+                string totalRowData = "Q8:Q9";
+                leadSourceLine.NSeries.Add(totalRowData, true);
+
+                // Get row
+                string categoryData = "P8:P9";
+                leadSourceLine.NSeries.CategoryData = categoryData;
+                // Set the names of the chart series taken from cells.
+                leadSourceLine.NSeries[0].Name = "=Q7";
+
+                //// Set the 1st series fill color.
+                //leadSourceLine.NSeries[0].Border.Color = Color.Orange;
+                //leadSourceLine.NSeries[0].Area.Formatting = FormattingType.Custom;
+
+                //// Set the 2nd series fill color.
+                //leadSourceLine.NSeries[1].Border.Color = Color.Green;
+                //leadSourceLine.NSeries[1].Area.Formatting = FormattingType.Custom;
+
+                // Set plot area formatting as none and hide its border.
+                leadSourceLine.PlotArea.Area.FillFormat.FillType = FillType.None;
+                leadSourceLine.PlotArea.Border.IsVisible = false;
+
+                // Set value axis major tick mark as none and hide axis line. 
+                // Also set the color of value axis major grid lines.
+                leadSourceLine.ValueAxis.MajorTickMark = TickMarkType.None;
+                leadSourceLine.ValueAxis.AxisLine.IsVisible = false;
+                leadSourceLine.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
             }
             
             // Chạy process

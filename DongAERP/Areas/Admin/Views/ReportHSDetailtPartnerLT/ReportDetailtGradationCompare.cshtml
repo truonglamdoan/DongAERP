@@ -47,7 +47,7 @@
         titleGradatonLastYear = string.Format("Lũy kế {0} {1}", text, int.Parse(toYear) - 1);
     }
 }
-<script src="~/Areas/Admin/Scripts/ReportDetailtByPartnerLT.js"></script>
+<script src="~/Areas/Admin/Scripts/ReportHSDetailt/ReportHSDetailtPartnerLT.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Giai đoạn</h1>
 
 <h6 class="m-0 font-weight-bold text-primary">@NameUrl</h6>
@@ -70,144 +70,163 @@
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<dynamic>()
-                    .Name("gridGradationCompare")
-                    .HtmlAttributes(new { style = " overflow: auto; " })
-                    .Columns(columns =>
-                    {
-                        columns.Bound("STT").Title("STT").Locked(true).Width(100)
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: center;" });
-
-                        columns.Bound("PartnerName").Title("Đối tác").Locked(true).Width(250)
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: center;" });
-
-                        columns.Group(group => group
-                            .Title("VND")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                            .HtmlAttributes(new { style = " text-align: center;" })
-                            .Columns(info =>
+                            .Name("gridGradationCompare")
+                            .HtmlAttributes(new { style = " overflow: auto; " })
+                            .Columns(columns =>
                             {
-                                info.Bound("VND1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound("VND2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
+                                columns.Bound("STT").Title("STT").Locked(true).Width(100)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: center;" });
 
-                                info.Bound("TDS1").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                columns.Bound("PartnerName").Title("Đối tác").Locked(true).Width(250)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: center;" });
+
+                                columns.Group(group => group
+                                    .Title("VND")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    .HtmlAttributes(new { style = " text-align: center;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("VND1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("VND2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+
+                                        info.Bound("TDS1").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+                                );
+
+                                columns.Group(group => group
+                                    .Title("USD")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("USD1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("USD2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+
+                                        info.Bound("TDS2").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+                                );
+
+                                columns.Group(group => group
+                                    .Title("EUR")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("EUR1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("EUR2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+
+                                        info.Bound("TDS3").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+                                );
+
+                                columns.Group(group => group
+                                    .Title("CAD")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("CAD1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("CAD2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+
+                                        info.Bound("TDS4").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+                                );
+
+                                columns.Group(group => group
+                                    .Title("AUD")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("AUD1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("AUD2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+
+                                        info.Bound("TDS5").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+                                );
+
+                                columns.Group(group => group
+                                    .Title("GBP")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("GBP1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+                                        info.Bound("GBP2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;" });
+
+                                        info.Bound("TDS6").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+                                );
+
+                                columns.Group(group => group
+                                    .Title("Tổng")
+                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
+                                    .HtmlAttributes(new { style = " text-align: center;" })
+                                    .Columns(info =>
+                                    {
+                                        info.Bound("TDS7").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;font-weight: 700;" });
+                                        info.Bound("TDS8").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right;font-weight: 700;" });
+
+                                        info.Bound("TDS9").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
+                                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                            .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
+                                    })
+                                );
                             })
-                        );
+                            .Scrollable(scrollable => scrollable.Height(500))
+                            .Sortable() // Enable sorting
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                //.Batch(true)
+                                //.ServerOperation(false)
+                                .Read(read => read.Action("SearchGridReportForGradation", "ReportHSDetailtPartnerLT").Data("onDataReportTypeID"))
 
-                        columns.Group(group => group
-                            .Title("USD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
-                            .HtmlAttributes(new { style = " text-align: center;" })
-                            .Columns(info =>
-                            {
-                                info.Bound("USD1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound("USD2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-
-                                info.Bound("TDS2").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                            })
-                        );
-
-                        columns.Group(group => group
-                            .Title("EUR")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                            .HtmlAttributes(new { style = " text-align: center;" })
-                            .Columns(info =>
-                            {
-                                info.Bound("EUR1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound("EUR2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-
-                                info.Bound("TDS3").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                            })
-                        );
-
-                        columns.Group(group => group
-                            .Title("CAD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
-                            .HtmlAttributes(new { style = " text-align: center;" })
-                            .Columns(info =>
-                            {
-                                info.Bound("CAD1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound("CAD2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-
-                                info.Bound("TDS4").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                            })
-                        );
-
-                        columns.Group(group => group
-                            .Title("AUD")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                            .HtmlAttributes(new { style = " text-align: center;" })
-                            .Columns(info =>
-                            {
-                                info.Bound("AUD1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound("AUD2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-
-                                info.Bound("TDS5").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                            })
-                        );
-
-                        columns.Group(group => group
-                            .Title("GBP")
-                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;background-color: orange;" })
-                            .HtmlAttributes(new { style = " text-align: center;" })
-                            .Columns(info =>
-                            {
-                                info.Bound("GBP1").Title(string.Format("Năm {0}", toYear)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-                                info.Bound("GBP2").Title(string.Format("Năm {0}", toYear == "" ? 0 : int.Parse(toYear) - 1)).Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right;" });
-
-                                info.Bound("TDS6").Title("Tăng/Giảm").Format("{0:n0}").Width(200)
-                                    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                                    .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
-                            })
-                        );
-                    })
-                    .Scrollable(scrollable => scrollable.Height(500))
-                    .Sortable() // Enable sorting
-                    .DataSource(dataSource => dataSource
-                        .Ajax()
-                        //.Batch(true)
-                        //.ServerOperation(false)
-                        .Read(read => read.Action("SearchGridReportForGradation", "ReportHSDetailtPartnerLT").Data("onDataReportTypeID"))
-
-                    )
-                    .Events(events => events
-                        .DataBound("onDataBoundgridGradationCompare")
-                    )
+                            )
+                            .Events(events => events
+                                .DataBound("onDataBoundgridGradationCompare")
+                            )
                 )
             </div>
         </div>
@@ -252,7 +271,7 @@
 
                 // Trường hợp là các cột tăng giảm
                 if (tdCheckColumn == 'TDS1' || tdCheckColumn == 'TDS2' || tdCheckColumn == 'TDS3'
-                    || tdCheckColumn == 'TDS4' || tdCheckColumn == 'TDS5' || tdCheckColumn == 'TDS6') {
+                    || tdCheckColumn == 'TDS4' || tdCheckColumn == 'TDS5' || tdCheckColumn == 'TDS6' || tdCheckColumn == 'TDS9') {
 
                     tdCellValue = kendo.parseFloat(tdGrid[j].textContent);
 
@@ -268,7 +287,7 @@
         }
     }
 
-    
+
     function onDataReportTypeID(arg) {
 
         return {

@@ -597,7 +597,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, item.Year),
+                        NameGradationCompare = "Tổng doanh số",
                         amount = item.Payed,
                         NameType = string.Format("Lũy kề {0} {1}", text, item.Year)
                     };

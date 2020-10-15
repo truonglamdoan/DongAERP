@@ -56,9 +56,9 @@
                         .DataSource(ds => ds.Read(read => read.Action("SearchLineChartReportYear", "Report").Data("onDataReportTypeID")))
                         .Series(series =>
                         {
-                            series.Line(model => model.DSChiQuay).Name("Danh sách chi quầy").CategoryField("Year").Color("#FFBF00");
-                            series.Line(model => model.DSChiNha).Name("Danh sách chi nhà").CategoryField("Year").Color("#40FF00");
-                            series.Line(model => model.DSCK).Name("Danh sách chuyển khoản").CategoryField("Year").Color("#2ECCFA");
+                            series.Line(model => model.DSChiQuay).Name("Danh số chi quầy").CategoryField("Year").Color("#FFBF00");
+                            series.Line(model => model.DSChiNha).Name("Danh số chi nhà").CategoryField("Year").Color("#40FF00");
+                            series.Line(model => model.DSCK).Name("Danh số chuyển khoản").CategoryField("Year").Color("#2ECCFA");
                             //series.Line(model => model.TongDS).Name("Tổng doanh số").CategoryField("Year").Color("#006400");
                         })
                         .CategoryAxis(axis => axis
@@ -91,9 +91,9 @@
                     .Columns(columns =>
                     {
                         columns.Bound(c => c.ReportID).Title("Năm").Width(200).HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: center;" });
-                        columns.Bound(c => c.DSChiQuay).Title("Danh sách chi quầy").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.DSChiNha).Title("Danh sách chi nhà").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-                        columns.Bound(c => c.DSCK).Title("Danh sách chuyển khoản").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.DSChiQuay).Title("Danh số chi quầy").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.DSChiNha).Title("Danh số chi nhà").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Bound(c => c.DSCK).Title("Danh số chuyển khoản").Width(100).Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
                         columns.Bound(c => c.TongDS).Title("Tổng doanh số").Format("{0:N2}").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                     })
                     .DataSource(dataSource => dataSource

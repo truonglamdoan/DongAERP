@@ -193,6 +193,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLHController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLHExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLTController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportHSDetailtPartnerLTExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMarketExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSMoneyTypeController.cs" />
@@ -2733,6 +2734,12 @@
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHForGradationOne.xlsx" />
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHForCompare.xlsx" />
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLHCompareForOne.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLT.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForOne.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForGradation.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForGradationForOne.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForCompare.xlsx" />
+    <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForCompareForOne.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4866,9 +4873,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\ReportHSDetailtLHTypeExcel\" />
-    <Folder Include="Areas\Admin\Views\ReportHSDetailtLTMoneyTypeExcel\" />
-    <Folder Include="Areas\Admin\Views\ReportHSDetailtPartnerLHExcel\" />
+    <Folder Include="Areas\Admin\Views\ReportHSDetailtPartnerLTExcel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

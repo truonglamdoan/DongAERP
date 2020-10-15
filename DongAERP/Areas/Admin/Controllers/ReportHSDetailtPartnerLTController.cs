@@ -864,6 +864,10 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchGridReportForGradation([DataSourceRequest]DataSourceRequest request, int gradation, int year, string reportTypeID)
         {
             List<ReportDetailtForTotalMoneyType> listDataGradation = new HSReportBL().ReportDetailtPartnerLTGradationCompareForAll(year, gradation, reportTypeID);
+            foreach(ReportDetailtForTotalMoneyType item in listDataGradation)
+            {
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
 
             // Khởi tạo datatable
             DataTable table = new DataTable();
@@ -894,6 +898,10 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("GBP1", typeof(double));
             table.Columns.Add("GBP2", typeof(double));
             table.Columns.Add("TDS6", typeof(double));
+
+            table.Columns.Add("TDS7", typeof(double));
+            table.Columns.Add("TDS8", typeof(double));
+            table.Columns.Add("TDS9", typeof(double));
 
             int count = 1;
             List<string> listPartner = new List<string>();
@@ -940,6 +948,8 @@ namespace DongAERP.Areas.Admin.Controllers
                 double sumAUD = dataItemYear.AUD - dataItemLastYear.AUD;
                 double sumGBP = dataItemYear.GBP - dataItemLastYear.GBP;
 
+                double sumTongDS = dataItemYear.TongDS - dataItemLastYear.TongDS;
+
                 table.Rows.Add(
                     count++, item.PartnerName
                     , dataItemYear.VND, dataItemLastYear.VND, Math.Round(sumVND, 2, MidpointRounding.ToEven)
@@ -948,6 +958,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     , dataItemYear.CAD, dataItemLastYear.CAD, Math.Round(sumCAD, 2, MidpointRounding.ToEven)
                     , dataItemYear.AUD, dataItemLastYear.AUD, Math.Round(sumAUD, 2, MidpointRounding.ToEven)
                     , dataItemYear.GBP, dataItemLastYear.GBP, Math.Round(sumGBP, 2, MidpointRounding.ToEven)
+
+                    , dataItemYear.TongDS, dataItemLastYear.TongDS, Math.Round(sumTongDS, 2, MidpointRounding.ToEven)
                 );
             }
 
@@ -978,6 +990,10 @@ namespace DongAERP.Areas.Admin.Controllers
             row["GBP1"] = table.Compute("Sum(GBP1)", "");
             row["GBP2"] = table.Compute("Sum(GBP2)", "");
             row["TDS6"] = table.Compute("Sum(TDS6)", "");
+
+            row["TDS7"] = table.Compute("Sum(TDS7)", "");
+            row["TDS8"] = table.Compute("Sum(TDS8)", "");
+            row["TDS9"] = table.Compute("Sum(TDS9)", "");
 
             table.Rows.Add(row);
 
@@ -1532,7 +1548,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             row["TDS1"] = 100;
             row["TDS2"] = 100;
-            row["TDS3"] = table.Compute("Sum(TDS3)", "");
+            row["TDS3"] = 0;
 
             table.Rows.Add(row);
 
@@ -1575,6 +1591,10 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchReportDetailtCompareMonthForAll([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID)
         {
             List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new HSReportBL().ReportDetailtPartnerLTCompareMonthForAll(year, month, reportTypeID);
+            foreach(ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
 
             DataTable table = new DataTable();
             // Khởi tạo datatable
@@ -1608,6 +1628,10 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("GBP1", typeof(double));
             table.Columns.Add("GBP2", typeof(double));
             table.Columns.Add("GBP3", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
+            table.Columns.Add("TDS3", typeof(double));
 
             List<string> listPartner = new List<string>();
             int count = 1;
@@ -1691,6 +1715,8 @@ namespace DongAERP.Areas.Admin.Controllers
                         , dataItemYear.CAD, dataItemLastMonth.CAD, dataItemLastYear.CAD
                         , dataItemYear.AUD, dataItemLastMonth.AUD, dataItemLastYear.AUD
                         , dataItemYear.GBP, dataItemLastMonth.GBP, dataItemLastYear.GBP
+
+                        , dataItemYear.TongDS, dataItemLastMonth.TongDS, dataItemLastYear.TongDS
                     );
                 }
             }
@@ -1722,6 +1748,10 @@ namespace DongAERP.Areas.Admin.Controllers
             row["GBP1"] = table.Compute("Sum(GBP1)", "");
             row["GBP2"] = table.Compute("Sum(GBP2)", "");
             row["GBP3"] = table.Compute("Sum(GBP3)", "");
+
+            row["TDS1"] = table.Compute("Sum(TDS1)", "");
+            row["TDS2"] = table.Compute("Sum(TDS2)", "");
+            row["TDS3"] = table.Compute("Sum(TDS3)", "");
             table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -1740,6 +1770,10 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchReportDetailtCompareMonthForAllCompare([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID)
         {
             List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new HSReportBL().ReportDetailtPartnerLTCompareMonthForAll(year, month, reportTypeID);
+            foreach(ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            {
+                item.TongDS = item.VND + item.USD + item.EUR + item.CAD + item.AUD + item.GBP;
+            }
 
             DataTable table = new DataTable();
             // Khởi tạo datatable
@@ -1767,6 +1801,9 @@ namespace DongAERP.Areas.Admin.Controllers
 
             table.Columns.Add("GBP1", typeof(double));
             table.Columns.Add("GBP2", typeof(double));
+
+            table.Columns.Add("TDS1", typeof(double));
+            table.Columns.Add("TDS2", typeof(double));
 
             List<string> listPartner = new List<string>();
             int count = 1;
@@ -1830,12 +1867,16 @@ namespace DongAERP.Areas.Admin.Controllers
                     double sumAUDYear = Math.Round(dataItemYear.AUD - dataItemLastMonth.AUD, 2, MidpointRounding.ToEven);
                     double sumGBPYear = Math.Round(dataItemYear.GBP - dataItemLastMonth.GBP, 2, MidpointRounding.ToEven);
 
+                    double sumTongDSYear = Math.Round(dataItemYear.TongDS - dataItemLastMonth.TongDS, 2, MidpointRounding.ToEven);
+
                     double sumVNDLastYear = Math.Round(dataItemYear.VND - dataItemLastYear.VND, 2, MidpointRounding.ToEven);
                     double sumUSDLastYear = Math.Round(dataItemYear.USD - dataItemLastYear.USD, 2, MidpointRounding.ToEven);
                     double sumEURLastYear = Math.Round(dataItemYear.EUR - dataItemLastYear.EUR, 2, MidpointRounding.ToEven);
                     double sumCADLastYear = Math.Round(dataItemYear.CAD - dataItemLastYear.CAD, 2, MidpointRounding.ToEven);
                     double sumAUDLastYear = Math.Round(dataItemYear.AUD - dataItemLastYear.AUD, 2, MidpointRounding.ToEven);
                     double sumGBPLastYear = Math.Round(dataItemYear.GBP - dataItemLastYear.GBP, 2, MidpointRounding.ToEven);
+
+                    double sumTongDSLastYear = Math.Round(dataItemYear.TongDS - dataItemLastYear.TongDS, 2, MidpointRounding.ToEven);
 
                     // add item vào table
                     table.Rows.Add(count++, item.PartnerName
@@ -1845,6 +1886,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         , sumCADYear, sumCADLastYear
                         , sumAUDYear, sumAUDLastYear
                         , sumGBPYear, sumGBPLastYear
+                        , sumTongDSYear, sumTongDSLastYear
                     );
                 }
             }
@@ -1870,6 +1912,9 @@ namespace DongAERP.Areas.Admin.Controllers
 
             row["GBP1"] = table.Compute("Sum(GBP1)", "");
             row["GBP2"] = table.Compute("Sum(GBP2)", "");
+
+            row["TDS1"] = table.Compute("Sum(TDS1)", "");
+            row["TDS2"] = table.Compute("Sum(TDS2)", "");
             table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
