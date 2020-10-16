@@ -21,13 +21,14 @@
     string titleGradatonYear = string.Empty;
     string titleGradatonLastYear = string.Empty;
 
+    string text = " tháng năm";
+
     if (listData != null)
     {
         gradation = listData[0];
         toYear = listData[1];
         reportTypeID = listData[2];
 
-        string text = " tháng đầu năm";
         switch (gradation)
         {
             case "1":
@@ -75,7 +76,7 @@
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                                 .Name("chartGradationCompare")
-                                .Title("Hồ sơ theo thị trường \n Giai đoạn: 3 tháng đầu năm")
+                                .Title(string.Format( "Hồ sơ theo thị trường \n Giai đoạn: {0} {1}", text, year))
                                 .Legend(legend => legend
                                     .Position(ChartLegendPosition.Bottom)
                                 )
@@ -126,8 +127,8 @@
                             {
                                 Dictionary<string, string> listName = new Dictionary<string, string>();
                                 listName.Add("MaketID", "Thị trường");
-                                listName.Add("AccumulateID1", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year));
-                                listName.Add("AccumulateID2", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year - 1));
+                                listName.Add("AccumulateID1", string.Format("Lũy kế </br> {0} {1}", text, year));
+                                listName.Add("AccumulateID2", string.Format("Lũy kế </br> {0} {1}", text, year - 1));
                                 listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                                 listName.Add("CompareToID", string.Format("Tăng giảm </br> so với cùng kì {0} (+/-)", year - 1));
                                 // List danh sach in đậm
@@ -273,8 +274,8 @@
                             {
                                 Dictionary<string, string> listName = new Dictionary<string, string>();
                                 listName.Add("MaketID", "Thị trường");
-                                listName.Add("AccumulateID1", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year));
-                                listName.Add("AccumulateID2", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year - 1));
+                                listName.Add("AccumulateID1", string.Format("Lũy kế </br> {0} {1}", text, year));
+                                listName.Add("AccumulateID2", string.Format("Lũy kế </br> {0} {1}", text, year - 1));
                                 listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                                 // List danh sach in đậm
                                 string[] listBoldArray = { "CompareToIDPercent" };

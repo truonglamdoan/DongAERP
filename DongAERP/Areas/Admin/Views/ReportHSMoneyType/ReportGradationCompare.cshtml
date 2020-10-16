@@ -22,13 +22,15 @@
     string titleGradatonYear = string.Empty;
     string titleGradatonLastYear = string.Empty;
 
+    string text = string.Empty;
+
     if (listData != null)
     {
         gradation = listData[0];
         toYear = listData[1];
         reportTypeID = listData[2];
 
-        string text = " tháng đầu năm";
+        text = " tháng năm";
         switch (gradation)
         {
             case "1":
@@ -76,7 +78,7 @@
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                         .Name("chartGradationCompare")
-                        .Title("Hồ sơ theo từng loại tiền \n Giai đoạn: 3 tháng đầu năm")
+                        .Title(string.Format("Hồ sơ theo từng loại tiền \n Giai đoạn: {0} {1}", text, year))
                         .Legend(legend => legend
                             .Position(ChartLegendPosition.Bottom)
                         )
@@ -127,8 +129,8 @@
                     {
                         Dictionary<string, string> listName = new Dictionary<string, string>();
                         listName.Add("ReportID", "Loại tiền");
-                        listName.Add("AccumulateID1", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year));
-                        listName.Add("AccumulateID2", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year - 1));
+                        listName.Add("AccumulateID1", string.Format("Lũy kế </br> {0} {1}", text, year));
+                        listName.Add("AccumulateID2", string.Format("Lũy kế </br> {0} {1}", text, year - 1));
                         listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                         listName.Add("CompareToID", string.Format("Tăng giảm </br> so với cùng kì {0} (+/-)", year - 1));
                         // List danh sach in đậm
@@ -231,7 +233,7 @@
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartGradationPercentLastYear")
                                 .Title(title => title
-                                    .Text(string.Format("Lũy kế 3 tháng đầu năm {0}", year - 1))
+                                    .Text(string.Format("Lũy kế {0} {1}", text, year - 1))
                                     .Position(ChartTitlePosition.Bottom))
                         .Legend(legend => legend
                             .Visible(false)
@@ -275,8 +277,8 @@
                     {
                         Dictionary<string, string> listName = new Dictionary<string, string>();
                         listName.Add("ReportID", "Loại tiền");
-                        listName.Add("AccumulateID1", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year));
-                        listName.Add("AccumulateID2", string.Format("Lũy kế </br> 3 tháng đầu năm {0}", year - 1));
+                        listName.Add("AccumulateID1", string.Format("Lũy kế </br> {0} {1}", text, year));
+                        listName.Add("AccumulateID2", string.Format("Lũy kế </br> {0} {1}", text, year - 1));
                         listName.Add("CompareToIDPercent", string.Format("Tăng giảm </br> so với cùng kì {0} (%)", year - 1));
                         // List danh sach in đậm
                         string[] listBoldArray = { "CompareToIDPercent", "CompareToID" };
