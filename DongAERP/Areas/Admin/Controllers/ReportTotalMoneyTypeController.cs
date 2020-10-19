@@ -887,6 +887,22 @@ namespace DongAERP.Areas.Admin.Controllers
             List<ReportForTotalMoneyType> listData = new ReportBL().DataReportTMTForGradationCompareConvert(year, gradation, reportTypeID);
 
             GradationCompare[] arrayGradation = null;
+            string text = " tháng";
+            switch (gradation)
+            {
+                case 1:
+                    text = string.Concat("3", text);
+                    break;
+                case 2:
+                    text = string.Concat("6", text);
+                    break;
+                case 3:
+                    text = string.Concat("9", text);
+                    break;
+                default:
+                    text = string.Concat("12", text);
+                    break;
+            }
 
             if (listData.Count.Equals(2))
             {
@@ -899,7 +915,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", year),
+                        NameGradationCompare =string.Format("Lũy kế {0} {1}", text, year),
                         amount = item.VND,
                         NameType = "VND"
                     };
@@ -907,7 +923,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, year),
                         amount = item.USD,
                         NameType = "USD"
                     };
@@ -915,7 +931,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, year),
                         amount = item.EUR,
                         NameType = "EUR"
                     };
@@ -923,7 +939,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, year),
                         amount = item.CAD,
                         NameType = "CAD"
                     };
@@ -931,7 +947,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, year),
                         amount = item.AUD,
                         NameType = "AUD"
                     };
@@ -939,7 +955,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     count++;
                     arrayGradation[count] = new GradationCompare()
                     {
-                        NameGradationCompare = string.Concat("Lũy kế 3 tháng năm ", year),
+                        NameGradationCompare = string.Format("Lũy kế {0} {1}", text, year),
                         amount = item.GBP,
                         NameType = "GBP"
                     };

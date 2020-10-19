@@ -20,6 +20,7 @@
 
     string titleGradatonYear = string.Empty;
     string titleGradatonLastYear = string.Empty;
+    string text = " tháng năm";
 
     if (listData != null)
     {
@@ -28,7 +29,6 @@
         reportTypeID = listData[2];
         marketID = listData[3];
 
-        string text = " tháng năm";
         switch (gradation)
         {
             case "1":
@@ -82,7 +82,7 @@ else
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                                         .Name("chartGradationCompareDSChiQuay")
-                                        .Title("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
+                                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường \n Chi Quầy \n Giai đoạn: {0} {1}", text, year))
                                         .Legend(legend => legend
                                             .Position(ChartLegendPosition.Top)
                                         )
@@ -135,7 +135,7 @@ else
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                                         .Name("chartGradationCompareDSChiNha")
-                                        .Title("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
+                                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường \n Chi Nhà \n Giai đoạn: {0} {1}", text, year))
                                         .Legend(legend => legend
                                             .Position(ChartLegendPosition.Top)
                                         )
@@ -188,7 +188,7 @@ else
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationCompare>()
                                         .Name("chartGradationCompareDSCK")
-                                        .Title("Doanh số từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
+                                        .Title(string.Format("Doanh số từng dịch vụ từng thị trường \n Chuyển Khoản \n Giai đoạn: {0} {1}", text, year))
                                         .Legend(legend => legend
                                             .Position(ChartLegendPosition.Top)
                                         )
@@ -240,7 +240,7 @@ else
                 <div id="chart"></div>
                 @(Html.Kendo().Chart<DongA.Entities.GradationCharColumn>()
                                     .Name("ColumnchartForYearPercent")
-                                    .Title("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: 3 tháng đầu năm")
+                                    .Title(string.Format("Tỉ trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} {1}", text, year))
                                     .Legend(legend => legend
                                         .Position(ChartLegendPosition.Top)
                                     )

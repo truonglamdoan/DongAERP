@@ -609,14 +609,14 @@
                                 //columns.Bound("STT").Title("STT")
                                 //    .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                 //    .HtmlAttributes(new { style = " text-align: center;" });
-                                columns.Bound("PartnerName").Title("")
+                                columns.Bound("PartnerName").Title("Đối tác")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: center;" });
-                                columns.Bound("LK1").Title("Lũy kế 3 tháng năm 2020")
+                                columns.Bound("LK1").Title(string.Format("Lũy kế {0} {1}", text, year))
                                     .Format("{0:n2}%")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound("LK2").Title("Lũy kế 3 tháng năm 2019")
+                                columns.Bound("LK2").Title(string.Format("Lũy kế {0} {1}", text, year - 1))
                                     .Format("{0:n2}%")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });

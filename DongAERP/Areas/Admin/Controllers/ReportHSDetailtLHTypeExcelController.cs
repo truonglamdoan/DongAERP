@@ -2437,6 +2437,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             List<string> listMarket = new List<string>();
             // Thị trường Châu Á
+            // Thị trường Châu Á
             if (!marketID.Contains("0"))
             {
                 List<ReportDetailtSTMarket> listDataCompareMonthConvert = new List<ReportDetailtSTMarket>();
@@ -2480,7 +2481,21 @@ namespace DongAERP.Areas.Admin.Controllers
                     // Last month
                     if (listDataItemLastMonth.Count == 0)
                     {
-                        listDataItemLastMonth = new List<ReportDetailtSTMarket>()
+                        if (month == 1)
+                        {
+                            listDataItemLastMonth = new List<ReportDetailtSTMarket>()
+                        {
+                            new ReportDetailtSTMarket()
+                            {
+                                MarketName = item,
+                                Month = "12",
+                                Year = (year - 1).ToString()
+                            }
+                        };
+                        }
+                        else
+                        {
+                            listDataItemLastMonth = new List<ReportDetailtSTMarket>()
                         {
                             new ReportDetailtSTMarket()
                             {
@@ -2489,6 +2504,8 @@ namespace DongAERP.Areas.Admin.Controllers
                                 Year = year.ToString()
                             }
                         };
+                        }
+
                     }
 
                     // Month, Last year
@@ -2519,7 +2536,23 @@ namespace DongAERP.Areas.Admin.Controllers
                     );
 
                     // Last month
-                    listDataCompareMonthConvert.Add(
+                    if (month == 1)
+                    {
+                        listDataCompareMonthConvert.Add(
+                            new ReportDetailtSTMarket()
+                            {
+                                MarketName = item,
+                                DSChiQuay = listDataItemLastMonth.Sum(x => x.DSChiQuay),
+                                DSChiNha = listDataItemLastMonth.Sum(x => x.DSChiNha),
+                                DSCK = listDataItemLastMonth.Sum(x => x.DSCK),
+                                Month = "12",
+                                Year = (year - 1).ToString()
+                            }
+                        );
+                    }
+                    else
+                    {
+                        listDataCompareMonthConvert.Add(
                         new ReportDetailtSTMarket()
                         {
                             MarketName = item,
@@ -2530,6 +2563,8 @@ namespace DongAERP.Areas.Admin.Controllers
                             Year = year.ToString()
                         }
                     );
+                    }
+
 
                     // month Last year
                     listDataCompareMonthConvert.Add(

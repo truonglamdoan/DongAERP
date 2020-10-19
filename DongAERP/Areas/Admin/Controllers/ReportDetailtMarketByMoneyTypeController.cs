@@ -4722,6 +4722,10 @@ namespace DongAERP.Areas.Admin.Controllers
                     ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == year.ToString());
                     ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == (month - 1).ToString() && x.Year == year.ToString());
 
+                    if(month == 1)
+                    {
+                        dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == "12" && x.Year == (year - 1).ToString());
+                    }
                     // Tháng hiện tại
                     if (dataItemYear == null)
                     {

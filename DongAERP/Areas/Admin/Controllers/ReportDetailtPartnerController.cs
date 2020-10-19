@@ -844,9 +844,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     new ReportDetailtForPartner()
                     {
                         PartnerName = string.Format("Tăng giảm so với cùng kì {0}", year - 1),
-                        DSChiQuay = listDataGradationConvert[1].DSChiQuay - listDataGradationConvert[0].DSChiQuay,
-                        DSChiNha = listDataGradationConvert[1].DSChiNha - listDataGradationConvert[0].DSChiNha,
-                        DSCK = listDataGradationConvert[1].DSCK - listDataGradationConvert[0].DSCK,
+                        DSChiQuay = listDataGradationConvert[0].DSChiQuay == 0 ? 0 : (listDataGradationConvert[1].DSChiQuay - listDataGradationConvert[0].DSChiQuay) / listDataGradationConvert[0].DSChiQuay * 100,
+                        DSChiNha = listDataGradationConvert[0].DSChiNha == 0 ? 0 : (listDataGradationConvert[1].DSChiNha - listDataGradationConvert[0].DSChiNha) / listDataGradationConvert[0].DSChiNha * 100,
+                        DSCK = listDataGradationConvert[0].DSCK == 0 ? 0 : (listDataGradationConvert[1].DSCK - listDataGradationConvert[0].DSCK) / listDataGradationConvert[0].DSCK * 100,
                     }
                 );
             }
@@ -1616,9 +1616,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     new ReportDetailtForPartner()
                     {
                         PartnerName = "Tăng giảm so với tháng trước (%)",
-                        DSChiQuay = Math.Round(sumDSChiQuayYear, 2, MidpointRounding.ToEven),
-                        DSChiNha = Math.Round(sumDSChiNhaYear, 2, MidpointRounding.ToEven),
-                        DSCK = Math.Round(sumDSCKYear, 2, MidpointRounding.ToEven),
+                        DSChiQuay = Math.Round((sumDSChiQuayYear/ listDataCompareMonthConvert[1].DSChiQuay) * 100, 2, MidpointRounding.ToEven),
+                        DSChiNha = Math.Round((sumDSChiNhaYear / listDataCompareMonthConvert[1].DSChiNha) * 100, 2, MidpointRounding.ToEven),
+                        DSCK = Math.Round((sumDSCKYear/ listDataCompareMonthConvert[1].DSCK) * 100, 2, MidpointRounding.ToEven),
                         TongDS = 0
                     }
                 );
@@ -1628,9 +1628,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     new ReportDetailtForPartner()
                     {
                         PartnerName = "Tăng giảm so với cùng kì năm trước (%)",
-                        DSChiQuay = Math.Round(sumDSChiQuayLastYear, 2, MidpointRounding.ToEven),
-                        DSChiNha = Math.Round(sumDSChiNhaLastYear, 2, MidpointRounding.ToEven),
-                        DSCK = Math.Round(sumDSCKLastYear, 2, MidpointRounding.ToEven),
+                        DSChiQuay = Math.Round((sumDSChiQuayLastYear/ listDataCompareMonthConvert[0].DSChiQuay) * 100, 2, MidpointRounding.ToEven),
+                        DSChiNha = Math.Round((sumDSChiNhaLastYear/ listDataCompareMonthConvert[0].DSChiNha) * 100, 2, MidpointRounding.ToEven),
+                        DSCK = Math.Round((sumDSCKLastYear/ listDataCompareMonthConvert[0].DSCK) * 100, 2, MidpointRounding.ToEven),
                         TongDS = 0
                     }
                 );

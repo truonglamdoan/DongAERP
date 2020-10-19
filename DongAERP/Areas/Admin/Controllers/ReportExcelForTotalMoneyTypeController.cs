@@ -325,12 +325,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
                     //string totalRowData = string.Format("Q{0}:W{1}", countRow, countRow + listReportDataConvert.Count - 2);
-                    string totalRowData = string.Format("Q{0}:V{1}", countRow, countRow + listReportDataConvert.Count - 1);
+                    string totalRowData = string.Format("Q{0}:V{1}", countRow + 1, countRow + listReportDataConvert.Count - 1);
                     leadSourceLine.NSeries.Add(totalRowData, true);
 
                     // Set the category data covering the range A2:A5.
                     // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-                    string categoryData = string.Format("P{0}:P{1}", countRow, countRow + listReportDataConvert.Count - 1);
+                    string categoryData = string.Format("P{0}:P{1}", countRow + 1, countRow + listReportDataConvert.Count - 1);
                     leadSourceLine.NSeries.CategoryData = categoryData;
 
                     // Canh hiển thị CategoryAxis nghiên phù hợp
@@ -1486,7 +1486,12 @@ namespace DongAERP.Areas.Admin.Controllers
             // Nguyên tệ
             sheetReport.Cells["Q7"].PutValue(string.Format("Tháng {0}/{1}", month, year));
             //sheetReport.Cells.SetColumnWidthPixel(16, 170);
+
             sheetReport.Cells["R7"].PutValue(string.Format("Tháng {0}/{1}", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["R7"].PutValue(string.Format("Tháng {0}/{1}", 12, year - 1));
+            }
             //sheetReport.Cells.SetColumnWidthPixel(17, 190);
             sheetReport.Cells["S7"].PutValue(string.Format("Tháng {0}/{1}", month, year - 1));
             sheetReport.Cells.SetColumnWidthPixel(19, 200);
@@ -1509,6 +1514,11 @@ namespace DongAERP.Areas.Admin.Controllers
             sheetReport.Cells["Q17"].PutValue(string.Format("Tháng {0}/{1}", month, year));
             //sheetReport.Cells.SetColumnWidthPixel(16, 170);
             sheetReport.Cells["R17"].PutValue(string.Format("Tháng {0}/{1}", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["R17"].PutValue(string.Format("Tháng {0}/{1}", 12, year - 1));
+            }
+
             //sheetReport.Cells.SetColumnWidthPixel(17, 190);
             sheetReport.Cells["S17"].PutValue(string.Format("Tháng {0}/{1}", month, year - 1));
             sheetReport.Cells.SetColumnWidthPixel(19, 200);
@@ -1525,7 +1535,13 @@ namespace DongAERP.Areas.Admin.Controllers
             //sheetReport.Cells.SetColumnWidthPixel(15, 200);
             sheetReport.Cells["Q35"].PutValue(string.Format("Tháng {0}/{1}", month, year));
             //sheetReport.Cells.SetColumnWidthPixel(16, 200);
+
             sheetReport.Cells["R35"].PutValue(string.Format("Tháng {0}/{1}", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["R35"].PutValue(string.Format("Tháng {0}/{1}", 12, year - 1));
+            }
+
             //sheetReport.Cells.SetColumnWidthPixel(17, 200);
             sheetReport.Cells["S35"].PutValue(string.Format("Tháng {0}/{1}", month, year - 1));
             sheetReport.Cells.SetColumnWidthPixel(19, 200);
@@ -1960,6 +1976,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 dataPieYear = listReportDataPercentClone.Find(x => x.Year == year.ToString());
                 // Data report năm hiện tại, tháng hiện tại nhập vào
                 dataPieLastMonth = listReportDataPercentClone.Find(x => x.Year == year.ToString() && x.Month == (month - 1).ToString());
+
+                if ( month == 1)
+                {
+                    dataPieLastMonth = listReportDataPercentClone.Find(x => x.Year == (year -1).ToString() && x.Month == "12");
+                }
                 // Data report năm ngoái so với năm hiện tại nhập vào
                 dataPieLastYear = listReportDataPercentClone.Find(x => x.Year == (year - 1).ToString());
 
