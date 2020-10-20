@@ -3516,7 +3516,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         arrayGradation[count] = new GradationCharColumn()
                         {
                             Serie = item.MarketName,
-                            Segmento = string.Format("VND Tháng {0}/{1}", item.Month, item.Year),
+                            Segmento = string.Format("VND {0}/{1}", item.Month, item.Year),
                             Valor1 = item.VND,
                             Tooltip = tooltip
                         };
@@ -3526,7 +3526,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         arrayGradation[count] = new GradationCharColumn()
                         {
                             Serie = item.MarketName,
-                            Segmento = string.Format("USD Tháng {0}/{1}", item.Month, item.Year),
+                            Segmento = string.Format("USD {0}/{1}", item.Month, item.Year),
                             Valor1 = item.USD,
                             Tooltip = tooltip
                         };
@@ -3536,7 +3536,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         arrayGradation[count] = new GradationCharColumn()
                         {
                             Serie = item.MarketName,
-                            Segmento = string.Format("EUR Tháng {0}/{1}", item.Month, item.Year),
+                            Segmento = string.Format("EUR {0}/{1}", item.Month, item.Year),
                             Valor1 = item.EUR,
                             Tooltip = tooltip
                         };
@@ -3546,7 +3546,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         arrayGradation[count] = new GradationCharColumn()
                         {
                             Serie = item.MarketName,
-                            Segmento = string.Format("CAD Tháng {0}/{1}", item.Month, item.Year),
+                            Segmento = string.Format("CAD {0}/{1}", item.Month, item.Year),
                             Valor1 = item.CAD,
                             Tooltip = tooltip
                         };
@@ -3556,7 +3556,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         arrayGradation[count] = new GradationCharColumn()
                         {
                             Serie = item.MarketName,
-                            Segmento = string.Format("AUD Tháng {0}/{1}", item.Month, item.Year),
+                            Segmento = string.Format("AUD {0}/{1}", item.Month, item.Year),
                             Valor1 = item.AUD,
                             Tooltip = tooltip
                         };
@@ -3566,7 +3566,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         arrayGradation[count] = new GradationCharColumn()
                         {
                             Serie = item.MarketName,
-                            Segmento = string.Format("GBP Tháng {0}/{1}", item.Month, item.Year),
+                            Segmento = string.Format("GBP {0}/{1}", item.Month, item.Year),
                             Valor1 = item.GBP,
                             Tooltip = tooltip
                         };

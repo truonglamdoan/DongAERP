@@ -552,10 +552,12 @@ namespace DongAERP.Areas.Admin.Controllers
                         if (b == 1)
                         {
                             style.Custom = "";
+                            style.HorizontalAlignment = TextAlignmentType.Center;
                         }
                         else
                         {
                             style.Custom = "#,##0.00";
+                            style.HorizontalAlignment = TextAlignmentType.General;
                         }
 
                         // set border
@@ -665,6 +667,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Khởi tạo datatable
             DataTable dataTable = new DataTable();
+            String namePartner = string.Empty;
 
             switch (typeID)
             {
@@ -674,6 +677,11 @@ namespace DongAERP.Areas.Admin.Controllers
                     listData = new ReportBL().SearchPartnerLTForOne(fromDate, toDate, reportTypeID, partnerID);
                     listDataConvert = new ReportBL().SearchPartnerLTForOneConvert(fromDate, toDate, reportTypeID, partnerID);
                     listDataTotal = new List<ReportDetailtForTotalMoneyType>();
+
+                    if(listData.Count > 0)
+                    {
+                        namePartner = listData[0].PartnerName;
+                    }
 
                     foreach (ReportDetailtForTotalMoneyType item in listData)
                     {
@@ -810,6 +818,12 @@ namespace DongAERP.Areas.Admin.Controllers
                     listData = new ReportBL().SearchPartnerLTForOneForMonth(fromDate, toDate, reportTypeID, partnerID);
                     listDataConvert = new ReportBL().SearchPartnerLTForOneForMonthConvert(fromDate, toDate, reportTypeID, partnerID);
                     listDataTotal = new List<ReportDetailtForTotalMoneyType>();
+
+
+                    if (listData.Count > 0)
+                    {
+                        namePartner = listData[0].PartnerName;
+                    }
 
                     foreach (ReportDetailtForTotalMoneyType item in listData)
                     {
@@ -950,6 +964,11 @@ namespace DongAERP.Areas.Admin.Controllers
                     listData = new ReportBL().SearchPartnerLTForOneForYear(fromDate, toDate, reportTypeID, partnerID);
                     listDataConvert = new ReportBL().SearchPartnerLTForOneForYearConvert(fromDate, toDate, reportTypeID, partnerID);
                     listDataTotal = new List<ReportDetailtForTotalMoneyType>();
+                    
+                    if (listData.Count > 0)
+                    {
+                        namePartner = listData[0].PartnerName;
+                    }
 
                     foreach (ReportDetailtForTotalMoneyType item in listData)
                     {
@@ -1131,10 +1150,12 @@ namespace DongAERP.Areas.Admin.Controllers
                         if (b == 1)
                         {
                             style.Custom = "";
+                            style.HorizontalAlignment = TextAlignmentType.Center;
                         }
                         else
                         {
                             style.Custom = "#,##0.00";
+                            style.HorizontalAlignment = TextAlignmentType.General;
                         }
 
                         // set border
@@ -1181,7 +1202,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnStacked = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnStacked.Title.Text = "Doanh số dịch vụ theo loại tiền";
+            leadSourceColumnStacked.Title.Text = string.Format("Doanh số Đối tác theo loại tiền \n {0}", namePartner);
             leadSourceColumnStacked.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1895,7 +1916,12 @@ namespace DongAERP.Areas.Admin.Controllers
             List<ReportDetailtForTotalMoneyType> listDataGradation = new ReportBL().ReportDetailtPartnerLTGradationCompareForOne(year, int.Parse(gradationID), reportTypeID, partnerID);
             List<ReportDetailtForTotalMoneyType> listDataGradationConvert = new ReportBL().ReportDetailtPartnerLTGradationCompareForOneConvert(year, int.Parse(gradationID), reportTypeID, partnerID);
             List<ReportDetailtForTotalMoneyType> listDataTotal = new List<ReportDetailtForTotalMoneyType>();
-            
+
+            string namePartner = string.Empty;
+            if (listDataGradation.Count > 0)
+            {
+                namePartner = listDataGradation[0].PartnerName;
+            }
             foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
             {
                 listDataTotal.Add(
@@ -2124,7 +2150,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
 
             //Chart title
-            leadSourceColumn.Title.Text = "Doanh số từng dịch vụ từng đối tác";
+            leadSourceColumn.Title.Text = string.Format("Doanh số từng loại tiền cho đối tác \n {0}", namePartner);
             leadSourceColumn.Title.Font.Color = Color.Silver;
 
 
@@ -2228,7 +2254,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     var propertyInfoLastYear = dataItemLastYear.GetType().GetProperty(item);
                     var valueDataLastYear = propertyInfoYear.GetValue(dataItemLastYear, null);
 
-                    double sum = Math.Round(Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastYear), 2, MidpointRounding.ToEven);
+                    double sum = Convert.ToDouble(valueDataLastYear) == 0 ? 0
+                        : Math.Round((Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastYear)) / Convert.ToDouble(valueDataLastYear) * 100, 2, MidpointRounding.ToEven);
 
                     table.Rows.Add(
                         item
@@ -2357,7 +2384,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourcePieLasYear.PlotArea.Border.IsVisible = false;
                 leadSourcePieLasYear.Elevation = 45;
                 // Set properties of chart title
-                leadSourcePieLasYear.Title.Text = string.Format("Ti trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} năm {1}", textValue, year - 1);
+                leadSourcePieLasYear.Title.Text = string.Format("Ti trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} năm {1} \n {2}", textValue, year - 1, namePartner);
                 leadSourcePieLasYear.Title.Font.Color = Color.Silver;
                 leadSourcePieLasYear.Title.Font.IsBold = true;
                 leadSourcePieLasYear.Title.Font.Size = 12;
@@ -2397,7 +2424,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourcePieLasYear.PlotArea.Border.IsVisible = false;
                 leadSourcePieLasYear.Elevation = 45;
                 // Set properties of chart title
-                leadSourcePieLasYear.Title.Text = string.Format("Ti trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} năm {1}", text, year);
+                leadSourcePieLasYear.Title.Text = string.Format("Ti trọng từng dịch vụ từng thị trường \n Giai đoạn: {0} năm {1} \n {2}", text, year, namePartner);
                 leadSourcePieLasYear.Title.Font.Color = Color.Silver;
                 leadSourcePieLasYear.Title.Font.IsBold = true;
                 leadSourcePieLasYear.Title.Font.Size = 12;
@@ -4802,6 +4829,9 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             try
             {
+                // Add time
+                string time = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
+
                 string LData = WebConfigurationManager.AppSettings["LData"];
                 Stream stream = new MemoryStream(Convert.FromBase64String(LData));
 
@@ -4815,7 +4845,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 // Return excel
                 return File(stream, XLSX,
-                    string.Format("{0}.{1}", ReportID, "xlsx"));
+                    string.Format("{0}_{1}.{2}", ReportID, time, "xlsx"));
             }
             catch (Exception ex)
             {

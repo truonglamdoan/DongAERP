@@ -1583,6 +1583,9 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             try
             {
+                // Add time
+                string time = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
+
                 string LData = WebConfigurationManager.AppSettings["LData"];
                 Stream stream = new MemoryStream(Convert.FromBase64String(LData));
 
@@ -1596,7 +1599,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 // Return excel
                 return File(stream, XLSX,
-                    string.Format("{0}.{1}", ReportID, "xlsx"));
+                    string.Format("{0}_{1}.{2}", ReportID, time, "xlsx"));
             }
             catch (Exception ex)
             {

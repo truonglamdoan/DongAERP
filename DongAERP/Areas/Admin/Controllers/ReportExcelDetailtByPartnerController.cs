@@ -2129,7 +2129,7 @@ namespace DongAERP.Areas.Admin.Controllers
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceColumnAUD;
             // AUD
-            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 34, 0, 47, 6);
+            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 7, 14, 19, 19);
             leadSourceColumnAUD = sheetReport.Charts[chartIndex];
 
             //Chart title
@@ -2172,8 +2172,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceColumnGBP;
-            // AUD
-            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 34, 7, 47, 13);
+            // GBP
+            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 20, 14, 33, 19);
             leadSourceColumnGBP = sheetReport.Charts[chartIndex];
 
             //Chart title
@@ -2217,7 +2217,7 @@ namespace DongAERP.Areas.Admin.Controllers
             //Add Pie Chart
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceColumn;
-            chartIndex = sheetReport.Charts.Add(ChartType.Column3DStacked, 50, 0, 77, 13);
+            chartIndex = sheetReport.Charts.Add(ChartType.Bar3DStacked, 34, 0, 79, 13);
             leadSourceColumn = sheetReport.Charts[chartIndex];
 
 
@@ -3134,7 +3134,7 @@ namespace DongAERP.Areas.Admin.Controllers
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceColumnAUD;
             // AUD
-            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 34, 0, 47, 6);
+            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 7, 14, 19, 19);
             leadSourceColumnAUD = sheetReport.Charts[chartIndex];
 
             //Chart title
@@ -3180,8 +3180,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceColumnGBP;
-            // AUD
-            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 34, 7, 47, 13);
+            // GBP
+            chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 20, 14, 33, 19);
             leadSourceColumnGBP = sheetReport.Charts[chartIndex];
 
             //Chart title
@@ -3229,7 +3229,7 @@ namespace DongAERP.Areas.Admin.Controllers
             //Add Pie Chart
             //Chart reference
             Aspose.Cells.Charts.Chart leadSourceColumn;
-            chartIndex = sheetReport.Charts.Add(ChartType.Column3DStacked, 50, 0, 77, 13);
+            chartIndex = sheetReport.Charts.Add(ChartType.Bar3DStacked, 34, 0, 79, 13);
             leadSourceColumn = sheetReport.Charts[chartIndex];
 
 
@@ -3368,30 +3368,58 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
             sheetReport.Cells["B102"].PutValue(string.Format("Tháng {0}/{1} ", month, year -1));
             sheetReport.Cells["C102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["C102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["D102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
                                 
             sheetReport.Cells["E102"].PutValue(string.Format("Tháng {0}/{1} ", month, year -1));
             sheetReport.Cells["F102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["F102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["G102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
                             
             sheetReport.Cells["H102"].PutValue(string.Format("Tháng {0}/{1} ", month, year -1));
             sheetReport.Cells["I102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["I102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["J102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
                           
             sheetReport.Cells["K102"].PutValue(string.Format("Tháng {0}/{1} ", month, year -1));
             sheetReport.Cells["L102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["L102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["M102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
                         
             sheetReport.Cells["N102"].PutValue(string.Format("Tháng {0}/{1} ", month, year -1));
             sheetReport.Cells["O102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["O102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["P102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
                           
             sheetReport.Cells["Q102"].PutValue(string.Format("Tháng {0}/{1} ", month, year -1));
             sheetReport.Cells["R102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["R102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["S102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
                        
             sheetReport.Cells["T102"].PutValue(string.Format("Tháng {0}/{1} ", month, year -1));
             sheetReport.Cells["U102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["U102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["V102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
@@ -3601,6 +3629,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 sheetReport.Cells["D10"].PutValue("Không có dữ liệu");
             }
 
+            // % tỉ trọng
             listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForAllConvert(year, month, reportTypeID, marketID);
 
             foreach (ReportDetailtForTotalMoneyType item in listDataCompareMonth)
@@ -4392,8 +4421,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourceColumn.NSeries.Add(totalRowData, true);
 
                 categoryData = string.Concat("{"
-                    , string.Format("VND {0}/{2}, VND {1}/{2}, VND {0}/{3}, USD {0}/{2}, USD {1}/{2}, USD {0}/{3}, EUR {0}/{2}, EUR {1}/{2}, EUR {0}/{3}, CAD {0}/{2}, CAD {1}/{2}, CAD {0}/{3}, AUD {0}/{2}, AUD {1}/{2}, AUD {0}/{3}, GBP {0}/{2}, GBP {1}/{2}, GBP {0}/{3}"
-                    , month, month - 1, year, year - 1)
+                    , string.Format("VND {0}/{3}, VND {1}/{2}, VND {0}/{4}, USD {0}/{3}, USD {1}/{2}, USD {0}/{4}, EUR {0}/{3}, EUR {1}/{2}, EUR {0}/{4}, CAD {0}/{3}, CAD {1}/{2}, CAD {0}/{4}, AUD {0}/{3}, AUD {1}/{2}, AUD {0}/{4}, GBP {0}/{3}, GBP {1}/{2}, GBP {0}/{4}"
+                    , month
+                    , month == 1 ? 12 : month - 1
+                    , month == 1 ? year - 1 : year
+                    , year
+                    , year - 1)
                     , "}");
 
                 leadSourceColumn.NSeries.CategoryData = categoryData;
@@ -4456,30 +4489,58 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
             sheetReport.Cells["B102"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
             sheetReport.Cells["C102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if(month == 1)
+            {
+                sheetReport.Cells["C102"].PutValue(string.Format("Tháng {0}/{1} ",12, year - 1));
+            }
             sheetReport.Cells["D102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             sheetReport.Cells["E102"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
             sheetReport.Cells["F102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["F102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["G102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             sheetReport.Cells["H102"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
             sheetReport.Cells["I102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["I102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["J102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             sheetReport.Cells["K102"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
             sheetReport.Cells["L102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["L102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["M102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             sheetReport.Cells["N102"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
             sheetReport.Cells["O102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["O102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["P102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             sheetReport.Cells["Q102"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
             sheetReport.Cells["R102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["R102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["S102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             sheetReport.Cells["T102"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
             sheetReport.Cells["U102"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["U102"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["V102"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
 
             List<ReportDetailtForTotalMoneyType> listDataCompareMonth = new ReportBL().ReportDetailtMTCompareMonthForOneConvert(year, month, reportTypeID, marketID);
@@ -5804,11 +5865,6 @@ namespace DongAERP.Areas.Admin.Controllers
                         }
                     );
                 }
-
-                if (listDataCompareMonthConvert.Count > 0)
-                {
-                    listDataCompareMonth = new List<ReportDetailtForTotalMoneyType>(listDataCompareMonthConvert);
-                }
             }
             else
             {
@@ -5818,6 +5874,10 @@ namespace DongAERP.Areas.Admin.Controllers
                     ReportDetailtForTotalMoneyType dataItemYear = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == year.ToString());
                     ReportDetailtForTotalMoneyType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == (month - 1).ToString() && x.Year == year.ToString());
 
+                    if (month == 1)
+                    {
+                        dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == "12" && x.Year == (year - 1).ToString());
+                    }
                     // Tháng hiện tại
                     if (dataItemYear == null)
                     {
@@ -5896,12 +5956,13 @@ namespace DongAERP.Areas.Admin.Controllers
                     }
                 }
 
+                listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>(listDataCompareMonth);
             }
 
             // Danh sách các đối tác
             List<string> listPartnerCurrent = new List<string>();
 
-            foreach(ReportDetailtForTotalMoneyType item in listDataCompareMonth)
+            foreach(ReportDetailtForTotalMoneyType item in listDataCompareMonthConvert)
             {
                 if (!listPartnerCurrent.Contains(item.PartnerName))
                 {
@@ -5916,15 +5977,15 @@ namespace DongAERP.Areas.Admin.Controllers
             foreach (string item in listPartnerCurrent)
             {
                 // Năm trước
-                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonth.Where(x => x.PartnerName == item && x.Month == month.ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonth.Where(x => x.PartnerName == item && x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
-                List<ReportDetailtForTotalMoneyType> listDataMonthLastYear = listDataCompareMonth.Where(x => x.PartnerName == item && x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataYear = listDataCompareMonthConvert.Where(x => x.PartnerName == item && x.Month == month.ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastMonth = listDataCompareMonthConvert.Where(x => x.PartnerName == item && x.Month == (month - 1).ToString() && x.Year == year.ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataMonthLastYear = listDataCompareMonthConvert.Where(x => x.PartnerName == item && x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
                 // Trường hợp tháng 1
                 if (month == 1)
                 {
-                    listDataLastMonth = listDataCompareMonth.Where(x => x.PartnerName == item && x.Month == "12" && x.Year == (year - 1).ToString()).ToList();
+                    listDataLastMonth = listDataCompareMonthConvert.Where(x => x.PartnerName == item && x.Month == "12" && x.Year == (year - 1).ToString()).ToList();
                 }
-                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonth.Where(x => x.PartnerName == item && x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
+                List<ReportDetailtForTotalMoneyType> listDataLastYear = listDataCompareMonthConvert.Where(x => x.PartnerName == item && x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
 
                 listTotalRowData[i++] = string.Concat("{"
                     , string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}"
@@ -5947,8 +6008,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourceColumn.NSeries.Add(totalRowData, true);
 
                 categoryData = string.Concat("{"
-                    , string.Format("VND {0}/{2}, VND {1}/{2}, VND {0}/{3}, USD {0}/{2}, USD {1}/{2}, USD {0}/{3}, EUR {0}/{2}, EUR {1}/{2}, EUR {0}/{3}, CAD {0}/{2}, CAD {1}/{2}, CAD {0}/{3}, AUD {0}/{2}, AUD {1}/{2}, AUD {0}/{3}, GBP {0}/{2}, GBP {1}/{2}, GBP {0}/{3}"
-                    , month, month - 1, year, year - 1)
+                    , string.Format("VND {0}/{3}, VND {1}/{2}, VND {0}/{4}, USD {0}/{3}, USD {1}/{2}, USD {0}/{4}, EUR {0}/{3}, EUR {1}/{2}, EUR {0}/{4}, CAD {0}/{3}, CAD {1}/{2}, CAD {0}/{4}, AUD {0}/{3}, AUD {1}/{2}, AUD {0}/{4}, GBP {0}/{3}, GBP {1}/{2}, GBP {0}/{4}"
+                    , month
+                    , month == 1 ? 12 : month - 1
+                    , month == 1 ? year - 1 : year
+                    , year
+                    , year - 1)
                     , "}");
 
                 leadSourceColumn.NSeries.CategoryData = categoryData;
@@ -6109,6 +6174,9 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             try
             {
+                // Add time
+                string time = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
+
                 string LData = WebConfigurationManager.AppSettings["LData"];
                 Stream stream = new MemoryStream(Convert.FromBase64String(LData));
 
@@ -6122,7 +6190,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 // Return excel
                 return File(stream, XLSX,
-                    string.Format("{0}.{1}", ReportID, "xlsx"));
+                    string.Format("{0}_{1}.{2}", ReportID, time, "xlsx"));
             }
             catch (Exception ex)
             {

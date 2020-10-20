@@ -112,7 +112,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     }
                     // Set from day and to day
                     sheetReport.Cells["E4"].PutValue(string.Format("{0}/{1}", fromDate.Month, fromDate.Year));
-                    sheetReport.Cells["H4"].PutValue(string.Format("{0}/{1}", toDate.Month, toDate.Year));
+                    sheetReport.Cells["G4"].PutValue(string.Format("{0}/{1}", toDate.Month, toDate.Year));
                     break;
                 // Theo năm
                 default:
@@ -128,7 +128,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     }
                     // Set from day and to day
                     sheetReport.Cells["E4"].PutValue(fromDate.Year.ToString());
-                    sheetReport.Cells["H4"].PutValue(toDate.Year.ToString());
+                    sheetReport.Cells["G4"].PutValue(toDate.Year.ToString());
                     break;
             }
 
@@ -299,6 +299,7 @@ namespace DongAERP.Areas.Admin.Controllers
             List<ReportDetailtForPartner> listReportData = new List<ReportDetailtForPartner>();
             // Get danh sách thị trường
             List<string> listMarket = new List<string>();
+            string namePartner = string.Empty;
 
             switch (typeID)
             {
@@ -324,6 +325,12 @@ namespace DongAERP.Areas.Admin.Controllers
                     );
 
                     // Set from day and to day
+                    if (listReportData.Count > 0)
+                    {
+                        sheetReport.Cells["D3"].PutValue("Đối tác");
+                        sheetReport.Cells["E3"].PutValue(listReportData[0].PartnerName);
+                        namePartner = listReportData[0].PartnerName;
+                    }
                     sheetReport.Cells["E4"].PutValue(fromDate.ToString("dd/MM/yyyy"));
                     sheetReport.Cells["G4"].PutValue(toDate.ToString("dd/MM/yyyy"));
                     break;
@@ -349,6 +356,12 @@ namespace DongAERP.Areas.Admin.Controllers
                         }
                     );
                     // Set from day and to day
+                    if (listReportData.Count > 0)
+                    {
+                        sheetReport.Cells["D3"].PutValue("Đối tác");
+                        sheetReport.Cells["E3"].PutValue(listReportData[0].PartnerName);
+                        namePartner = listReportData[0].PartnerName;
+                    }
                     sheetReport.Cells["E4"].PutValue(string.Format("{0}/{1}", fromDate.Month, fromDate.Year));
                     sheetReport.Cells["G4"].PutValue(string.Format("{0}/{1}", toDate.Month, toDate.Year));
                     break;
@@ -376,6 +389,12 @@ namespace DongAERP.Areas.Admin.Controllers
                     );
 
                     // Set from day and to day
+                    if (listReportData.Count > 0)
+                    {
+                        sheetReport.Cells["D3"].PutValue("Đối tác");
+                        sheetReport.Cells["E3"].PutValue(listReportData[0].PartnerName);
+                        namePartner = listReportData[0].PartnerName;
+                    }
                     sheetReport.Cells["E4"].PutValue(fromDate.Year.ToString());
                     sheetReport.Cells["G4"].PutValue(toDate.Year.ToString());
                     break;
@@ -386,13 +405,13 @@ namespace DongAERP.Areas.Admin.Controllers
             if (listReportData.Count > 0)
             {
                 // Tạo các col cho table
-                dataTable = CreateDataTableFormart();
+                dataTable = CreateDataTableFormart(false);
 
                 // Danh sách dataSet của báo cáo ngày
                 DataSet dataReport = ConvertListObjectToDataSet(listReportData);
 
                 // Đổ data vào datatble mới
-                FillData(dataReport.Tables[0], dataTable);
+                FillData(dataReport.Tables[0], dataTable, false);
             }
 
             // Set border
@@ -491,7 +510,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceLine = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceLine.Title.Text = string.Format("Biểu đồ đường loại hình của từng đối tác");
+            leadSourceLine.Title.Text = string.Format("Biểu đồ đường loại hình của từng đối tác \n {0}", namePartner);
             leadSourceLine.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -762,8 +781,18 @@ namespace DongAERP.Areas.Admin.Controllers
                         // Insert vào dòng cột xác định trong Excel
                         sheetReport.Cells[a, b].PutValue(valueOfTable, true);
 
-                        // set style cho number
-                        style.Custom = "#,##0.00";
+                        if (b == 1)
+                        {
+                            // set style cho number
+                            style.Custom = "#,##";
+                            style.HorizontalAlignment = TextAlignmentType.Center;
+                        }
+                        else
+                        {
+                            // set style cho number
+                            style.Custom = "#,##0.00";
+                            style.HorizontalAlignment = TextAlignmentType.General;
+                        }
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -826,24 +855,32 @@ namespace DongAERP.Areas.Admin.Controllers
 
             WorksheetCollection workSheets = designer.Workbook.Worksheets;
             Worksheet sheetReport = designer.Workbook.Worksheets[0];
+            
+            sheetReport.Cells["D4"].PutValue("");
+            sheetReport.Cells["F4"].PutValue("");
 
             // Tạo title
             string typeReport = "So sánh - Theo giai đoạn - Từng thị trường";
 
             string text = string.Format(" tháng năm {0}", year);
+            string textValue = "T";
             switch (gradationID)
             {
                 case "1":
                     text = string.Concat("3", text);
+                    textValue = string.Concat("3", textValue);
                     break;
                 case "2":
                     text = string.Concat("6", text);
+                    textValue = string.Concat("6", textValue);
                     break;
                 case "3":
                     text = string.Concat("9", text);
+                    textValue = string.Concat("9", textValue);
                     break;
                 default:
                     text = string.Concat("12", text);
+                    textValue = string.Concat("12", textValue);
                     break;
             }
 
@@ -853,8 +890,13 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo title detailt
             string titleDetailt = string.Format("Giai đoạn: {0}", text);
             CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
+            string namePartner = string.Empty;
 
             List<ReportDetailtForPartner> listReportData = new ReportBL().ReportDetailtPartnerGradationCompareForOne(year, int.Parse(gradationID), reportTypeID, partnerID);
+            if(listReportData.Count > 0)
+            {
+                namePartner = listReportData[0].PartnerName;
+            }
 
             double sumDSChiQuay = 0;
             double sumDSChiNha = 0;
@@ -865,6 +907,7 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 item.PartnerName = string.Format("Lũy kế {0} năm {1}", text, item.Year);
                 item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                item.Type = 1;
             }
 
             if (listReportData.Count().Equals(2))
@@ -1009,27 +1052,38 @@ namespace DongAERP.Areas.Admin.Controllers
             Aspose.Cells.Charts.Chart leadSourceColumn;
             //Add Pie Chart
             // Chi Nhà
-            int chartIndex = sheetReport.Charts.Add(ChartType.Column3DClustered, 8, 0, 32, 7);
+            int chartIndex = sheetReport.Charts.Add(ChartType.Bar3DClustered, 8, 0, 32, 7);
             leadSourceColumn = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumn.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0}", text);
+            leadSourceColumn.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường\n {0} \n Giai đoạn: {1}", namePartner, text);
             leadSourceColumn.Title.Font.Color = Color.Silver;
 
-            // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
-            string totalRowData = string.Format("C36:E{0}", totalRowTable1 - 2);
-            leadSourceColumn.NSeries.Add(totalRowData, true);
+            // Get dữ liệu của list data
+            List<ReportDetailtForPartner> listDataItem = listReportData.Where(x => x.Type == 1).ToList();
 
-            // Set the category data covering the range A2:A5.
-            // Tổng số dòng cần hiển thị là số dòng hiện tại  + số dòng trong listData -2 (trong đó 1 là dòng tổng cuối cùng)
-            string categoryData = string.Format("B36:B{0}", totalRowTable1 - 2);
-            leadSourceColumn.NSeries.CategoryData = categoryData;
+            string[] listTotalRowData = new string[listDataItem.Count];
 
-            // Set the names of the chart series taken from cells.
-            leadSourceColumn.NSeries[0].Name = "=C35";
-            leadSourceColumn.NSeries[1].Name = "=D35";
-            leadSourceColumn.NSeries[2].Name = "=E35";
+            int i = 0;
+            string categoryData = string.Empty;
+            foreach (ReportDetailtForPartner item in listDataItem)
+            {
 
+                listTotalRowData[i] = string.Concat("{"
+                    , string.Format("{0}, {1}, {2}"
+                    , item.DSChiQuay, item.DSChiNha, item.DSCK
+                    )
+                    , "}");
+
+                leadSourceColumn.NSeries.Add(listTotalRowData[i], true);
+
+                categoryData = "{Doanh số Chi Quầy, Doanh số Chi Nhà, Doanh số Chuyển Khoản}";
+                leadSourceColumn.NSeries.CategoryData = categoryData;
+
+                leadSourceColumn.NSeries[i].Name = string.Format("Lũy kế {0} {1}", textValue, item.Year);
+                i++;
+            }
+            
             // Set the 1st series fill color.
             leadSourceColumn.NSeries[0].Area.ForegroundColor = Color.Orange;
             leadSourceColumn.NSeries[0].Area.Formatting = FormattingType.Custom;
@@ -1037,10 +1091,6 @@ namespace DongAERP.Areas.Admin.Controllers
             // Set the 2nd series fill color.
             leadSourceColumn.NSeries[1].Area.ForegroundColor = Color.Green;
             leadSourceColumn.NSeries[1].Area.Formatting = FormattingType.Custom;
-
-            // Set the 2nd series fill color.
-            leadSourceColumn.NSeries[2].Area.ForegroundColor = Color.Blue;
-            leadSourceColumn.NSeries[2].Area.Formatting = FormattingType.Custom;
 
 
             // Set plot area formatting as none and hide its border.
@@ -1233,7 +1283,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourcePie.Title.Font.Size = 12;
 
                 // Set properties of nseries
-                totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}", dataPieYear.DSChiQuay, dataPieYear.DSChiNha, dataPieYear.DSCK), "}");
+                string totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}", dataPieYear.DSChiQuay, dataPieYear.DSChiNha, dataPieYear.DSCK), "}");
                 leadSourcePie.NSeries.Add(totalRowData, true);
 
                 categoryData = string.Concat("{", string.Join(", ", str), "}");
@@ -1243,7 +1293,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 // Set the DataLabels in the chart
                 Aspose.Cells.Charts.DataLabels datalabels;
-                for (int i = 0; i < leadSourcePie.NSeries.Count; i++)
+                for (i = 0; i < leadSourcePie.NSeries.Count; i++)
                 {
                     datalabels = leadSourcePie.NSeries[i].DataLabels;
                     datalabels.Position = Aspose.Cells.Charts.LabelPositionType.InsideBase;
@@ -1273,7 +1323,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourcePieLasYear.Title.Font.Size = 12;
 
                 // Set properties of nseries
-                totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}", dataPieLastYear.DSChiQuay, dataPieLastYear.DSChiNha, dataPieLastYear.DSCK), "}");
+                string totalRowData = string.Concat("{", string.Format("{0}, {1}, {2}", dataPieLastYear.DSChiQuay, dataPieLastYear.DSChiNha, dataPieLastYear.DSCK), "}");
                 leadSourcePieLasYear.NSeries.Add(totalRowData, true);
 
                 categoryData = string.Concat("{", string.Join(", ", str), "}");
@@ -1283,7 +1333,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 // Set the DataLabels in the chart
                 Aspose.Cells.Charts.DataLabels datalabels;
-                for (int i = 0; i < leadSourcePieLasYear.NSeries.Count; i++)
+                for (i = 0; i < leadSourcePieLasYear.NSeries.Count; i++)
                 {
                     datalabels = leadSourcePieLasYear.NSeries[i].DataLabels;
                     datalabels.Position = Aspose.Cells.Charts.LabelPositionType.InsideBase;
@@ -1334,19 +1384,35 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
             sheetReport.Cells["D7"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["E7"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["E7"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["F7"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
-            sheetReport.Cells["F7"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
-            sheetReport.Cells["G7"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
-            sheetReport.Cells["H7"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
+            sheetReport.Cells["G7"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
+            sheetReport.Cells["H7"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["H7"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
+            sheetReport.Cells["I7"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
-            sheetReport.Cells["I7"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
-            sheetReport.Cells["J7"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
-            sheetReport.Cells["K7"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
+            sheetReport.Cells["J7"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
+            sheetReport.Cells["K7"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["K7"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
+            sheetReport.Cells["L7"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
-            sheetReport.Cells["L7"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
-            sheetReport.Cells["M7"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
-            sheetReport.Cells["N7"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
+            sheetReport.Cells["M7"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
+            sheetReport.Cells["N7"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["N7"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
+            sheetReport.Cells["O7"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             List<ReportDetailtForPartner> listDataCompareMonth = new ReportBL().ReportDetailtPartnerCompareMonthForAll(year, month, reportTypeID);
 
@@ -1502,9 +1568,9 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 int stepRow = 0;
                 // total row = row start + số row hiện có
-                int totalRow = table.Rows.Count + 6;
+                int totalRow = table.Rows.Count + 7;
                 // Số dòng của row
-                for (int a = 6; a < totalRow; a++)
+                for (int a = 7; a < totalRow; a++)
                 {
                     int stepColumn = 0;
                     // Số cột trong báo cáo cần hiển thị
@@ -1929,8 +1995,14 @@ namespace DongAERP.Areas.Admin.Controllers
             titleDetailt = "1. Theo doanh số thị trường - loại hình chi trả";
             CreateTitle("B5", "D5", sheetReport, titleDetailt, 12);
 
+            string namePartner = string.Empty;
             List<ReportDetailtForPartner> listDataCompareMonth = new ReportBL().ReportDetailtPartnerCompareMonthForOne(year, month, reportTypeID, partnerID);
             List<ReportDetailtForPartner> listDataCompareMonthConvert = new List<ReportDetailtForPartner>();
+
+            if (listDataCompareMonth.Count > 0)
+            {
+                namePartner = listDataCompareMonth[0].PartnerName;
+            }
 
             foreach (ReportDetailtForPartner item in listDataCompareMonth)
             {
@@ -2193,7 +2265,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumn = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumn.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường \n Tháng {0}/{1}", month, year);
+            leadSourceColumn.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường\n {2} \n Tháng {0}/{1}", month, year, namePartner);
             leadSourceColumn.Title.Font.Color = Color.Silver;
 
 
@@ -2279,7 +2351,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             title = "Tổng";
             CreateTitle(string.Format("F{0}", totalRowTable1 + 26 - 1), string.Format("F{0}", totalRowTable1 + 26 - 1), sheetReport, title, 12, true);
-            
+
             listDataCompareMonth = new ReportBL().ReportDetailtPartnerCompareMonthForOne(year, month, reportTypeID, partnerID);
             listDataCompareMonthConvert = new List<ReportDetailtForPartner>();
 
@@ -2296,7 +2368,6 @@ namespace DongAERP.Areas.Admin.Controllers
                         DSChiNha = item.TongDS == 0 ? 0 : Math.Round((item.DSChiNha / item.TongDS) * 100, 2, MidpointRounding.ToEven),
                         DSCK = item.TongDS == 0 ? 0 : Math.Round((item.DSCK / item.TongDS) * 100, 2, MidpointRounding.ToEven),
                         TongDS = 100,
-                        Type = 1,
                         Month = item.Month,
                         Year = item.Year
                     }
@@ -2323,9 +2394,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     new ReportDetailtForPartner()
                     {
                         PartnerName = "Tăng giảm so với tháng trước (%)",
-                        DSChiQuay = Math.Round(sumDSChiQuayYear, 2, MidpointRounding.ToEven),
-                        DSChiNha = Math.Round(sumDSChiNhaYear, 2, MidpointRounding.ToEven),
-                        DSCK = Math.Round(sumDSCKYear, 2, MidpointRounding.ToEven),
+                        DSChiQuay = Math.Round((sumDSChiQuayYear / listDataCompareMonthConvert[1].DSChiQuay) * 100, 2, MidpointRounding.ToEven),
+                        DSChiNha = Math.Round((sumDSChiNhaYear / listDataCompareMonthConvert[1].DSChiNha) * 100, 2, MidpointRounding.ToEven),
+                        DSCK = Math.Round((sumDSCKYear / listDataCompareMonthConvert[1].DSCK) * 100, 2, MidpointRounding.ToEven),
                         TongDS = 0
                     }
                 );
@@ -2335,9 +2406,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     new ReportDetailtForPartner()
                     {
                         PartnerName = "Tăng giảm so với cùng kì năm trước (%)",
-                        DSChiQuay = Math.Round(sumDSChiQuayLastYear, 2, MidpointRounding.ToEven),
-                        DSChiNha = Math.Round(sumDSChiNhaLastYear, 2, MidpointRounding.ToEven),
-                        DSCK = Math.Round(sumDSCKLastYear, 2, MidpointRounding.ToEven),
+                        DSChiQuay = Math.Round((sumDSChiQuayLastYear / listDataCompareMonthConvert[0].DSChiQuay) * 100, 2, MidpointRounding.ToEven),
+                        DSChiNha = Math.Round((sumDSChiNhaLastYear / listDataCompareMonthConvert[0].DSChiNha) * 100, 2, MidpointRounding.ToEven),
+                        DSCK = Math.Round((sumDSCKLastYear / listDataCompareMonthConvert[0].DSCK) * 100, 2, MidpointRounding.ToEven),
                         TongDS = 0
                     }
                 );
@@ -2437,13 +2508,13 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Vẻ biểu đồ tròn
             // Month
-            ReportDetailtForPartner dataPieMonth = listDataCompareMonthConvert.Find(x => x.Month == month.ToString() && x.Year == year.ToString() && x.Type == 1);
+            ReportDetailtForPartner dataPieMonth = listDataCompareMonthConvert.Find(x => x.Month == month.ToString() && x.Year == year.ToString());
 
             // last month
-            ReportDetailtForPartner dataPieLastMonth = listDataCompareMonthConvert.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString() && x.Type == 1);
+            ReportDetailtForPartner dataPieLastMonth = listDataCompareMonthConvert.Find(x => x.Month == (month - 1).ToString() && x.Year == year.ToString());
             if (month == 1)
             {
-                dataPieLastMonth = listDataCompareMonthConvert.Find(x => x.Month == "12" && x.Year == (year - 1).ToString() && x.Type == 1);
+                dataPieLastMonth = listDataCompareMonthConvert.Find(x => x.Month == "12" && x.Year == (year - 1).ToString());
             }
 
             // Last Year
@@ -2461,7 +2532,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourcePie.PlotArea.Border.IsVisible = false;
                 leadSourcePie.Elevation = 45;
                 // Set properties of chart title
-                leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1}", month, year);
+                leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1} \n {2}", month, year, namePartner);
                 leadSourcePie.Title.Font.Color = Color.Silver;
                 leadSourcePie.Title.Font.IsBold = true;
                 leadSourcePie.Title.Font.Size = 12;
@@ -2502,12 +2573,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Set properties of chart title
                 if (month == 1)
                 {
-                    leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1}", 12, year - 1);
+                    leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1} \n {2}", 12, year - 1, namePartner);
                 }
                 else
                 {
 
-                    leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1}", month - 1, year);
+                    leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1} \n {2}", month - 1, year, namePartner);
                 }
                 leadSourcePie.Title.Font.Color = Color.Silver;
                 leadSourcePie.Title.Font.IsBold = true;
@@ -2547,7 +2618,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 leadSourcePie.PlotArea.Border.IsVisible = false;
                 leadSourcePie.Elevation = 45;
                 // Set properties of chart title
-                leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1}", month, year - 1);
+                leadSourcePie.Title.Text = string.Format("Tỉ trọng các đối tác theo thị trường Tháng {0}/{1} \n {2}", month, year - 1, namePartner);
                 leadSourcePie.Title.Font.Color = Color.Silver;
                 leadSourcePie.Title.Font.IsBold = true;
                 leadSourcePie.Title.Font.Size = 12;
@@ -2619,12 +2690,16 @@ namespace DongAERP.Areas.Admin.Controllers
         /// Tạo cột cho datatable
         /// </summary>
         /// <returns></returns>
-        private DataTable CreateDataTableFormart()
+        private DataTable CreateDataTableFormart(bool checkForOne = true)
         {
             DataTable db = new DataTable();
 
             db.Columns.Add("STT", typeof(string));
-            //db.Columns.Add("ReportID", typeof(string));
+            if (checkForOne)
+            {
+                db.Columns.Add("ReportID", typeof(string));
+            }
+            
             db.Columns.Add("DSChiQuay", typeof(double));
             db.Columns.Add("DSChiNha", typeof(double));
             db.Columns.Add("DSCK", typeof(double));
@@ -2655,7 +2730,7 @@ namespace DongAERP.Areas.Admin.Controllers
         /// </summary>
         /// <param name="mother"></param>
         /// <param name="fill"></param>
-        private void FillData(DataTable mother, DataTable fill)
+        private void FillData(DataTable mother, DataTable fill, bool checkForOne = true)
         {
             int stt = 1;
             foreach (DataRow dr in mother.Rows)
@@ -2663,7 +2738,11 @@ namespace DongAERP.Areas.Admin.Controllers
                 var row = fill.NewRow();
 
                 row["STT"] = string.IsNullOrEmpty(dr["STT"].ToString()) ? "" : (string)dr["STT"];
-                //row["ReportID"] = string.IsNullOrEmpty(dr["ReportID"].ToString()) ? "" : (string)dr["ReportID"];
+                if(checkForOne)
+                {
+                    row["ReportID"] = string.IsNullOrEmpty(dr["ReportID"].ToString()) ? "" : (string)dr["ReportID"];
+                }
+                
                 row["DSChiQuay"] = (double)dr["DSChiQuay"];
                 row["DSChiNha"] = (double)dr["DSChiNha"];
                 row["DSCK"] = (double)dr["DSCK"];
@@ -2699,6 +2778,9 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             try
             {
+                // Add time
+                string time = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
+
                 string LData = WebConfigurationManager.AppSettings["LData"];
                 Stream stream = new MemoryStream(Convert.FromBase64String(LData));
 
@@ -2712,7 +2794,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 // Return excel
                 return File(stream, XLSX,
-                    string.Format("{0}.{1}", ReportID, "xlsx"));
+                    string.Format("{0}_{1}.{2}", ReportID, time, "xlsx"));
             }
             catch (Exception ex)
             {

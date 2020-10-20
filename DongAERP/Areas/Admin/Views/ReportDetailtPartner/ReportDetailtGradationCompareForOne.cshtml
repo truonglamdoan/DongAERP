@@ -85,7 +85,7 @@
 
                         .Series(series =>
                         {
-                            series.Column(model => model.amount).Name("#= group.value #").CategoryField("NameType");
+                            series.Bar(model => model.amount).Name("#= group.value #").CategoryField("NameType");
 
                         })
                         .SeriesColors("#FFBF00", "#40FF00")
