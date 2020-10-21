@@ -655,20 +655,23 @@ namespace DongAERP.Areas.Admin.Controllers
 
             if (listData.Count.Equals(2))
             {
-                double americanCompare = listData[0].American - listData[1].American;
-                double asiaCompare = listData[0].Asia - listData[1].Asia;
-                double globalCompare = listData[0].Global - listData[1].Global;
-                double europeCompare = listData[0].Europe - listData[1].Europe;
-                double canadaCompare = listData[0].Canada - listData[1].Canada;
-                double australiaCompare = listData[0].Australia - listData[1].Australia;
+                ReportForMaket dataYear = listData.Find(x => x.Year == year.ToString());
+                ReportForMaket dataLastYear = listData.Find(x => x.Year == (year - 1).ToString());
+
+                double americanCompare = dataYear.American - dataLastYear.American;
+                double asiaCompare = dataYear.Asia - dataLastYear.Asia;
+                double globalCompare = dataYear.Global - dataLastYear.Global;
+                double europeCompare = dataYear.Europe - dataLastYear.Europe;
+                double canadaCompare = dataYear.Canada - dataLastYear.Canada;
+                double australiaCompare = dataYear.Australia - dataLastYear.Australia;
 
                 // add row vào table
-                table.Rows.Add(str[0], listData[0].American, listData[1].American, americanCompare);
-                table.Rows.Add(str[1], listData[0].Asia, listData[1].Asia, asiaCompare);
-                table.Rows.Add(str[2], listData[0].Global, listData[1].Global, globalCompare);
-                table.Rows.Add(str[3], listData[0].Europe, listData[1].Europe, europeCompare);
-                table.Rows.Add(str[4], listData[0].Canada, listData[1].Canada, canadaCompare);
-                table.Rows.Add(str[5], listData[0].Australia, listData[1].Australia, australiaCompare);
+                table.Rows.Add(str[0], dataYear.American, dataLastYear.American, dataLastYear.American == 0 ? 0 : Math.Round((americanCompare / dataLastYear.American) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[1], dataYear.Asia, dataLastYear.Asia, dataLastYear.Asia == 0 ? 0 : Math.Round((asiaCompare / dataLastYear.Asia) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[2], dataYear.Global, dataLastYear.Global, dataLastYear.Global == 0 ? 0 : Math.Round((globalCompare / dataLastYear.Global) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[3], dataYear.Europe, dataLastYear.Europe, dataLastYear.Europe == 0 ? 0 : Math.Round((europeCompare / dataLastYear.Europe) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[4], dataYear.Canada, dataLastYear.Canada, dataLastYear.Canada == 0 ? 0 : Math.Round((canadaCompare / dataLastYear.Canada) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[5], dataYear.Australia, dataLastYear.Australia, dataLastYear.Australia == 0 ? 0 : Math.Round((australiaCompare / dataLastYear.Australia) * 100, 2, MidpointRounding.ToEven));
 
                 DataRow row = table.NewRow();
                 row["MaketID"] = "Tổng";

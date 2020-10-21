@@ -1057,11 +1057,15 @@ namespace DongAERP.Areas.Admin.Controllers
                 Report dataPieLastMonth = null;
                 Report dataPieLastYear = null;
                 // Data report năm hiện tại nhập vào
-                dataPieYear = listReportDataPercentClone.Find(x => x.Year == year.ToString());
+                dataPieYear = listReportDataPercentClone.Find(x => x.Year == year.ToString() && x.Month == month.ToString());
                 // Data report năm hiện tại, tháng hiện tại nhập vào
                 dataPieLastMonth = listReportDataPercentClone.Find(x => x.Year == year.ToString() && x.Month == (month - 1).ToString());
+                if (month == 1)
+                {
+                    dataPieLastMonth = listReportDataPercentClone.Find(x => x.Year == (year - 1).ToString() && x.Month == "12");
+                }
                 // Data report năm ngoái so với năm hiện tại nhập vào
-                dataPieLastYear = listReportDataPercentClone.Find(x => x.Year == (year - 1).ToString());
+                dataPieLastYear = listReportDataPercentClone.Find(x => x.Year == (year - 1).ToString() && x.Month == month.ToString());
 
                 if (dataPieYear != null)
                 {

@@ -5508,24 +5508,44 @@ namespace DongAERP.Areas.Admin.Controllers
         public ActionResult SearchDataDetailtGridCompareMonthPercent([DataSourceRequest]DataSourceRequest request, int month, int year, string reportTypeID, string marketID)
         {
             List<ReportDetailtServiceType> listDataCompareMonth = new ReportBL().ReportDetailtCompareMonthForOne(year, month, reportTypeID, marketID);
-
-            // List Market
-            List<string> listMarket = new List<string>();
             foreach (ReportDetailtServiceType item in listDataCompareMonth)
             {
-                if (!listMarket.Contains(item.MarketName))
-                {
-                    listMarket.Add(item.MarketName);
-                }
-                item.ReportID = item.PartnerName;
                 item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
             }
 
+            double sumTongDSYear = listDataCompareMonth.Where(x => x.Year == year.ToString() && x.Month == month.ToString()).Sum(x => x.TongDS);
+            double sumTongDSLastYear = listDataCompareMonth.Where(x => x.Year == (year - 1).ToString() && x.Month == month.ToString()).Sum(x => x.TongDS);
+            double sumTongDSLastMonth = listDataCompareMonth.Where(x => x.Year == year.ToString() && x.Month == (month - 1).ToString()).Sum(x => x.TongDS);
+            if (month == 1)
+            {
+                sumTongDSLastMonth = listDataCompareMonth.Where(x => x.Year == (year - 1).ToString() && x.Month == "12").Sum(x => x.TongDS);
+            }
+
+            // Khởi tạo datatable
+            DataTable table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("STT", typeof(String));
+            table.Columns.Add("PartnerName", typeof(String));
+            table.Columns.Add("LK1", typeof(double));
+            table.Columns.Add("LK2", typeof(double));
+            table.Columns.Add("LK3", typeof(double));
+
+            table.Columns.Add("MarketName", typeof(String));
+            int count = 1;
+
             if (marketID.Contains("005"))
             {
-                List<ReportDetailtServiceType> listDataCompareMonthConvert = new List<ReportDetailtServiceType>();
+                List<string> listMarket = new List<string>();
+                foreach (ReportDetailtServiceType item in listDataCompareMonth)
+                {
+                    if (!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+                    item.ReportID = item.PartnerName;
+                }
 
-                foreach (string item in listMarket)
+                foreach(string item in listMarket)
                 {
                     // Month
                     List<ReportDetailtServiceType> listDataItemMonth = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == month.ToString() && x.Year == year.ToString()).ToList();
@@ -5537,237 +5557,131 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         listDataItemLastMonth = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == "12" && x.Year == (year - 1).ToString()).ToList();
                     }
+
                     List<ReportDetailtServiceType> listDataItemMonthLastYear = listDataCompareMonth.Where(x => x.MarketName == item && x.Month == month.ToString() && x.Year == (year - 1).ToString()).ToList();
 
-                    if (listDataItemMonth.Count == 0)
-                    {
-                        listDataCompareMonthConvert.Add(
-                            new ReportDetailtServiceType()
-                            {
-                                MarketName = "Thị trường Châu Á",
-                                PartnerName = item,
-                                Month = month.ToString(),
-                                Year = year.ToString()
-                            }
-                        );
-                    }
 
-                    if (listDataItemLastMonth.Count == 0)
-                    {
-                        if (month == 1)
-                        {
-                            listDataCompareMonthConvert.Add(
-                                new ReportDetailtServiceType()
-                                {
-                                    MarketName = "Thị trường Châu Á",
-                                    PartnerName = item,
-                                    Month = "12",
-                                    Year = (year - 1).ToString()
-                                }
-                            );
-                        }
-                        else
-                        {
-                            listDataCompareMonthConvert.Add(
-                                new ReportDetailtServiceType()
-                                {
-                                    MarketName = "Thị trường Châu Á",
-                                    PartnerName = item,
-                                    Month = (month - 1).ToString(),
-                                    Year = year.ToString()
-                                }
-                            );
-                        }
-                    }
-
-                    if (listDataItemMonthLastYear.Count == 0)
-                    {
-                        listDataCompareMonthConvert.Add(
-                            new ReportDetailtServiceType()
-                            {
-                                MarketName = "Thị trường Châu Á",
-                                PartnerName = item,
-                                Month = month.ToString(),
-                                Year = (year - 1).ToString()
-                            }
-                        );
-                    }
-
-                    // Add month
-                    listDataCompareMonthConvert.Add(
-                        new ReportDetailtServiceType()
-                        {
-                            MarketName = "Thị trường Châu Á",
-                            PartnerName = item,
-                            DSChiQuay = listDataItemMonth.Sum(x => x.DSChiQuay),
-                            DSChiNha = listDataItemMonth.Sum(x => x.DSChiNha),
-                            DSCK = listDataItemMonth.Sum(x => x.DSCK),
-                            TongDS = listDataItemMonth.Sum(x => x.TongDS),
-                            Month = month.ToString(),
-                            Year = year.ToString()
-                        }
+                    table.Rows.Add(count++, item
+                        , sumTongDSYear == 0 ? 0 : Math.Round((listDataItemMonth.Sum(x => x.TongDS) / sumTongDSYear) * 100, 2, MidpointRounding.ToEven)
+                        , sumTongDSLastMonth == 0 ? 0 : Math.Round((listDataItemLastMonth.Sum(x => x.TongDS) / sumTongDSLastMonth) * 100, 2, MidpointRounding.ToEven)
+                        , sumTongDSLastYear == 0 ? 0 : Math.Round((listDataItemMonthLastYear.Sum(x => x.TongDS) / sumTongDSLastYear) * 100, 2, MidpointRounding.ToEven)
+                        , "Thị trường Châu Á"
                     );
+                }
+            }
+            else
+            {
+                sumTongDSYear = listDataCompareMonth.Where(x => x.Year == year.ToString() && x.Month == month.ToString()).Sum(x => x.TongDS);
+                sumTongDSLastYear = listDataCompareMonth.Where(x => x.Year == (year - 1).ToString() && x.Month == month.ToString()).Sum(x => x.TongDS);
+                sumTongDSLastMonth = listDataCompareMonth.Where(x => x.Year == year.ToString() && x.Month == (month - 1).ToString()).Sum(x => x.TongDS);
 
-                    // Add last month
+                if (month == 1)
+                {
+                    sumTongDSLastMonth = listDataCompareMonth.Where(x => x.Year == (year - 1).ToString() && x.Month == "12").Sum(x => x.TongDS);
+                }
+
+                List<string> listMarket = new List<string>();
+                string nameMarket = string.Empty;
+
+                foreach(ReportDetailtServiceType item in listDataCompareMonth)
+                {
+                    if(!listMarket.Contains(item.MarketName))
+                    {
+                        listMarket.Add(item.MarketName);
+                    }
+
+                    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+                }
+
+                // Trường hợp với tất cả thị trường
+                if(listMarket.Count > 1)
+                {
+                    foreach (ReportDetailtServiceType item in listDataCompareMonth)
+                    {
+                        item.PartnerName = item.MarketName;
+                        item.MarketName = "Tất cả thị trường";
+                    }
+                }
+
+                foreach (ReportDetailtServiceType item in listDataCompareMonth)
+                {
+                    // Month
+                    ReportDetailtServiceType dataItemMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == year.ToString());
+                    // Last month
+                    ReportDetailtServiceType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == (month - 1).ToString() && x.Year == year.ToString());
+
+                    // trường hợp month = 1
                     if (month == 1)
                     {
-                        listDataCompareMonthConvert.Add(
-                            new ReportDetailtServiceType()
+                        dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == "12" && x.Year == (year - 1).ToString());
+                    }
+
+                    ReportDetailtServiceType dataItemMonthLastYear = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == (year - 1).ToString());
+
+                    // month recent
+                    if(dataItemMonth == null)
+                    {
+                        dataItemMonth = new ReportDetailtServiceType()
+                        {
+                            PartnerName = item.PartnerName,
+                            Month = month.ToString(),
+                            Year = year.ToString()
+                        };
+                    }
+
+                    // LastMonth
+                    if (month == 1)
+                    {
+                        if (dataItemLastMonth == null)
+                        {
+                            dataItemLastMonth = new ReportDetailtServiceType()
                             {
-                                MarketName = "Thị trường Châu Á",
-                                PartnerName = item,
-                                DSChiQuay = listDataItemLastMonth.Sum(x => x.DSChiQuay),
-                                DSChiNha = listDataItemLastMonth.Sum(x => x.DSChiNha),
-                                DSCK = listDataItemLastMonth.Sum(x => x.DSCK),
-                                TongDS = listDataItemLastMonth.Sum(x => x.TongDS),
+                                PartnerName = item.PartnerName,
                                 Month = "12",
                                 Year = (year - 1).ToString()
-                            }
-                        );
+                            };
+                        }
                     }
                     else
                     {
-                        listDataCompareMonthConvert.Add(
-                            new ReportDetailtServiceType()
+                        if (dataItemLastMonth == null)
+                        {
+                            dataItemLastMonth = new ReportDetailtServiceType()
                             {
-                                MarketName = "Thị trường Châu Á",
-                                PartnerName = item,
-                                DSChiQuay = listDataItemLastMonth.Sum(x => x.DSChiQuay),
-                                DSChiNha = listDataItemLastMonth.Sum(x => x.DSChiNha),
-                                DSCK = listDataItemLastMonth.Sum(x => x.DSCK),
-                                TongDS = listDataItemLastMonth.Sum(x => x.TongDS),
+                                PartnerName = item.PartnerName,
                                 Month = (month - 1).ToString(),
                                 Year = year.ToString()
-                            }
-                        );
+                            };
+                        }
                     }
 
-                    // Add month last year
-                    listDataCompareMonthConvert.Add(
-                        new ReportDetailtServiceType()
+                    // Month last year
+                    if (dataItemMonthLastYear == null)
+                    {
+                        dataItemMonthLastYear = new ReportDetailtServiceType()
                         {
-                            MarketName = "Thị trường Châu Á",
-                            PartnerName = item,
-                            DSChiQuay = listDataItemMonthLastYear.Sum(x => x.DSChiQuay),
-                            DSChiNha = listDataItemMonthLastYear.Sum(x => x.DSChiNha),
-                            DSCK = listDataItemMonthLastYear.Sum(x => x.DSCK),
-                            TongDS = listDataItemMonthLastYear.Sum(x => x.TongDS),
+                            PartnerName = item.PartnerName,
                             Month = month.ToString(),
                             Year = (year - 1).ToString()
-                        }
-                    );
-                }
+                        };
+                    }
 
-                if (listDataCompareMonthConvert.Count > 0)
-                {
-                    listDataCompareMonth = new List<ReportDetailtServiceType>(listDataCompareMonthConvert);
+                    // Check tồn tại của item
+                    string value = string.Format("PartnerName='{0}'", item.PartnerName);
+                    DataRow[] foundRows = table.Select(value);
+
+                    if(foundRows.Count() == 0)
+                    {
+                        table.Rows.Add(count++, item.PartnerName
+                            , sumTongDSYear == 0 ? 0 : Math.Round((dataItemMonth.TongDS / sumTongDSYear) * 100, 2, MidpointRounding.ToEven)
+                            , sumTongDSLastMonth == 0 ? 0 : Math.Round((dataItemLastMonth.TongDS / sumTongDSLastMonth) * 100, 2, MidpointRounding.ToEven)
+                            , sumTongDSLastYear == 0 ? 0 : Math.Round((dataItemMonthLastYear.TongDS / sumTongDSLastYear) * 100, 2, MidpointRounding.ToEven)
+                            , item.MarketName
+                        );
+                    }
                 }
             }
             
-            List<ReportDetailtServiceType> listDataCommpareMonthClone = new List<ReportDetailtServiceType>(listDataCompareMonth);
-
-            double sumTongDSYear = listDataCompareMonth.Where(x => x.Year == year.ToString() && x.Month == month.ToString()).Sum(x => x.TongDS);
-            double sumTongDSLastYear = listDataCompareMonth.Where(x => x.Year == (year - 1).ToString() && x.Month == month.ToString()).Sum(x => x.TongDS);
-            double sumTongDSLastMonth = listDataCompareMonth.Where(x => x.Year == year.ToString() && x.Month == (month - 1).ToString()).Sum(x => x.TongDS);
-            if (month == 1)
-            {
-                sumTongDSLastMonth = listDataCompareMonth.Where(x => x.Year == (year - 1).ToString() && x.Month == "12").Sum(x => x.TongDS);
-            }
-            List<ReportDetailtServiceType> listDataConvert = new List<ReportDetailtServiceType>();
-
-            // Khởi tạo datatable
-            DataTable table = new DataTable();
-            // Tạo các cột cho datatable
-            //table.Columns.Add("STT", typeof(String));
-            table.Columns.Add("PartnerName", typeof(String));
-            table.Columns.Add("LK1", typeof(double));
-            table.Columns.Add("LK2", typeof(double));
-            table.Columns.Add("LK3", typeof(double));
-
-            table.Columns.Add("MarketName", typeof(String));
-
-            List<string> listTemp = new List<string>();
-
-            foreach (ReportDetailtServiceType item in listDataCommpareMonthClone)
-            {
-                // Cùng kì
-                ReportDetailtServiceType dataItemLastYear = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == (year - 1).ToString());
-                ReportDetailtServiceType dataItemYear = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == month.ToString() && x.Year == year.ToString());
-                ReportDetailtServiceType dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerName == item.PartnerName && x.Month == (month - 1).ToString() && x.Year == year.ToString());
-                // Trường hợp tháng 1
-                if (month == 1)
-                {
-                    dataItemLastMonth = listDataCompareMonth.Find(x => x.PartnerCode == item.PartnerCode && x.Month == "12" && x.Year == (year - 1).ToString());
-                }
-                // Trường hợp năm không có đối tác
-                if (dataItemLastYear == null)
-                {
-                    dataItemLastYear = new ReportDetailtServiceType();
-                    dataItemLastYear.PartnerName = item.PartnerName;
-                    dataItemLastYear.MarketName = item.MarketName;
-                    dataItemLastYear.DSChiQuay = 0;
-                    dataItemLastYear.DSChiNha = 0;
-                    dataItemLastYear.DSCK = 0;
-                    dataItemLastYear.TongDS = 0;
-                    dataItemLastYear.Year = (year - 1).ToString();
-                    dataItemLastYear.Month = month.ToString();
-                    listDataCompareMonth.Add(dataItemLastYear);
-                }
-
-                // Trường hợp năm hiện tại không có đối tác
-                if (dataItemYear == null)
-                {
-                    dataItemYear = new ReportDetailtServiceType();
-                    dataItemYear.PartnerName = item.PartnerName;
-                    dataItemYear.MarketName = item.MarketName;
-                    dataItemYear.DSChiQuay = 0;
-                    dataItemYear.DSChiNha = 0;
-                    dataItemYear.DSCK = 0;
-                    dataItemYear.TongDS = 0;
-                    dataItemYear.Year = year.ToString();
-                    dataItemYear.Month = month.ToString();
-                    listDataCompareMonth.Add(dataItemYear);
-                }
-
-                // Trường hợp tháng trước không có
-                if (dataItemLastMonth == null)
-                {
-                    dataItemLastMonth = new ReportDetailtServiceType();
-                    dataItemLastMonth.PartnerName = item.PartnerName;
-                    dataItemLastMonth.MarketName = item.MarketName;
-                    dataItemLastMonth.DSChiQuay = 0;
-                    dataItemLastMonth.DSChiNha = 0;
-                    dataItemLastMonth.DSCK = 0;
-                    dataItemLastMonth.TongDS = 0;
-                    if (month == 1)
-                    {
-                        dataItemLastMonth.Year = (year - 1).ToString();
-                        dataItemLastMonth.Month = "12";
-                    }
-                    else
-                    {
-                        dataItemLastMonth.Month = (month - 1).ToString();
-                        dataItemLastMonth.Year = year.ToString();
-                    }
-                    listDataCompareMonth.Add(dataItemLastMonth);
-                }
-
-
-                // Check tồn tại của item
-                string value = string.Format("PartnerName='{0}'", item.PartnerName);
-                DataRow[] foundRows = table.Select(value);
-
-                if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null && foundRows.Count() == 0)
-                {
-                    // Tháng hiện tại
-                    double valueYear = sumTongDSYear == 0 ? 0 : Math.Round((dataItemYear.TongDS / sumTongDSYear) * 100, 2, MidpointRounding.ToEven);
-                    double valueLastYear = sumTongDSLastYear == 0 ? 0 : Math.Round((dataItemLastYear.TongDS / sumTongDSLastYear) * 100, 2, MidpointRounding.ToEven);
-                    double valueLastMonth = sumTongDSLastMonth == 0 ? 0 : Math.Round((dataItemLastMonth.TongDS / sumTongDSLastMonth) * 100, 2, MidpointRounding.ToEven);
-
-                    table.Rows.Add(dataItemYear.PartnerName, valueYear, valueLastMonth, valueLastYear, item.MarketName);
-                }
-            }
-
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }

@@ -652,20 +652,24 @@ namespace DongAERP.Areas.Admin.Controllers
 
             if (listData.Count.Equals(2))
             {
-                double VNDCompare = listData[0].VND - listData[1].VND;
-                double USDCompare = listData[0].USD - listData[1].USD;
-                double EURCompare = listData[0].EUR - listData[1].EUR;
-                double CADCompare = listData[0].CAD - listData[1].CAD;
-                double AUDCompare = listData[0].AUD - listData[1].AUD;
-                double GBPCompare = listData[0].GBP - listData[1].GBP;
+                ReportForTotalMoneyType dataForYear = listData.Find(x => x.Year == year.ToString());
+                ReportForTotalMoneyType dataForLastYear = listData.Find(x => x.Year == (year - 1).ToString());
+
+
+                double VNDCompare = dataForYear.VND - dataForLastYear.VND;
+                double USDCompare = dataForYear.USD - dataForLastYear.USD;
+                double EURCompare = dataForYear.EUR - dataForLastYear.EUR;
+                double CADCompare = dataForYear.CAD - dataForLastYear.CAD;
+                double AUDCompare = dataForYear.AUD - dataForLastYear.AUD;
+                double GBPCompare = dataForYear.GBP - dataForLastYear.GBP;
 
                 // add row vào table
-                table.Rows.Add(str[0], listData[0].VND, listData[1].VND, VNDCompare);
-                table.Rows.Add(str[1], listData[0].USD, listData[1].USD, USDCompare);
-                table.Rows.Add(str[2], listData[0].EUR, listData[1].EUR, EURCompare);
-                table.Rows.Add(str[3], listData[0].CAD, listData[1].CAD, CADCompare);
-                table.Rows.Add(str[4], listData[0].AUD, listData[1].AUD, AUDCompare);
-                table.Rows.Add(str[5], listData[0].GBP, listData[1].GBP, GBPCompare);
+                table.Rows.Add(str[0], dataForYear.VND, dataForLastYear.VND, dataForLastYear.VND == 0 ? 0 : Math.Round((VNDCompare/ dataForLastYear.VND) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[1], dataForYear.USD, dataForLastYear.USD, dataForLastYear.USD == 0 ? 0 : Math.Round((USDCompare/ dataForLastYear.USD) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[2], dataForYear.EUR, dataForLastYear.EUR, dataForLastYear.EUR == 0 ? 0 : Math.Round((EURCompare/ dataForLastYear.EUR) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[3], dataForYear.CAD, dataForLastYear.CAD, dataForLastYear.CAD == 0 ? 0 : Math.Round((CADCompare/ dataForLastYear.CAD) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[4], dataForYear.AUD, dataForLastYear.AUD, dataForLastYear.AUD == 0 ? 0 : Math.Round((AUDCompare/ dataForLastYear.AUD) * 100, 2, MidpointRounding.ToEven));
+                table.Rows.Add(str[5], dataForYear.GBP, dataForLastYear.GBP, dataForLastYear.GBP == 0 ? 0 : Math.Round((GBPCompare/ dataForLastYear.GBP) * 100, 2, MidpointRounding.ToEven));
 
                 DataRow row = table.NewRow();
                 row["ReportID"] = "Tổng";

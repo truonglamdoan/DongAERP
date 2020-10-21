@@ -697,12 +697,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
 
                 // ds so với tháng trước
-                double americanCompare = listReportDataPercentClone[0].American - listReportDataPercentClone[1].American;
-                double asiaCompare = listReportDataPercentClone[0].Asia - listReportDataPercentClone[1].Asia;
-                double globalCompare = listReportDataPercentClone[0].Global - listReportDataPercentClone[1].Global;
-                double europeCompare = listReportDataPercentClone[0].Europe - listReportDataPercentClone[1].Europe;
-                double canadaCompare = listReportDataPercentClone[0].Canada - listReportDataPercentClone[1].Canada;
-                double australiaCompare = listReportDataPercentClone[0].Australia - listReportDataPercentClone[1].Australia;
+                double americanCompare = dataPieYear.American - dataPieLastYear.American;
+                double asiaCompare = dataPieYear.Asia - dataPieLastYear.Asia;
+                double globalCompare = dataPieYear.Global - dataPieLastYear.Global;
+                double europeCompare = dataPieYear.Europe - dataPieLastYear.Europe;
+                double canadaCompare = dataPieYear.Canada - dataPieLastYear.Canada;
+                double australiaCompare = dataPieYear.Australia - dataPieLastYear.Australia;
 
                 // Tạo các cột cho datatable
                 DataTable dataTablePie = new DataTable();
@@ -713,12 +713,13 @@ namespace DongAERP.Areas.Admin.Controllers
                 dataTablePie.Columns.Add("CompareToIDPercent", typeof(double));
 
                 // add row vào table
-                dataTablePie.Rows.Add(str[0], listReportDataPercentClone[0].American, listReportDataPercentClone[1].American, Math.Round(americanCompare, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[1], listReportDataPercentClone[0].Asia, listReportDataPercentClone[1].Asia, Math.Round(asiaCompare, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[2], listReportDataPercentClone[0].Global, listReportDataPercentClone[1].Global, Math.Round(globalCompare, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[3], listReportDataPercentClone[0].Europe, listReportDataPercentClone[1].Europe, Math.Round(europeCompare, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[4], listReportDataPercentClone[0].Canada, listReportDataPercentClone[1].Canada, Math.Round(canadaCompare, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[5], listReportDataPercentClone[0].Australia, listReportDataPercentClone[1].Australia, Math.Round(australiaCompare, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[0], dataPieYear.American, dataPieLastYear.American, dataPieLastYear.American == 0 ? 0 : Math.Round((americanCompare / dataPieLastYear.American) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[1], dataPieYear.Asia, dataPieLastYear.Asia, dataPieLastYear.Asia == 0 ? 0 : Math.Round((asiaCompare / dataPieLastYear.Asia) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[2], dataPieYear.Global, dataPieLastYear.Global, dataPieLastYear.Global == 0 ? 0 : Math.Round((globalCompare / dataPieLastYear.Global) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[3], dataPieYear.Europe, dataPieLastYear.Europe, dataPieLastYear.Europe == 0 ? 0 : Math.Round((europeCompare / dataPieLastYear.Europe) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[4], dataPieYear.Canada, dataPieLastYear.Canada, dataPieLastYear.Canada == 0 ? 0 : Math.Round((canadaCompare / dataPieLastYear.Canada) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[5], dataPieYear.Australia, dataPieLastYear.Australia, dataPieLastYear.Australia == 0 ? 0 : Math.Round((australiaCompare / dataPieLastYear.Australia) * 100, 2, MidpointRounding.ToEven));
+
 
                 DataRow row = dataTablePie.NewRow();
                 row["MaketID"] = "Tổng";

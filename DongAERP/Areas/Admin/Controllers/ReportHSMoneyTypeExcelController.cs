@@ -705,12 +705,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
 
                 // ds so với tháng trước
-                double VNDCompare = listReportDataPercentClone[0].VND - listReportDataPercentClone[1].VND;
-                double USDCompare = listReportDataPercentClone[0].USD - listReportDataPercentClone[1].USD;
-                double EURCompare = listReportDataPercentClone[0].EUR - listReportDataPercentClone[1].EUR;
-                double CADCompare = listReportDataPercentClone[0].CAD - listReportDataPercentClone[1].CAD;
-                double AUDCompare = listReportDataPercentClone[0].AUD - listReportDataPercentClone[1].AUD;
-                double GBPCompare = listReportDataPercentClone[0].GBP - listReportDataPercentClone[1].GBP;
+                double VNDCompare = dataPieYear.VND - dataPieLastYear.VND;
+                double USDCompare = dataPieYear.USD - dataPieLastYear.USD;
+                double EURCompare = dataPieYear.EUR - dataPieLastYear.EUR;
+                double CADCompare = dataPieYear.CAD - dataPieLastYear.CAD;
+                double AUDCompare = dataPieYear.AUD - dataPieLastYear.AUD;
+                double GBPCompare = dataPieYear.GBP - dataPieLastYear.GBP;
 
                 // Tạo các cột cho datatable
                 DataTable dataTablePie = new DataTable();
@@ -721,12 +721,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 dataTablePie.Columns.Add("CompareToIDPercent", typeof(double));
 
                 // add row vào table
-                dataTablePie.Rows.Add(str[0], listReportDataPercentClone[0].VND, listReportDataPercentClone[1].VND, VNDCompare);
-                dataTablePie.Rows.Add(str[1], listReportDataPercentClone[0].USD, listReportDataPercentClone[1].USD, USDCompare);
-                dataTablePie.Rows.Add(str[2], listReportDataPercentClone[0].EUR, listReportDataPercentClone[1].EUR, EURCompare);
-                dataTablePie.Rows.Add(str[3], listReportDataPercentClone[0].CAD, listReportDataPercentClone[1].CAD, CADCompare);
-                dataTablePie.Rows.Add(str[4], listReportDataPercentClone[0].AUD, listReportDataPercentClone[1].AUD, AUDCompare);
-                dataTablePie.Rows.Add(str[5], listReportDataPercentClone[0].GBP, listReportDataPercentClone[1].GBP, GBPCompare);
+                dataTablePie.Rows.Add(str[0], dataPieYear.VND, dataPieLastYear.VND, dataPieLastYear.VND == 0 ? 0 : Math.Round((VNDCompare / dataPieLastYear.VND) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[1], dataPieYear.USD, dataPieLastYear.USD, dataPieLastYear.USD == 0 ? 0 : Math.Round((USDCompare / dataPieLastYear.USD) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[2], dataPieYear.EUR, dataPieLastYear.EUR, dataPieLastYear.EUR == 0 ? 0 : Math.Round((EURCompare / dataPieLastYear.EUR) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[3], dataPieYear.CAD, dataPieLastYear.CAD, dataPieLastYear.CAD == 0 ? 0 : Math.Round((CADCompare / dataPieLastYear.CAD) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[4], dataPieYear.AUD, dataPieLastYear.AUD, dataPieLastYear.AUD == 0 ? 0 : Math.Round((AUDCompare / dataPieLastYear.AUD) * 100, 2, MidpointRounding.ToEven));
+                dataTablePie.Rows.Add(str[5], dataPieYear.GBP, dataPieLastYear.GBP, dataPieLastYear.GBP == 0 ? 0 : Math.Round((GBPCompare / dataPieLastYear.GBP) * 100, 2, MidpointRounding.ToEven));
 
                 DataRow row = dataTablePie.NewRow();
                 row["ReportID"] = "Tổng";
@@ -875,6 +875,10 @@ namespace DongAERP.Areas.Admin.Controllers
             sheetReport.Cells["Q7"].PutValue(string.Format("Tháng {0}/{1}", month, year));
             //sheetReport.Cells.SetColumnWidthPixel(16, 170);
             sheetReport.Cells["R7"].PutValue(string.Format("Tháng {0}/{1}", month - 1, year));
+            if(month == 1)
+            {
+                sheetReport.Cells["R7"].PutValue(string.Format("Tháng {0}/{1}", 12, year - 1));
+            }
             //sheetReport.Cells.SetColumnWidthPixel(17, 190);
             sheetReport.Cells["S7"].PutValue(string.Format("Tháng {0}/{1}", month, year - 1));
             sheetReport.Cells.SetColumnWidthPixel(19, 200);
@@ -893,6 +897,10 @@ namespace DongAERP.Areas.Admin.Controllers
             sheetReport.Cells["Q35"].PutValue(string.Format("Tháng {0}/{1}", month, year));
             //sheetReport.Cells.SetColumnWidthPixel(16, 200);
             sheetReport.Cells["R35"].PutValue(string.Format("Tháng {0}/{1}", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["R35"].PutValue(string.Format("Tháng {0}/{1}", 12, year - 1));
+            }
             //sheetReport.Cells.SetColumnWidthPixel(17, 200);
             sheetReport.Cells["S35"].PutValue(string.Format("Tháng {0}/{1}", month, year - 1));
             sheetReport.Cells.SetColumnWidthPixel(19, 200);
@@ -1165,6 +1173,10 @@ namespace DongAERP.Areas.Admin.Controllers
                 dataPieYear = listReportDataPercentClone.Find(x => x.Year == year.ToString());
                 // Data report năm hiện tại, tháng hiện tại nhập vào
                 dataPieLastMonth = listReportDataPercentClone.Find(x => x.Year == year.ToString() && x.Month == (month - 1).ToString());
+                if (month == 1)
+                {
+                    dataPieLastMonth = listReportDataPercentClone.Find(x => x.Year == (year - 1).ToString() && x.Month == "12");
+                }
                 // Data report năm ngoái so với năm hiện tại nhập vào
                 dataPieLastYear = listReportDataPercentClone.Find(x => x.Year == (year - 1).ToString());
 

@@ -4411,6 +4411,7 @@ namespace DongAERP.Areas.Admin.Controllers
             
             sheetReport.Cells["E69"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
+            //Tỉ lệ phần trăm
             listDataCompareMonth = new ReportBL().ReportDetailtPartnerLTCompareMonthForOneConvert(year, month, reportTypeID, partnerID);
             listDataCompareMonthConvert = new List<ReportDetailtForTotalMoneyType>();
 
@@ -4476,8 +4477,10 @@ namespace DongAERP.Areas.Admin.Controllers
                     var propertyInfoLastYear = dataItemLastYear.GetType().GetProperty(item);
                     var valueDataLastYear = propertyInfoYear.GetValue(dataItemLastYear, null);
 
-                    double sumYear = Math.Round(Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastMonth), 2, MidpointRounding.ToEven);
-                    double sumLastYear = Math.Round(Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastYear), 2, MidpointRounding.ToEven);
+                    double sumYear = Convert.ToDouble(valueDataLastMonth) == 0 ? 0
+                        : Math.Round((Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastMonth)) / Convert.ToDouble(valueDataLastMonth) * 100, 2, MidpointRounding.ToEven);
+                    double sumLastYear = Convert.ToDouble(valueDataLastYear) == 0 ? 0
+                        : Math.Round((Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastYear)) / Convert.ToDouble(valueDataLastYear) * 100, 2, MidpointRounding.ToEven);
 
                     table.Rows.Add(
                         item
@@ -4487,15 +4490,15 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
             }
 
-
             DataRow row = table.NewRow();
             row["PartnerName"] = "Tổng";
             row["COL1"] = 100;
             row["COL2"] = 100;
             row["COL3"] = 100;
 
-            row["TDS1"] = table.Compute("Sum(TDS1)", "");
-            row["TDS2"] = table.Compute("Sum(TDS2)", "");
+            row["TDS1"] = 0;
+            row["TDS2"] = 0;
+            table.Rows.Add(row);
 
             if (table.Rows.Count > 0)
             {
