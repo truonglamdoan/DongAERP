@@ -1717,8 +1717,13 @@ namespace DongAERP.Areas.Admin.Controllers
 
             List<ReportDetailtForTotalMoneyType> listDataGradation = new HSReportBL().ReportDetailtMTGradationCompareForOne(year, int.Parse(gradationID), reportTypeID, marketID);
 
+            string nameMarket = string.Empty;
+
             if (marketID.Contains("005"))
             {
+                nameMarket = "Thị trường Châu Á";
+                CreateTitle("A4", "K4", sheetReport, string.Format("Thị trường: {0}", nameMarket), 14);
+
                 List<string> listMarket = new List<string>();
                 List<ReportDetailtForTotalMoneyType> listDataGradationConvert = new List<ReportDetailtForTotalMoneyType>();
 
@@ -1772,6 +1777,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     listDataGradation = new List<ReportDetailtForTotalMoneyType>(listDataGradationConvert);
                 }
+            }
+
+            if(!marketID.Contains("005"))
+            {
+                nameMarket = listDataGradation.Count > 0 ? listDataGradation[0].MarketName : string.Empty;
+                CreateTitle("A4", "K4", sheetReport, string.Format("Thị trường: {0}", nameMarket), 14);
             }
 
             foreach (ReportDetailtForTotalMoneyType item in listDataGradation)
