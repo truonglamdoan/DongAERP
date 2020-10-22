@@ -295,6 +295,16 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceLine.NSeries[5].Border.Color = Color.Maroon;
             leadSourceLine.NSeries[5].Area.Formatting = FormattingType.Custom;
 
+            // Set plot area formatting as none and hide its border.
+            leadSourceLine.PlotArea.Area.FillFormat.FillType = FillType.None;
+            leadSourceLine.PlotArea.Border.IsVisible = false;
+
+            // Set value axis major tick mark as none and hide axis line. 
+            // Also set the color of value axis major grid lines.
+            leadSourceLine.ValueAxis.MajorTickMark = TickMarkType.None;
+            leadSourceLine.ValueAxis.AxisLine.IsVisible = false;
+            leadSourceLine.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
+
 
             //sheetReport.Cells.ConvertStringToNumericValue();
             // Chạy process
@@ -375,9 +385,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Add tên cột cho bảng báo cáo
             // Set width cho column
-
-            sheetReport.Cells["P6"].PutValue("Nguyên tệ");
-
+            
             sheetReport.Cells.SetColumnWidthPixel(15, 80);
             sheetReport.Cells["Q7"].PutValue(string.Format("Lũy kế {0} \n {1}", text, year));
             sheetReport.Cells.SetColumnWidthPixel(16, 170);
@@ -721,22 +729,42 @@ namespace DongAERP.Areas.Admin.Controllers
                 dataTablePie.Columns.Add("CompareToIDPercent", typeof(double));
 
                 // add row vào table
-                dataTablePie.Rows.Add(str[0], dataPieYear.VND, dataPieLastYear.VND, dataPieLastYear.VND == 0 ? 0 : Math.Round((VNDCompare / dataPieLastYear.VND) * 100, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[1], dataPieYear.USD, dataPieLastYear.USD, dataPieLastYear.USD == 0 ? 0 : Math.Round((USDCompare / dataPieLastYear.USD) * 100, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[2], dataPieYear.EUR, dataPieLastYear.EUR, dataPieLastYear.EUR == 0 ? 0 : Math.Round((EURCompare / dataPieLastYear.EUR) * 100, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[3], dataPieYear.CAD, dataPieLastYear.CAD, dataPieLastYear.CAD == 0 ? 0 : Math.Round((CADCompare / dataPieLastYear.CAD) * 100, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[4], dataPieYear.AUD, dataPieLastYear.AUD, dataPieLastYear.AUD == 0 ? 0 : Math.Round((AUDCompare / dataPieLastYear.AUD) * 100, 2, MidpointRounding.ToEven));
-                dataTablePie.Rows.Add(str[5], dataPieYear.GBP, dataPieLastYear.GBP, dataPieLastYear.GBP == 0 ? 0 : Math.Round((GBPCompare / dataPieLastYear.GBP) * 100, 2, MidpointRounding.ToEven));
+                //dataTablePie.Rows.Add(str[0], dataPieYear.VND, dataPieLastYear.VND, dataPieLastYear.VND == 0 ? 0 : Math.Round((VNDCompare / dataPieLastYear.VND) * 100, 2, MidpointRounding.ToEven));
+                //dataTablePie.Rows.Add(str[1], dataPieYear.USD, dataPieLastYear.USD, dataPieLastYear.USD == 0 ? 0 : Math.Round((USDCompare / dataPieLastYear.USD) * 100, 2, MidpointRounding.ToEven));
+                //dataTablePie.Rows.Add(str[2], dataPieYear.EUR, dataPieLastYear.EUR, dataPieLastYear.EUR == 0 ? 0 : Math.Round((EURCompare / dataPieLastYear.EUR) * 100, 2, MidpointRounding.ToEven));
+                //dataTablePie.Rows.Add(str[3], dataPieYear.CAD, dataPieLastYear.CAD, dataPieLastYear.CAD == 0 ? 0 : Math.Round((CADCompare / dataPieLastYear.CAD) * 100, 2, MidpointRounding.ToEven));
+                //dataTablePie.Rows.Add(str[4], dataPieYear.AUD, dataPieLastYear.AUD, dataPieLastYear.AUD == 0 ? 0 : Math.Round((AUDCompare / dataPieLastYear.AUD) * 100, 2, MidpointRounding.ToEven));
+                //dataTablePie.Rows.Add(str[5], dataPieYear.GBP, dataPieLastYear.GBP, dataPieLastYear.GBP == 0 ? 0 : Math.Round((GBPCompare / dataPieLastYear.GBP) * 100, 2, MidpointRounding.ToEven));
+                
+                foreach(string item in str)
+                {
+                    // Năm hiện tại
+                    var propertyInfoYear = dataPieYear.GetType().GetProperty(item);
+
+                    // Năm trước
+                    var propertyInfoLastYear = dataPieLastYear.GetType().GetProperty(item);
+
+                    if (propertyInfoYear != null && propertyInfoLastYear != null)
+                    {
+                        var valueDataYear = propertyInfoYear.GetValue(dataPieYear, null);
+
+                        var valueDataLastYear = propertyInfoLastYear.GetValue(dataPieLastYear, null);
+
+                        double compareYear = Math.Round(Convert.ToDouble(valueDataYear) - Convert.ToDouble(valueDataLastYear), 2, MidpointRounding.ToEven);
+
+                        dataTablePie.Rows.Add(
+                            item
+                            , valueDataYear, valueDataLastYear, compareYear
+                        );
+                    }
+                }
 
                 DataRow row = dataTablePie.NewRow();
                 row["ReportID"] = "Tổng";
-                row["AccumulateID1"] = dataTablePie.Compute("Sum(AccumulateID1)", "");
-                row["AccumulateID2"] = dataTablePie.Compute("Sum(AccumulateID2)", "");
-
-                // Sum row tổng compare month
-                double sumCompareMonth = (double)row["AccumulateID1"] - (double)row["AccumulateID2"];
-
-                row["CompareToIDPercent"] = Math.Round(sumCompareMonth, 2, MidpointRounding.ToEven);
+                row["AccumulateID1"] = 100;
+                row["AccumulateID2"] = 100;
+                
+                row["CompareToIDPercent"] = 0;
                 dataTablePie.Rows.Add(row);
 
                 // Set border
@@ -857,11 +885,11 @@ namespace DongAERP.Areas.Admin.Controllers
             CreateTitle("A3", "U3", sheetReport, titleDetailt, 12);
 
             // Tạo title cho doanh số chi trả loại hình dịch vụ
-            string titleDS = "1. Theo doanh số chi trả loại hình dịch vụ";
+            string titleDS = "1. Theo Hồ sơ chi trả theo từng loại tiền";
             CreateTitle("A5", "E5", sheetReport, titleDS, 12);
 
             // Tạo title chotỷ trọng chi trả loại hình dịch vụ
-            string titleTT = "2. Theo tỷ trọng chi trả loại hình dịch vụ";
+            string titleTT = "2. Theo tỉ trọng Hồ sơ chi trả theo từng loại tiền";
             CreateTitle("A33", "E33", sheetReport, titleTT, 12);
 
             // Add tên cột cho bảng báo cáo
@@ -870,6 +898,10 @@ namespace DongAERP.Areas.Admin.Controllers
             //sheetReport.Cells.SetColumnWidthPixel(15, 80);
             sheetReport.Cells["S6"].PutValue("");
             sheetReport.Cells["T6"].PutValue("");
+
+            // Xóa từ đến
+            sheetReport.Cells["L4"].PutValue("");
+            sheetReport.Cells["P4"].PutValue("");
 
 
             sheetReport.Cells["Q7"].PutValue(string.Format("Tháng {0}/{1}", month, year));

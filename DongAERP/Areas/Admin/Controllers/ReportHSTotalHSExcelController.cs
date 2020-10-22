@@ -96,7 +96,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceLine.CategoryAxis.TickLabels.RotationAngle = 45;
 
             //Chart title
-            leadSourceLine.Title.Text = "Tổng doanh số chi trả";
+            leadSourceLine.Title.Text = "Tổng Hồ sơ chi trả";
             leadSourceLine.Title.Font.Color = Color.Silver;
 
             // Get data report ngày
@@ -337,7 +337,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             DataTable dataTable = new DataTable();
 
-            // Theo doanh số chi trả loại hình dịch vụ
+            // Theo Hồ sơ chi trả loại hình dịch vụ
             if (listReportData.Count.Equals(2))
             {
                 bool check = true;
@@ -484,7 +484,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 //leadSourceLine.CategoryAxis.TickLabels.RotationAngle = 45;
 
                 //Chart title
-                leadSourceLine.Title.Text = "Tổng doanh số chi trả";
+                leadSourceLine.Title.Text = "Tổng Hồ sơ chi trả";
                 leadSourceLine.Title.Font.Color = Color.Silver;
 
 
@@ -570,7 +570,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             DataTable dataTable = new DataTable();
 
-            // Theo doanh số chi trả loại hình dịch vụ
+            // Theo Hồ sơ chi trả loại hình dịch vụ
             if (listReportData.Count.Equals(3))
             {
                 foreach (ReportForTotalPayment item in listReportData)
@@ -723,7 +723,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceLine = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceLine.Title.Text = string.Format("Tổng doanh số chi trả {0}/{1} so với tháng trước và so với cùng kì năm trước", month, year);
+            leadSourceLine.Title.Text = string.Format("Tổng Hồ sơ chi trả {0}/{1} so với tháng trước và so với cùng kì năm trước", month, year);
             leadSourceLine.Title.Font.Color = Color.Silver;
 
             // get data

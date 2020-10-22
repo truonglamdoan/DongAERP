@@ -1379,11 +1379,12 @@ namespace DongAERP.Areas.Admin.Controllers
         /// <returns></returns>
         public DataTable ConvertToDataTable<T>(IList<T> data)
         {
-            PropertyDescriptorCollection properties =
-               TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+
             DataTable table = new DataTable();
             foreach (PropertyDescriptor prop in properties)
                 table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+
             foreach (T item in data)
             {
                 DataRow row = table.NewRow();

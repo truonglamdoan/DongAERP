@@ -225,7 +225,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceLine.CategoryAxis.TickLabels.RotationAngle = 45;
 
             //Chart title
-            leadSourceLine.Title.Text = "Doanh số chi trả theo từng thị trường";
+            leadSourceLine.Title.Text = "Hồ sơ chi trả theo từng thị trường";
             leadSourceLine.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -353,8 +353,8 @@ namespace DongAERP.Areas.Admin.Controllers
             string titleDetailt = string.Format("Giai đoạn: {0}", text);
             CreateTitle("A3", "U3", sheetReport, titleDetailt, 12);
 
-            // Tạo title cho doanh số chi trả theo thị trường
-            string titleDS = "1. Theo doanh số chi trả theo thị trường";
+            // Tạo title cho Hồ sơ chi trả theo thị trường
+            string titleDS = "1. Theo Hồ sơ chi trả theo thị trường";
             CreateTitle("A5", "E5", sheetReport, titleDS, 12);
 
             // Tạo title chotỷ trọng chi trả theo thị trường
@@ -363,7 +363,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Add tên cột cho bảng báo cáo
             // Set width cho column
-            // Theo doanh số
+            // Theo Hồ sơ
             sheetReport.Cells.SetColumnWidthPixel(15, 80);
             sheetReport.Cells["Q7"].PutValue(string.Format("Lũy kế {0} \n {1}", text, year));
             sheetReport.Cells.SetColumnWidthPixel(16, 170);
@@ -407,7 +407,7 @@ namespace DongAERP.Areas.Admin.Controllers
             DataTable dataTable = new DataTable();
 
             string[] str = { "Mỹ", "Châu Á", "Toàn cầu", "Châu Âu", "Canada", "Úc" };
-            // Theo doanh số chi trả theo thị trường
+            // Theo Hồ sơ chi trả theo thị trường
             if (listReportData.Count.Equals(2))
             {
                 // Tạo các cột cho datatable
@@ -551,7 +551,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceLine = sheetReport.Charts[chartIndex];
             
             //Chart title
-            leadSourceLine.Title.Text = "Doanh số chi trả theo thị trường";
+            leadSourceLine.Title.Text = "Hồ sơ chi trả theo thị trường";
             leadSourceLine.Title.Font.Color = Color.Silver;
 
 
@@ -593,7 +593,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceLine.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
 
 
-            // Biểu đồ Doanh số theo loại hình chi trả của năm hiện tại
+            // Biểu đồ Hồ sơ theo loại hình chi trả của năm hiện tại
             if (listReportDataPercentClone.Count.Equals(2))
             {
                 bool check = true;
@@ -723,13 +723,10 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 DataRow row = dataTablePie.NewRow();
                 row["MaketID"] = "Tổng";
-                row["AccumulateID1"] = dataTablePie.Compute("Sum(AccumulateID1)", "");
-                row["AccumulateID2"] = dataTablePie.Compute("Sum(AccumulateID2)", "");
-
-                // Sum row tổng compare month
-                double sumCompareMonth = (double)row["AccumulateID1"] - (double)row["AccumulateID2"];
-
-                row["CompareToIDPercent"] = Math.Round(sumCompareMonth, 2, MidpointRounding.ToEven);
+                row["AccumulateID1"] = 100;
+                row["AccumulateID2"] = 100;
+                
+                row["CompareToIDPercent"] = 0;
                 dataTablePie.Rows.Add(row);
 
 
@@ -849,8 +846,8 @@ namespace DongAERP.Areas.Admin.Controllers
             string titleDetailt = text;
             CreateTitle("A3", "U3", sheetReport, titleDetailt, 12);
 
-            // Tạo title cho doanh số chi trả theo thị trường
-            string titleDS = "1. Theo doanh số chi trả theo thị trường";
+            // Tạo title cho Hồ sơ chi trả theo thị trường
+            string titleDS = "1. Theo Hồ sơ chi trả theo thị trường";
             CreateTitle("A5", "E5", sheetReport, titleDS, 12);
 
             // Tạo title chotỷ trọng chi trả theo thị trường
@@ -859,7 +856,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Add tên cột cho bảng báo cáo
             // Set width cho column
-            // Theo doanh số
+            // Theo Hồ sơ
             //sheetReport.Cells.SetColumnWidthPixel(15, 80);
             sheetReport.Cells["S6"].PutValue("");
             sheetReport.Cells["T6"].PutValue("");
@@ -969,7 +966,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
             string[] str = { "Mỹ", "Châu Á", "Toàn cầu", "Châu Âu", "Canada", "Úc" };
 
-            // Theo doanh số chi trả thị trường
+            // Theo Hồ sơ chi trả thị trường
             if (listReportData.Count.Equals(3))
             {
                 // Tạo các cột cho datatable
@@ -1066,7 +1063,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 //leadSourceLine.CategoryAxis.TickLabels.RotationAngle = 45;
 
                 //Chart title
-                leadSourceLine.Title.Text = string.Format("Doanh số theo thị trường tháng {0}/{1} \n so với tháng trước và so với cùng kì năm trước", month, year);
+                leadSourceLine.Title.Text = string.Format("Hồ sơ theo thị trường tháng {0}/{1} \n so với tháng trước và so với cùng kì năm trước", month, year);
                 leadSourceLine.Title.Font.Color = Color.Silver;
 
                 int count = 0;
@@ -1197,7 +1194,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 }
             }
 
-            // Biểu đồ Doanh số theo loại hình chi trả của năm hiện tại
+            // Biểu đồ Hồ sơ theo loại hình chi trả của năm hiện tại
             if (listReportDataPercentClone.Count.Equals(3))
             {
                 foreach (ReportForMaket item in listReportDataPercentClone)

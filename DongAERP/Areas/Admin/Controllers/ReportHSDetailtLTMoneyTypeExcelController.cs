@@ -313,6 +313,7 @@ namespace DongAERP.Areas.Admin.Controllers
             List<ReportDetailtForTotalMoneyType> listReportDataUSD = new List<ReportDetailtForTotalMoneyType>();
             // Get danh sách thị trường
             List<string> listMarket = new List<string>();
+            string nameMarket = string.Empty;
 
             switch (typeID)
             {
@@ -362,6 +363,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     }
                     else
                     {
+
                         foreach (ReportDetailtForTotalMoneyType item in listReportData)
                         {
                             item.ReportID = item.PartnerName;
@@ -495,6 +497,16 @@ namespace DongAERP.Areas.Admin.Controllers
 
             if (listReportData.Count > 0)
             {
+                if (marketID.Contains("005"))
+                {
+                    nameMarket = listReportData.Count > 0 ? listReportData[0].MarketName : string.Empty;
+                    CreateTitle("A3", "K3", sheetReport, string.Format("Thị trường: {0}", nameMarket), 14);
+                }
+                else
+                {
+                    nameMarket = listReportData.Count > 0 ? listReportData[0].MarketName : string.Empty;
+                    CreateTitle("A3", "K3", sheetReport, string.Format("Thị trường: {0}", nameMarket), 14);
+                }
                 // Add dòng tổng vào list danh sách
                 ReportDetailtForTotalMoneyType reportForMaket = new ReportDetailtForTotalMoneyType()
                 {
@@ -1271,7 +1283,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnVND = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnVND.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - VND \n Giai đoạn: {0} \n", text);
+            leadSourceColumnVND.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - VND \n Giai đoạn: {0} \n", text);
             leadSourceColumnVND.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1315,7 +1327,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnUSD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnUSD.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - USD \n Giai đoạn: {0} \n", text);
+            leadSourceColumnUSD.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - USD \n Giai đoạn: {0} \n", text);
             leadSourceColumnUSD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1359,7 +1371,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnEUR = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnEUR.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - EUR \n Giai đoạn: {0} \n", text);
+            leadSourceColumnEUR.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - EUR \n Giai đoạn: {0} \n", text);
             leadSourceColumnEUR.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1403,7 +1415,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnCAD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnCAD.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - CAD \n Giai đoạn: {0} \n", text);
+            leadSourceColumnCAD.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - CAD \n Giai đoạn: {0} \n", text);
             leadSourceColumnCAD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1447,7 +1459,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnAUD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnAUD.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - AUD \n Giai đoạn: {0} \n", text);
+            leadSourceColumnAUD.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - AUD \n Giai đoạn: {0} \n", text);
             leadSourceColumnAUD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1491,7 +1503,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnGBP = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnGBP.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - GBP \n Giai đoạn: {0} \n", text);
+            leadSourceColumnGBP.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - GBP \n Giai đoạn: {0} \n", text);
             leadSourceColumnGBP.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -2264,7 +2276,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnVND = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnVND.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - VND \n Giai đoạn: {0} \n", text);
+            leadSourceColumnVND.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - VND \n Giai đoạn: {0} \n", text);
             leadSourceColumnVND.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -2310,7 +2322,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnUSD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnUSD.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - USD \n Giai đoạn: {0} \n", text);
+            leadSourceColumnUSD.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - USD \n Giai đoạn: {0} \n", text);
             leadSourceColumnUSD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -2357,7 +2369,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnEUR = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnEUR.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - EUR \n Giai đoạn: {0} \n", text);
+            leadSourceColumnEUR.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - EUR \n Giai đoạn: {0} \n", text);
             leadSourceColumnEUR.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -2404,7 +2416,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnCAD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnCAD.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - CAD \n Giai đoạn: {0} \n", text);
+            leadSourceColumnCAD.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - CAD \n Giai đoạn: {0} \n", text);
             leadSourceColumnCAD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -2451,7 +2463,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnAUD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnAUD.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - AUD \n Giai đoạn: {0} \n", text);
+            leadSourceColumnAUD.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - AUD \n Giai đoạn: {0} \n", text);
             leadSourceColumnAUD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -2498,7 +2510,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnGBP = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnGBP.Title.Text = string.Format("Doanh số dịch vụ từng loại tiền - GBP \n Giai đoạn: {0} \n", text);
+            leadSourceColumnGBP.Title.Text = string.Format("Hồ sơ dịch vụ từng loại tiền - GBP \n Giai đoạn: {0} \n", text);
             leadSourceColumnGBP.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3129,7 +3141,7 @@ namespace DongAERP.Areas.Admin.Controllers
             title = string.Format("So với cùng kì");
             CreateTitle(string.Format("O{0}", totalRowTable1 + 6), string.Format("O{0}", totalRowTable1 + 6), sheetReport, title, 12, true);
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
@@ -3220,7 +3232,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnVND = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnVND.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - VND \n Tháng {0}/{1}", month, year);
+            leadSourceColumnVND.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - VND \n Tháng {0}/{1}", month, year);
             leadSourceColumnVND.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3271,7 +3283,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnUSD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnUSD.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - USD \n Tháng {0}/{1}", month, year);
+            leadSourceColumnUSD.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - USD \n Tháng {0}/{1}", month, year);
             leadSourceColumnUSD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3321,7 +3333,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnEUR = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnEUR.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - EUR \n Tháng {0}/{1}", month, year);
+            leadSourceColumnEUR.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - EUR \n Tháng {0}/{1}", month, year);
             leadSourceColumnEUR.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3371,7 +3383,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnCAD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnCAD.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - CAD \n Tháng {0}/{1}", month, year);
+            leadSourceColumnCAD.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - CAD \n Tháng {0}/{1}", month, year);
             leadSourceColumnCAD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3421,7 +3433,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnAUD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnAUD.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - AUD \n Tháng {0}/{1}", month, year);
+            leadSourceColumnAUD.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - AUD \n Tháng {0}/{1}", month, year);
             leadSourceColumnAUD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3471,7 +3483,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnGBP = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnGBP.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - GBP \n Tháng {0}/{1}", month, year);
+            leadSourceColumnGBP.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - GBP \n Tháng {0}/{1}", month, year);
             leadSourceColumnGBP.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4544,7 +4556,7 @@ namespace DongAERP.Areas.Admin.Controllers
             title = string.Format("So với cùng kì");
             CreateTitle(string.Format("O{0}", totalRowTable1 + 6), string.Format("O{0}", totalRowTable1 + 6), sheetReport, title, 12, true);
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
@@ -4635,7 +4647,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnVND = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnVND.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - VND \n Tháng {0}/{1}", month, year);
+            leadSourceColumnVND.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - VND \n Tháng {0}/{1}", month, year);
             leadSourceColumnVND.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4686,7 +4698,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnUSD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnUSD.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - USD \n Tháng {0}/{1}", month, year);
+            leadSourceColumnUSD.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - USD \n Tháng {0}/{1}", month, year);
             leadSourceColumnUSD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4736,7 +4748,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnEUR = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnEUR.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - EUR \n Tháng {0}/{1}", month, year);
+            leadSourceColumnEUR.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - EUR \n Tháng {0}/{1}", month, year);
             leadSourceColumnEUR.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4786,7 +4798,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnCAD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnCAD.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - CAD \n Tháng {0}/{1}", month, year);
+            leadSourceColumnCAD.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - CAD \n Tháng {0}/{1}", month, year);
             leadSourceColumnCAD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4836,7 +4848,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnAUD = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnAUD.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - AUD \n Tháng {0}/{1}", month, year);
+            leadSourceColumnAUD.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - AUD \n Tháng {0}/{1}", month, year);
             leadSourceColumnAUD.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4886,7 +4898,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnGBP = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnGBP.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường - GBP \n Tháng {0}/{1}", month, year);
+            leadSourceColumnGBP.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường - GBP \n Tháng {0}/{1}", month, year);
             leadSourceColumnGBP.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"

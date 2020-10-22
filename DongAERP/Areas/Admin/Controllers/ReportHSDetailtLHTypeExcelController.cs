@@ -634,6 +634,8 @@ namespace DongAERP.Areas.Admin.Controllers
 
             if (listReportData.Count > 0)
             {
+                string nameMarket = listReportData[0].MarketName;
+                CreateTitle("A3", "K3", sheetReport, string.Format("Thị trường: {0}", nameMarket), 14);
                 // Add dòng tổng vào list danh sách
                 ReportDetailtServiceType reportForMaket = new ReportDetailtServiceType()
                 {
@@ -1170,7 +1172,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiNha = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiNha.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Nhà", text);
+            leadSourceColumnChiNha.Title.Text = string.Format("Hồ sơ dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Nhà", text);
             leadSourceColumnChiNha.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1214,7 +1216,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiQuay = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiQuay.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Quầy", text);
+            leadSourceColumnChiQuay.Title.Text = string.Format("Hồ sơ dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Quầy", text);
             leadSourceColumnChiQuay.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1257,7 +1259,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChuyenKhoan = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chuyển khoản", text);
+            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Hồ sơ dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chuyển khoản", text);
             leadSourceColumnChuyenKhoan.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1421,7 +1423,7 @@ namespace DongAERP.Areas.Admin.Controllers
             Worksheet sheetReport = designer.Workbook.Worksheets[0];
 
             // Tạo title
-            string typeReport = "So sánh - Theo giai đoạn - Tất cả";
+            string typeReport = "So sánh - Theo giai đoạn - Từng thị trường";
 
             string text = string.Format(" tháng năm {0}", year);
             switch (gradationID)
@@ -1447,7 +1449,7 @@ namespace DongAERP.Areas.Admin.Controllers
             string titleDetailt = string.Format("Giai đoạn: {0}", text);
             CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
 
-            titleDetailt = "1. Theo doanh số chi trả theo thị trường - loại hình chi trả";
+            titleDetailt = "1. Theo Hồ sơ chi trả theo thị trường - loại hình chi trả";
             CreateTitle("B6", "E6", sheetReport, titleDetailt, 12);
 
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
@@ -1533,8 +1535,12 @@ namespace DongAERP.Areas.Admin.Controllers
 
             table.Columns.Add("MarketName", typeof(String));
 
+            string nameMarket = string.Empty;
+
             if (marketID.Equals("005"))
             {
+                nameMarket = "Thị trường Châu Á";
+
                 foreach (ReportDetailtServiceType item in listDataGradation)
                 {
                     item.PartnerName = item.MarketName;
@@ -1544,12 +1550,15 @@ namespace DongAERP.Areas.Admin.Controllers
             }
             else
             {
+                nameMarket = listDataGradation.Count > 0 ? listDataGradation[0].MarketName : string.Empty;
+
                 foreach (ReportDetailtServiceType item in listDataGradation)
                 {
-                    item.MarketName = "Tất cả thị trường";
                     item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
                 }
             }
+
+            CreateTitle("A4", "K4", sheetReport, string.Format("Thị trường: {0}", nameMarket), 12);
 
             foreach (ReportDetailtServiceType item in listDataGradation)
             {
@@ -1621,7 +1630,7 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tổng số row theo table1
             int totalRowTable1 = table.Rows.Count + 62;
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
@@ -1784,7 +1793,7 @@ namespace DongAERP.Areas.Admin.Controllers
             CreateTitle(string.Format("F{0}", totalRowTable1 + 6), string.Format("F{0}", totalRowTable1 + 6), sheetReport, title, 12, true);
 
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
@@ -1867,7 +1876,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiNha = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiNha.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Nhà", text);
+            leadSourceColumnChiNha.Title.Text = string.Format("Hồ sơ dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Nhà", text);
             leadSourceColumnChiNha.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1911,7 +1920,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiQuay = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiQuay.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Quầy", text);
+            leadSourceColumnChiQuay.Title.Text = string.Format("Hồ sơ dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chi Quầy", text);
             leadSourceColumnChiQuay.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1954,7 +1963,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChuyenKhoan = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Doanh số dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chuyển khoản", text);
+            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Hồ sơ dịch vụ chi quầy từng thị trường \n Giai đoạn: {0} \n Chuyển khoản", text);
             leadSourceColumnChuyenKhoan.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -1999,7 +2008,7 @@ namespace DongAERP.Areas.Admin.Controllers
 
 
             //Chart title
-            leadSourceColumn.Title.Text = string.Format("Doanh số các đối tác \n Giai đoạn: {0} \n", text);
+            leadSourceColumn.Title.Text = string.Format("Hồ sơ các đối tác \n Giai đoạn: {0} \n", text);
             leadSourceColumn.Title.Font.Color = Color.Silver;
 
             // count cho 3 loại: chi Quầy, Chi nhà, Chuyển khoản
@@ -2090,8 +2099,8 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumn.ValueAxis.AxisLine.IsVisible = false;
             leadSourceColumn.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
 
-            // Phần 2 Theo tỉ trọng doanh số theo thị trường
-            title = "2. Theo tỷ trọng doanh số theo thị trường - loại hình chi trả";
+            // Phần 2 Theo tỉ trọng Hồ sơ theo thị trường
+            title = "2. Theo tỷ trọng Hồ sơ theo thị trường - loại hình chi trả";
             // Số 2 khoảng cách giữa phần 1 và phần 2
             CreateTitle(string.Format("B{0}", totalRowTable2 + 2), string.Format("E{0}", totalRowTable2 + 2), sheetReport, title, 12);
 
@@ -2212,7 +2221,7 @@ namespace DongAERP.Areas.Admin.Controllers
             // Với 6 là số cách của table1 và table2
             int totalRowTable3 = totalRowTable2 + table.Rows.Count + 25;
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
@@ -2419,18 +2428,34 @@ namespace DongAERP.Areas.Admin.Controllers
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
             sheetReport.Cells["C62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["D62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if(month == 1)
+            {
+                sheetReport.Cells["D62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["E62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             sheetReport.Cells["F62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["G62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["G62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["H62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             sheetReport.Cells["I62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["J62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["J62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["K62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             sheetReport.Cells["L62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["M62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["M62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["N62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             List<ReportDetailtSTMarket> listDataCompareMonth = new HSReportBL().ReportDetailtCompareMonthForAll(year, month, reportTypeID, marketID);
@@ -2646,7 +2671,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 // Trường hợp tháng 1
                 if (month == 1)
                 {
-                    dataItemLastMonth = listDataCompareMonth.Find(x => x.MarketCode == item && x.Month == "12" && x.Year == (year - 1).ToString());
+                    dataItemLastMonth = listDataCompareMonth.Find(x => x.ReportID == item && x.Month == "12" && x.Year == (year - 1).ToString());
                 }
 
                 if (dataItemLastYear != null && dataItemYear != null && dataItemLastMonth != null)
@@ -3011,7 +3036,7 @@ namespace DongAERP.Areas.Admin.Controllers
             title = string.Format("So với cùng kì");
             CreateTitle(string.Format("J{0}", totalRowTable1 + 6), string.Format("J{0}", totalRowTable1 + 6), sheetReport, title, 12, true);
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
@@ -3035,6 +3060,18 @@ namespace DongAERP.Areas.Admin.Controllers
 
                         // set style cho number
                         style.Custom = "#,##0";
+
+                        if (b > 1)
+                        {
+                            decimal tryParseValue = 0;
+                            decimal.TryParse(valueOfTable, out tryParseValue);
+                            style.Font.Color = Color.Green;
+
+                            if (tryParseValue < 0)
+                            {
+                                style.Font.Color = Color.Red;
+                            }
+                        }
 
                         // set border
                         sheetReport.Cells[a, b].SetStyle(style);
@@ -3097,7 +3134,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiQuay = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiQuay.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường \n Chi Quầy \n Tháng {0}/{1}", month, year);
+            leadSourceColumnChiQuay.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường \n Chi Quầy \n Tháng {0}/{1}", month, year);
             leadSourceColumnChiQuay.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3146,7 +3183,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiNha = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiNha.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường \n Chi Nhà \n Tháng {0}/{1}", month, year);
+            leadSourceColumnChiNha.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường \n Chi Nhà \n Tháng {0}/{1}", month, year);
             leadSourceColumnChiNha.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3193,7 +3230,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChuyenKhoan = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường \n Chuyển Khoản \n Tháng {0}/{1}", month, year);
+            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường \n Chuyển Khoản \n Tháng {0}/{1}", month, year);
             leadSourceColumnChuyenKhoan.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -3384,25 +3421,41 @@ namespace DongAERP.Areas.Admin.Controllers
             string titleDetailt = string.Format("Tháng {0}/{1}", month, year);
             CreateTitle("A3", "K3", sheetReport, titleDetailt, 12);
 
-            titleDetailt = "1. Theo doanh số thị trường - loại hình chi trả";
+            titleDetailt = "1. Theo Hồ sơ thị trường - loại hình chi trả";
             CreateTitle("B5", "D5", sheetReport, titleDetailt, 12);
 
 
             // Tạo giá trị cho cột dữ liệu của Chi quầy/ Chi nhà/ Chuyển khoản
             sheetReport.Cells["C62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["D62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if(month == 1)
+            {
+                sheetReport.Cells["D62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["E62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             sheetReport.Cells["F62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["G62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["G62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["H62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             sheetReport.Cells["I62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["J62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["J62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["K62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             sheetReport.Cells["L62"].PutValue(string.Format("Tháng {0}/{1} ", month, year));
             sheetReport.Cells["M62"].PutValue(string.Format("Tháng {0}/{1} ", month - 1, year));
+            if (month == 1)
+            {
+                sheetReport.Cells["M62"].PutValue(string.Format("Tháng {0}/{1} ", 12, year - 1));
+            }
             sheetReport.Cells["N62"].PutValue(string.Format("Tháng {0}/{1} ", month, year - 1));
 
             List<ReportDetailtServiceType> listDataCompareMonth = new HSReportBL().ReportDetailtCompareMonthForOne(year, month, reportTypeID, marketID);
@@ -3419,8 +3472,13 @@ namespace DongAERP.Areas.Admin.Controllers
                 item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
             }
 
+            string nameMarket = string.Empty;
+
             if (marketID.Contains("005"))
             {
+                nameMarket = "Thị trường Châu Á";
+                CreateTitle("A4", "K4", sheetReport, string.Format("Thị trường: {0}", nameMarket), 12);
+
                 List<ReportDetailtServiceType> listDataCompareMonthConvert = new List<ReportDetailtServiceType>();
 
                 foreach (string item in listMarket)
@@ -3560,6 +3618,13 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     listDataCompareMonth = new List<ReportDetailtServiceType>(listDataCompareMonthConvert);
                 }
+            }
+
+            if (!marketID.Contains("005"))
+            {
+                nameMarket = listDataCompareMonth.Count > 0 ? listDataCompareMonth[0].MarketName : string.Empty;
+
+                CreateTitle("A4", "K4", sheetReport, string.Format("Thị trường: {0}", nameMarket), 12);
             }
 
             // Khởi tạo datatable
@@ -4101,7 +4166,7 @@ namespace DongAERP.Areas.Admin.Controllers
             title = string.Format("So với cùng kì");
             CreateTitle(string.Format("J{0}", totalRowTable1 + 6), string.Format("J{0}", totalRowTable1 + 6), sheetReport, title, 12, true);
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
@@ -4187,7 +4252,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiQuay = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiQuay.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường \n Chi Quầy \n Tháng {0}/{1}", month, year);
+            leadSourceColumnChiQuay.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường \n Chi Quầy \n Tháng {0}/{1}", month, year);
             leadSourceColumnChiQuay.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4236,7 +4301,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChiNha = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChiNha.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường \n Chi Nhà \n Tháng {0}/{1}", month, year);
+            leadSourceColumnChiNha.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường \n Chi Nhà \n Tháng {0}/{1}", month, year);
             leadSourceColumnChiNha.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4283,7 +4348,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumnChuyenKhoan = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Doanh số từng dịch vụ từng thị trường \n Chuyển Khoản \n Tháng {0}/{1}", month, year);
+            leadSourceColumnChuyenKhoan.Title.Text = string.Format("Hồ sơ từng dịch vụ từng thị trường \n Chuyển Khoản \n Tháng {0}/{1}", month, year);
             leadSourceColumnChuyenKhoan.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4331,7 +4396,7 @@ namespace DongAERP.Areas.Admin.Controllers
             leadSourceColumn = sheetReport.Charts[chartIndex];
 
             //Chart title
-            leadSourceColumn.Title.Text = string.Format("Doanh số các đối tác trong từng thị trường \n Tháng {0}/{1}", month, year);
+            leadSourceColumn.Title.Text = string.Format("Hồ sơ các đối tác trong từng thị trường \n Tháng {0}/{1}", month, year);
             leadSourceColumn.Title.Font.Color = Color.Silver;
 
             // Adding SeriesCollection (chart data source) to the chart ranging from "A1" cell to "B3"
@@ -4345,7 +4410,15 @@ namespace DongAERP.Areas.Admin.Controllers
 
             // Set the names of the chart series taken from cells.
             leadSourceColumn.NSeries[0].Name = string.Format("Tổng tháng {0}/{1}", month, year);
-            leadSourceColumn.NSeries[1].Name = string.Format("Tổng tháng {0}/{1}", month - 1, year);
+            
+            if (month == 1)
+            {
+                leadSourceColumn.NSeries[1].Name = string.Format("Tổng tháng {0}/{1}", 12, year - 1);
+            }
+            else
+            {
+                leadSourceColumn.NSeries[1].Name = string.Format("Tổng tháng {0}/{1}", month - 1, year);
+            }
             leadSourceColumn.NSeries[2].Name = string.Format("Tổng tháng {0}/{1}", month, year - 1);
 
             // Set the 1st series fill color.
@@ -4373,8 +4446,8 @@ namespace DongAERP.Areas.Admin.Controllers
             //leadSourceColumnChiNha.ValueAxis.MajorUnit = 10000000;
             leadSourceColumn.ValueAxis.MajorGridLines.Color = Color.FromArgb(217, 217, 217);
 
-            // Phần 2 Theo tỉ trọng doanh số theo thị trường
-            title = "2. Theo tỷ trọng doanh số theo thị trường - loại hình chi trả";
+            // Phần 2 Theo tỉ trọng Hồ sơ theo thị trường
+            title = "2. Theo tỷ trọng Hồ sơ theo thị trường - loại hình chi trả";
             // Số 2 khoảng cách giữa phần 1 và phần 2
             CreateTitle(string.Format("B{0}", totalRowTable2 + 2), string.Format("D{0}", totalRowTable2 + 2), sheetReport, title, 12);
 
@@ -4393,6 +4466,10 @@ namespace DongAERP.Areas.Admin.Controllers
             CreateTitle(string.Format("D{0}", totalRowTable2 + 45), string.Format("D{0}", totalRowTable2 + 45), sheetReport, title, 12, true);
 
             title = string.Format("Tháng {0}/{1}", month - 1, year);
+            if (month == 1)
+            {
+                title = string.Format("Tháng {0}/{1}", 12, year - 1);
+            }
             CreateTitle(string.Format("E{0}", totalRowTable2 + 45), string.Format("E{0}", totalRowTable2 + 45), sheetReport, title, 12, true);
 
             title = string.Format("Tháng {0}/{1}", month, year - 1);
@@ -4514,7 +4591,7 @@ namespace DongAERP.Areas.Admin.Controllers
             // Với 6 là số cách của table1 và table2
             int totalRowTable3 = totalRowTable2 + table.Rows.Count + 45;
 
-            // Table dữ liệu bảng số liệu Doanh số Chi Quầy/Chi Nhà/Chuyển Khoản
+            // Table dữ liệu bảng số liệu Hồ sơ Chi Quầy/Chi Nhà/Chuyển Khoản
             if (table.Rows.Count > 0)
             {
                 int stepRow = 0;
