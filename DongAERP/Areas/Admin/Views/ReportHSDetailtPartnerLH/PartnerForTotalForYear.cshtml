@@ -37,7 +37,7 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Danh số chi trả theo đối tác (USD)</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu Hồ sơ chi trả theo đối tác</h6>
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<DongA.Entities.ReportDetailtForPartner>()
@@ -52,16 +52,16 @@
                                 columns.Bound(c => c.PartnerName).Title("Đối tác").Width(200)
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: center;" });
-                                columns.Bound(c => c.DSChiQuay).Title("Danh số chi quầy").Width(150).Format("{0:N0}")
+                                columns.Bound(c => c.DSChiQuay).Title("Hồ sơ chi quầy").Width(150).Format("{0:N0}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound(c => c.DSChiNha).Title("Danh số chi nhà").Width(150).Format("{0:N0}")
+                                columns.Bound(c => c.DSChiNha).Title("Hồ sơ chi nhà").Width(150).Format("{0:N0}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound(c => c.DSCK).Title("Danh số chuyển khoản").Width(170).Format("{0:N0}")
+                                columns.Bound(c => c.DSCK).Title("Hồ sơ chuyển khoản").Width(170).Format("{0:N0}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right;" });
-                                columns.Bound(c => c.TongDS).Title("Tổng doanh số").Width(150).Format("{0:N0}")
+                                columns.Bound(c => c.TongDS).Title("Tổng").Width(150).Format("{0:N0}")
                                     .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                                     .HtmlAttributes(new { style = " text-align: right; font-weight: 700;" });
                             })

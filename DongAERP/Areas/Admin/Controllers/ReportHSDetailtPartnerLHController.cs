@@ -698,7 +698,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 int count = 0;
                 foreach (ReportDetailtForPartner item in listDataGradation)
                 {
-                    // tổng doanh số
+                    // tổng Hồ sơ
                     item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
 
                     // Tạo mảng insert dữ liệu để vẽ biểu đồ cột
@@ -706,7 +706,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, item.Year),
                         amount = item.DSChiQuay,
-                        NameType = "Doanh số \n chi quầy"
+                        NameType = "Hồ sơ \n chi quầy"
                     };
 
                     count++;
@@ -714,7 +714,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, item.Year),
                         amount = item.DSChiNha,
-                        NameType = "Doanh số \n chi nhà"
+                        NameType = "Hồ sơ \n chi nhà"
                     };
 
                     count++;
@@ -722,7 +722,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format(" Lũy kế {0} {1}", text, item.Year),
                         amount = item.DSCK,
-                        NameType = "Doanh số \n chuyển khoản"
+                        NameType = "Hồ sơ \n chuyển khoản"
                     };
 
                     count++;
@@ -1550,7 +1550,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
                         amount = item.DSChiQuay,
-                        NameType = "Doanh số \n chi quầy"
+                        NameType = "Hồ sơ \n chi quầy"
                     };
 
                     count++;
@@ -1558,7 +1558,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
                         amount = item.DSChiNha,
-                        NameType = "Doanh số \n chi nhà"
+                        NameType = "Hồ sơ \n chi nhà"
                     };
 
                     count++;
@@ -1566,7 +1566,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         NameGradationCompare = string.Format("Tháng {0}/{1}", item.Month, item.Year),
                         amount = item.DSCK,
-                        NameType = "Doanh số \n chuyển khoản"
+                        NameType = "Hồ sơ \n chuyển khoản"
                     };
                     count++;
                 }
