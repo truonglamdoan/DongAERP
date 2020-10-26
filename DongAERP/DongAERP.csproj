@@ -205,6 +205,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportMonthExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportTotalMoneyTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSTypeExcelController.cs" />
+    <Compile Include="Areas\Admin\Models\CountryModel.cs" />
     <Compile Include="Areas\Admin\Models\LoginModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">

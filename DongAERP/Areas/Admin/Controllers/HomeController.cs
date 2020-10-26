@@ -1,5 +1,6 @@
 ﻿using DongA.Bussiness;
 using DongA.Entities;
+using DongAERP.Areas.Admin.Models;
 using DongAERP.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -8,6 +9,7 @@ using Models.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -19,7 +21,39 @@ namespace DongAERP.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
-            return View();
+            CountryModel objProductModel = new CountryModel();
+            objProductModel.CountrytData = new Country();
+            objProductModel.CountrytData = GetChartData();
+            objProductModel.CountryTitle = "Country";
+            objProductModel.PopulationTitle = "Population";
+
+            return View(objProductModel);
+            //return View();
+        }
+
+        public Country GetChartData()
+        {
+            string listRegion = "An Giang, Bà Rịa–Vũng Tàu, Bắc Giang, Bắc Kạn, Bạc Liêu, Bắc Ninh, Bến Tre, Bình Định, Bình Dương, Bình Phước, Bình Thuận, Cà Mau, Cao Bằng, " +
+                "Đắk Lắk, Đắk Nông, Điện Biên, Đồng Nai, Đồng Tháp, Gia Lai, Hà Giang, Hà Nam, Hà Tĩnh, Hải Dương, Hậu Giang, Hòa Bình, Hưng Yên, Khánh Hòa, Kiến Giang, Kon Tum, " +
+                "Lai Châu, Lâm Đồng, Lạng Sơn, Lào Cai, Long An, Nam Định, Nghệ An, Ninh Bình, Ninh Thuận, 	Phú Thọ, Phú Yên, Quảng Bình, Quảng Nam, Quảng Ngãi, Quảng Ninh, Quảng Trị, " +
+                "Sóc Trăng, Sơn La, Tây Ninh, Thái Bình, Thái Nguyên, Thanh Hóa, Thừa Thiên–Huế, Tiền Giang, Trà Vinh, Tuyên Quang, Vĩnh Long, Vĩnh Phúc, Yên Bái, Cần Thơ, Đà Nẵng, Hà Nội, Hai Phong, Hồ Chí Minh City, ";
+            Country objproduct = new Country();
+            /*Get the data from databse and prepare the chart record data in string form.*/
+            objproduct.CountryName = listRegion;
+            int count = 0;
+            int i = 1;
+            string[] str = objproduct.CountryName.Split(',');
+            string[] listArr = new string[str.Count()];
+            foreach(string item in str)
+            {
+                listArr[count] = (i++).ToString();
+                count++;
+            }
+
+
+            objproduct.Population = string.Join(", ", listArr);
+
+            return objproduct;
         }
 
         public ActionResult ReportDetailt()
