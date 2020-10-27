@@ -6,11 +6,13 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Models;
 using Models.Framework;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace DongAERP.Areas.Admin.Controllers
@@ -27,6 +29,67 @@ namespace DongAERP.Areas.Admin.Controllers
             objProductModel.CountryTitle = "Country";
             objProductModel.PopulationTitle = "Population";
 
+            ViewBag.GetDataMartket = GetChartDataWorld();
+
+            return View(objProductModel);
+            //return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            // Get dữ liệu chỉ tiêu của hệ thống thiết lập
+            string targetPoint = WebConfigurationManager.AppSettings["targetPoint"];
+            string[] dataTarget = targetPoint.Split('-');
+            string year = fromDate.Year.ToString();
+            string targetValue = string.Empty;
+
+            foreach(string item in dataTarget)
+            {
+                string[] dataArray = item.Split('_');
+
+                if(dataArray[0] == year)
+                {
+                    targetValue = dataArray[1];
+                }
+            }
+
+            CountryModel objProductModel = new CountryModel();
+            objProductModel.CountrytData = new Country();
+            // Get biểu đồ của Việt Nam
+            objProductModel.CountrytData = GetChartData();
+            objProductModel.CountryTitle = "Country";
+            objProductModel.PopulationTitle = "Population";
+
+            if (fromDate != null && toDate != null && reportTypeID != null)
+            {
+                List<string> listData = new List<string>()
+                {
+                    fromDate.ToString("MM/dd/yyyy"),
+                    toDate.ToString("MM/dd/yyyy"),
+                    reportTypeID
+                };
+
+                ViewData["listData"] = listData;
+            }
+
+            // Get dữ liệu của Biểu đồ thế giới
+            ViewBag.GetDataMartket = GetChartDataWorld();
+
+            //// Get dữ liệu của doanh số
+            //List<Report> listDataDoanhSo = GetDataDoanhSo(fromDate, toDate, reportTypeID);
+
+            //foreach(Report item in listDataDoanhSo)
+            //{
+            //    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+            //}
+
+            //if(listDataDoanhSo.Count > 0)
+            //{
+            //    ViewBag.TongDS = listDataDoanhSo.Sum(x => x.TongDS);
+            //    ViewBag.DSChiNha = listDataDoanhSo.Sum(x => x.DSChiNha);
+            //}
+
             return View(objProductModel);
             //return View();
         }
@@ -35,8 +98,8 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             string listRegion = "An Giang, Bà Rịa–Vũng Tàu, Bắc Giang, Bắc Kạn, Bạc Liêu, Bắc Ninh, Bến Tre, Bình Định, Bình Dương, Bình Phước, Bình Thuận, Cà Mau, Cao Bằng, " +
                 "Đắk Lắk, Đắk Nông, Điện Biên, Đồng Nai, Đồng Tháp, Gia Lai, Hà Giang, Hà Nam, Hà Tĩnh, Hải Dương, Hậu Giang, Hòa Bình, Hưng Yên, Khánh Hòa, Kiến Giang, Kon Tum, " +
-                "Lai Châu, Lâm Đồng, Lạng Sơn, Lào Cai, Long An, Nam Định, Nghệ An, Ninh Bình, Ninh Thuận, 	Phú Thọ, Phú Yên, Quảng Bình, Quảng Nam, Quảng Ngãi, Quảng Ninh, Quảng Trị, " +
-                "Sóc Trăng, Sơn La, Tây Ninh, Thái Bình, Thái Nguyên, Thanh Hóa, Thừa Thiên–Huế, Tiền Giang, Trà Vinh, Tuyên Quang, Vĩnh Long, Vĩnh Phúc, Yên Bái, Cần Thơ, Đà Nẵng, Hà Nội, Hai Phong, Hồ Chí Minh City, ";
+                "Lai Châu, Lâm Đồng, Lạng Sơn, Lào Cai, Long An, Nam Định, Nghệ An, Ninh Bình, Ninh Thuận, Phú Thọ, Phú Yên, Quảng Bình, Quảng Nam, Quảng Ngãi, Quảng Ninh, Quảng Trị, " +
+                "Sóc Trăng, Sơn La, Tây Ninh, Thái Bình, Thái Nguyên, Thanh Hóa, Thừa Thiên–Huế, Tiền Giang, Trà Vinh, Tuyên Quang, Vĩnh Long, Vĩnh Phúc, Yên Bái, Cần Thơ, Đà Nẵng, Hà Nội, Hai Phong, Hồ Chí Minh City";
             Country objproduct = new Country();
             /*Get the data from databse and prepare the chart record data in string form.*/
             objproduct.CountryName = listRegion;
@@ -49,10 +112,18 @@ namespace DongAERP.Areas.Admin.Controllers
                 listArr[count] = (i++).ToString();
                 count++;
             }
-
-
             objproduct.Population = string.Join(", ", listArr);
+            return objproduct;
+        }
 
+        public Country GetChartDataWorld()
+        {
+            string listRegion = "Germany, United States, Brazil, Canada, France, RU";
+            Country objproduct = new Country();
+            /*Get the data from databse and prepare the chart record data in string form.*/
+            objproduct.CountryName = listRegion;
+
+            objproduct.Population = "200, 300, 400, 500, 600, 700";
             return objproduct;
         }
 
@@ -554,5 +625,36 @@ namespace DongAERP.Areas.Admin.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        #region Get dữ liệu cho Dashoard
+
+
+        public JsonResult GetDataDoanhSo(DateTime? fromDate, DateTime? toDate, string reportTypeID)
+        {
+            JsonResult result = new JsonResult();
+            
+            List<Report> listData = new ReportBL().SearchMonth(fromDate.Value, toDate.Value, reportTypeID);
+            foreach(Report item in listData)
+            {
+                item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+            }
+
+            double TongDS = 0;
+            double DSChiNha = 0;
+            Dictionary<string, double> listStr = new Dictionary<string, double>();
+
+            if(listData.Count > 0)
+            {
+                TongDS = listData.Sum(x => x.TongDS);
+                DSChiNha = listData.Sum(x => x.DSChiNha);
+                listStr.Add("TongDS", TongDS);
+                listStr.Add("DSChiNha", DSChiNha);
+            }
+
+            result = this.Json(JsonConvert.SerializeObject(listStr), JsonRequestBehavior.AllowGet);  
+
+            return result;
+        }
+
+        #endregion
     }
 }
