@@ -141,34 +141,34 @@
             <div class="card-body">
                 <div class="demo-section k-content wide">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
-                                            .Name("chartGradationCompareMonth")
-                                                    .Title(title => title
-                                                        .Text(month)
-                                                        .Position(ChartTitlePosition.Bottom))
-                                            .Legend(legend => legend
-                                                .Visible(false)
-                                            )
-                                            .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthCompareProportion", "Report").Data("onDataReportTypeID")))
-                                            .ChartArea(chart => chart
-                                                .Background("transparent")
-                                                )
-                                            //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
-                                            .Series(series =>
-                                            {
-                                                series.Pie(model => model.value, model => model.category, model => model.color)
-                                                .Labels(labels => labels
-                                                    .Template("#= category #: \n #= value#%")
-                                                    .Background("transparent")
-                                                    .Visible(true)
-                                                    .Font("bold 12px sans-serif")
-                                                )
-                                                //.StartAngle(150)
-                                                ;
-                                            })
-                                            .Tooltip(tooltip => tooltip
-                                                .Visible(true)
-                                                .Format("{0}%")
-                                            )
+                        .Name("chartGradationCompareMonth")
+                                .Title(title => title
+                                    .Text(month)
+                                    .Position(ChartTitlePosition.Bottom))
+                        .Legend(legend => legend
+                            .Visible(false)
+                        )
+                        .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthCompareProportion", "Report").Data("onDataReportTypeID")))
+                        .ChartArea(chart => chart
+                            .Background("transparent")
+                            )
+                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                        .Series(series =>
+                        {
+                            series.Pie(model => model.value, model => model.category, model => model.color)
+                            .Labels(labels => labels
+                                .Template("#= category #: \n #= value#%")
+                                .Background("transparent")
+                                .Visible(true)
+                                .Font("bold 12px sans-serif")
+                            )
+                            //.StartAngle(150)
+                            ;
+                        })
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0}%")
+                        )
                     )
                 </div>
             </div>

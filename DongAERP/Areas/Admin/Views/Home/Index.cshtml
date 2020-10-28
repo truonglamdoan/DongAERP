@@ -18,12 +18,12 @@
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 
-    <div>
+    <div style=" width: 100%; ">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <hr class="sidebar-divider">
-        <div style=" width: 530px; float: left; margin-top: 10px; ">
+        <div style="width: 35%;float: left;margin-top: 10px;">
 
-            <div style=" display: inline; margin-right: 10%; "><span> Đối tác: </span></div>
+            @*<div style=" display: inline; margin-right: 10%; "><span> Đối tác: </span></div>*@
             <div style=" display: inline; margin-right: 10%; ">
                 @(Html.Kendo().RadioButton().Name("TotalReport").Checked(true).Value(2).HtmlAttributes(new { @name = "report" }).Label("Tổng hợp"))
             </div>
@@ -34,8 +34,8 @@
                 @(Html.Kendo().RadioButton().Name("DAMReport").Value(1).HtmlAttributes(new { @name = "report" }).Label("DAMTC"))
             </div>
         </div>
-        <div style="display: flex;float: right;">
-            <ul>
+        <div style="display: flex;float: right;width: 65%;">
+            <ul style="margin: 0px;padding: 0px;">
                 <span style="float: left;margin-right: 30px;margin-top: 8px;">Từ tháng: </span>
                 <span>
                     @(Html.Kendo().DatePicker()
@@ -45,11 +45,11 @@
                                 .Format("MM/yyyy")
                                 .Value(monthYear)
                                 .DateInput()
-                                .HtmlAttributes(new { style = "width: 70%;float: left;", title = "monthpicker" })
+                                .HtmlAttributes(new { style = "width: 50%;float: left;", title = "monthpicker" })
                     )
                 </span>
             </ul>
-            <ul>
+            <ul style="margin: 0px; padding: 0px; ">
                 <span style="margin-left: 0%;margin-right: 30px;display: inline;">Đến tháng: </span>
                 <span style=" display: inline-flex; ">
                     @(Html.Kendo().DatePicker()
@@ -59,12 +59,12 @@
                                 .Format("MM/yyyy")
                                 .Value(monthYear)
                                 .DateInput()
-                                .HtmlAttributes(new { style = "width: 100%", title = "monthpicker" })
+                                .HtmlAttributes(new { style = "width: 70%", title = "monthpicker" })
                     )
                 </span>
             </ul>
 
-            <ul class="search-item" style=" margin-top: 5px; ">
+            <ul class="search-item" style="margin-top: 5px;padding: 0px;">
                 <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-dashboard" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>
             </ul>
         </div>
@@ -92,11 +92,10 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="row no-gutters align-items-center" style=" margin-left: 20px; ">
-                <h6 class="m-0 font-weight-bold text-primary" style=" font-size: 12px;">
+                <h6 class="m-0 font-weight-bold text-primary targetTongDSValue" style=" font-size: 12px;">
                     Chỉ tiêu năm: 100000
                 </h6>
             </div>
@@ -126,7 +125,7 @@
                 </div>
             </div>
             <div class="row no-gutters align-items-center" style=" margin-left: 20px; ">
-                <h6 class="m-0 font-weight-bold text-primary" style=" font-size: 12px;">
+                <h6 class="m-0 font-weight-bold text-primary targetDSChiNhaValue" style=" font-size: 12px;">
                     Chỉ tiêu năm: 100000
                 </h6>
             </div>
@@ -156,7 +155,7 @@
                 </div>
             </div>
             <div class="row no-gutters align-items-center" style=" margin-left: 20px; ">
-                <h6 class="m-0 font-weight-bold text-primary" style=" font-size: 12px;">
+                <h6 class="m-0 font-weight-bold text-primary targetHoaHongValue" style=" font-size: 12px;">
                     Chỉ tiêu năm: 100000
                 </h6>
             </div>
@@ -187,7 +186,7 @@
                 </div>
             </div>
             <div class="row no-gutters align-items-center" style=" margin-left: 20px; ">
-                <h6 class="m-0 font-weight-bold text-primary" style=" font-size: 12px;">
+                <h6 class="m-0 font-weight-bold text-primary targetNgoaiTeValue" style=" font-size: 12px;">
                     Chỉ tiêu năm: 100000
                 </h6>
             </div>
@@ -198,56 +197,128 @@
 <!-- Content Row -->
 <div class="row">
     <!-- Pie Chart -->
-    <div class="col-xl-4 col-lg-5">
+    <div class="col-xl-5 col-lg-5">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">SỐ HỒ SƠ</h6>
-
+                <div class="row no-gutters align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">SỐ HỒ SƠ</h6>
+                </div>
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                </div>
                 <div class="mt-4 text-center small">
                     <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1 tongHS" style="text-align: center;font-size: 29px;color: orange !important;">12313</div>
+                            </div>
+                        </div>
                     </span>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4" style="width: 30%;position: absolute;float: left;">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">XU HƯỚNG DOANH SỐ 2020</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                <div class="row no-gutters align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Chi Nhà</h6>
                 </div>
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1 hsChiNha" style="text-align: center;font-size: 20px;color: orange !important;">12313</div>
+                            </div>
+                        </div>
+                    </span>
                 </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4" style="width: 29%;position: absolute;left: 34%;">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="row no-gutters align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Chi Quầy</h6>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1 hsChiQuay" style="text-align: center;font-size: 20px;color: orange !important;">12313</div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4" style="width: 35%;float: right;">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="row no-gutters align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Chuyển Khoản</h6>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1 hsChuyenKhoan" style="text-align: center;font-size: 20px;color: orange !important;">12313</div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Area Chart -->
+    <div class="col-xl-7 col-lg-7">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">XU HƯỚNG DOANH SỐ @DateTime.Now.Year</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                @(Html.Kendo().Chart<DongA.Entities.ReportForTotalPayment>()
+                    .Name("lineChartReportTotalPaymentForMonth")
+                    //.Title("Tổng doanh số chi trả (Quy USD)")
+                    .Legend(legend => legend
+                        .Position(ChartLegendPosition.Top)
+                    )
+                    .ChartArea(chartArea =>
+                    {
+                        chartArea.Height(300);
+                    })
+                    .DataSource(ds => ds.Read(read => read.Action("SearchLineChartReportTotalPaymentForMonth", "ReportForTotalPayment").Data("onDataReportTypeID")))
+                    .Series(series =>
+                    {
+
+                        series.Line(model => model.Payed).Name("Tổng doanh số").CategoryField("ReportID").Color("Blue");
+                    })
+                    .CategoryAxis(axis => axis
+                        .Labels(labels => labels.Rotation(-45))
+                        .Crosshair(c => c.Visible(true))
+                    )
+                    .ValueAxis(axis => axis.Numeric()
+                        .Labels(labels => labels.Format("{0:N2}"))
+                    //.MajorUnit(10000)
+                    )
+                    .Tooltip(tooltip => tooltip
+                        .Visible(true)
+                        .Shared(true)
+                        .Format("{0:N2}")
+                    )
+                )
             </div>
         </div>
     </div>
@@ -261,23 +332,47 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">DOANH SỐ THEO LOẠI HÌNH DỊCH VỤ</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
             </div>
             <!-- Card Body -->
             <div class="card-body">
                 <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                    @(Html.Kendo().Chart<DongA.Entities.Report>()
+                        .Name("chartReportMonth")
+                        //.Title("Doanh số chi trả theo từng dịch vụ")
+                        .Legend(legend => legend
+                            .Position(ChartLegendPosition.Top)
+                        )
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(300);
+                        })
+                        .DataSource(ds => ds
+                            .Read(read => read
+                                .Action("SearchLineChartReportMonth", "Report")
+                                .Data("onDataReportTypeID")
+                            )
+                        )
+                        .Series(series =>
+                        {
+                            series.Line(model => model.DSChiQuay).Name("Doanh số chi quầy").CategoryField("ReportID").Color("#FFBF00");
+                            series.Line(model => model.DSChiNha).Name("Doanh số chi nhà").CategoryField("ReportID").Color("#40FF00");
+                            series.Line(model => model.DSCK).Name("Doanh số chuyển khoản").CategoryField("ReportID").Color("#2ECCFA");
+                            //series.Line(model => model.TongDS).Name("Tổng doanh số").CategoryField("ReportID").Color("#006400");
+                        })
+                        .CategoryAxis(axis => axis
+                            .Labels(labels => labels.Rotation(-45))
+                            .Crosshair(c => c.Visible(true))
+                        )
+                        .ValueAxis(axis => axis.Numeric()
+                            .Labels(labels => labels.Format("{0:N2}"))
+                        //.MajorUnit(10000)
+                        )
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Shared(true)
+                            .Format("{0:N2}")
+                        )
+                    )
                 </div>
             </div>
         </div>
@@ -288,35 +383,51 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">TỶ TRỌNG LOẠI HÌNH DỊCH VỤ (100%)</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
             </div>
             <!-- Card Body -->
-            <div class="card-body">
+            <div class="card-body" style="height: 360px;width: 400px;">
                 <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
+                    @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
+                        .Name("chartMonthDS")
+                        //.Title(title => title
+                        //    .Text(month)
+                        //    .Position(ChartTitlePosition.Bottom))
+                        .Legend(legend => legend
+                            .Visible(false)
+                        )
+
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(300);
+                            //chartArea.Width(350);
+                            chartArea.Margin(20, 0, 0, 0);
+                        })
+                        .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthDS", "Home").Data("onDataReportTypeID")))
+                        .ChartArea(chart => chart
+                            .Background("transparent")
+                            )
+                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                        .Series(series =>
+                        {
+                            series.Pie(model => model.value, model => model.category)
+                            .Labels(labels => labels
+                                .Template("#= category #: \n #= value#%")
+                                .Background("transparent")
+                                .Visible(true)
+                                .Font("bold 12px sans-serif")
+                            )
+                            .StartAngle(80)
+                            ;
+                            //.Labels(labels => labels.Format("{0:N2}"));
+                        })
+
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}%")
+                        )
+                    )
                 </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -330,25 +441,41 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">DOANH SỐ THEO LOẠI TIỀN CHI TRẢ</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                </div>
+                @(Html.Kendo().Grid<dynamic>()
+                    .Name("gridMoneyType")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound("PartnerName").Title("Loại tiền")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
+
+                        columns.Bound("COL1").Title("Nguyên tệ").Format("{0:N2}")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right;" });
+
+                        columns.Bound("COL2").Title("Quy USD").Format("{0:N2}")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right;" });
+
+                    })
+                    .Sortable() // Enable sorting
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        //.Batch(true)
+                        //.ServerOperation(false)
+                        .Read(read => read.Action("GridDataMoneyType", "Home").Data("onDataReportTypeID"))
+
+                    )
+                    .Events(events => events
+                        .DataBound("onDataBound")
+                    )
+                )
             </div>
+
         </div>
     </div>
     <!-- Pie Chart -->
@@ -371,21 +498,49 @@
                 </div>
             </div>
             <!-- Card Body -->
-            <div class="card-body">
+            <div class="card-body" style="height: 420px;width: 400px;">
                 <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
+                    @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
+                        .Name("chartMonthHS")
+                        //.Title(title => title
+                        //    .Text(month)
+                        //    .Position(ChartTitlePosition.Bottom))
+                        .Legend(legend => legend
+                            .Visible(false)
+                        )
+
+                        .ChartArea(chartArea =>
+                        {
+                            chartArea.Height(300);
+                            //chartArea.Width(350);
+                            //chartArea.Margin(0, 0, 0, 50);
+                        })
+                        .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthHS", "Home").Data("onDataReportTypeID")))
+                        .ChartArea(chart => chart
+                            .Background("transparent")
+                            )
+                        //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
+                        .Series(series =>
+                        {
+                            series.Pie(model => model.value, model => model.category, model => model.color)
+                            .Labels(labels => labels
+                                .Template("#= category #: \n #= value#%")
+                                .Background("transparent")
+                                .Visible(true)
+                                .Font("bold 12px sans-serif")
+                            )
+                            .StartAngle(0)
+                            ;
+                            //.Labels(labels => labels.Format("{0:N2}"));
+                        })
+
+                        .Tooltip(tooltip => tooltip
+                            .Visible(true)
+                            .Format("{0:N2}%")
+                        )
+                    )
                 </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -443,35 +598,39 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">THỊ TRƯỜNG</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                </div>
+                @(Html.Kendo().Grid<dynamic>()
+                    .Name("gridMarket")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound("PartnerName").Title("Loại tiền")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
+
+                        columns.Bound("COL1").Title("Hồ sơ").Format("{0:N0}")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right;" });
+
+                        columns.Bound("COL2").Title("Quy USD").Format("{0:N2}")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right;" });
+
+                    })
+                    .Sortable() // Enable sorting
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        //.Batch(true)
+                        //.ServerOperation(false)
+                        .Read(read => read.Action("GridDataMarket", "Home").Data("onDataReportTypeID"))
+
+                    )
+                    .Events(events => events
+                        .DataBound("onDataBoundMarket")
+                    )
+                )
             </div>
         </div>
     </div>
@@ -481,24 +640,40 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">ĐỐI TÁC</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                </div>
+                @(Html.Kendo().Grid<dynamic>()
+                    .Name("gridPartner")
+                    .HtmlAttributes(new { style = " overflow: auto; " })
+                    .Columns(columns =>
+                    {
+                        columns.Bound("PartnerName").Title("Đối tác")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: center;" });
+
+                        columns.Bound("COL1").Title("Hồ sơ").Format("{0:N0}")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right;" });
+
+                        columns.Bound("COL2").Title("Quy USD").Format("{0:N2}")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                        .HtmlAttributes(new { style = " text-align: right;" });
+
+                    })
+                    .Scrollable(scrollable => scrollable.Height(335))
+                    .Sortable() // Enable sorting
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        //.Batch(true)
+                        //.ServerOperation(false)
+                        .Read(read => read.Action("GridDataPartner", "Home").Data("onDataReportTypeID"))
+
+                    )
+                    .Events(events => events
+                        .DataBound("onDataBoundPartner")
+                    )
+                )
             </div>
         </div>
     </div>
@@ -546,7 +721,7 @@
                     toDate: toMonthConvert,
                     reportTypeID: reportTypeID
                 };
-                debugger;
+
 
                 $.ajax({
                     type: "GET",
@@ -554,19 +729,56 @@
                     data: dataList,
                     dataType: "json" , 
                     contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        debugger;
-                        //alert(data.msg);
-                        // Convert json to Object
-                        let dataConvert = JSON.parse(data);
-                        if (dataConvert != null) {
-                            $($('.text-uppercase.mb-1')[0]).text('$' + kendo.toString(dataConvert.TongDS, '0,00'));
-                        }
-                    },
+                    success: successData,
                     error: function (httpRequest, textStatus, errorThrown) {  // detailed error messsage 
                         alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
                     }
-                });  
+                });
+
+                // Biểu đồ tổng doanh số theo tháng
+
+                let urlChart = "/Admin/ReportForTotalPayment/SearchLineChartReportTotalPaymentForMonth?fromDate=";
+                let chart = $("#lineChartReportTotalPaymentForMonth").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                //chart.options.title.text = "Tổng doanh số chi trả";
+                chart.dataSource.read();
+
+                // Loại hình dịch vụ
+                urlChart = "/Admin/Report/SearchLineChartReportMonth?fromDate=";
+                chart = $("#chartReportMonth").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
+
+                // Biểu đồ tỉ trọng Doanh số
+                urlChart = "/Admin/Home/SearchPieMonthDS?fromDate=";
+                chart = $("#chartMonthDS").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
+
+                // grid Loại tiền
+                let urlGrid = "/Admin/Home/GridDataMoneyType?fromDate=";
+                chart = $("#gridMoneyType").data("kendoGrid");
+                chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
+
+                // Biểu đồ tỉ trọng
+                urlChart = "/Admin/Home/SearchPieMonthHS?fromDate=";
+                chart = $("#chartMonthHS").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
+
+                // grid Thị trường
+                urlGrid = "/Admin/Home/GridDataMarket?fromDate=";
+                chart = $("#gridMarket").data("kendoGrid");
+                chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
+
+                // grid Đối tác
+                urlGrid = "/Admin/Home/GridDataPartner?fromDate=";
+                chart = $("#gridPartner").data("kendoGrid");
+                chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
+
             } else {
                 $("<div></div>").kendoAlert({
                     title: "Cảnh báo!",
@@ -574,6 +786,38 @@
                 }).data("kendoAlert").open();
             }
         });
+
+        function successData(data) {
+            
+            //alert(data.msg);
+            // Convert json to Object
+            let dataConvert = JSON.parse(data);
+            if (dataConvert != null) {
+                // Tổng doanh số
+                $($('.text-uppercase.mb-1')[0]).text('$' + kendo.toString(dataConvert.TongDS, '0,00'));
+                $('.targetTongDSValue').text('Chỉ tiêu năm: ' + kendo.toString(dataConvert.targetPoint, '0,00') + ' USD');
+                let valueTongDSPercent = (dataConvert.TongDS / dataConvert.targetPoint) * 100;
+
+                $($('.row .align-items-center .align-items-center .col-auto').children()[0]).text(kendo.toString(valueTongDSPercent, '0.00') + '%');
+                $($('.row .align-items-center .align-items-center .col .bg-info')[0]).css('width', kendo.toString(valueTongDSPercent, '0.') + '%');
+
+                // Doanh số chi Nhà
+                $($('.text-uppercase.mb-1')[1]).text('$' + kendo.toString(dataConvert.DSChiNha, '0,00'));
+                $('.targetDSChiNhaValue').text('Chỉ tiêu năm: ' + kendo.toString(dataConvert.targetDSChiNha, '0,00') + ' USD');
+                let valueDSChiNhaPercent = (dataConvert.DSChiNha / dataConvert.targetDSChiNha) * 100;
+
+                $($('.row .align-items-center .align-items-center .col-auto').children()[1]).text(kendo.toString(valueDSChiNhaPercent, '0.00') + '%');
+                $($('.row .align-items-center .align-items-center .col .bg-info')[1]).css('width', kendo.toString(valueDSChiNhaPercent, '0.') + '%');
+
+                // Hồ sơ
+                $('.row .align-items-center .tongHS').text(kendo.toString(dataConvert.TongHS, '0,00'));
+                $('.row .align-items-center .hsChiNha').text(kendo.toString(dataConvert.HSChiNha, '0,00'));
+                $('.row .align-items-center .hsChiQuay').text(kendo.toString(dataConvert.HSChiQuay, '0,00'));
+                $('.row .align-items-center .hsChuyenKhoan').text(kendo.toString(dataConvert.HSChuyenKhoan, '0,00'));
+            }
+        }
+
+        
     });
 
      // google.load("visualization", "1", {packages:["geochart"]});
@@ -659,5 +903,38 @@
 
         chartWorld.draw(data, options);
 
+    }
+
+    function onDataReportTypeID(arg) {
+
+        let fromDate = $('#FromMonth').data('kendoDatePicker').value();
+        let fromMonthConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+        let toDate = $('#ToMonth').data('kendoDatePicker').value();
+        let toMonthConvert = kendo.toString(toDate, "MM/dd/yyyy");
+        let reportTypeID = $('input[name="report"]:checked').val();
+
+        return {
+            fromDate: fromMonthConvert,
+            toDate: toMonthConvert,
+            reportTypeID: reportTypeID
+        };
+    }
+
+    function onDataBound(arg) {
+
+        let lastRow = $('#gridMoneyType tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold')
+    }
+
+    function onDataBoundMarket(arg) {
+
+        let lastRow = $('#gridMarket tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold')
+    }
+
+    function onDataBoundPartner(arg) {
+
+        let lastRow = $('#gridPartner tbody tr');
+        $(lastRow[lastRow.length - 1]).css('font-weight', 'bold')
     }
 </script>
