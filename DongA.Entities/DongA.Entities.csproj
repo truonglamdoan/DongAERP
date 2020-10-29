@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="City.cs" />
     <Compile Include="GradationCharColumn.cs" />
     <Compile Include="GradationChartPie.cs" />
     <Compile Include="GradationCompare.cs" />

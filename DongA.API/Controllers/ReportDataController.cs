@@ -176,5 +176,28 @@ namespace DongA.API.Controllers
                 throw new DongAException(DongALayer.Business, ex.Message, ex);
             }
         }
+
+        #region Get số tiền và số hồ sơ theo địa bàn
+        /// <summary>
+        /// List Report từ ngày đến ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpGet]
+        public List<City> SearchDataCity(DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            try
+            {
+                List<City> listReport = new ReportBL().SearchDataCity(fromDate, toDate, reportTypeID);
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+        #endregion
     }
 }

@@ -2328,9 +2328,34 @@ namespace DongA.API.Bussiness
         }
         #endregion
 
-        #region Báo cáo hồ sơ
+        #region Get số tiền và số hồ sơ theo địa bàn
+        /// <summary>
+        /// List Report từ ngày đến ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<City> SearchDataCity(DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                // get first day in fromMonth
+                DateTime fromDateRecent = new DateTime(fromDate.Year, fromDate.Month, 1);
 
+                // get last day in toMonth
+                int lastDayInToDate = DateTime.DaysInMonth(toDate.Year, toDate.Month);
+                DateTime toDateRecent = new DateTime(toDate.Year, toDate.Month, lastDayInToDate);
 
+                List<City> result = dal.SearchDataCity(fromDateRecent, toDateRecent, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
         #endregion
     }
 }

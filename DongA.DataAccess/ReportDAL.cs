@@ -2398,5 +2398,29 @@ where TYPEID = @typeID AND (YEAR(CreateDate) = @Year OR Year(DATEADD(YEAR, 1 , C
             }
         }
         #endregion
+
+        #region Get dữ liệu của City
+        /// <summary>
+        /// List Report theo month
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<City> SearchCity(DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            DbCommand command = null;
+            try
+            {
+                var result = new List<City>();
+                result = DongADatabase.ToDataAPIObject<City>("ReportData", "SearchDataCity", "fromDate", fromDate, "toDate", toDate, "reportTypeID", reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+        #endregion
     }
 }

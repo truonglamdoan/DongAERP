@@ -24,15 +24,15 @@ namespace DongAERP.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
-            CountryModel objProductModel = new CountryModel();
-            objProductModel.CountrytData = new Country();
-            objProductModel.CountrytData = GetChartData();
-            objProductModel.CountryTitle = "Country";
-            objProductModel.PopulationTitle = "Population";
+            //CountryModel objProductModel = new CountryModel();
+            //objProductModel.CountrytData = new Country();
+            //objProductModel.CountrytData = GetChartData();
+            //objProductModel.CountryTitle = "Country";
+            //objProductModel.PopulationTitle = "Population";
 
-            ViewBag.GetDataMartket = GetChartDataWorld();
+            //ViewBag.GetDataMartket = GetChartDataWorld();
 
-            return View(objProductModel);
+            return View();
             //return View();
         }
 
@@ -58,7 +58,7 @@ namespace DongAERP.Areas.Admin.Controllers
             CountryModel objProductModel = new CountryModel();
             objProductModel.CountrytData = new Country();
             // Get biểu đồ của Việt Nam
-            objProductModel.CountrytData = GetChartData();
+            objProductModel.CountrytData = GetChartData(fromDate, toDate, reportTypeID);
             objProductModel.CountryTitle = "Country";
             objProductModel.PopulationTitle = "Population";
 
@@ -73,58 +73,200 @@ namespace DongAERP.Areas.Admin.Controllers
 
                 ViewData["listData"] = listData;
             }
-
-            // Get dữ liệu của Biểu đồ thế giới
-            ViewBag.GetDataMartket = GetChartDataWorld();
-
-            //// Get dữ liệu của doanh số
-            //List<Report> listDataDoanhSo = GetDataDoanhSo(fromDate, toDate, reportTypeID);
-
-            //foreach(Report item in listDataDoanhSo)
-            //{
-            //    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-            //}
-
-            //if(listDataDoanhSo.Count > 0)
-            //{
-            //    ViewBag.TongDS = listDataDoanhSo.Sum(x => x.TongDS);
-            //    ViewBag.DSChiNha = listDataDoanhSo.Sum(x => x.DSChiNha);
-            //}
-
             return View(objProductModel);
-            //return View();
         }
 
-        public Country GetChartData()
+        public Country GetChartData(DateTime fromDate, DateTime toDate, string reportTypeID)
         {
-            string listRegion = "An Giang, Bà Rịa–Vũng Tàu, Bắc Giang, Bắc Kạn, Bạc Liêu, Bắc Ninh, Bến Tre, Bình Định, Bình Dương, Bình Phước, Bình Thuận, Cà Mau, Cao Bằng, " +
-                "Đắk Lắk, Đắk Nông, Điện Biên, Đồng Nai, Đồng Tháp, Gia Lai, Hà Giang, Hà Nam, Hà Tĩnh, Hải Dương, Hậu Giang, Hòa Bình, Hưng Yên, Khánh Hòa, Kiến Giang, Kon Tum, " +
-                "Lai Châu, Lâm Đồng, Lạng Sơn, Lào Cai, Long An, Nam Định, Nghệ An, Ninh Bình, Ninh Thuận, Phú Thọ, Phú Yên, Quảng Bình, Quảng Nam, Quảng Ngãi, Quảng Ninh, Quảng Trị, " +
-                "Sóc Trăng, Sơn La, Tây Ninh, Thái Bình, Thái Nguyên, Thanh Hóa, Thừa Thiên–Huế, Tiền Giang, Trà Vinh, Tuyên Quang, Vĩnh Long, Vĩnh Phúc, Yên Bái, Cần Thơ, Đà Nẵng, Hà Nội, Hai Phong, Hồ Chí Minh City";
+            List<City> listData = new ReportBL().SearchCity(fromDate, toDate, reportTypeID);
+
             Country objproduct = new Country();
+
+            string listRegion = string.Empty;
+            if (listData.Count > 0)
+            {
+                // Sửa lại các tên bị sai so với google Map
+                foreach (City item in listData)
+                {
+                    if (item.CityName.Contains("ĐẮKLẮK"))
+                    {
+                        item.CityName = "Đắk Lắk";
+                    }
+
+                    if (item.CityName.Contains("HUẾ"))
+                    {
+                        item.CityName = "VN-26";
+                    }
+
+                    if (item.CityName.Contains("HỒ CHÍ MINH"))
+                    {
+                        item.CityName = "VN-SG";
+                    }
+
+                    if (item.CityName.Contains("HÀ NỘI"))
+                    {
+                        item.CityName = "VN-HN";
+                    }
+
+                    if (item.CityName.Contains("ĐẮK NÔNG"))
+                    {
+                        item.CityName = "VN-72";
+                    }
+
+                    if (item.CityName.Contains("HẬU GIANG"))
+                    {
+                        item.CityName = "VN-73";
+                    }
+
+                    if (item.CityName.Contains("CẦN THƠ"))
+                    {
+                        item.CityName = "VN-CT";
+                    }
+
+                    if (item.CityName.Contains("VŨNG TÀU"))
+                    {
+                        item.CityName = "VN-43";
+                    }
+
+                    if (item.CityName.Contains("THANH HOÁ"))
+                    {
+                        item.CityName = "VN-21";
+                    }
+
+                    if (item.CityName.Contains("HẢI PHÒNG"))
+                    {
+                        item.CityName = "VN-HP";
+                    }
+                }
+
+                listRegion = string.Join(",", listData.Select(x => x.CityName).ToArray());
+            }
+
             /*Get the data from databse and prepare the chart record data in string form.*/
             objproduct.CountryName = listRegion;
-            int count = 0;
-            int i = 1;
-            string[] str = objproduct.CountryName.Split(',');
-            string[] listArr = new string[str.Count()];
-            foreach(string item in str)
+
+            if (listData.Count > 0)
             {
-                listArr[count] = (i++).ToString();
-                count++;
+                objproduct.Population = string.Join(",", listData.Select(x => x.RECNUM).ToArray());
             }
-            objproduct.Population = string.Join(", ", listArr);
+
+            if (listData.Count > 0)
+            {
+                objproduct.Area = string.Join(",", listData.Select(x => x.AMOUNT).ToArray());
+            }
+
             return objproduct;
         }
 
-        public Country GetChartDataWorld()
+        public Country GetChartDataWorld(DateTime fromDate, DateTime toDate, string reportTypeID)
         {
-            string listRegion = "Germany, United States, Brazil, Canada, France, RU";
-            Country objproduct = new Country();
-            /*Get the data from databse and prepare the chart record data in string form.*/
-            objproduct.CountryName = listRegion;
+            // Doanh số
+            List<ReportForMaket> listDataDS = new ReportBL().SearchReportMaketForMonth(fromDate, toDate, reportTypeID);
 
-            objproduct.Population = "200, 300, 400, 500, 600, 700";
+            // Hồ sơ
+            List<ReportForMaket> listDataHS = new HSReportBL().SearchReportMaketForMonth(fromDate, toDate, reportTypeID);
+
+            string[] listTypeMoney = { "American", "Asia", "Global", "Europe", "Canada", "Australia" };
+            string[] listTypeMoneyVN = { "Mỹ", "Châu Á", "Toàn Cầu", "Châu Âu", "Canada", "Úc" };
+
+            DataTable table = new DataTable();
+            // Khởi tạo datatable
+            table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("PartnerName", typeof(String));
+
+            table.Columns.Add("COL1", typeof(double));
+            table.Columns.Add("COL2", typeof(double));
+
+            
+            List<string> listCountry = new List<string>();
+            List<string> listPopulation = new List<string>();
+            List<string> listArea = new List<string>();
+
+            if (listDataDS.Count > 0 && listDataHS.Count > 0)
+            {
+                // Doanh so
+                ReportForMaket dataIemSumDS = new ReportForMaket()
+                {
+                    American = listDataDS.Sum(x => x.American),
+                    Asia = listDataDS.Sum(x => x.Asia),
+                    Global = listDataDS.Sum(x => x.Global),
+                    Europe = listDataDS.Sum(x => x.Europe),
+                    Canada = listDataDS.Sum(x => x.Canada),
+                    Australia = listDataDS.Sum(x => x.Australia),
+                };
+
+                // Ho so
+                ReportForMaket dataIemSumHS = new ReportForMaket()
+                {
+                    American = listDataHS.Sum(x => x.American),
+                    Asia = listDataHS.Sum(x => x.Asia),
+                    Global = listDataHS.Sum(x => x.Global),
+                    Europe = listDataHS.Sum(x => x.Europe),
+                    Canada = listDataHS.Sum(x => x.Canada),
+                    Australia = listDataHS.Sum(x => x.Australia),
+                };
+
+
+                int count = 0;
+                foreach (string item in listTypeMoney)
+                {
+                    //  Doanh so
+                    var propertyInfo = dataIemSumDS.GetType().GetProperty(item);
+                    var valueData = propertyInfo.GetValue(dataIemSumDS, null);
+
+                    // Ho so
+                    var propertyInfoConvert = dataIemSumHS.GetType().GetProperty(item);
+                    var valueDataConvert = propertyInfoConvert.GetValue(dataIemSumHS, null);
+
+                    table.Rows.Add(
+                        listTypeMoney[count++], Convert.ToDouble(valueDataConvert), Convert.ToDouble(valueData)
+                    );
+                }
+
+                if(table.Rows.Count > 0)
+                {
+                    foreach (DataRow dtRow in table.Rows)
+                    {
+                        // On all tables' columns
+                        foreach (DataColumn dc in table.Columns)
+                        {
+                            if(dc.ColumnName == "PartnerName")
+                            {
+                                listCountry.Add(dtRow[dc].ToString());
+                            }
+
+                            if (dc.ColumnName == "COL1")
+                            {
+                                listPopulation.Add(dtRow[dc].ToString());
+                            }
+
+                            if (dc.ColumnName == "COL2")
+                            {
+                                listArea.Add(dtRow[dc].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+
+            Country objproduct = new Country();
+
+            if (listCountry.Count > 0)
+            {
+                objproduct.CountryName = string.Join(",", listCountry);
+            }
+
+            if (listPopulation.Count > 0)
+            {
+                objproduct.Population = string.Join(",", listPopulation);
+            }
+
+            if (listArea.Count > 0)
+            {
+                objproduct.Area = string.Join(",", listArea);
+            }
+
             return objproduct;
         }
 
@@ -627,8 +769,7 @@ namespace DongAERP.Areas.Admin.Controllers
         }
 
         #region Get dữ liệu cho Dashoard
-
-
+        
         public JsonResult GetDataDoanhSo(DateTime fromDate, DateTime toDate, string reportTypeID)
         {
 
@@ -669,7 +810,7 @@ namespace DongAERP.Areas.Admin.Controllers
             
             listStr.Add("targetDSChiNha", Convert.ToDouble(targetDSChiNhaValue));
 
-            JsonResult result = new JsonResult();
+            //JsonResult result = new JsonResult();
             
             List<Report> listData = new ReportBL().SearchMonth(fromDate, toDate, reportTypeID);
             foreach(Report item in listData)
@@ -714,7 +855,12 @@ namespace DongAERP.Areas.Admin.Controllers
                 listStr.Add("HSChuyenKhoan", HSChuyenKhoan);
             }
 
-            result = this.Json(JsonConvert.SerializeObject(listStr), JsonRequestBehavior.AllowGet);  
+            // Get chart Data
+            Country dataChartVN = GetChartData(fromDate, toDate, reportTypeID);
+
+            Country dataChartWorld = GetChartDataWorld(fromDate, toDate, reportTypeID);
+            
+            var result = this.Json(new { data = JsonConvert.SerializeObject(listStr), dataVN = dataChartVN, dataWorld = dataChartWorld }, JsonRequestBehavior.AllowGet);  
 
             return result;
         }
@@ -992,6 +1138,7 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             // Doanh số
             List<ReportForMaket> listDataDS = new ReportBL().SearchReportMaketForMonth(fromDate, toDate, reportTypeID);
+
             // Hồ sơ
             List<ReportForMaket> listDataHS = new HSReportBL().SearchReportMaketForMonth(fromDate, toDate, reportTypeID);
 
@@ -1047,6 +1194,11 @@ namespace DongAERP.Areas.Admin.Controllers
                         listTypeMoneyVN[count++], Convert.ToDouble(valueDataConvert), Convert.ToDouble(valueData)
                     );
                 }
+
+                // Sắp xếp
+                DataView dv = table.DefaultView;
+                dv.Sort = "COL2 desc";
+                table = dv.ToTable();
             }
 
             DataRow row = table.NewRow();
@@ -1070,12 +1222,12 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             // Doanh số
             List<ReportDetailtForPartner> listDataDS = new ReportBL().SearchPartnerForTotalForMonth(fromDate, toDate, reportTypeID);
+            
 
-            foreach(ReportDetailtForPartner item in listDataDS)
+            foreach (ReportDetailtForPartner item in listDataDS)
             {
                 item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
             }
-
             // Hồ sơ
             List<ReportDetailtForPartner> listDataHS = new HSReportBL().SearchReportDetailtPartnerForMonth(fromDate, toDate, reportTypeID);
 
@@ -1083,6 +1235,7 @@ namespace DongAERP.Areas.Admin.Controllers
             {
                 item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
             }
+            
 
             string[] listTypeMoney = { "American", "Asia", "Global", "Europe", "Canada", "Australia" };
 
@@ -1111,6 +1264,11 @@ namespace DongAERP.Areas.Admin.Controllers
 
                     table.Rows.Add(item.PartnerName, dataHS.TongDS, item.TongDS);
                 }
+
+                // Sắp xếp
+                DataView dv = table.DefaultView;
+                dv.Sort = "COL2 desc";
+                table = dv.ToTable();
             }
 
             DataRow row = table.NewRow();
@@ -1122,6 +1280,45 @@ namespace DongAERP.Areas.Admin.Controllers
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Get data cho báo cáo chi tiết so sánh theo tháng
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult GridDataCity([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+            // Doanh số
+            List<City> listData = new ReportBL().SearchCity(fromDate, toDate, reportTypeID);
+            // Sắp xếp
+            if (listData.Count > 0)
+            {
+                listData = listData.OrderByDescending(x => x.AMOUNT).ToList();
+            }
+            DataTable table = new DataTable();
+            // Khởi tạo datatable
+            table = new DataTable();
+            // Tạo các cột cho datatable
+            table.Columns.Add("PartnerName", typeof(String));
+
+            table.Columns.Add("COL1", typeof(double));
+            table.Columns.Add("COL2", typeof(double));
+
+            foreach(City item in listData)
+            {
+                table.Rows.Add(item.CityName, item.RECNUM, item.AMOUNT);
+            }
+
+            DataRow row = table.NewRow();
+            row["PartnerName"] = "Tổng";
+            row["COL1"] = table.Compute("Sum(COL1)", "");
+            row["COL2"] = table.Compute("Sum(COL2)", "");
+            table.Rows.Add(row);
+
+            return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

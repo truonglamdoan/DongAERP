@@ -16,5 +16,6 @@ namespace DongAERP.Areas.Admin.Models
     {
         public string CountryName { get; set; }
         public string Population { get; set; }
+        public string Area { get; set; }
     }
 }
