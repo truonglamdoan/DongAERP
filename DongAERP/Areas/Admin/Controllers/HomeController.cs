@@ -83,76 +83,187 @@ namespace DongAERP.Areas.Admin.Controllers
             Country objproduct = new Country();
 
             string listRegion = string.Empty;
+            List<string> listcountryCode = new List<string>();
+            List<string> listcountryName = new List<string>();
+
+            List<double> listRECNUM = new List<double>();
+            List<double> listAMOUNT = new List<double>();
+
+            
             if (listData.Count > 0)
             {
+                string countryCode = string.Empty;
                 // Sửa lại các tên bị sai so với google Map
                 foreach (City item in listData)
                 {
-                    if (item.CityName.Contains("ĐẮKLẮK"))
+                    switch(item.CityName)
                     {
-                        item.CityName = "Đắk Lắk";
-                    }
+                        case "HUẾ":
+                            countryCode = "VN-26";
+                            break;
+                        case "HỒ CHÍ MINH":
+                            countryCode = "VN-SG";
+                            break;
+                        case "ĐỒNG NAI":
+                            countryCode = "VN-39";
+                            break;
+                        case "VŨNG TÀU":
+                            countryCode = "VN-43";
+                            break;
+                        case "TIỀN GIANG":
+                            countryCode = "VN-46";
+                            break;
+                        case "KHÁNH HÒA":
+                            countryCode = "VN-34";
+                            break;
+                        case "CẦN THƠ":
+                            countryCode = "VN-CT";
+                            break;
+                        case "ĐÀ NẲNG" :
+                            countryCode = "VN-DN";
+                            break;
+                        case "KIÊN GIANG":
+                            countryCode = "VN-47";
+                            break;
+                        case "NGHỆ AN":
+                            countryCode = "VN-22";
+                            break;
+                        case "SÓC TRĂNG":
+                            countryCode = "VN-52";
+                            break;
+                        case "AN GIANG":
+                            countryCode = "VN-44";
+                            break;
+                        case "VĨNH LONG":
+                            countryCode = "VN-49";
+                            break;
+                        case "HÀ NỘI":
+                            countryCode = "VN-HN";
+                            break;
+                        case "TRÀ VINH":
+                            countryCode = "VN-51";
+                            break;
+                        case "HẢI PHÒNG":
+                            countryCode = "VN-HP";
+                            break;
+                        case "BẾN TRE":
+                            countryCode = "VN-50";
+                            break;
+                        case "HƯNG YÊN":
+                            countryCode = "VN-66";
+                            break;
+                        case "BẠC LIÊU":
+                            countryCode = "VN-55";
+                            break;
+                        case "BÌNH THUẬN":
+                            countryCode = "VN-40";
+                            break;
+                        case "BÌNH DƯƠNG":
+                            countryCode = "VN-57";
+                            break;
+                        case "TÂY NINH":
+                            countryCode = "VN-37";
+                            break;
+                        case "ĐỒNG THÁP":
+                            countryCode = "VN-45";
+                            break;
+                        case "LÂM ĐỒNG":
+                            countryCode = "VN-35";
+                            break;
+                        case "BẮC GIANG":
+                            countryCode = "VN-54";
+                            break;
+                        case "QUẢNG BÌNH":
+                            countryCode = "VN-24";
+                            break;
+                        case "BÌNH ĐỊNH":
+                            countryCode = "VN-31";
+                            break;
+                        case "CÀ MAU":
+                            countryCode = "VN-59";
+                            break;
+                        case "PHÚ YÊN":
+                            countryCode = "VN-32";
+                            break;
+                        case "ĐẮKLẮK":
+                            countryCode = "VN-33";
+                            break;
+                        case "THANH HOÁ":
+                            countryCode = "VN-21";
+                            break;
+                        case "NINH THUẬN":
+                            countryCode = "VN-36";
+                            break;
+                        case "THÁI BÌNH":
+                            countryCode = "VN-20";
+                            break;
+                        case "NAM ĐỊNH":
+                            countryCode = "VN-67";
+                            break;
+                        case "QUẢNG NGÃI":
+                            countryCode = "VN-29";
+                            break;
+                        case "QUẢNG NINH":
+                            countryCode = "VN-13";
+                            break;
+                        case "VĨNH PHÚC":
+                            countryCode = "VN-70";
+                            break;
+                        case "QUẢNG NAM":
+                            countryCode = "VN-27";
+                            break;
+                        case "BÌNH PHƯỚC":
+                            countryCode = "VN-58";
+                            break;
+                        case "GIA LAI":
+                            countryCode = "VN-30";
+                            break;
+                        case "THÁI NGUYÊN":
+                            countryCode = "VN-69";
+                            break;
+                        case "BẮC NINH":
+                            countryCode = "VN-56";
+                            break;
+                        case "HÀ NAM":
+                            countryCode = "VN-63";
+                            break;
+                        case "LONG AN":
+                            countryCode = "VN-41";
+                            break;
+                        case "KON TUM":
+                            countryCode = "VN-28";
+                            break;
+                        case "ĐẮK NÔNG":
+                            countryCode = "VN-72";
+                            break;
 
-                    if (item.CityName.Contains("HUẾ"))
-                    {
-                        item.CityName = "VN-26";
+                        default:
+                            countryCode = "";
+                            break;
                     }
-
-                    if (item.CityName.Contains("HỒ CHÍ MINH"))
-                    {
-                        item.CityName = "VN-SG";
-                    }
-
-                    if (item.CityName.Contains("HÀ NỘI"))
-                    {
-                        item.CityName = "VN-HN";
-                    }
-
-                    if (item.CityName.Contains("ĐẮK NÔNG"))
-                    {
-                        item.CityName = "VN-72";
-                    }
-
-                    if (item.CityName.Contains("HẬU GIANG"))
-                    {
-                        item.CityName = "VN-73";
-                    }
-
-                    if (item.CityName.Contains("CẦN THƠ"))
-                    {
-                        item.CityName = "VN-CT";
-                    }
-
-                    if (item.CityName.Contains("VŨNG TÀU"))
-                    {
-                        item.CityName = "VN-43";
-                    }
-
-                    if (item.CityName.Contains("THANH HOÁ"))
-                    {
-                        item.CityName = "VN-21";
-                    }
-
-                    if (item.CityName.Contains("HẢI PHÒNG"))
-                    {
-                        item.CityName = "VN-HP";
-                    }
+                    listcountryCode.Add(countryCode);
+                    listcountryName.Add(item.CityName);
+                    listRECNUM.Add(item.RECNUM);
+                    listAMOUNT.Add(item.AMOUNT);
                 }
+            }
 
-                listRegion = string.Join(",", listData.Select(x => x.CityName).ToArray());
+            if (listcountryCode.Count > 0)
+            {
+                objproduct.CountryCode = string.Join(",", listcountryCode);
             }
 
             /*Get the data from databse and prepare the chart record data in string form.*/
-            objproduct.CountryName = listRegion;
+            objproduct.CountryName = string.Join(",", listcountryName);
 
             if (listData.Count > 0)
             {
-                objproduct.Population = string.Join(",", listData.Select(x => x.RECNUM).ToArray());
+                objproduct.Population = string.Join(",", listRECNUM);
             }
 
             if (listData.Count > 0)
             {
-                objproduct.Area = string.Join(",", listData.Select(x => x.AMOUNT).ToArray());
+                objproduct.Area = string.Join(",", listAMOUNT);
             }
 
             return objproduct;
@@ -167,19 +278,21 @@ namespace DongAERP.Areas.Admin.Controllers
             List<ReportForMaket> listDataHS = new HSReportBL().SearchReportMaketForMonth(fromDate, toDate, reportTypeID);
 
             string[] listTypeMoney = { "American", "Asia", "Global", "Europe", "Canada", "Australia" };
-            string[] listTypeMoneyVN = { "Mỹ", "Châu Á", "Toàn Cầu", "Châu Âu", "Canada", "Úc" };
+            string[] listTypeMoneyVN = { "United States", "Asia", "Toàn Cầu", "Europe", "Canada", "Australia" };
 
             DataTable table = new DataTable();
             // Khởi tạo datatable
             table = new DataTable();
             // Tạo các cột cho datatable
+            table.Columns.Add("PartnerCode", typeof(String));
             table.Columns.Add("PartnerName", typeof(String));
 
             table.Columns.Add("COL1", typeof(double));
             table.Columns.Add("COL2", typeof(double));
 
             
-            List<string> listCountry = new List<string>();
+            List<string> listCountryCode = new List<string>();
+            List<string> listCountryName = new List<string>();
             List<string> listPopulation = new List<string>();
             List<string> listArea = new List<string>();
 
@@ -209,19 +322,106 @@ namespace DongAERP.Areas.Admin.Controllers
 
 
                 int count = 0;
+                string marketCode = string.Empty;
+
                 foreach (string item in listTypeMoney)
                 {
-                    //  Doanh so
-                    var propertyInfo = dataIemSumDS.GetType().GetProperty(item);
-                    var valueData = propertyInfo.GetValue(dataIemSumDS, null);
+                    // Trường hợp thuộc châu á
+                    if (item.Contains("Asia"))
+                    {
+                        string marketID = "005";
+                        List<ReportDetailtForTotalMoneyType> listDataAsiaDS = new ReportBL().SearchReportDetailtMTForOneForMonthConvert(fromDate, toDate, reportTypeID, marketID);
+                        List<string> listMartket = new List<string>();
+                        foreach(ReportDetailtForTotalMoneyType dataItem in listDataAsiaDS)
+                        {
+                            dataItem.TongDS = dataItem.VND + dataItem.USD + dataItem.EUR + dataItem.CAD + dataItem.AUD + dataItem.GBP;
 
-                    // Ho so
-                    var propertyInfoConvert = dataIemSumHS.GetType().GetProperty(item);
-                    var valueDataConvert = propertyInfoConvert.GetValue(dataIemSumHS, null);
+                            if (!listMartket.Contains(dataItem.MarketName))
+                            {
+                                listMartket.Add(dataItem.MarketName);
+                            }
+                        }
 
-                    table.Rows.Add(
-                        listTypeMoney[count++], Convert.ToDouble(valueDataConvert), Convert.ToDouble(valueData)
-                    );
+                        List<ReportDetailtForTotalMoneyType> listDataAsiaHS = new HSReportBL().SearchReportDetailtMTForOneForMonth(fromDate, toDate, reportTypeID, marketID);
+
+                        foreach (ReportDetailtForTotalMoneyType dataItem in listDataAsiaHS)
+                        {
+                            dataItem.TongDS = dataItem.VND + dataItem.USD + dataItem.EUR + dataItem.CAD + dataItem.AUD + dataItem.GBP;
+                        }
+
+                        if (listDataAsiaDS.Count > 0 && listDataAsiaHS.Count > 0)
+                        {
+                            
+
+                            string[] strArray = { "VND", "USD", "EUR", "CAD", "AUD", "GBP" };
+
+                            foreach(string item1 in listMartket)
+                            {
+                                marketCode = item1;
+                                switch (item1)
+                                {
+                                    case "Hàn Quốc":
+                                        marketCode = "KP";
+                                        break;
+                                    case "Nhật Bản":
+                                        marketCode = "JP";
+                                        break;
+                                    case "Đài Loan":
+                                        marketCode = "Taiwan";
+                                        break;
+                                    case "Malaysia":
+                                        marketCode = "MY";
+                                        break;
+                                    default:
+                                        marketCode = "SG";
+                                        break;
+                                }
+
+                                table.Rows.Add(
+                                    marketCode, item1, listDataAsiaHS.Where(x=>x.MarketName == item1).Sum(x=>x.TongDS), listDataAsiaDS.Where(x => x.MarketName == item1).Sum(x => x.TongDS)
+                                );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string martketName = string.Empty; 
+                        switch (item)
+                        {
+                            case "American":
+                                marketCode = "US";
+                                martketName = "United States";
+                                break;
+                            case "Global":
+                                marketCode = "Global";
+                                martketName = "Global";
+                                break;
+                            case "Europe":
+                                marketCode = "Europe";
+                                martketName = "Europe";
+                                break;
+                            case "Canada":
+                                marketCode = "CA";
+                                martketName = "Canada";
+                                break;
+                            default:
+                                marketCode = "AU";
+                                martketName = "Australia";
+                                break;
+                        }
+                        //  Doanh so
+                        var propertyInfo = dataIemSumDS.GetType().GetProperty(item);
+                        var valueData = propertyInfo.GetValue(dataIemSumDS, null);
+
+                        // Ho so
+                        var propertyInfoConvert = dataIemSumHS.GetType().GetProperty(item);
+                        var valueDataConvert = propertyInfoConvert.GetValue(dataIemSumHS, null);
+
+                        table.Rows.Add(
+                            marketCode, martketName, Convert.ToDouble(valueDataConvert), Convert.ToDouble(valueData)
+                        );
+                    }
+                    
                 }
 
                 if(table.Rows.Count > 0)
@@ -231,9 +431,14 @@ namespace DongAERP.Areas.Admin.Controllers
                         // On all tables' columns
                         foreach (DataColumn dc in table.Columns)
                         {
-                            if(dc.ColumnName == "PartnerName")
+                            if (dc.ColumnName == "PartnerCode")
                             {
-                                listCountry.Add(dtRow[dc].ToString());
+                                listCountryCode.Add(dtRow[dc].ToString());
+                            }
+
+                            if (dc.ColumnName == "PartnerName")
+                            {
+                                listCountryName.Add(dtRow[dc].ToString());
                             }
 
                             if (dc.ColumnName == "COL1")
@@ -252,9 +457,14 @@ namespace DongAERP.Areas.Admin.Controllers
 
             Country objproduct = new Country();
 
-            if (listCountry.Count > 0)
+            if (listCountryCode.Count > 0)
             {
-                objproduct.CountryName = string.Join(",", listCountry);
+                objproduct.CountryCode = string.Join(",", listCountryCode);
+            }
+
+            if (listCountryName.Count > 0)
+            {
+                objproduct.CountryName = string.Join(",", listCountryName);
             }
 
             if (listPopulation.Count > 0)
@@ -1012,7 +1222,7 @@ namespace DongAERP.Areas.Admin.Controllers
             
             DataRow row = table.NewRow();
             row["PartnerName"] = "Tổng";
-            row["COL1"] = table.Compute("Sum(COL1)", "");
+            row["COL1"] = 0;
             row["COL2"] = table.Compute("Sum(COL2)", "");
             table.Rows.Add(row);
 

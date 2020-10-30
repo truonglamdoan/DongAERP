@@ -389,22 +389,24 @@
                 <h6 class="m-0 font-weight-bold text-primary">TỶ TRỌNG LOẠI HÌNH DỊCH VỤ (100%)</h6>
             </div>
             <!-- Card Body -->
-            <div class="card-body" style="height: 360px;width: 400px;">
-                <div class="chart-pie pt-4 pb-2">
+            <div class="card-body" >
+                <div class="chart-area">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartMonthDS")
-                        //.Title(title => title
-                        //    .Text(month)
-                        //    .Position(ChartTitlePosition.Bottom))
+                        .ChartArea(chartArea => chartArea
+                            .Background("transparent"))
+                        .Title(title => title
+                            .Text("")
+                            .Position(ChartTitlePosition.Bottom)
+                        )
                         .Legend(legend => legend
                             .Visible(false)
                         )
-
                         .ChartArea(chartArea =>
                         {
-                            chartArea.Height(300);
-                            //chartArea.Width(350);
-                            chartArea.Margin(20, 0, 0, 0);
+                            //chartArea.Height(250);
+                            //chartArea.Width(250);
+                            //chartArea.Margin(20, 0, 0, 0);
                         })
                         .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthDS", "Home").Data("onDataReportTypeID")))
                         .ChartArea(chart => chart
@@ -419,6 +421,8 @@
                                 .Background("transparent")
                                 .Visible(true)
                                 .Font("bold 12px sans-serif")
+                                .Position(ChartPieLabelsPosition.OutsideEnd)
+                                .Background("transparent")
                             )
                             .StartAngle(80)
                             ;
@@ -431,6 +435,9 @@
                         )
                     )
                 </div>
+                @*<div class="chart-pie pt-4 pb-2">
+                    
+                </div>*@
                 
             </div>
         </div>
@@ -488,49 +495,33 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">TỶ TRỌNG LOẠI TIỀN (100%)</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
             </div>
             <!-- Card Body -->
-            <div class="card-body" style="height: 420px;width: 400px;">
+            <div class="card-body" style=" height: 420px; ">
                 <div class="chart-pie pt-4 pb-2">
                     @(Html.Kendo().Chart<DongA.Entities.GradationChartPie>()
                         .Name("chartMonthHS")
                         //.Title(title => title
-                        //    .Text(month)
                         //    .Position(ChartTitlePosition.Bottom))
                         .Legend(legend => legend
                             .Visible(false)
                         )
-
                         .ChartArea(chartArea =>
                         {
-                            chartArea.Height(300);
-                            //chartArea.Width(350);
-                            //chartArea.Margin(0, 0, 0, 50);
+                            //chartArea.Height(300);
+                            //chartArea.Width(300);
+                            chartArea.Margin(0, 0, 0, 10);
                         })
                         .DataSource(ds => ds.Read(read => read.Action("SearchPieMonthHS", "Home").Data("onDataReportTypeID")))
-                        .ChartArea(chart => chart
-                            .Background("transparent")
-                            )
                         //.HtmlAttributes(new { style="background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png")})
                         .Series(series =>
                         {
-                            series.Pie(model => model.value, model => model.category, model => model.color)
+                            series.Donut(model => model.value, model => model.category, model => model.color)
                             .Labels(labels => labels
                                 .Template("#= category #: \n #= value#%")
                                 .Background("transparent")
                                 .Visible(true)
+                                .Position(ChartPieLabelsPosition.OutsideEnd)
                                 .Font("bold 12px sans-serif")
                             )
                             .StartAngle(0)
@@ -709,9 +700,8 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">TÌNH HÌNH THỊ TRƯỜNG</h6>
             </div>
-            <div id="regions_div_World" class="">
-
-            </div>
+            <div class="geo" id="regions_div_World"></div>
+            <div class="geo" id="regions_div_World1"></div>
         </div>
 
     </div>
@@ -890,14 +880,14 @@
     
 
     function drawRegionsMapVN(data) {
-        
-        // Create and populate the data table.
-        var country = data.CountryName;
-        
-        //Pereparing string into array
-        var countryarray = country.split(',');
 
-
+        var countryCode = data.CountryCode.split(',');
+        let countryCodeConvert = [];
+        
+        for (let i = 0; i < countryCode.length; i++) {
+            countryCodeConvert.push(countryCode[i]);
+        }
+        
         var population = data.Population.split(',');
         let populationConvert = [];
 
@@ -916,15 +906,23 @@
 
         var dataTable = new google.visualization.DataTable();
 
+        dataTable.addColumn('string', 'CountryCode');
         dataTable.addColumn('string', 'Country');
 
         dataTable.addColumn('number', 'Hồ sơ');
 
         dataTable.addColumn('number', 'Quy USD');
 
+        // Create and populate the data table.
+        var country = data.CountryName;
+
+        //Pereparing string into array
+        var countryarray = country.split(',');
+
+
         for (i = 0; i < countryarray.length; i++) {
 
-            dataTable.addRow([countryarray[i].toString(), populationConvert[i], areaConvert[i]]);
+            dataTable.addRow([countryCodeConvert[i], countryarray[i].toString(), populationConvert[i], areaConvert[i]]);
         }
        
         //var options = {};
@@ -932,6 +930,10 @@
             region: 'VN',
             displayMode: 'regions',
             resolution: 'provinces',
+            colorAxis: { colors: ['#fffcd5', '#ba2a2e', '#666e9a'] },
+            backgroundColor: '#81d4fa',
+            datalessRegionColor: '#d2e3fc',
+            defaultColor: '#f5f5f5',
         };
 
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
@@ -941,18 +943,21 @@
 
     function drawRegionsMapWorld(data) {
 
-        // Create and populate the data table.
-        var country = data.CountryName;
+        var countryCode = data.CountryCode.split(',');
+        let countryCodeConvert = [];
+
+        // Pasre sang int
+        for (let i = 0; i < countryCode.length; i++) {
+
+            countryCodeConvert.push(countryCode[i]);
+        }
         
-        //Pereparing string into array
-        var countryarray = country.split(',');
-
-
         var population = data.Population.split(',');
         let populationConvert = [];
 
         // Pasre sang int
         for (let i = 0; i < population.length; i++) {
+
             populationConvert.push(parseInt(population[i]));
         }
 
@@ -961,10 +966,13 @@
 
         // Pasre sang int
         for (let i = 0; i < area.length; i++) {
+
             areaConvert.push(parseInt(area[i]));
         }
 
         var dataTable = new google.visualization.DataTable();
+
+        dataTable.addColumn('string', 'CountryCode');
 
         dataTable.addColumn('string', 'Country');
 
@@ -972,16 +980,77 @@
 
         dataTable.addColumn('number', 'Quy USD');
 
-        for (i = 0; i < countryarray.length; i++) {
+        // Create and populate the data table.
+        var country = data.CountryName;
 
-            dataTable.addRow([countryarray[i].toString(), populationConvert[i], areaConvert[i]]);
+        //Pereparing string into array
+        var countryarray = country.split(',');
+
+        for (i = 0; i < countryarray.length; i++) {
+            
+            dataTable.addRow([countryCodeConvert[i].toString(), countryarray[i].toString(), populationConvert[i], areaConvert[i]]);
         }
 
-        var options = {};
+        var options = {
+            colorAxis: { colors: ['#fffcd5', '#ba2a2e', '#666e9a'] },
+            backgroundColor: '#81d4fa',
+            datalessRegionColor: '#d2e3fc',
+            defaultColor: '#f5f5f5',
+        };
 
         var chartWorld = new google.visualization.GeoChart(document.getElementById('regions_div_World'));
 
         chartWorld.draw(dataTable, options);
+
+        //var dataArray = [
+        //    ['Region Code', 'Continent', 'Popularity'],
+        //    ['142', 'Asia', 200],
+        //    ['150', 'Europe', 300],
+        //    ['019', 'Americas', 400],
+        //    ['009', 'Oceania', 600],
+        //    ['002', 'Africa', 700],
+        //    //['053', 'Australia', 500],
+        //];
+
+        //var data = google.visualization.arrayToDataTable(dataArray);
+
+        //var options1 = {
+        //    resolution: 'continents'
+        //}
+
+        //chartWorld.draw(data, options1);
+
+        //var data1 = google.visualization.arrayToDataTable([
+        //    ['Region', 'Label', { role: 'tooltip', p: { html: true } }],
+        //    ['150', 1, 'Europe']
+        //]);
+
+        //var options1 = {
+        //    //backgroundColor: 'transparent',
+        //    //datalessRegionColor: 'transparent',
+        //    resolution: 'continents'
+        //}
+
+        //var geochart1 = new google.visualization.GeoChart(
+        //    document.getElementById('regions_div_World')
+        //);
+        //geochart1.draw(data1, options1);
+
+        //var data2 = google.visualization.arrayToDataTable([
+        //    ['Region', 'Label', { role: 'tooltip', p: { html: true } }],
+        //    ['Japan', 2, 'Japan']
+        //]);
+
+        //var options2 = {
+        //    //backgroundColor: 'transparent',
+        //    //datalessRegionColor: 'transparent',
+        //    resolution: 'countries'
+        //}
+
+        //var geochart2 = new google.visualization.GeoChart(
+        //    document.getElementById('regions_div_World1')
+        //);
+        //geochart2.draw(data2, options2);
 
     }
 
@@ -1024,3 +1093,12 @@
         $(lastRow[lastRow.length - 1]).css('font-weight', 'bold')
     }
 </script>
+
+<style>
+    /*.geo {
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+    }*/
+</style>
