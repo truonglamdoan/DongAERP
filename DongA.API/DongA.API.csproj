@@ -171,6 +171,7 @@
     <Compile Include="Controllers\InsertDataController.cs" />
     <Compile Include="Controllers\LoginDataController.cs" />
     <Compile Include="Controllers\ReportDataController.cs" />
+    <Compile Include="Controllers\ReportDataTCKTController.cs" />
     <Compile Include="Controllers\ReportDetailtDataController.cs" />
     <Compile Include="Controllers\ReportDetailtDataForMarketController.cs" />
     <Compile Include="Controllers\ReportDetailtDataForPartnerController.cs" />

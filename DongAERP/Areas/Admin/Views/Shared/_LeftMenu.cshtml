@@ -27,40 +27,47 @@
     <hr class="sidebar-divider">
 
     @*<div class="sidebar-heading">
-        LOẠI ĐỐI TÁC
-    </div>
-    <!-- Nav Item - Pages Collapse Menu -->
-    <!-- Nav Item - Charts -->
-    @{
-        for (int i = 0; i < listPartner.Count(); i++)
-        {
-            <li class="nav-item">
-                <a class="nav-link" href="">
-                    <input type="checkbox" class="k-checkbox" value="">
-                    <span style=" margin-left: 15px; ">@listPartner[i].PartnerName</span>
-                </a>
-            </li>
+            LOẠI ĐỐI TÁC
+        </div>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- Nav Item - Charts -->
+        @{
+            for (int i = 0; i < listPartner.Count(); i++)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <input type="checkbox" class="k-checkbox" value="">
+                        <span style=" margin-left: 15px; ">@listPartner[i].PartnerName</span>
+                    </a>
+                </li>
+            }
         }
-    }
-    <hr class="sidebar-divider">*@
+        <hr class="sidebar-divider">*@
     <div class="sidebar-heading">
         HÌNH THỨC BÁO CÁO
     </div>
     @*<li class="nav-item">
-        <a class="nav-link">
-            <span>Doanh số</span>
-        </a>
-    </li>*@
+            <a class="nav-link">
+                <span>Doanh số</span>
+            </a>
+        </li>*@
     <li class="nav-item">
         <a class="nav-link" href="javascript:void(0);">
             <input type="radio" name="engine" id="sumSale" class="k-radio" value="1">
-            <label for="sumSale" style=" cursor: pointer; font-size: .85rem;"  onclick="onOpen('sumSale');">Báo cáo Doanh số</label>
+            <label for="sumSale" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('sumSale');">Báo cáo Doanh số</label>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="javascript:void(0);">
             <input type="radio" name="engine" id="detailSales" class="k-radio" value="2">
             <label for="detailSales" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('detailSales');">Báo cáo hồ sơ</label>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">
+            <input type="radio" name="engine" id="detailTCKT" class="k-radio" value="3">
+            <label for="detailTCKT" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('detailTCKT');">Báo cáo TCKT</label>
         </a>
     </li>
 
@@ -103,10 +110,17 @@
         if (!isNullOrEmpty(typeReportValue) || typeReportValue != undefined) {
 
             typeReportValue = parseInt(typeReportValue);
+
             if (typeReportValue == 1) {
                 $('input[name="engine"]')[0].checked = true;
-            } else {
+            }
+            // Hồ sơ
+            if (typeReportValue == 2) {
                 $('input[name="engine"]')[1].checked = true;
+            }
+            // TCKT
+            if (typeReportValue == 3) {
+                $('input[name="engine"]')[2].checked = true;
             }
         }
         // 05/10/2020 [Trường Lãm] End add
@@ -134,7 +148,7 @@
         //debugger;
         var dialog = null;
         // Trường hợp click Doanh số tổng hợp
-        if (e == 'sumSale' || e == 'detailSales') {
+        if (e == 'sumSale' || e == 'detailSales' || e == 'detailTCKT') {
             // 05/10/2020 - Begin Add
             // Hình thức báo cáo
 
@@ -145,6 +159,13 @@
 
                 typeReportValue = 2;
             }
+
+            // 02/11/2020 - [Trường Lãm] - Begin Add
+            if (e == 'detailTCKT') {
+
+                typeReportValue = 3;
+            }
+            // 02/11/2020 - [Trường Lãm] - End Add
             localStorage.typeReportValue = typeReportValue;
             // 05/10/2020 - End Add
 

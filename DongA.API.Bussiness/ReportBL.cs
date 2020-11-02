@@ -2357,5 +2357,59 @@ namespace DongA.API.Bussiness
             }
         }
         #endregion
+
+        #region Get dữ liệu tài chính kế toán
+
+        /// <summary>
+        /// List Report từ ngày đến ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtSTMarket> SearchTCKTReportDay(DateTime fromDate, DateTime toDate, int reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                List<ReportDetailtSTMarket> result = dal.SearchTCKTReportDay(fromDate, toDate, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report từ ngày đến ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtSTMarket> SearchTCKTReportMonth(DateTime fromDate, DateTime toDate, int reportTypeID)
+        {
+            try
+            {
+                ReportDAL dal = new ReportDAL();
+                // get first day in fromMonth
+                DateTime fromDateRecent = new DateTime(fromDate.Year, fromDate.Month, 1);
+
+                // get last day in toMonth
+                int lastDayInToDate = DateTime.DaysInMonth(toDate.Year, toDate.Month);
+                DateTime toDateRecent = new DateTime(toDate.Year, toDate.Month, lastDayInToDate);
+
+                List<ReportDetailtSTMarket> result = dal.SearchTCKTReportMonth(fromDateRecent, toDateRecent, reportTypeID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new DongAException(DongALayer.Business, ex.Message, ex);
+            }
+        }
+
+        #endregion
     }
 }

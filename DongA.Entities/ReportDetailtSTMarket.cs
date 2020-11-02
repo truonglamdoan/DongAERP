@@ -19,6 +19,8 @@ namespace DongA.Entities
     {
         public string STT { set; get; }
         public string ReportID { set; get; }
+        [Column("PARENTCODE")]
+        public string ParentCode { set; get; }
         [Column("PARTNERCODE")]
         public string PartnerCode { set; get; }
         [Column("PARTNERNAME")]

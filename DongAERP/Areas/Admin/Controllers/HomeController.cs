@@ -511,6 +511,7 @@ namespace DongAERP.Areas.Admin.Controllers
         public JsonResult CategoryLevelZero(string levelID)
         {
             List<Partner> list = new List<Partner>();
+            // Doanh số
             if (levelID.Equals("1"))
             {
                 list.Add(new Partner()
@@ -525,7 +526,9 @@ namespace DongAERP.Areas.Admin.Controllers
                     PartnerName = "Chi tiết"
                 });
             }
-            else
+
+            // Hồ sơ
+            if(levelID.Equals("2"))
             {
                 list.Add(new Partner()
                 {
@@ -535,6 +538,21 @@ namespace DongAERP.Areas.Admin.Controllers
                 list.Add(new Partner()
                 {
                     PartnerID = "level0_item4",
+                    PartnerName = "Chi tiết"
+                });
+            }
+
+            // TCKT
+            if (levelID.Equals("3"))
+            {
+                list.Add(new Partner()
+                {
+                    PartnerID = "level0_item5",
+                    PartnerName = "Tổng hợp"
+                });
+                list.Add(new Partner()
+                {
+                    PartnerID = "level0_item6",
                     PartnerName = "Chi tiết"
                 });
             }
@@ -551,6 +569,7 @@ namespace DongAERP.Areas.Admin.Controllers
             List<Partner> list = new List<Partner>();
             switch (levelZeroID)
             {
+                // Tổng hợp DS
                 case "level0_item1":
                     list.Add(new Partner()
                     {
@@ -577,6 +596,7 @@ namespace DongAERP.Areas.Admin.Controllers
                     });
 
                     break;
+                // Chi tiết DS
                 case "level0_item2":
 
                     list.Add(new Partner()
@@ -603,7 +623,7 @@ namespace DongAERP.Areas.Admin.Controllers
                         PartnerName = "Đối tác - Loại tiền"
                     });
                     break;
-
+               // Tổng hợp HS
                 case "level0_item3":
 
                     list.Add(new Partner()
@@ -630,7 +650,9 @@ namespace DongAERP.Areas.Admin.Controllers
                         PartnerName = "HS-TH Tổng hồ sơ"
                     });
                     break;
-                default:
+
+                // Chi tiết HS
+                case "level0_item4":
 
                     list.Add(new Partner()
                     {
@@ -654,6 +676,24 @@ namespace DongAERP.Areas.Admin.Controllers
                     {
                         PartnerID = "item4",
                         PartnerName = "HS- Đối tác - Loại tiền"
+                    });
+                    break;
+                // Tổng hợp TCKT
+                case "level0_item5":
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Doanh số theo thị trường"
+                    });
+                    break;
+
+                // Chi tiết TCKT
+                default:
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Chi tiết DS theo thị trường"
                     });
                     break;
             }
@@ -700,6 +740,16 @@ namespace DongAERP.Areas.Admin.Controllers
                 {
                     PartnerID = "item3",
                     PartnerName = "So sánh"
+                });
+            }
+
+            // DS tài chính kế toán
+            if (levelOneID.Equals("level0_item5") || levelOneID.Equals("level0_item6"))
+            {
+                list.Add(new Partner()
+                {
+                    PartnerID = "item1",
+                    PartnerName = "Chi tiết"
                 });
             }
             
@@ -800,7 +850,25 @@ namespace DongAERP.Areas.Admin.Controllers
                     });
                 }
             }
-            
+
+            // DS TCKT
+            if (levelZeroID.Equals("level0_item5") || levelZeroID.Equals("level0_item6"))
+            {
+                if (levelTwoID == "item1")
+                {
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item1",
+                        PartnerName = "Theo ngày"
+                    });
+
+                    list.Add(new Partner()
+                    {
+                        PartnerID = "item2",
+                        PartnerName = "Theo tháng"
+                    });
+                }
+            }
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }

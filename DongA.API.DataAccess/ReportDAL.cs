@@ -3660,5 +3660,91 @@ where created_date ='05-MAR-20' AND PARTNER_CODE = 20100 and VND_CNV_AMOUNT = 20
                 throw DongAException.FromCommand(command, ex);
             }
         }
+
+        #region get dữ liệu tài chính kế toán
+
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtSTMarket> SearchTCKTReportDay(DateTime fromDate, DateTime toDate, int reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtSTMarket>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_TCKT.SEARCH_FOR_DAY"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+
+                    // Bind the parameters
+                    // p1 is the RETURN REF CURSOR bound to SELECT * FROM EMP;
+                    OracleParameter output = command.Parameters.Add("p_cur", OracleDbType.RefCursor);
+                    output.Direction = ParameterDirection.Output;
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtSTMarket>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// List Report theo ngày
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        public List<ReportDetailtSTMarket> SearchTCKTReportMonth(DateTime fromDate, DateTime toDate, int reportTypeID)
+        {
+            OracleCommand command = null;
+            try
+            {
+                var result = new List<ReportDetailtSTMarket>();
+
+                using (command = DongADatabase.GetStoredProcCommandOracle("REPORT_TCKT.SEARCH_FOR_MONTH"))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    DongADatabase.AddInOracleParameter(command, "pFromDate", OracleDbType.Date, ParameterDirection.Input, fromDate);
+                    DongADatabase.AddInOracleParameter(command, "pToDate", OracleDbType.Date, ParameterDirection.Input, toDate);
+                    DongADatabase.AddInOracleParameter(command, "pReportType", OracleDbType.Int32, ParameterDirection.Input, reportTypeID);
+
+                    // Bind the parameters
+                    // p1 is the RETURN REF CURSOR bound to SELECT * FROM EMP;
+                    OracleParameter output = command.Parameters.Add("p_cur", OracleDbType.RefCursor);
+                    output.Direction = ParameterDirection.Output;
+
+                    using (var reader = DongADatabase.ExecuteReader(command, this))
+                    {
+                        result = DongADatabase.ToList<ReportDetailtSTMarket>(reader);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw DongAException.FromCommand(command, ex);
+            }
+        }
+
+        #endregion
     }
 }

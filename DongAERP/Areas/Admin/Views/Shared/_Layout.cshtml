@@ -447,7 +447,7 @@
         let difference_In_Days = null;
 
 
-        // Báo cáo tổng hợp
+        // Báo cáo tổng hợp DS
         if (level0 == 'level0_item1') {
             // Hình thức báo cáo
             let categoryText = null;
@@ -606,7 +606,7 @@
 
         }
 
-        // Báo cáo chi tiết
+        // Báo cáo HS
         if (level0 == 'level0_item2') {
 
             let marketID = null;
@@ -1996,6 +1996,266 @@
                 window.location = url;
             }
         }
+
+        // Báo cáo TCKT
+        // 05/10/2020
+        // Thêm vào báo cáo Hồ sơ
+
+        if (level0 == 'level0_item5') {
+            // Hình thức báo cáo
+            let categoryText = 'ReportTCKTMarket';
+
+            // Get mã thị trường
+            marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+
+            if (marketID == '') {
+                return;
+            }
+            // thời gian
+            let reportText = null;
+            if (level2 == 'item1') {
+
+                switch (level3) {
+                    case 'item1':
+                        reportText = 'ReportDay';
+
+                        fromDate = $('#FromDay').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                        toDate = $('#ToDay').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                        // Tính số ngày chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
+                        if ((fromDate.getMonth() == toDate.getMonth() && fromDate.getFullYear() == toDate.getFullYear())
+                            // Trường hợp khác tháng cùng năm
+                            || (toDate.getMonth() == fromDate.getMonth() + 1 && fromDate.getFullYear() == toDate.getFullYear() && difference_In_Days < 30)
+                            // Trường hợp khác năm khác tháng
+                            || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
+
+                            // Tạo url cho link
+                            url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}&marketID={5}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID, marketID);
+
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+
+                        } else {
+                            $("<div></div>").kendoAlert({
+                                title: "Cảnh báo!",
+                                content: "Bạn chỉ được phép tìm kiếm trong 30 ngày trở lại"
+                            }).data("kendoAlert").open();
+                        }
+                        break;
+                    case 'item2':
+
+                        reportText = 'ReportMonth';
+
+                        fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                        toDate = $('#ToMonth').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                        // Tính số tháng chênh lệch
+                        difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
+
+                        // Chỉ cho phép chọn trong 12 tháng
+                        if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
+                            || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
+
+                            // Tạo url cho link
+                            url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}&marketID={5}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID, marketID);
+                            // Set giá trị cho param1 và 2
+                            param1 = fromDateConvert;
+                            param2 = toDateConvert;
+
+                        } else {
+                            $("<div></div>").kendoAlert({
+                                title: "Cảnh báo!",
+                                content: "Bạn chỉ được phép tìm kiếm trong 12 tháng trở lại"
+                            }).data("kendoAlert").open();
+                        }
+                        break;
+                    default:
+                        //reportText = 'ReportYear';
+
+                        //fromDate = $('#FromYear').data('kendoDatePicker').value();
+                        //fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                        //toDate = $('#ToYear').data('kendoDatePicker').value();
+                        //toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                        //// Tính số ngày chênh lệch
+                        //difference_In_Time = toDate.getTime() - fromDate.getTime();
+                        //difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
+                        //if (toDate.getFullYear() - fromDate.getFullYear() > 4) {
+
+                        //    $("<div></div>").kendoAlert({
+                        //        title: "Cảnh báo!",
+                        //        content: "Bạn chỉ được phép tìm kiếm trong 5 năm trở lại"
+                        //    }).data("kendoAlert").open();
+                        //} else {
+
+                        //    url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+
+                        //    // Set giá trị cho param1 và 2
+                        //    param1 = fromDateConvert;
+                        //    param2 = toDateConvert;
+                        //}
+                        break;
+                }
+
+            }
+
+            if (url != null) {
+
+                // Lưu giá trị vào local storage
+                localStorage.removeItem('timeReport');
+                let timeReport = kendo.format("{0}-{1}-{2}-{3}", param1, param2, level0, level2);
+                localStorage.timeReport = timeReport;
+
+                window.location = url;
+
+            }
+        }
+
+
+        // Hồ sơ
+        // Báo cáo chi tiết
+
+        if (level0 == 'level0_item6') {
+            
+            let reportText = null;
+
+            // Hình thức báo cáo
+            let categoryText = 'ReportTCKTDetailtMarketLT';
+
+            // Trường hợp hình thức báo cáo- Thị trường
+            if (level1 == 'item1') {
+                
+                // Tất cả
+                if (level2 == 'item1') {
+                    // thời gian
+                    switch (level3) {
+                        // Theo ngày
+                        case 'item1':
+                            reportText = 'MarketForTotal';
+
+                            fromDate = $('#FromDay').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                            toDate = $('#ToDay').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                            // Tính số ngày chênh lệch
+                            difference_In_Time = toDate.getTime() - fromDate.getTime();
+                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
+                            if ((fromDate.getMonth() == toDate.getMonth() && fromDate.getFullYear() == toDate.getFullYear())
+                                // Trường hợp khác tháng cùng năm
+                                || (toDate.getMonth() == fromDate.getMonth() + 1 && fromDate.getFullYear() == toDate.getFullYear() && difference_In_Days < 30)
+                                // Trường hợp khác năm khác tháng
+                                || fromDate.getMonth() == 11 && fromDate.getFullYear() + 1 == toDate.getFullYear() && difference_In_Days < 30) {
+
+                                // Tạo url cho link
+                                url = kendo.format("/Admin/{0}/{1}?fromDay={2}&toDay={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+
+                                // Set giá trị cho param1 và 2
+                                param1 = fromDateConvert;
+                                param2 = toDateConvert;
+
+                            } else {
+                                $("<div></div>").kendoAlert({
+                                    title: "Cảnh báo!",
+                                    content: "Bạn chỉ được phép tìm kiếm trong 30 ngày trở lại"
+                                }).data("kendoAlert").open();
+                            }
+                            break;
+                        // Theo tháng
+                        case 'item2':
+
+                            reportText = 'MarketForTotalForMonth';
+
+                            fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                            toDate = $('#ToMonth').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                            // Tính số tháng chênh lệch
+                            difference_In_Time = toDate.getTime() - fromDate.getTime();
+                            difference_In_Days = difference_In_Time / (1000 * 3600 * 24 * 30);
+
+                            // Chỉ cho phép chọn trong 12 tháng
+                            if ((fromDate.getFullYear() == toDate.getFullYear() && fromDate.getFullYear() == toDate.getFullYear())
+                                || (toDate.getFullYear() == fromDate.getFullYear() + 1 && difference_In_Days < 12)) {
+
+                                // Tạo url cho link
+                                url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+                                // Set giá trị cho param1 và 2
+                                param1 = fromDateConvert;
+                                param2 = toDateConvert;
+
+                            } else {
+                                $("<div></div>").kendoAlert({
+                                    title: "Cảnh báo!",
+                                    content: "Bạn chỉ được phép tìm kiếm trong 12 tháng trở lại"
+                                }).data("kendoAlert").open();
+                            }
+                            break;
+                        // Theo năm
+                        default:
+                            //reportText = 'MarketForTotalForYear';
+
+                            //fromDate = $('#FromYear').data('kendoDatePicker').value();
+                            //fromDateConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+
+                            //toDate = $('#ToYear').data('kendoDatePicker').value();
+                            //toDateConvert = kendo.toString(toDate, "MM/dd/yyyy");
+
+                            //// Tính số ngày chênh lệch
+                            //difference_In_Time = toDate.getTime() - fromDate.getTime();
+                            //difference_In_Days = difference_In_Time / (1000 * 3600 * 24);
+
+                            //if (toDate.getFullYear() - fromDate.getFullYear() > 4) {
+
+                            //    $("<div></div>").kendoAlert({
+                            //        title: "Cảnh báo!",
+                            //        content: "Bạn chỉ được phép tìm kiếm trong 5 năm trở lại"
+                            //    }).data("kendoAlert").open();
+                            //} else {
+
+                            //    url = kendo.format("/Admin/{0}/{1}?fromDate={2}&toDate={3}&reportTypeID={4}", categoryText, reportText, fromDateConvert, toDateConvert, reportTypeID);
+
+                            //    // Set giá trị cho param1 và 2
+                            //    param1 = fromDateConvert;
+                            //    param2 = toDateConvert;
+                            //}
+                            break;
+                    }
+
+                } 
+            }
+            
+            if (url != null) {
+
+                // Lưu giá trị vào local storage
+                localStorage.removeItem('timeReport');
+                // Nếu trường hợp là hình thức báo cáo là thị trường
+                let timeReport = null;
+
+                timeReport = kendo.format("{0}-{1}-{2}-{3}", param1, param2, level0, level2);
+
+                localStorage.timeReport = timeReport;
+
+                window.location = url;
+            }
+        }
     }
     
     // Sự kiện click vào dropdownlist level1
@@ -2091,6 +2351,7 @@
             valueTime = localStorage.dataTimeAutoComplete;
             listDataTime = valueTime.split('-');
         }
+
 
         // Trường hơp chọn Tổng hợp
         // 05/10/2020 thêm vào hồ sơ level0 == 'level0_item3'
@@ -2302,7 +2563,7 @@
             
         }
         // Trường hợp chọn báo cáo chi tiết
-        else {
+        if (level0 == 'level0_item2' || level0 == 'level0_item4') {
             
             let countItemDetailt = 0;
             
@@ -3331,6 +3592,331 @@
                 }
             }
         }
+
+
+        // DS theo thị trường TCKT
+        // Trường hợp chọn báo cáo chi tiết
+        //Tổng hợp
+        if (level0 == 'level0_item5') {
+            
+            let countItemDetailt = 0;
+            
+            // Trường hợp hình thức báo cáo là thị trường
+            if (level1 == 'item1') {
+
+                // Trường hợp có auto complete time
+                if (listDataTime != null) {
+
+                    countItemDetailt = listDataTime[2];
+                }
+
+                if (level2 == 'item1') {
+
+                    date = new Date();
+
+                        // Tạo dropdownlist thị trường
+                        $('.categoriesMarket .categoriesMarketText').text("Thị trường: ");
+
+                        $('.categoriesDetaitMarketID').append(' <input id="categoriesDetaitMarket" style="width: 100%;float: left;"/>');
+                        $('.categoriesDetaitMarketID').css('width', '24%');
+
+                        $("#categoriesDetaitMarket").kendoDropDownList({
+
+                            optionLabel: "Chọn thị trường...",
+                            dataTextField: "MarketName",
+                            dataValueField: "MarketCode",
+                            dataSource: {
+                                transport: {
+                                    read: {
+
+                                        url: '@Url.Action("ListMarket", "ReportDetailtByMarket")',
+                                        dataType: "json",
+                                        contentType: "application/json",
+                                        type: "POST",
+                                    }
+                                },
+                                //serverFiltering: true
+                            },
+                            value: countItemDetailt,
+                        });
+
+                        // Theo ngày
+                        if (dataItem.PartnerID == 'item1') {
+
+                            $('.timeReport .startTimeName').text("Từ ngày: ");
+                            $('.timeReport .endTimeName').text("Đến ngày: ");
+
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+                                // start time
+                                timeStartNow = listDataTime[0];
+                                timeEndNow = listDataTime[1];
+                            }
+
+                            if (timeStartNow == null) {
+
+                                timeStartNow = kendo.toString(date, "dd/MM/yyyy");
+                            }
+
+                            if (timeEndNow == null) {
+
+                                timeEndNow = kendo.toString(date, "dd/MM/yyyy");
+                            }
+
+                            $('.timeStart').append(' <input id="FromDay" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "datepicker"/>');
+                            $("#FromDay").kendoDatePicker({
+
+                                format: "dd/MM/yyyy",
+                            });
+
+                            $('.timeEnd').append(' <input id="ToDay" value=' + timeEndNow + 'style="width: 100%;" title = "datepicker"/>');
+                            $("#ToDay").kendoDatePicker({
+
+                                format: "dd/MM/yyyy",
+                            });
+
+                            // Theo tháng
+                        } else if (dataItem.PartnerID == 'item2') {
+
+                            $('.timeReport .startTimeName').text("Từ Tháng: ");
+                            $('.timeReport .endTimeName').text("Đến Tháng: ");
+
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+                                // start time
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
+
+                                timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[2]);
+                            }
+
+                            if (timeStartNow == null) {
+
+                                timeStartNow = kendo.toString(date, "MM/yyyy");
+                            }
+
+                            if (timeEndNow == null) {
+
+                                timeEndNow = kendo.toString(date, "MM/yyyy");
+                            }
+
+                            $('.timeStart').append(' <input id="FromMonth" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                            $("#FromMonth").kendoDatePicker({
+                                // defines the start view
+                                start: "year",
+
+                                // defines when the calendar should return date
+                                depth: "year",
+                                format: "MM/yyyy",
+                            });
+
+                            $('.timeEnd').append(' <input id="ToMonth" value=' + timeEndNow + 'style="width: 100%;" title = "monthpicker"/>');
+                            $("#ToMonth").kendoDatePicker({
+                                // defines the start view
+                                start: "year",
+
+                                // defines when the calendar should return date
+                                depth: "year",
+                                format: "MM/yyyy",
+                            });
+                            // Theo năm
+                        } else {
+
+                            $('.timeReport .startTimeName').text("Từ năm: ");
+                            $('.timeReport .endTimeName').text("Đến năm: ");
+
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+                                // start time
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
+
+                                timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
+                            }
+
+                            if (timeStartNow == null) {
+
+                                timeStartNow = kendo.toString(date, "yyyy");
+                            }
+
+                            if (timeEndNow == null) {
+
+                                timeEndNow = kendo.toString(date, "yyyy");
+                            }
+
+                            $('.timeStart').append(' <input id="FromYear" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                            $("#FromYear").kendoDatePicker({
+                                // defines the start view
+                                start: "decade",
+
+                                // defines when the calendar should return date
+                                depth: "decade",
+                                format: "yyyy",
+                            });
+
+                            $('.timeEnd').append(' <input id="ToYear" value=' + timeEndNow + 'style="width: 100%;" title = "monthpicker"/>');
+                            $("#ToYear").kendoDatePicker({
+                                // defines the start view
+                                start: "decade",
+
+                                // defines when the calendar should return date
+                                depth: "decade",
+                                format: "yyyy",
+                            });
+                        }
+                }
+            }
+        }
+
+        // Chi tiết TCKT
+        if (level0 == 'level0_item6') {
+            
+            let countItemDetailt = 0;
+            
+            // Trường hợp hình thức báo cáo là thị trường
+            if (level1 == 'item1') {
+
+                // Trường hợp có auto complete time
+                if (listDataTime != null) {
+
+                    countItemDetailt = listDataTime[2];
+                }
+
+                if (level2 == 'item1') {
+
+                    date = new Date();
+                    
+                        // Theo ngày
+                        if (dataItem.PartnerID == 'item1') {
+
+                            $('.timeReport .startTimeName').text("Từ ngày: ");
+                            $('.timeReport .endTimeName').text("Đến ngày: ");
+
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+                                // start time
+                                timeStartNow = listDataTime[0];
+                                timeEndNow = listDataTime[1];
+                            }
+
+                            if (timeStartNow == null) {
+
+                                timeStartNow = kendo.toString(date, "dd/MM/yyyy");
+                            }
+
+                            if (timeEndNow == null) {
+
+                                timeEndNow = kendo.toString(date, "dd/MM/yyyy");
+                            }
+
+                            $('.timeStart').append(' <input id="FromDay" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "datepicker"/>');
+                            $("#FromDay").kendoDatePicker({
+
+                                format: "dd/MM/yyyy",
+                            });
+
+                            $('.timeEnd').append(' <input id="ToDay" value=' + timeEndNow + 'style="width: 100%;" title = "datepicker"/>');
+                            $("#ToDay").kendoDatePicker({
+
+                                format: "dd/MM/yyyy",
+                            });
+
+                            // Theo tháng
+                        } else if (dataItem.PartnerID == 'item2') {
+
+                            $('.timeReport .startTimeName').text("Từ Tháng: ");
+                            $('.timeReport .endTimeName').text("Đến Tháng: ");
+
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+                                // start time
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
+
+                                timeStartNow = kendo.format("{0}/{1}", timeStartAutoComplete.split('/')[1], timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}/{1}", timeEndAutoComplete.split('/')[1], timeEndAutoComplete.split('/')[2]);
+                            }
+
+                            if (timeStartNow == null) {
+
+                                timeStartNow = kendo.toString(date, "MM/yyyy");
+                            }
+
+                            if (timeEndNow == null) {
+
+                                timeEndNow = kendo.toString(date, "MM/yyyy");
+                            }
+
+                            $('.timeStart').append(' <input id="FromMonth" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                            $("#FromMonth").kendoDatePicker({
+                                // defines the start view
+                                start: "year",
+
+                                // defines when the calendar should return date
+                                depth: "year",
+                                format: "MM/yyyy",
+                            });
+
+                            $('.timeEnd').append(' <input id="ToMonth" value=' + timeEndNow + 'style="width: 100%;" title = "monthpicker"/>');
+                            $("#ToMonth").kendoDatePicker({
+                                // defines the start view
+                                start: "year",
+
+                                // defines when the calendar should return date
+                                depth: "year",
+                                format: "MM/yyyy",
+                            });
+                            // Theo năm
+                        } else {
+
+                            $('.timeReport .startTimeName').text("Từ năm: ");
+                            $('.timeReport .endTimeName').text("Đến năm: ");
+
+                            // Trường hợp có auto complete time
+                            if (listDataTime != null) {
+                                // start time
+                                let timeStartAutoComplete = listDataTime[0];
+                                let timeEndAutoComplete = listDataTime[1];
+
+                                timeStartNow = kendo.format("{0}", timeStartAutoComplete.split('/')[2]);
+                                timeEndNow = kendo.format("{0}", timeEndAutoComplete.split('/')[2]);
+                            }
+
+                            if (timeStartNow == null) {
+
+                                timeStartNow = kendo.toString(date, "yyyy");
+                            }
+
+                            if (timeEndNow == null) {
+
+                                timeEndNow = kendo.toString(date, "yyyy");
+                            }
+
+                            $('.timeStart').append(' <input id="FromYear" value=' + timeStartNow + 'style="width: 70%;float: left;" title = "monthpicker"/>');
+                            $("#FromYear").kendoDatePicker({
+                                // defines the start view
+                                start: "decade",
+
+                                // defines when the calendar should return date
+                                depth: "decade",
+                                format: "yyyy",
+                            });
+
+                            $('.timeEnd').append(' <input id="ToYear" value=' + timeEndNow + 'style="width: 100%;" title = "monthpicker"/>');
+                            $("#ToYear").kendoDatePicker({
+                                // defines the start view
+                                start: "decade",
+
+                                // defines when the calendar should return date
+                                depth: "decade",
+                                format: "yyyy",
+                            });
+                        }
+                }
+            }
+        }
         
     }
 
@@ -3628,6 +4214,124 @@
 
                     localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
                 }
+            }
+        }
+
+        // Báo cáo DS Tổng hợp theo TCKT
+        if (level0 == 'level0_item5') {
+
+            localStorage.removeItem('dataTypeAutoComplete');
+            let dataTypeAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
+            localStorage.dataTypeAutoComplete = dataTypeAutoComplete;
+
+
+            localStorage.removeItem('dataTimeAutoComplete');
+            // Thị trường
+            if (level1 == 'item1') {
+
+                let fromDate = null;
+                let fromDateConvert = null;
+                let toDate = null;
+                let toDateConvert = null;
+                let dataTimeAutoComplete = null;
+
+                // Get giá trị thị trường
+                let marketID = $('#categoriesDetaitMarket').data('kendoDropDownList').value();
+                
+                if (level2 == 'item1') {
+
+                    switch (level3) {
+                        // Theo ngày
+                        case 'item1':
+
+                            fromDate = $('#FromDay').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            toDate = $('#ToDay').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                            break;
+                        // Theo tháng
+                        case 'item2':
+                            fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                            fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            toDate = $('#ToMonth').data('kendoDatePicker').value();
+                            toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                            break;
+
+                        default:
+
+                            //fromDate = $('#FromYear').data('kendoDatePicker').value();
+                            //fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                            //toDate = $('#ToYear').data('kendoDatePicker').value();
+                            //toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                            break;
+                    }
+
+                    dataTimeAutoComplete = kendo.format("{0}-{1}-{2}", fromDateConvert, toDateConvert, marketID);
+                    localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
+                }
+            }
+        }
+
+        // Báo cáo DS Chi tiết TCKT
+        if (level0 == 'level0_item6') {
+
+            localStorage.removeItem('dataTypeAutoComplete');
+            let dataTypeAutoComplete = kendo.format("{0}-{1}-{2}-{3}", level0, level1, level2, level3);
+            localStorage.dataTypeAutoComplete = dataTypeAutoComplete;
+
+            localStorage.removeItem('dataTimeAutoComplete');
+            // Loại hình chi tiết
+            if (level2 == 'item1') {
+                let fromDate = null;
+                let fromDateConvert = null;
+                let toDate = null;
+                let toDateConvert = null;
+                let dataTimeAutoComplete = null;
+                switch (level3) {
+                    // Theo ngày
+                    case 'item1':
+
+                        fromDate = $('#FromDay').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                        toDate = $('#ToDay').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+                        dataTimeAutoComplete = kendo.format("{0}-{1}", fromDateConvert, toDateConvert);
+
+                        break;
+                    // Theo tháng
+                    case 'item2':
+                        fromDate = $('#FromMonth').data('kendoDatePicker').value();
+                        fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                        toDate = $('#ToMonth').data('kendoDatePicker').value();
+                        toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                        dataTimeAutoComplete = kendo.format("{0}-{1}", fromDateConvert, toDateConvert);
+
+                        break;
+
+                    default:
+
+                        //fromDate = $('#FromYear').data('kendoDatePicker').value();
+                        //fromDateConvert = kendo.toString(fromDate, "dd/MM/yyyy");
+
+                        //toDate = $('#ToYear').data('kendoDatePicker').value();
+                        //toDateConvert = kendo.toString(toDate, "dd/MM/yyyy");
+
+                        //dataTimeAutoComplete = kendo.format("{0}-{1}", fromDateConvert, toDateConvert);
+
+                        break;
+                }
+
+                localStorage.dataTimeAutoComplete = dataTimeAutoComplete;
+                
             }
         }
     }

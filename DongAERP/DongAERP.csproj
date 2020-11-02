@@ -203,6 +203,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportHSTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportLayoutController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportMonthExcelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportTCKTMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportTotalMoneyTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSTypeExcelController.cs" />
     <Compile Include="Areas\Admin\Models\CountryModel.cs" />
@@ -232,6 +233,7 @@
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSMakets.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSTotalMoneyType.js" />
     <Content Include="Areas\Admin\Scripts\ReportHS\ReportHSType.js" />
+    <Content Include="Areas\Admin\Scripts\ReportTCKT\DateReportTCKT.js" />
     <Content Include="Assets\Admin\css\main.css" />
     <Content Include="Assets\Admin\css\sb-admin-2.css" />
     <Content Include="Assets\Admin\css\sb-admin-2.min.css" />
@@ -2741,6 +2743,8 @@
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForGradationForOne.xlsx" />
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForCompare.xlsx" />
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForCompareForOne.xlsx" />
+    <Content Include="Areas\Admin\Views\ReportTCKTMarket\ReportDay.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportTCKTMarket\ReportMonth.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
