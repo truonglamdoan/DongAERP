@@ -390,15 +390,15 @@ namespace DongAERP.Areas.Admin.Controllers
                         {
                             case "American":
                                 marketCode = "US";
-                                martketName = "United States";
+                                martketName = "United States (Mỹ)";
                                 break;
                             case "Global":
                                 marketCode = "Global";
                                 martketName = "Global";
                                 break;
                             case "Europe":
-                                marketCode = "Europe";
-                                martketName = "Europe";
+                                marketCode = "FR";
+                                martketName = "France (Châu Âu)";
                                 break;
                             case "Canada":
                                 marketCode = "CA";
@@ -406,7 +406,7 @@ namespace DongAERP.Areas.Admin.Controllers
                                 break;
                             default:
                                 marketCode = "AU";
-                                martketName = "Australia";
+                                martketName = "Australia (Úc)";
                                 break;
                         }
                         //  Doanh so
@@ -1106,6 +1106,75 @@ namespace DongAERP.Areas.Admin.Controllers
                 listStr.Add("TongDS", TongDS);
                 listStr.Add("DSChiNha", DSChiNha);
             }
+
+            // 03/11/2020 - [Trường Lãm] - Begin Add
+            // Lấy giá trị mục tiêu Doanh số chi nhà của năm
+            string targetRose = WebConfigurationManager.AppSettings["targetRose"];
+            dataTarget = targetRose.Split('-');
+            string targetRoseValue = string.Empty;
+
+            foreach (string item in dataTarget)
+            {
+                string[] dataArray = item.Split('_');
+
+                if (dataArray[0] == year)
+                {
+                    targetRoseValue = dataArray[1];
+                }
+            }
+
+            listStr.Add("targetRoseValue", Convert.ToDouble(targetRoseValue));
+            
+
+            //List<Report> listData = new ReportBL().SearchMonth(fromDate, toDate, reportTypeID);
+            //foreach (Report item in listData)
+            //{
+            //    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+            //}
+            
+            // Giá trị Hoa hồng
+            double roseValueItem = 2000000000;
+
+            listStr.Add("roseValueItem", roseValueItem);
+
+            //if (listData.Count > 0)
+            //{
+            //    TongDS = listData.Sum(x => x.TongDS);
+            //    DSChiNha = listData.Sum(x => x.DSChiNha);
+            //    listStr.Add("TongDS", TongDS);
+            //    listStr.Add("roseValueItem", DSChiNha);
+            //}
+
+
+            // Lấy giá trị mục tiêu Doanh số chi nhà của năm
+            string targetNgoaiTe = WebConfigurationManager.AppSettings["targetNgoaiTe"];
+            dataTarget = targetRose.Split('-');
+            string targetNgoaiTeValue = string.Empty;
+
+            foreach (string item in dataTarget)
+            {
+                string[] dataArray = item.Split('_');
+
+                if (dataArray[0] == year)
+                {
+                    targetNgoaiTeValue = dataArray[1];
+                }
+            }
+
+            listStr.Add("targetNgoaiTeValue", Convert.ToDouble(targetNgoaiTeValue));
+
+
+            //List<Report> listData = new ReportBL().SearchMonth(fromDate, toDate, reportTypeID);
+            //foreach (Report item in listData)
+            //{
+            //    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
+            //}
+
+            // Giá trị Hoa hồng
+            double ngoaiTeValueItem = 3500000000;
+
+            listStr.Add("ngoaiTeValueItem", ngoaiTeValueItem);
+            // 03/11/2020 - [Trường Lãm] - End Add
 
             // Get số hồ sơ
             List<Report> listDataHS = new HSReportBL().SearchMonth(fromDate, toDate, reportTypeID);

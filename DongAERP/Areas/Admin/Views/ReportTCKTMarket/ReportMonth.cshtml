@@ -19,6 +19,11 @@
         marketID = listData[3];
 
     }
+    else
+    {
+        fromDate = DateTime.Now.ToString("dd/MM/yyyy");
+        toDate = DateTime.Now.ToString("dd/MM/yyyy");
+    }
 }
 <script src="~/Areas/Admin/Scripts/ReportTCKT/DateReportTCKT.js"></script>
 <h1 class="h3 mb-4 text-gray-800">Chi tiết- Theo Tháng</h1>
@@ -30,7 +35,7 @@
 
     <ul class="search-item" style="width: 100%;margin-top: 5px;margin-bottom: 0px;">
         @*<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm search-grid" href="#" style="float: left;"><i class="fas fa-search fa-sm text-white-50"></i> Tìm kiếm</a>*@
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
+        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm print-excel-month" href="#" style=" float: right;"><i class="fas fa-download fa-sm text-white-50"></i> In báo cáo Excel</a>
     </ul>
 </div>
 <hr class="sidebar-divider" style=" margin-top: 0px; margin-bottom: 15px; ">
@@ -39,7 +44,7 @@
     <div class="col-lg-6" style=" flex: none; max-width: none; ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu loại hình dịch vụ</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Bảng số liệu doanh số</h6>
             </div>
             <div class="card-body">
                 @(Html.Kendo().Grid<dynamic>()

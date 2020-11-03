@@ -184,6 +184,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportExcelForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalMoneyTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportExcelForTotalPaymentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportExcelTCKTForMarketController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForMaketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportForTotalPaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportHSDetailtLHTypeController.cs" />
@@ -2745,6 +2746,7 @@
     <Content Include="Content\Report\ReportHSDetailt\ReportHSDetailtByPartnerLTForCompareForOne.xlsx" />
     <Content Include="Areas\Admin\Views\ReportTCKTMarket\ReportDay.cshtml" />
     <Content Include="Areas\Admin\Views\ReportTCKTMarket\ReportMonth.cshtml" />
+    <Content Include="Content\Report\ReportTCKT\ReportTCKTForMakets.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4878,6 +4880,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\ReportExcelTCKTForMarket\" />
     <Folder Include="Areas\Admin\Views\ReportHSDetailtPartnerLTExcel\" />
   </ItemGroup>
   <ItemGroup>
