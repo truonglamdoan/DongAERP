@@ -64,10 +64,16 @@
         </a>
     </li>
 
-    <li class="nav-item">
+    @*<li class="nav-item">
         <a class="nav-link" href="javascript:void(0);">
             <input type="radio" name="engine" id="detailTCKT" class="k-radio" value="3">
             <label for="detailTCKT" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('detailTCKT');">Báo cáo TCKT</label>
+        </a>
+    </li>*@
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">
+            <input type="radio" name="engine" id="formTarget" class="k-radio" value="3">
+            <label for="detailTCKT" style=" cursor: pointer; font-size: .85rem;" onclick="onOpen('formTarget');">Xem dữ liệu chỉ tiêu</label>
         </a>
     </li>
 
@@ -171,6 +177,11 @@
 
             // Vào trang xem chi tiết
             window.location = "/Admin/Home/ReportDetailt";
+        }
+
+        if (e == 'formTarget') {
+
+            window.location = "/Admin/Home/FormTarget";
         }
         
     }

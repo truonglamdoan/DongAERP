@@ -51,6 +51,7 @@
     <Compile Include="PartnerBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportBL.cs" />
+    <Compile Include="TargetBL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DongA.Core\DongA.Core.csproj">

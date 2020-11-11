@@ -1,0 +1,92 @@
+﻿
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@(Html.Kendo().Grid<DongA.Entities.FormTarget> ()
+        .Name("Grid")
+        .HtmlAttributes(new { style = " overflow: auto; " })
+        .Columns(columns =>
+        {
+            //columns.Bound(p => p.ObjectID);
+            columns.Bound(p => p.ObjectName).Width(250).Title("Đối tượng").Locked(true)
+                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                .HtmlAttributes(new { style = " text-align: center;" }); ;
+            columns.Bound(p => p.TargetValue).Width(200).Title("Chỉ tiêu").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL1).Width(150).Format("{0:n2}").Title("Tháng 1").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL2).Width(150).Format("{0:n2}").Title("Tháng 2").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL3).Width(150).Format("{0:n2}").Title("Tháng 3").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL4).Width(150).Format("{0:n2}").Title("Tháng 4").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL5).Width(150).Format("{0:n2}").Title("Tháng 5").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL6).Width(150).Format("{0:n2}").Title("Tháng 6").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL7).Width(150).Format("{0:n2}").Title("Tháng 7").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL8).Width(150).Format("{0:n2}").Title("Tháng 8").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL9).Width(150).Format("{0:n2}").Title("Tháng 9").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL10).Width(150).Format("{0:n2}").Title("Tháng 10").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL11).Width(150).Format("{0:n2}").Title("Tháng 11").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Bound(p => p.COL12).Width(150).Format("{0:n2}").Title("Tháng 12").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
+            columns.Command(command => {
+                command.Edit().HtmlAttributes(new { style = " color: black; background-color: yellow; " });
+                command.Destroy().HtmlAttributes(new { style = " color: white; background-color: red; " }); }).Width(250);
+        })
+        .ToolBar(toolbar =>
+        {
+            toolbar.Create().Text("Tạo mới").HtmlAttributes(new { style = " color: white; background-color: blue; " });
+            //toolbar.Save().SaveText("Lưu").CancelText("Hủy Lưu");
+            //.HtmlAttributes(new { style = " float: right; color: white; background: red; " });
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        //.Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Continue to delete this record?").DisplayDeleteConfirmation("Continue to delete this record?"))
+        .Scrollable(scrollable => scrollable.Height("auto"))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Sort(sort => sort.Add(a=>a.CustomDate))
+            .Batch(true)
+            .ServerOperation(false)
+            .Events(events => events.Error("error_handler"))
+            .Model(model => model.Id(p => p.ObjectID))
+            .Read(read => read.Action("TargetRead", "Home"))
+            .Create(create => create.Action("EditingCustom_Create", "Home"))
+            .Update(update => update.Action("EditingCustom_Update", "Home"))
+            .Destroy(destroy => destroy.Action("EditingCustom_Destroy", "Home"))
+        //.Events(events => events.Error("error_handler"))
+        )
+        .Events(events => events
+            .DataBound("onDataBoundgridGrid")
+        )
+    )
+<script>
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function() {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    // Prevent sorting when new record without Product Name is added
+    function onSort(e) {
+        var gridData = e.sender.dataSource.data()
+        gridData.forEach(function (element) {
+            if (!element.ProductName) {
+                e.preventDefault()
+            }
+        });
+    }
+
+    // In đậm cho Grid
+    function onDataBoundgridGrid(arg) {
+
+        $('.k-button.k-button-icontext.k-grid-save-changes').css({ 'background-color': 'green', 'color': 'white', 'float': 'right' });
+        $('.k-button.k-button-icontext.k-grid-cancel-changes').css({ 'background-color': 'red', 'color': 'white'});
+    }
+
+</script>

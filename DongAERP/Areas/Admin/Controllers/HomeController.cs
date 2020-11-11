@@ -372,8 +372,11 @@ namespace DongAERP.Areas.Admin.Controllers
                                     case "Malaysia":
                                         marketCode = "MY";
                                         break;
-                                    default:
+                                    case "Singapore":
                                         marketCode = "SG";
+                                        break;
+                                    default:
+                                        marketCode = "";
                                         break;
                                 }
 
@@ -1665,6 +1668,104 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region Tạo form nhập chỉ tiêu
+
+        public ActionResult FormTarget()
+        {
+
+            return View();
+        }
+
+        public ActionResult TargetRead([DataSourceRequest] DataSourceRequest request)
+        {
+            List<FormTarget> listTarget = new TargetBL().GetListTarget();
+            
+            //return Json(productService.Read().ToDataSourceResult(request));
+            return Json(listTarget.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingCustom_Create([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")]IEnumerable<FormTarget> formTarget)
+        {
+            var results = new List<FormTarget>();
+
+            if (formTarget != null && ModelState.IsValid)
+            {
+                foreach (var item in formTarget)
+                {
+                    if (string.IsNullOrEmpty(item.ObjectID))
+                    {
+                        item.ObjectID = Guid.NewGuid().ToString();
+                    }
+                    bool check = new TargetBL().Insert(item);
+
+                    if(check)
+                    {
+                        results.Add(item);
+                    }
+                }
+            }
+
+            return Json(results.ToDataSourceResult(request, ModelState));
+        }
+
+        [HttpPost]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingCustom_Update([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")]IEnumerable<FormTarget> formTarget)
+        {
+            var results = new List<FormTarget>();
+
+            if (formTarget != null && ModelState.IsValid)
+            {
+                foreach (var item in formTarget)
+                {
+                    if (string.IsNullOrEmpty(item.ObjectID))
+                    {
+                        item.ObjectID = Guid.NewGuid().ToString();
+                    }
+                    bool check = new TargetBL().UpdateDataTarget(item);
+
+                    if (check)
+                    {
+                        results.Add(item);
+                    }
+                }
+            }
+
+            return Json(formTarget.ToDataSourceResult(request, ModelState));
+        }
+
+        [HttpPost]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingCustom_Destroy([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")]IEnumerable<FormTarget> formTarget)
+        {
+            var results = new List<FormTarget>();
+
+            if (formTarget != null && ModelState.IsValid)
+            {
+                foreach (var item in formTarget)
+                {
+                    if (string.IsNullOrEmpty(item.ObjectID))
+                    {
+                        item.ObjectID = Guid.NewGuid().ToString();
+                    }
+                    bool check = new TargetBL().DeleteDataTarget(item);
+
+                    if (check)
+                    {
+                        results.Add(item);
+                    }
+                }
+            }
+
+            return Json(formTarget.ToDataSourceResult(request, ModelState));
         }
         #endregion
     }

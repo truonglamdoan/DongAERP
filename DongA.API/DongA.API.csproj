@@ -187,6 +187,7 @@
     <Compile Include="Controllers\ReportMaketDataController.cs" />
     <Compile Include="Controllers\ReportTMTDataController.cs" />
     <Compile Include="Controllers\ReportTPDataController.cs" />
+    <Compile Include="Controllers\TargetController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

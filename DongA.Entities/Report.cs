@@ -37,7 +37,5 @@ namespace DongA.Entities
         public string Year { get; set; }
 
         public string GradationID { get; set; }
-
-
     }
 }
