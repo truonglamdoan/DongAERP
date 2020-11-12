@@ -11,10 +11,16 @@
         .HtmlAttributes(new { style = " overflow: auto; " })
         .Columns(columns =>
         {
+            columns.Command(command =>
+            {
+                command.Edit();
+                //.HtmlAttributes(new { style = " color: black; background-color: yellow; " });
+                //command.Destroy().HtmlAttributes(new { style = " color: white; background-color: red; " });
+            }).Width(230).Locked(true);
             //columns.Bound(p => p.ObjectID);
             columns.Bound(p => p.ObjectName).Width(250).Title("Đối tượng").Locked(true)
-                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                .HtmlAttributes(new { style = " text-align: center;" }); ;
+                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" });
+            columns.Bound(p => p.Year).Width(150).Title("Năm").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
             columns.Bound(p => p.TargetValue).Width(200).Title("Chỉ tiêu").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
             columns.Bound(p => p.COL1).Width(150).Format("{0:n2}").Title("Tháng 1").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
             columns.Bound(p => p.COL2).Width(150).Format("{0:n2}").Title("Tháng 2").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
@@ -28,22 +34,20 @@
             columns.Bound(p => p.COL10).Width(150).Format("{0:n2}").Title("Tháng 10").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
             columns.Bound(p => p.COL11).Width(150).Format("{0:n2}").Title("Tháng 11").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
             columns.Bound(p => p.COL12).Width(150).Format("{0:n2}").Title("Tháng 12").HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" }).HtmlAttributes(new { style = " text-align: right;" });
-            columns.Command(command => {
-                command.Edit().HtmlAttributes(new { style = " color: black; background-color: yellow; " });
-                command.Destroy().HtmlAttributes(new { style = " color: white; background-color: red; " }); }).Width(250);
+
         })
-        .ToolBar(toolbar =>
-        {
-            toolbar.Create().Text("Tạo mới").HtmlAttributes(new { style = " color: white; background-color: blue; " });
-            //toolbar.Save().SaveText("Lưu").CancelText("Hủy Lưu");
-            //.HtmlAttributes(new { style = " float: right; color: white; background: red; " });
-        })
-        .Editable(editable => editable.Mode(GridEditMode.InLine))
-        //.Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Continue to delete this record?").DisplayDeleteConfirmation("Continue to delete this record?"))
+        //.ToolBar(toolbar =>
+        //{
+        //    toolbar.Create().Text("Tạo mới").HtmlAttributes(new { style = " color: white; background-color: blue; " });
+        //    //toolbar.Save().SaveText("Lưu").CancelText("Hủy Lưu");
+        //    //.HtmlAttributes(new { style = " float: right; color: white; background: red; " });
+        //})
+        //s.Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Continue to delete this record? 1").DisplayDeleteConfirmation("Bạn muốn xóa dòng dữ liệu này ?"))
         .Scrollable(scrollable => scrollable.Height("auto"))
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Sort(sort => sort.Add(a=>a.CustomDate))
+            .Sort(sort => sort.Add(a=>a.TypeID))
             .Batch(true)
             .ServerOperation(false)
             .Events(events => events.Error("error_handler"))
@@ -52,7 +56,11 @@
             .Create(create => create.Action("EditingCustom_Create", "Home"))
             .Update(update => update.Action("EditingCustom_Update", "Home"))
             .Destroy(destroy => destroy.Action("EditingCustom_Destroy", "Home"))
-        //.Events(events => events.Error("error_handler"))
+            .Events(events =>
+            {
+                events.Error("error_handler");
+                //events.Error("onSort");
+            })
         )
         .Events(events => events
             .DataBound("onDataBoundgridGrid")

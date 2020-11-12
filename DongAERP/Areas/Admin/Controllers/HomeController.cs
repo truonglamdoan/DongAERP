@@ -1053,45 +1053,62 @@ namespace DongAERP.Areas.Admin.Controllers
         
         public JsonResult GetDataDoanhSo(DateTime fromDate, DateTime toDate, string reportTypeID)
         {
+            
 
             Dictionary<string, double> listStr = new Dictionary<string, double>();
-
-            // Lấy giá trị mục tiêu của năm
-            string targetPoint = WebConfigurationManager.AppSettings["targetPoint"];
-            string[] dataTarget = targetPoint.Split('-');
-            string year = fromDate.Year.ToString();
-            string targetValue = string.Empty;
-
-            foreach (string item in dataTarget)
+            // Get danh sách chỉ tiêu
+            List<FormTarget> listDataDS = new TargetBL().GetListTarget();
+            
+            foreach (FormTarget item in listDataDS)
             {
-                string[] dataArray = item.Split('_');
-
-                if (dataArray[0] == year)
+                switch (item.TypeID)
                 {
-                    targetValue = dataArray[1];
-                }
-            }
+                    // Tổng doanh số
+                    case "D001":
 
-            listStr.Add("targetPoint", Convert.ToDouble(targetValue));
+                        listStr.Add("targetPoint", Convert.ToDouble(item.TargetValue));
+                        break;
+                    // Doanh số chi nhà
+                    case "D002":
 
-            // Lấy giá trị mục tiêu Doanh số chi nhà của năm
-            string targetDSChiNhaPoint = WebConfigurationManager.AppSettings["targetDSChiNhaPoint"];
-            dataTarget = targetDSChiNhaPoint.Split('-');
-            string targetDSChiNhaValue = string.Empty;
+                        listStr.Add("targetDSChiNha", Convert.ToDouble(item.TargetValue));
+                        break;
+                    // Lợi nhuận
+                    case "D003":
+                        // chỉ tiêu
+                        double tong = 0;
+                        for (DateTime x = fromDate; x <= toDate; x = x.AddMonths(1))
+                        {
+                            string nameDate = string.Format("COL{0}", x.Month);
+                            // Get property
+                            var propertyInfo = item.GetType().GetProperty(nameDate);
+                            var valueData = propertyInfo.GetValue(item, null);
 
-            foreach (string item in dataTarget)
-            {
-                string[] dataArray = item.Split('_');
+                            tong = tong + Convert.ToDouble(valueData);
+                        }
+                        //  Set giá trị cho hoa hồng
+                        listStr.Add("targetRoseValue", Convert.ToDouble(item.TargetValue));
+                        listStr.Add("roseValueItem", tong);
+                        break;
+                    default:
+                        tong = 0;
+                        for (DateTime x = fromDate; x <= toDate; x = x.AddMonths(1))
+                        {
+                            string nameDate = string.Format("COL{0}", x.Month);
+                            // Get property
+                            var propertyInfo = item.GetType().GetProperty(nameDate);
+                            var valueData = propertyInfo.GetValue(item, null);
 
-                if (dataArray[0] == year)
-                {
-                    targetDSChiNhaValue = dataArray[1];
+                            tong = tong + Convert.ToDouble(valueData);
+                        }
+                        // Ngoại tệ
+                        listStr.Add("targetNgoaiTeValue", Convert.ToDouble(item.TargetValue));
+                        listStr.Add("ngoaiTeValueItem", tong);
+
+                        break;
                 }
             }
             
-            listStr.Add("targetDSChiNha", Convert.ToDouble(targetDSChiNhaValue));
-
-            //JsonResult result = new JsonResult();
             
             List<Report> listData = new ReportBL().SearchMonth(fromDate, toDate, reportTypeID);
             foreach(Report item in listData)
@@ -1109,76 +1126,7 @@ namespace DongAERP.Areas.Admin.Controllers
                 listStr.Add("TongDS", TongDS);
                 listStr.Add("DSChiNha", DSChiNha);
             }
-
-            // 03/11/2020 - [Trường Lãm] - Begin Add
-            // Lấy giá trị mục tiêu Doanh số chi nhà của năm
-            string targetRose = WebConfigurationManager.AppSettings["targetRose"];
-            dataTarget = targetRose.Split('-');
-            string targetRoseValue = string.Empty;
-
-            foreach (string item in dataTarget)
-            {
-                string[] dataArray = item.Split('_');
-
-                if (dataArray[0] == year)
-                {
-                    targetRoseValue = dataArray[1];
-                }
-            }
-
-            listStr.Add("targetRoseValue", Convert.ToDouble(targetRoseValue));
             
-
-            //List<Report> listData = new ReportBL().SearchMonth(fromDate, toDate, reportTypeID);
-            //foreach (Report item in listData)
-            //{
-            //    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-            //}
-            
-            // Giá trị Hoa hồng
-            double roseValueItem = 2000000000;
-
-            listStr.Add("roseValueItem", roseValueItem);
-
-            //if (listData.Count > 0)
-            //{
-            //    TongDS = listData.Sum(x => x.TongDS);
-            //    DSChiNha = listData.Sum(x => x.DSChiNha);
-            //    listStr.Add("TongDS", TongDS);
-            //    listStr.Add("roseValueItem", DSChiNha);
-            //}
-
-
-            // Lấy giá trị mục tiêu Doanh số chi nhà của năm
-            string targetNgoaiTe = WebConfigurationManager.AppSettings["targetNgoaiTe"];
-            dataTarget = targetRose.Split('-');
-            string targetNgoaiTeValue = string.Empty;
-
-            foreach (string item in dataTarget)
-            {
-                string[] dataArray = item.Split('_');
-
-                if (dataArray[0] == year)
-                {
-                    targetNgoaiTeValue = dataArray[1];
-                }
-            }
-
-            listStr.Add("targetNgoaiTeValue", Convert.ToDouble(targetNgoaiTeValue));
-
-
-            //List<Report> listData = new ReportBL().SearchMonth(fromDate, toDate, reportTypeID);
-            //foreach (Report item in listData)
-            //{
-            //    item.TongDS = item.DSChiQuay + item.DSChiNha + item.DSCK;
-            //}
-
-            // Giá trị Hoa hồng
-            double ngoaiTeValueItem = 3500000000;
-
-            listStr.Add("ngoaiTeValueItem", ngoaiTeValueItem);
-            // 03/11/2020 - [Trường Lãm] - End Add
-
             // Get số hồ sơ
             List<Report> listDataHS = new HSReportBL().SearchMonth(fromDate, toDate, reportTypeID);
             foreach (Report item in listDataHS)
@@ -1683,7 +1631,6 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             List<FormTarget> listTarget = new TargetBL().GetListTarget();
             
-            //return Json(productService.Read().ToDataSourceResult(request));
             return Json(listTarget.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

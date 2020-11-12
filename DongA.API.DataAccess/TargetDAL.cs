@@ -58,6 +58,7 @@ namespace DongA.API.DataAccess
                     DongADatabase.AddInOracleParameter(command, "COL10", OracleDbType.Double, ParameterDirection.Input, datataget.COL10);
                     DongADatabase.AddInOracleParameter(command, "COL11", OracleDbType.Double, ParameterDirection.Input, datataget.COL11);
                     DongADatabase.AddInOracleParameter(command, "COL12", OracleDbType.Double, ParameterDirection.Input, datataget.COL12);
+                    DongADatabase.AddInOracleParameter(command, "YEARCOL", OracleDbType.Int32, ParameterDirection.Input, datataget.Year);
                     DongADatabase.AddInOracleParameter(command, "CreatedDate", OracleDbType.Date, ParameterDirection.Input, datataget.CreatedDate);
                     DongADatabase.AddInOracleParameter(command, "CustomDate", OracleDbType.Date, ParameterDirection.Input, datataget.CustomDate);
                     
@@ -107,6 +108,7 @@ namespace DongA.API.DataAccess
                     DongADatabase.AddInOracleParameter(command, "COLOUMN10", OracleDbType.Double, ParameterDirection.Input, datataget.COL10);
                     DongADatabase.AddInOracleParameter(command, "COLOUMN11", OracleDbType.Double, ParameterDirection.Input, datataget.COL11);
                     DongADatabase.AddInOracleParameter(command, "COLOUMN12", OracleDbType.Double, ParameterDirection.Input, datataget.COL12);
+                    DongADatabase.AddInOracleParameter(command, "YEARCOL", OracleDbType.Int32, ParameterDirection.Input, datataget.Year);
                     DongADatabase.AddInOracleParameter(command, "CreatedDate", OracleDbType.Date, ParameterDirection.Input, datataget.CreatedDate);
                     DongADatabase.AddInOracleParameter(command, "CustomDate", OracleDbType.Date, ParameterDirection.Input, datataget.CustomDate);
 
@@ -142,22 +144,6 @@ namespace DongA.API.DataAccess
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     DongADatabase.AddInOracleParameter(command, "ObjectID", OracleDbType.NVarchar2, ParameterDirection.Input, datataget.ObjectID);
-                    DongADatabase.AddInOracleParameter(command, "ObjectName", OracleDbType.NVarchar2, ParameterDirection.Input, datataget.ObjectName);
-                    DongADatabase.AddInOracleParameter(command, "TargetValue", OracleDbType.Double, ParameterDirection.Input, datataget.TargetValue);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN1", OracleDbType.Double, ParameterDirection.Input, datataget.COL1);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN2", OracleDbType.Double, ParameterDirection.Input, datataget.COL2);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN3", OracleDbType.Double, ParameterDirection.Input, datataget.COL3);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN4", OracleDbType.Double, ParameterDirection.Input, datataget.COL4);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN5", OracleDbType.Double, ParameterDirection.Input, datataget.COL5);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN6", OracleDbType.Double, ParameterDirection.Input, datataget.COL6);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN7", OracleDbType.Double, ParameterDirection.Input, datataget.COL7);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN8", OracleDbType.Double, ParameterDirection.Input, datataget.COL8);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN9", OracleDbType.Double, ParameterDirection.Input, datataget.COL9);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN10", OracleDbType.Double, ParameterDirection.Input, datataget.COL10);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN11", OracleDbType.Double, ParameterDirection.Input, datataget.COL11);
-                    DongADatabase.AddInOracleParameter(command, "COLOUMN12", OracleDbType.Double, ParameterDirection.Input, datataget.COL12);
-                    DongADatabase.AddInOracleParameter(command, "CreatedDate", OracleDbType.Date, ParameterDirection.Input, datataget.CreatedDate);
-                    DongADatabase.AddInOracleParameter(command, "CustomDate", OracleDbType.Date, ParameterDirection.Input, datataget.CustomDate);
 
                     if (DongADatabase.ExecuteNonQuery(command, this) <= 0)
                     {

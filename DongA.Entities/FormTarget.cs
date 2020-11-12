@@ -35,9 +35,14 @@ namespace DongA.Entities
         public double COL10 { set; get; }
         public double COL11 { set; get; }
         public double COL12 { set; get; }
+        [Column("YEAR")]
+        public int Year { set; get; }
         [Column("CREATEDDATE")]
         public DateTime CreatedDate { set; get; }
         [Column("CUSTOMDATE")]
         public DateTime CustomDate { set; get; }
+
+        [Column("TYPEID")]
+        public string TypeID { set; get; }
     }
 }
