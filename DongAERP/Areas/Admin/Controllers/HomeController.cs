@@ -1450,7 +1450,9 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("PartnerName", typeof(String));
 
             table.Columns.Add("COL1", typeof(double));
+            table.Columns.Add("COL1Percent", typeof(double));
             table.Columns.Add("COL2", typeof(double));
+            table.Columns.Add("COL2Percent", typeof(double));
 
             if (listDataDS.Count > 0 && listDataHS.Count > 0)
             {
@@ -1465,6 +1467,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Australia = listDataDS.Sum(x => x.Australia),
                 };
 
+                double sumDS = dataIemSumDS.American + dataIemSumDS.Asia + dataIemSumDS.Global + dataIemSumDS.Europe + dataIemSumDS.Canada + dataIemSumDS.Australia;
+
                 // Ho so
                 ReportForMaket dataIemSumHS = new ReportForMaket()
                 {
@@ -1476,7 +1480,8 @@ namespace DongAERP.Areas.Admin.Controllers
                     Australia = listDataHS.Sum(x => x.Australia),
                 };
 
-
+                double sumHS = dataIemSumHS.American + dataIemSumHS.Asia + dataIemSumHS.Global + dataIemSumHS.Europe + dataIemSumHS.Canada + dataIemSumHS.Australia;
+                
                 int count = 0;
                 foreach (string item in listTypeMoney)
                 {
@@ -1489,7 +1494,11 @@ namespace DongAERP.Areas.Admin.Controllers
                     var valueDataConvert = propertyInfoConvert.GetValue(dataIemSumHS, null);
 
                     table.Rows.Add(
-                        listTypeMoneyVN[count++], Convert.ToDouble(valueDataConvert), Convert.ToDouble(valueData)
+                        listTypeMoneyVN[count++]
+                        , Convert.ToDouble(valueDataConvert)
+                        , sumHS == 0 ? 0 : Math.Round((Convert.ToDouble(valueDataConvert)/ sumHS)* 100, 2, MidpointRounding.ToEven)
+                        , Convert.ToDouble(valueData)
+                        , sumDS == 0 ? 0 : Math.Round((Convert.ToDouble(valueData) / sumDS) * 100, 2, MidpointRounding.ToEven)
                     );
                 }
 
@@ -1502,7 +1511,9 @@ namespace DongAERP.Areas.Admin.Controllers
             DataRow row = table.NewRow();
             row["PartnerName"] = "Tổng";
             row["COL1"] = table.Compute("Sum(COL1)", "");
+            row["COL1Percent"] = 100;
             row["COL2"] = table.Compute("Sum(COL2)", "");
+            row["COL2Percent"] = 100;
             table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -1520,7 +1531,6 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             // Doanh số
             List<ReportDetailtForPartner> listDataDS = new ReportBL().SearchPartnerForTotalForMonth(fromDate, toDate, reportTypeID);
-            
 
             foreach (ReportDetailtForPartner item in listDataDS)
             {
@@ -1544,10 +1554,18 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("PartnerName", typeof(String));
 
             table.Columns.Add("COL1", typeof(double));
+            table.Columns.Add("COL1Percent", typeof(double));
             table.Columns.Add("COL2", typeof(double));
+            table.Columns.Add("COL2Percent", typeof(double));
+
+            double sumDS = 0;
+            double sumHS = 0;
 
             if (listDataDS.Count > 0 && listDataHS.Count > 0)
             {
+                sumDS = listDataDS.Sum(x => x.TongDS);
+                sumHS = listDataHS.Sum(x => x.TongDS);
+
                 foreach (ReportDetailtForPartner item in listDataDS)
                 {
                     ReportDetailtForPartner dataHS = listDataHS.Find(x => x.PartnerName == item.PartnerName);
@@ -1560,7 +1578,12 @@ namespace DongAERP.Areas.Admin.Controllers
                         };
                     }
 
-                    table.Rows.Add(item.PartnerName, dataHS.TongDS, item.TongDS);
+                    table.Rows.Add(item.PartnerName
+                        , dataHS.TongDS
+                        , sumHS == 0 ? 0 : Math.Round((dataHS.TongDS/sumHS) * 100, 2, MidpointRounding.ToEven)
+                        , item.TongDS
+                        , sumDS == 0 ? 0 : Math.Round((item.TongDS / sumDS) * 100, 2, MidpointRounding.ToEven)
+                        );
                 }
 
                 // Sắp xếp
@@ -1572,7 +1595,9 @@ namespace DongAERP.Areas.Admin.Controllers
             DataRow row = table.NewRow();
             row["PartnerName"] = "Tổng";
             row["COL1"] = table.Compute("Sum(COL1)", "");
+            row["COL1Percent"] = 100;
             row["COL2"] = table.Compute("Sum(COL2)", "");
+            row["COL2Percent"] = 100;
             table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -1590,10 +1615,16 @@ namespace DongAERP.Areas.Admin.Controllers
         {
             // Doanh số
             List<City> listData = new ReportBL().SearchCity(fromDate, toDate, reportTypeID);
+
+            double sumRecNum = 0;
+            double sumAMOUNT = 0;
             // Sắp xếp
             if (listData.Count > 0)
             {
                 listData = listData.OrderByDescending(x => x.AMOUNT).ToList();
+
+                sumRecNum = listData.Sum(x => x.RECNUM);
+                sumAMOUNT = listData.Sum(x => x.AMOUNT);
             }
             DataTable table = new DataTable();
             // Khởi tạo datatable
@@ -1602,17 +1633,27 @@ namespace DongAERP.Areas.Admin.Controllers
             table.Columns.Add("PartnerName", typeof(String));
 
             table.Columns.Add("COL1", typeof(double));
+            table.Columns.Add("COL1Percent", typeof(double));
             table.Columns.Add("COL2", typeof(double));
+            table.Columns.Add("COL2Percent", typeof(double));
+
 
             foreach(City item in listData)
             {
-                table.Rows.Add(item.CityName, item.RECNUM, item.AMOUNT);
+                table.Rows.Add(item.CityName
+                    , item.RECNUM
+                    , sumRecNum == 0 ? 0 : Math.Round((item.RECNUM / sumRecNum) * 100, 2, MidpointRounding.ToEven)
+                    , item.AMOUNT
+                    , sumAMOUNT == 0 ? 0 : Math.Round((item.AMOUNT / sumAMOUNT) * 100, 2, MidpointRounding.ToEven)
+                    );
             }
 
             DataRow row = table.NewRow();
             row["PartnerName"] = "Tổng";
             row["COL1"] = table.Compute("Sum(COL1)", "");
+            row["COL1Percent"] = 100;
             row["COL2"] = table.Compute("Sum(COL2)", "");
+            row["COL2Percent"] = 100;
             table.Rows.Add(row);
 
             return Json(table.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -1715,5 +1756,112 @@ namespace DongAERP.Areas.Admin.Controllers
             return Json(formTarget.ToDataSourceResult(request, ModelState));
         }
         #endregion
+
+        /// <summary>
+        /// Search report month theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchLineChartReportTotalPaymentForMonth([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID, string typeID)
+        {
+            List<ReportForTotalPayment> listDataDS = new List<ReportForTotalPayment>();
+            List<ReportForTotalPayment> listDataHS = new List<ReportForTotalPayment>();
+
+            if (string.IsNullOrEmpty(typeID))
+            {
+                toDate = toDate.AddMonths(-1);
+
+                // Theo doanh số
+                listDataDS = new ReportBL().SearchReportTPForMonth(fromDate, toDate, reportTypeID);
+
+                foreach (ReportForTotalPayment item in listDataDS)
+                {
+                    item.ReportID = string.Concat("Tháng ", item.Month, "/", item.Year);
+                    item.CreatedDate = new DateTime(int.Parse(item.Year), int.Parse(item.Month), 1);
+                    item.Type = 0;
+                }
+
+                // theo hồ sơ
+                listDataHS = new HSReportBL().SearchReportTPForMonth(fromDate, toDate, reportTypeID);
+
+                foreach (ReportForTotalPayment item in listDataHS)
+                {
+                    item.ReportID = string.Concat("Tháng ", item.Month, "/", item.Year);
+                    item.CreatedDate = new DateTime(int.Parse(item.Year), int.Parse(item.Month), 1);
+                    item.Type = 0;
+                }
+
+            }
+            else
+            {
+                DateTime now = DateTime.Now;
+                // Theo doanh số
+                listDataDS = new ReportBL().SearchReportTPForDay(fromDate, now, reportTypeID);
+
+                foreach (ReportForTotalPayment item in listDataDS)
+                {
+                    item.ReportID = item.CreatedDate.ToString("dd/MM/yyyy");
+                    item.Type = 0;
+                }
+
+                // theo hồ sơ
+                listDataHS = new HSReportBL().SearchReportTPForDay(fromDate, now, reportTypeID);
+
+                foreach (ReportForTotalPayment item in listDataHS)
+                {
+                    item.ReportID = item.CreatedDate.ToString("dd/MM/yyyy");
+                    item.Type = 0;
+                }
+
+            }
+
+            // List tổng hợp của Doanh số và hồ sơ
+            List<ReportForTotalPayment> listDataConvert = new List<ReportForTotalPayment>();
+            if(listDataDS.Count > 0 && listDataHS.Count > 0)
+            {
+                foreach (ReportForTotalPayment item in listDataDS)
+                {
+                    ReportForTotalPayment dataItemHS = listDataHS.Find(x => x.ReportID == item.ReportID);
+
+                    listDataConvert.Add(
+                        new ReportForTotalPayment()
+                        {
+                            ReportID = item.ReportID,
+                            CreatedDate = item.CreatedDate,
+                            Payed = dataItemHS.Payed,
+                            TongDS = item.Payed
+                        });
+                }
+            }
+
+            return Json(listDataConvert);
+        }
+
+
+        /// <summary>
+        /// Search report day theo ngày nhập vào
+        /// </summary>
+        /// <returns></returns>
+        /// <history>
+        ///     [Truong Lam]   Created [10/06/2020]
+        /// </history>
+        [HttpPost]
+        public ActionResult SearchLineChartReportMonth([DataSourceRequest]DataSourceRequest request, DateTime fromDate, DateTime toDate, string reportTypeID)
+        {
+
+            toDate = toDate.AddMonths(-1);
+            List<Report> listData = new ReportBL().SearchMonth(fromDate, toDate, reportTypeID);
+            foreach (Report item in listData)
+            {
+                item.ReportID = string.Concat("Tháng ", item.Month, "/", item.Year);
+                item.TongDS = item.DSChiNha + item.DSChiQuay + item.DSCK;
+            }
+            return Json(listData);
+        }
+
     }
+
 }

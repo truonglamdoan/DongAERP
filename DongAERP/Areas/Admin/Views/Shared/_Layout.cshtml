@@ -4354,7 +4354,7 @@
         let level3 = $("#categories_Level3").data("kendoDropDownList");
         //let reportType = $("#reportType").data("kendoDropDownList");
 
-        if (value != undefined) {
+        if (value != undefined && level0 != undefined) {
 
             let listData = value.split('-');
             level0.value(listData[0]);

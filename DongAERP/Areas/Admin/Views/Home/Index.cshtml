@@ -2,7 +2,7 @@
 @model DongAERP.Areas.Admin.Models.CountryModel
 @{
     string monthYearStart = string.Concat("January", " ", DateTime.Today.ToString("yyyy"));
-    string monthYear = string.Concat((DateTime.Now.Month - 1), " ", DateTime.Today.ToString("yyyy"));
+    string monthYear = string.Concat((DateTime.Now.Month), " ", DateTime.Today.ToString("yyyy"));
 
     var listData = (List<string>)ViewData["listData"];
 
@@ -295,6 +295,25 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">XU HƯỚNG DOANH SỐ @DateTime.Now.Year</h6>
+
+                @(Html.Kendo().DropDownList()
+                      .Name("dropDownListTrend")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Events(e => e.Change("changeTrend"))
+                      .BindTo(new List<SelectListItem>() {
+                          new SelectListItem() {
+                              Text = "Ngày",
+                              Value = "Days"
+                          },
+                          new SelectListItem() {
+                              Text = "Tháng",
+                              Value = "Months"
+                          }
+                      })
+                      .Value("Months")
+                      //.HtmlAttributes(new { style = "width: 100%" })
+                )
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -304,29 +323,54 @@
                     .Legend(legend => legend
                         .Position(ChartLegendPosition.Top)
                     )
+                    //.SeriesDefaults(seriesDefaults => seriesDefaults
+                    //    .ScatterLine().Width(2)
+                    //)
                     .ChartArea(chartArea =>
                     {
                         chartArea.Height(300);
                     })
-                    .DataSource(ds => ds.Read(read => read.Action("SearchLineChartReportTotalPaymentForMonth", "ReportForTotalPayment").Data("onDataReportTypeID")))
+                    .DataSource(ds => ds.Read(read => read.Action("SearchLineChartReportTotalPaymentForMonth", "Home").Data("onDataReportTypeID")))
+
                     .Series(series =>
                     {
+                        series.ScatterLine(model => model.CreatedDate, model => model.Payed)
+                            .Name("Tổng hồ sơ").Color("#fd7e14")
+                            .YAxis("payed")
+                            .Tooltip(tooltip => tooltip
+                                .Format("Thời gian: {0:dd/MM/yyyy} </br> Hồ sơ: {1:N0}")
+                            );
 
-                        series.Line(model => model.Payed).Name("Tổng doanh số").CategoryField("ReportID").Color("Blue");
+                        series.ScatterLine(model => model.CreatedDate, model => model.TongDS)
+                            .Name("Tổng doanh số").Color("#1cc88a")
+                            .YAxis("tongDS")
+                            .Tooltip(tooltip => tooltip
+                                .Format("Thời gian: {0:dd/MM/yyyy} </br> Doanh số: {1:N2}")
+                            );
                     })
-                    .CategoryAxis(axis => axis
-                        .Labels(labels => labels.Rotation(-45))
-                        .Crosshair(c => c.Visible(true))
+                    .XAxis(x => x
+                        .Date()
+                        .Title(title => title.Text("Xu hướng theo Doanh số và Hồ sơ"))
+                        .AxisCrossingValue(DateTime.Parse("2000/01/01"), new DateTime(DateTime.Today.Year, 12, 01))
+                        .Labels(labels => labels.Format("dd/MM/yyyy"))
                     )
-                    .ValueAxis(axis => axis.Numeric()
+                    .YAxis(y => y
+                        .Numeric("payed").Color("#fd7e14")
+                        .Title(title => title.Text("Hồ sơ"))
+                        .Labels(labels => labels.Format("{0:N0}"))
+                    )
+                    .YAxis(y => y
+                        .Numeric("tongDS").Color("#1cc88a")
+                        .Title(title => title.Text("Doanh số"))
                         .Labels(labels => labels.Format("{0:N2}"))
-                    //.MajorUnit(10000)
                     )
+
                     .Tooltip(tooltip => tooltip
                         .Visible(true)
-                        .Shared(true)
-                        .Format("{0:N2}")
+                    //.Shared(true)
+                    .Format("{0:N2}")
                     )
+                    .Events(x => x.DataBound("onDataLineBound"))
                 )
             </div>
         </div>
@@ -357,7 +401,7 @@
                         })
                         .DataSource(ds => ds
                             .Read(read => read
-                                .Action("SearchLineChartReportMonth", "Report")
+                                .Action("SearchLineChartReportMonth", "Home")
                                 .Data("onDataReportTypeID")
                             )
                         )
@@ -579,20 +623,43 @@
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
-                        columns.Bound("PartnerName").Title("Địa bàn")
+                        columns.Bound("PartnerName").Title("Địa bàn").Width(150)
                         .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                         .HtmlAttributes(new { style = " text-align: center;" });
 
-                        columns.Bound("COL1").Title("Hồ sơ").Format("{0:N0}")
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Group(group => group
+                            .Title("Hồ sơ")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound("COL1").Title("Hồ sơ").Format("{0:N0}").Width(120)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
 
-                        columns.Bound("COL2").Title("Quy USD").Format("{0:N2}")
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound("COL1Percent").Title("% Hồ sơ").Format("{0:N2} %").Width(80)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+                            })
+                        );
 
+                        columns.Group(group => group
+                            .Title("Quy USD")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound("COL2").Title("Quy USD").Format("{0:N0}").Width(120)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+
+                                info.Bound("COL2Percent").Title("% USD").Format("{0:N2} %").Width(80)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+                            })
+                        );
                     })
-                    .Scrollable(scrollable => scrollable.Height(335))
+                    .Scrollable(scrollable => scrollable.Height(300))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -626,17 +693,41 @@
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
-                        columns.Bound("PartnerName").Title("Loại tiền")
+                        columns.Bound("PartnerName").Title("Loại tiền").Width(150)
                         .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                         .HtmlAttributes(new { style = " text-align: center;" });
 
-                        columns.Bound("COL1").Title("Hồ sơ").Format("{0:N0}")
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Group(group => group
+                            .Title("Hồ sơ")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound("COL1").Title("Hồ sơ").Format("{0:N0}").Width(120)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
 
-                        columns.Bound("COL2").Title("Quy USD").Format("{0:N2}")
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound("COL1Percent").Title("% Hồ sơ").Format("{0:N2} %").Width(80)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+                            })
+                        );
+
+                        columns.Group(group => group
+                            .Title("Quy USD")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound("COL2").Title("Quy USD").Format("{0:N0}").Width(120)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+
+                                info.Bound("COL2Percent").Title("% USD").Format("{0:N2} %").Width(80)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+                            })
+                        );
 
                     })
                     .Sortable() // Enable sorting
@@ -668,20 +759,44 @@
                     .HtmlAttributes(new { style = " overflow: auto; " })
                     .Columns(columns =>
                     {
-                        columns.Bound("PartnerName").Title("Đối tác")
+                        columns.Bound("PartnerName").Title("Đối tác").Width(100)
                         .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
                         .HtmlAttributes(new { style = " text-align: center;" });
 
-                        columns.Bound("COL1").Title("Hồ sơ").Format("{0:N0}")
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: right;" });
+                        columns.Group(group => group
+                            .Title("Hồ sơ")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound("COL1").Title("Hồ sơ").Format("{0:N0}").Width(120)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
 
-                        columns.Bound("COL2").Title("Quy USD").Format("{0:N2}")
-                        .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
-                        .HtmlAttributes(new { style = " text-align: right;" });
+                                info.Bound("COL1Percent").Title("% Hồ sơ").Format("{0:N2} %").Width(100)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+                            })
+                        );
+
+                        columns.Group(group => group
+                            .Title("Quy USD")
+                            .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                            .HtmlAttributes(new { style = " text-align: center;" })
+                            .Columns(info =>
+                            {
+                                info.Bound("COL2").Title("Quy USD").Format("{0:N0}").Width(120)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+
+                                info.Bound("COL2Percent").Title("% USD").Format("{0:N2} %").Width(100)
+                                .HeaderHtmlAttributes(new { style = "text-align: center;font-weight: 700;" })
+                                .HtmlAttributes(new { style = " text-align: right;" });
+                            })
+                        );
 
                     })
-                    .Scrollable(scrollable => scrollable.Height(335))
+                    .Scrollable(scrollable => scrollable.Height(430))
                     .Sortable() // Enable sorting
                     .DataSource(dataSource => dataSource
                         .Ajax()
@@ -717,6 +832,8 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 
+    var checkFirst = true;
+
     $(document).ready(function () {
 
         firstRun();
@@ -725,7 +842,10 @@
     $(':radio[name=report]').change(function () {
         // read the value of the selected radio
         var value = $(this).val();
+
         if (value != null) {
+            
+            checkFirst = false;
             firstRun(null, null, value);
         }
     });
@@ -777,50 +897,51 @@
                 }
             });
 
-            // Biểu đồ tổng doanh số theo tháng
+            if (!checkFirst) {
+                // Biểu đồ tổng doanh số theo tháng
+                let urlChart = "/Admin/Home/SearchLineChartReportTotalPaymentForMonth?fromDate=";
+                let chart = $("#lineChartReportTotalPaymentForMonth").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                //chart.options.title.text = "Tổng doanh số chi trả";
+                chart.dataSource.read();
 
-            let urlChart = "/Admin/ReportForTotalPayment/SearchLineChartReportTotalPaymentForMonth?fromDate=";
-            let chart = $("#lineChartReportTotalPaymentForMonth").data("kendoChart");
-            chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
-            //chart.options.title.text = "Tổng doanh số chi trả";
-            chart.dataSource.read();
+                // Loại hình dịch vụ
+                urlChart = "/Admin/Home/SearchLineChartReportMonth?fromDate=";
+                chart = $("#chartReportMonth").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
 
-            // Loại hình dịch vụ
-            urlChart = "/Admin/Report/SearchLineChartReportMonth?fromDate=";
-            chart = $("#chartReportMonth").data("kendoChart");
-            chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
-            chart.dataSource.read();
+                // Biểu đồ tỉ trọng Doanh số
+                urlChart = "/Admin/Home/SearchPieMonthDS?fromDate=";
+                chart = $("#chartMonthDS").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
 
-            // Biểu đồ tỉ trọng Doanh số
-            urlChart = "/Admin/Home/SearchPieMonthDS?fromDate=";
-            chart = $("#chartMonthDS").data("kendoChart");
-            chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
-            chart.dataSource.read();
+                // grid Loại tiền
+                let urlGrid = "/Admin/Home/GridDataMoneyType?fromDate=";
+                chart = $("#gridMoneyType").data("kendoGrid");
+                chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
 
-            // grid Loại tiền
-            let urlGrid = "/Admin/Home/GridDataMoneyType?fromDate=";
-            chart = $("#gridMoneyType").data("kendoGrid");
-            chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
-            chart.dataSource.read();
+                // Biểu đồ tỉ trọng
+                urlChart = "/Admin/Home/SearchPieMonthHS?fromDate=";
+                chart = $("#chartMonthHS").data("kendoChart");
+                chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
 
-            // Biểu đồ tỉ trọng
-            urlChart = "/Admin/Home/SearchPieMonthHS?fromDate=";
-            chart = $("#chartMonthHS").data("kendoChart");
-            chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
-            chart.dataSource.read();
+                // grid Thị trường
+                urlGrid = "/Admin/Home/GridDataMarket?fromDate=";
+                chart = $("#gridMarket").data("kendoGrid");
+                chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
 
-            // grid Thị trường
-            urlGrid = "/Admin/Home/GridDataMarket?fromDate=";
-            chart = $("#gridMarket").data("kendoGrid");
-            chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
-            chart.dataSource.read();
-
-            // grid Đối tác
-            urlGrid = "/Admin/Home/GridDataPartner?fromDate=";
-            chart = $("#gridPartner").data("kendoGrid");
-            chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
-            chart.dataSource.read();
-
+                // grid Đối tác
+                urlGrid = "/Admin/Home/GridDataPartner?fromDate=";
+                chart = $("#gridPartner").data("kendoGrid");
+                chart.dataSource.transport.options.read.url = urlGrid + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+                chart.dataSource.read();
+            }
+            
         } else {
             $("<div></div>").kendoAlert({
                 title: "Cảnh báo!",
@@ -894,10 +1015,14 @@
     // Get sự kiện của Ngày bắt đầu thay đổi
 
     function onChangeFromDate(e) {
+
+        checkFirst = false;
         firstRun(e.sender.value(), null, null);
     }
 
     function onChangeToDate(e) {
+        
+        checkFirst = false;
         firstRun(null, e.sender.value(), null);
     }
     
@@ -1138,6 +1263,64 @@
         let lastRow = $('#gridCity tbody tr');
         $(lastRow[lastRow.length - 1]).css('font-weight', 'bold')
     }
+
+    // Thay đổi trend
+    function changeTrend() {
+
+        debugger;
+        let value = $("#dropDownListTrend").val();
+
+        fromDate = $('#FromMonth').data('kendoDatePicker').value();
+        
+        fromMonthConvert = kendo.toString(fromDate, "MM/dd/yyyy");
+        toDate = $('#ToMonth').data('kendoDatePicker').value();
+        
+        toMonthConvert = kendo.toString(toDate, "MM/dd/yyyy");
+        reportTypeID = $('input[name="report"]:checked').val();
+
+        urlChart = "/Admin/Home/SearchLineChartReportTotalPaymentForMonth?fromDate=";
+        chart = $("#lineChartReportTotalPaymentForMonth").data("kendoChart");
+
+        if (value == 'Days') {
+
+            chart.dataSource.transport.options.read.url = urlChart + toMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID + "&typeID=1";
+            //chart.options.title.text = "Tổng doanh số chi trả";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.read();
+        } else {
+
+            chart.dataSource.transport.options.read.url = urlChart + fromMonthConvert + "&toDate=" + toMonthConvert + "&reportTypeID=" + reportTypeID;
+            //chart.options.title.text = "Tổng doanh số chi trả";
+            chart.dataSource.transport.options.read.data = '';
+            chart.dataSource.read();
+        }
+    };
+
+    // xử lý sự kiện ngày tháng
+    function onDataLineBound(e) {
+        debugger;
+
+        value = $("#dropDownListTrend").val();
+
+        let series = this.options.series;
+        let listxAxis = this.options.xAxis;
+
+        // Theo tháng
+        if (value == 'Months') {
+            
+            series[0].tooltip.format = "Thời gian: {0:MM/yyyy} </br> Hồ sơ: {1:N0}";
+            series[1].tooltip.format = "Thời gian: {0:MM/yyyy} </br> Doanh số: {1:N0}";
+
+            listxAxis.labels.format = 'MM/yyyy';
+        } else {
+            // Theo ngày
+            series[0].tooltip.format = "Thời gian: {0:dd/MM/yyyy} </br> Hồ sơ: {1:N0}";
+            series[1].tooltip.format = "Thời gian: {0:dd/MM/yyyy} </br> Doanh số: {1:N0}";
+
+            listxAxis.labels.format = 'dd/MM/yyyy';
+        }
+    } 
+
 </script>
 
 <style>
