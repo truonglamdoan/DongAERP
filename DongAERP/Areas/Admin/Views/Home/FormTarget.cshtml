@@ -100,8 +100,22 @@
 
     function onEdit(e) {
 
-        //debugger;
-        //$(e.container).find("input[name='COL1']").prop('disabled', true)
+        debugger;
+        if (e.model.TypeID == 'D001' || e.model.TypeID == 'D002') {
+
+            $(e.container).find("input[name='COL1']").prop('disabled', true);
+            $(e.container).find("input[name='COL2']").prop('disabled', true);
+            $(e.container).find("input[name='COL3']").prop('disabled', true);
+            $(e.container).find("input[name='COL4']").prop('disabled', true);
+            $(e.container).find("input[name='COL5']").prop('disabled', true);
+            $(e.container).find("input[name='COL6']").prop('disabled', true);
+            $(e.container).find("input[name='COL7']").prop('disabled', true);
+            $(e.container).find("input[name='COL8']").prop('disabled', true);
+            $(e.container).find("input[name='COL9']").prop('disabled', true);
+            $(e.container).find("input[name='COL10']").prop('disabled', true);
+            $(e.container).find("input[name='COL11']").prop('disabled', true);
+            $(e.container).find("input[name='COL12']").prop('disabled', true);
+        }
     }
 
 </script>
